@@ -1,7 +1,7 @@
 const lineUpsObj = {};
 
 document.addEventListener("DOMContentLoaded", function () {
-    const jsonFiles = ['2022-23.json', '2023-24.json', '2024-25.json'];
+    const jsonFiles = ['2022-23.json', '2023-24.json', 'Voorwaarts4.json'];
     const teamLineups = jsonFiles.map(file => fetch(file).then(response => response.json()));
     console.log(teamLineups);
     Promise.all(teamLineups)
@@ -9,12 +9,13 @@ document.addEventListener("DOMContentLoaded", function () {
             // Process the fetched JSON data
             data.forEach(jsonData => {
                 // Access the data for each JSON file
-                const season = jsonData.season;
+                const info = jsonData.info;
+                console.log(info);
                 const starting = Object.values(jsonData.starting);
                 const backup = Object.values(jsonData.backup);
-                lineUpsObj[season] = {};
-                lineUpsObj[season].starting = starting;
-                lineUpsObj[season].backup = backup;
+                lineUpsObj[info] = {};
+                lineUpsObj[info].starting = starting;
+                lineUpsObj[info].backup = backup;
                 console.log(JSON.stringify(lineUpsObj));
             });
         })
@@ -165,14 +166,14 @@ const selectTeam = document.getElementById("select-team");
 selectTeam.addEventListener("change", function () {
     const selectedValue = this.value;
     if (selectedValue === "ajax-22-23") {
-        startingArray = lineUpsObj['2022-2023'].starting;
-        backupArray = lineUpsObj['2022-2023'].backup;
+        startingArray = lineUpsObj['Ajax 2022-2023'].starting;
+        backupArray = lineUpsObj['Ajax 2022-2023'].backup;
     } else if (selectedValue === "ajax-23-24") {
-        startingArray = lineUpsObj['2023-2024'].starting;
-        backupArray = lineUpsObj['2023-2024'].backup
-    } else if (selectedValue === "wijndal") {
-        startingArray = ['Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal'];
-        backupArray = ['Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal', 'Wijndal'];
+        startingArray = lineUpsObj['Ajax 2023-2024'].starting;
+        backupArray = lineUpsObj['Ajax 2023-2024'].backup;
+    } else if (selectedValue === "voorwaarts-23-24") {
+        startingArray = lineUpsObj['Voorwaarts 2023-2024'].starting;
+        backupArray = lineUpsObj['Voorwaarts 2023-2024'].backup;
     } else if (selectedValue === "clear") {
         startingArray = [];
         backupArray = [];
