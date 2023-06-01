@@ -83,7 +83,7 @@ circles.forEach((circle, index) => {
 
             var newX = offsetX + currentX;
             var newY = offsetY + currentY;
-            
+
             if (newX > 85 && newX < 555) {
                 activeCircle.style.left = offsetX + currentX + "px";
             }
@@ -111,54 +111,54 @@ function toggleOutputBoxVisibility(box, inputValue) {
     }
 }
 
-function determineLabel(xPos, yPos, index){
+function determineLabel(xPos, yPos, index) {
     const labels = document.querySelectorAll(".label");
     const circleNr = document.querySelectorAll(".circle-number");
-    if(xPos >= 200 && xPos <= 440 && yPos >= 675 && yPos <= 750){
+    if (xPos >= 200 && xPos <= 440 && yPos >= 675 && yPos <= 750) {
         labels[index].innerHTML = "GK:";
-        labels[index+11].innerHTML = "GK:";
-    } else if(xPos >= 440 && xPos <= 565 && yPos >= 560 && yPos <= 760){
+        labels[index + 11].innerHTML = "GK:";
+    } else if (xPos >= 440 && xPos <= 565 && yPos >= 560 && yPos <= 760) {
         labels[index].innerHTML = "RB:";
-        labels[index+11].innerHTML = "RB:";
-    } else if(xPos >= 75 && xPos <= 200 && yPos >= 560 && yPos <= 760){
+        labels[index + 11].innerHTML = "RB:";
+    } else if (xPos >= 75 && xPos <= 200 && yPos >= 560 && yPos <= 760) {
         labels[index].innerHTML = "LB:";
-        labels[index+11].innerHTML = "LB:";
-    } else if(xPos >= 320 && xPos <= 440 && yPos >= 560 && yPos <= 675){
+        labels[index + 11].innerHTML = "LB:";
+    } else if (xPos >= 320 && xPos <= 440 && yPos >= 560 && yPos <= 675) {
         labels[index].innerHTML = "RCV:";
-        labels[index+11].innerHTML = "RCV:";
-    } else if(xPos >= 200 && xPos <= 320 && yPos >= 560 && yPos <= 675){
+        labels[index + 11].innerHTML = "RCV:";
+    } else if (xPos >= 200 && xPos <= 320 && yPos >= 560 && yPos <= 675) {
         labels[index].innerHTML = "LCV:";
-        labels[index+11].innerHTML = "LCV:";
-    } else if(xPos >= 440 && xPos <= 565 && yPos >= 465 && yPos <= 560){
+        labels[index + 11].innerHTML = "LCV:";
+    } else if (xPos >= 440 && xPos <= 565 && yPos >= 465 && yPos <= 560) {
         labels[index].innerHTML = "RWB:";
-        labels[index+11].innerHTML = "RWB:";
-    } else if(xPos >= 200 && xPos <= 440 && yPos >= 444 && yPos <= 560){
+        labels[index + 11].innerHTML = "RWB:";
+    } else if (xPos >= 200 && xPos <= 440 && yPos >= 444 && yPos <= 560) {
         labels[index].innerHTML = "DMC:";
-        labels[index+11].innerHTML = "DMC:";
-    } else if(xPos >= 75 && xPos <= 200 && yPos >= 465 && yPos <= 560){
+        labels[index + 11].innerHTML = "DMC:";
+    } else if (xPos >= 75 && xPos <= 200 && yPos >= 465 && yPos <= 560) {
         labels[index].innerHTML = "LWB:";
-        labels[index+11].innerHTML = "LWB:";
-    } else if(xPos >= 440 && xPos <= 565 && yPos >= 280 && yPos <= 465){
+        labels[index + 11].innerHTML = "LWB:";
+    } else if (xPos >= 440 && xPos <= 565 && yPos >= 280 && yPos <= 465) {
         labels[index].innerHTML = "RM:";
-        labels[index+11].innerHTML = "RM:";
-    } else if(xPos >= 200 && xPos <= 440 && yPos >= 300 && yPos <= 444){
+        labels[index + 11].innerHTML = "RM:";
+    } else if (xPos >= 200 && xPos <= 440 && yPos >= 300 && yPos <= 444) {
         labels[index].innerHTML = "MC:";
-        labels[index+11].innerHTML = "MC:";
-    } else if(xPos >= 75 && xPos <= 200 && yPos >= 280 && yPos <= 465){
+        labels[index + 11].innerHTML = "MC:";
+    } else if (xPos >= 75 && xPos <= 200 && yPos >= 280 && yPos <= 465) {
         labels[index].innerHTML = "LM:";
-        labels[index+11].innerHTML = "LM:";
-    } else if(xPos >= 440 && xPos <= 565 && yPos >= 35 && yPos <= 280){
+        labels[index + 11].innerHTML = "LM:";
+    } else if (xPos >= 440 && xPos <= 565 && yPos >= 35 && yPos <= 280) {
         labels[index].innerHTML = "RW:";
-        labels[index+11].innerHTML = "RW:";
-    } else if(xPos >= 200 && xPos <= 440 && yPos >= 185 && yPos <= 300){
+        labels[index + 11].innerHTML = "RW:";
+    } else if (xPos >= 200 && xPos <= 440 && yPos >= 185 && yPos <= 300) {
         labels[index].innerHTML = "AMC:";
-        labels[index+11].innerHTML = "AMC:";
-    } else if(xPos >= 75 && xPos <= 200 && yPos >= 35 && yPos <= 280){
+        labels[index + 11].innerHTML = "AMC:";
+    } else if (xPos >= 75 && xPos <= 200 && yPos >= 35 && yPos <= 280) {
         labels[index].innerHTML = "LW:";
-        labels[index+11].innerHTML = "LW:";
-    } else if(xPos >= 200 && xPos <= 440 && yPos >= 35 && yPos <= 185){
+        labels[index + 11].innerHTML = "LW:";
+    } else if (xPos >= 200 && xPos <= 440 && yPos >= 35 && yPos <= 185) {
         labels[index].innerHTML = "ST:";
-        labels[index+11].innerHTML = "ST:   ";
+        labels[index + 11].innerHTML = "ST:   ";
     }
 }
 
@@ -180,17 +180,21 @@ selectTeam.addEventListener("change", function () {
         backupArray = [];
     }
 
-    if(selectedValue.indexOf('oorwaarts') > -1){
+    if (selectedValue.indexOf('oorwaarts') > -1) {
         console.log("HI IM HERE");
-        const circleClass = document.querySelector('.circle');
-        circleClass.style.backgroundColor = 'green';
-        circleClass.style.borderColor = 'black'; 
+        const circleClass = document.querySelectorAll(".circle");
+        for (var i = 1; i < circleClass.length; i++) {
+            circleClass.style.backgroundColor = 'green';
+            circleClass.style.borderColor = 'black';
+        }
     }
-    else{
+    else {
         console.log("HI IM NOT HERE");
-        const circleClass = document.querySelector('.circle');
-        circleClass.style.backgroundColor = 'red';
-        circleClass.style.borderColor = 'white'; 
+        const circleClass = document.querySelectorAll(".circle");
+        for (var i = 1; i < circleClass.length; i++) {
+            circleClass.style.backgroundColor = 'red';
+            circleClass.style.borderColor = 'white';
+        }
     }
     inputBoxes.forEach((inputBox, index) => {
         inputBox.value = startingArray[index] || "";
