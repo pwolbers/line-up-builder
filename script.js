@@ -180,6 +180,16 @@ selectTeam.addEventListener("change", function () {
         backupArray = [];
     }
 
+    if(selectedValue.indexOf('oorwaarts') > -1){
+        const circleClass = document.querySelector('.circle');
+        circleClass.style.background-color = 'green';
+        circleClass.style.borderColor = 'black'; 
+    }
+    else{
+        const circleClass = document.querySelector('.circle');
+        circleClass.style.background-color = 'red';
+        circleClass.style.borderColor = 'white'; 
+    }
     inputBoxes.forEach((inputBox, index) => {
         inputBox.value = startingArray[index] || "";
         toggleOutputBoxVisibility(outputStartings[index], inputBox.value);
