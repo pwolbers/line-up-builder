@@ -1,0 +1,29 @@
+{
+  "season": "2023-2024",
+  "starting": {
+    "GK": "Jan",
+    "RB": "Martijn",
+    "RCV": "Spijker",
+    "LCV": "Daano",
+    "LB": "Sybren",
+    "DMC": "Stewie",
+    "MC": "Kooij",
+    "AMC": "Alex",
+    "RW": "Pau",
+    "ST": "Peter",
+    "LW": "Joep"
+  },
+  "backup": {
+    "GK": "Burger | Stewie | Kooij | Peter ",
+    "RB": "Burger | Gert | Kuba",
+    "RCV": "Staal | Djarno",
+    "LCV": "Djarno",
+    "LB": "Bram | Elmo",
+    "DMC": "Willy | Mueller",
+    "MC": "Timo",
+    "AMC": "Christos",
+    "RW": "Harry",
+    "ST": "Koen",
+    "LW": "Luca"
+  }
+}
