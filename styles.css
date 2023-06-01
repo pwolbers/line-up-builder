@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.textbox-container {
+  width: 65%;
+  padding: 20px;
+  margin-left: 30px;
+  box-sizing: border-box;
+}
+
+.column {
+  position: relative;
+  display: inline-block;
+  width: 300px;
+  vertical-align: top;
+  margin-right: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 30px;
+  margin-left: 10px;
+}
+
+.column h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.starting-column {
+  background-color: #E8F1FA;
+  border-right: 2px solid #A6C3D9;
+}
+
+.backup-column {
+  background-color: #D8E5F3;
+  border-left: 2px solid #A6C3D9;
+}
+
+.label-container {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+
+.label-container label {
+  margin-right: 5px;
+}
+
+.inputBox,
+.backupBox {
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.label {
+  width: 40px;
+  margin-right: 5px;
+margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.inputBox {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.textbox-container input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 5px;
+  border-radius: 4px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.textbox-container input:hover {
+  background-color: #F9F9F9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  height: 900px;
+  justify-content: flex-start;
+  margin-left: -50px;
+}
+
+.image-container {
+  width: 760px;
+  height: 900px;
+  position: relative;
+  background-image: url("football field730900.png");
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center top;
+}
+
+.circle:before {
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.circle {
+  position: absolute;
+  font-size: 25px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outputStarting,
+.outputBackup {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  display: block;
+  text-align: center;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid #000;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 15px;
+  font-family: "Exo", sans-serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+  width: fit-content;
+}
+
+.outputBackup {	
+  bottom: -65px;
+  opacity: 0.6;
+}
+
+.outputStarting {	
+  bottom: -35px;
+}
+
+.output-container {
+  position: relative;
+}
+
+.select-box {
+  margin-top: 10px;
+}
+
+.select-box label {
+  display: block;
+  margin-bottom: 5px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.select-box select {
+  width: 20%;
+  padding: 5px;
+  border-radius: 4px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.select-box select:hover {
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.circle-number {
+color: white;
+position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+font-family: "Bebas Neue"
+}
+
+#circle1 { top: 78%; left: 47%; background-color: #0186E1; }
+#circle2 { top: 60%; left: 78%; }
+#circle3 { top: 65%; left: 60%; }
+#circle4 { top: 65%; left: 34%; }
+#circle5 { top: 60%; left: 16%; }
+#circle6 { top: 50%; left: 58%; }
+#circle7 { top: 13%; left: 78%; }
+#circle8 { top: 38%; left: 34%; }
+#circle9 { top: 5%; left: 47%; }
+#circle10 { top: 23%; left: 47%; }
+#circle11 { top: 13%; left: 16%; }

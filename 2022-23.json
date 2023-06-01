@@ -1,0 +1,29 @@
+{
+  "season": "2022-2023",
+  "starting": {
+    "GK": "Rulli",
+    "RB": "Rensch",
+    "RCV": "Timber",
+    "LCV": "Hato",
+    "LB": "Wijndal",
+    "DMC": "Alvarez",
+    "MC": "Taylor",
+    "AMC": "Bergwijn",
+    "RW": "Kudus",
+    "ST": "Brobbey",
+    "LW": "Tadic"
+  },
+  "backup": {
+    "GK": "Pasveer | Stekelenburg ",
+    "RB": "Sanchez",
+    "RCV": "Alvarez",
+    "LCV": "Bassey",
+    "LB": "Baas",
+    "DMC": "Grillitsch | Vos",
+    "MC": "Klaassen | Fitz-Jim",
+    "AMC": "Berghuis | Klaassen",
+    "RW": "Conceição",
+    "ST": "Lucca",
+    "LW": "Bergwijn | Godts"
+  }
+}

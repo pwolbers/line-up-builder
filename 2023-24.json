@@ -1,0 +1,29 @@
+{
+  "season": "2023-2024",
+  "starting": {
+    "GK": "Rulli",
+    "RB": "Rensch",
+    "RCV": "Timber",
+    "LCV": "Hato",
+    "LB": "Wijndal",
+    "DMC": "?",
+    "MC": "Van den Boomen",
+    "AMC": "Berghuis",
+    "RW": "?",
+    "ST": "Brobbey",
+    "LW": "Tadic"
+  },
+  "backup": {
+    "GK": "Pasveer | Gorter",
+    "RB": "Sanchez",
+    "RCV": "?",
+    "LCV": "Kaplan | Bassey",
+    "LB": "Salah-Edinne",
+    "DMC": "Fitz-Jim | Vos",
+    "MC": "Taylor",
+    "AMC": "Bergwijn | Klaassen",
+    "RW": "Conceição",
+    "ST": "?",
+    "LW": "Bergwijn | Godts"
+  }
+}
