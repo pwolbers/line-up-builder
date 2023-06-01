@@ -172,6 +172,7 @@ selectTeam.addEventListener("change", function () {
         startingArray = lineUpsObj['Ajax 2023-2024'].starting;
         backupArray = lineUpsObj['Ajax 2023-2024'].backup;
     } else if (selectedValue === "voorwaarts-23-24") {
+        console.log("TESTING");
         startingArray = lineUpsObj['Voorwaarts 2023-2024'].starting;
         backupArray = lineUpsObj['Voorwaarts 2023-2024'].backup;
     } else if (selectedValue === "clear") {
