@@ -181,13 +181,15 @@ selectTeam.addEventListener("change", function () {
     }
 
     if(selectedValue.indexOf('oorwaarts') > -1){
+        console.log("HI IM HERE");
         const circleClass = document.querySelector('.circle');
-        circleClass.style.background-color = 'green';
+        circleClass.style.backgroundColor = 'green';
         circleClass.style.borderColor = 'black'; 
     }
     else{
+        console.log("HI IM NOT HERE");
         const circleClass = document.querySelector('.circle');
-        circleClass.style.background-color = 'red';
+        circleClass.style.backgroundColor = 'red';
         circleClass.style.borderColor = 'white'; 
     }
     inputBoxes.forEach((inputBox, index) => {
