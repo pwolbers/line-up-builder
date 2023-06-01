@@ -183,18 +183,18 @@ selectTeam.addEventListener("change", function () {
     if (selectedValue.indexOf('oorwaarts') > -1) {
         console.log("HI IM HERE");
         const circleClass = document.querySelectorAll(".circle");
-        circleClass.forEach((circle, index) => {
-            circle[index+1].style.backgroundColor = 'green';
-            circle[index+1].style.borderColor = 'black';
-        });
+        for(var i = 1; i < circleClass.length; i++){
+            circleClass[i].style.backgroundColor = 'green';
+            circleClass[i].style.borderColor = 'black';
+        }
     }
     else {
         console.log("HI IM NOT HERE");
         const circleClass = document.querySelectorAll(".circle");
-        circleClass.forEach((circle, index) => {
-            circle[index+1].style.backgroundColor = 'red';
-            circle[index+1].style.borderColor = 'white';
-        });
+        for(var i = 1; i < circleClass.length; i++){
+            circleClass[i].style.backgroundColor = 'red';
+            circleClass[i].style.borderColor = 'white';
+        }
     }
     inputBoxes.forEach((inputBox, index) => {
         inputBox.value = startingArray[index] || "";
