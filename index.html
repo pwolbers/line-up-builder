@@ -1,197 +1,263 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Ajax Line-Up Builder</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <meta charset="utf8" />
-  </head>
-  <body>
-    <div class="container">
-      <div class="textbox-container">
-        <div class="column starting-column">
-          <h2>Starting</h2>
-          <div class="input-container">
-            <label for="starting1" class="label">GK:</label>
-            <input type="text" id="starting1" class="inputBox" placeholder="Starting GK">
-          </div>
-          <div class="input-container">
-            <label class="label" for="starting2">RB:</label>
-            <input type="text" id="starting2" class="inputBox" placeholder="Starting RB">
-          </div>
-          <div class="input-container">
-            <label class="label" for="starting3">RCV:</label>
-            <input type="text" id="starting3" class="inputBox" placeholder="Starting RCV">
-          </div>
-          <div class="input-container">
-            <label class="label" for="starting4">LCV:</label>
-            <input type="text" id="starting4" class="inputBox" placeholder="Starting LCV">
-          </div>
-          <div class="input-container">
-            <label class="label" for="starting5">LB:</label>
-            <input type="text" id="starting5" class="inputBox" placeholder="Starting LB">
-          </div>
-          <div class="input-container">
-            <label class="label" for="starting6">DMC:</label>
-            <input type="text" id="starting6" class="inputBox" placeholder="Starting DMC">
-          </div>
-          <div class="input-container">
-            <label class="label" for="starting8">MC:</label>
-            <input type="text" id="starting8" class="inputBox" placeholder="Starting MC">
-          </div>
-          <div class="input-container">
-            <label class="label" for="starting10">AMC:</label>
-            <input type="text" id="starting10" class="inputBox" placeholder="Starting AMC">
-          </div>
-          <div class="input-container">
-            <label class="label" for="starting7">RW:</label>
-            <input type="text" id="starting7" class="inputBox" placeholder="Starting RW">
-          </div>
-          <div class="input-container">
-            <label class="label" for="starting9">ST:</label>
-            <input type="text" id="starting9" class="inputBox" placeholder="Starting ST">
-          </div>
-          <div class="input-container">
-            <label class="label" for="starting11">LW:</label>
-            <input type="text" id="starting11" class="inputBox" placeholder="Starting LW">
-          </div>
-        </div>
-        <div class="column backup-column">
-          <h2>Backup</h2>
-          <div class="input-container">
-            <label class="label" for="backup1">GK:</label>
-            <input type="text" id="backup1" class="backupBox" placeholder="Back-up GK">
-          </div>
-          <div class="input-container">
-            <label class="label" for="backup2">RB:</label>
-            <input type="text" id="backup2" class="backupBox" placeholder="Back-up RB">
-          </div>
-          <div class="input-container">
-            <label class="label" for="backup3">RCV:</label>
-            <input type="text" id="backup3" class="backupBox" placeholder="Back-up RCV">
-          </div>
-          <div class="input-container">
-            <label class="label" for="backup4">LCV:</label>
-            <input type="text" id="backup4" class="backupBox" placeholder="Back-up LCV">
-          </div>
-          <div class="input-container">
-            <label class="label" for="backup4">LB:</label>
-            <input type="text" id="backup5" class="backupBox" placeholder="Back-up LB">
-          </div>
-          <div class="input-container">
-            <label class="label" for="backup6">DMC:</label>
-            <input type="text" id="backup6" class="backupBox" placeholder="Back-up DMC">
-          </div>
-          <div class="input-container">
-            <label class="label" for="backup8">MC:</label>
-            <input type="text" id="backup8" class="backupBox" placeholder="Back-up MC">
-          </div>
-          <div class="input-container">
-            <label class="label" for="backup10">AMC:</label>
-            <input type="text" id="backup10" class="backupBox" placeholder="Back-up AMC">
-          </div>
-          <div class="input-container">
-            <label class="label" for="backup7">RW:</label>
-            <input type="text" id="backup7" class="backupBox" placeholder="Back-up RW">
-          </div>
-          <div class="input-container">
-            <label class="label" for="backup9">ST:</label>
-            <input type="text" id="backup9" class="backupBox" placeholder="Back-up ST">
-          </div>
-          <div class="input-container">
-            <label class="label" for="backup11">LW:</label>
-            <input type="text" id="backup11" class="backupBox" placeholder="Back-up LW">
-          </div>
-        </div>
+
+<head>
+  <title>Ajax Line-Up Builder</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <meta charset="utf8" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="textbox-container">
+      <div class="select-box">
+        <label for="select-team">Select preset team:</label>
+        <select id="select-team" name="team" style="width: 30%" onchange="updateUploadButton()">
+          <option value="clear"> - </option>
+          <option value="ajax-22-23">Ajax 22/23</option>
+          <option value="ajax-23-24">Ajax 23/24</option>
+          <option value="voorwaarts-23-24">Voorwaarts 4 23/24</option>
+        </select>
+      </div>
+      <div style="display: flex">
         <div class="select-box">
-          <label for="select-team">Select team:</label>
-          <select id="select-team" name="team">
-            <option value="clear"> - </option>
-            <option value="ajax-22-23">Ajax 22/23</option>
-            <option value="ajax-23-24">Ajax 23/24</option>
-            <option value="voorwaarts-23-24">Voorwaarts 4 23/24</option>
+          <label for="select-formation">Select formation:</label>
+          <select id="select-formation" name="formation" onchange="">
+            <option value=""> - </option>
+            <option value="433">4-3-3</option>
+            <option value="442">4-4-2</option>
+            <option value="532">5-3-2</option>
           </select>
         </div>
+        <div class="input-group">
+          <input type="file" id="jsonFileInput" accept=".json" style="display: none">
+          <label for="jsonFileInput" id="chooseFileButton">Upload your team here</label>
+          <button id="importButton">Import Team</button>
+        </div>
       </div>
-      <div class="image-container">
-        <div id="circle1" class="circle">
-          <span class="circle-number">1</span>
-          <div class="output-container">
-            <div class="outputStarting"></div>
-            <div class="outputBackup"></div>
-          </div>
+      <div class="column starting-column">
+        <h2>Starting</h2>
+        <div class="input-container">
+          <label for="starting1" class="label">GK:</label>
+          <input type="text" id="starting1" class="inputBox" placeholder="Starting GK">
         </div>
-        <div id="circle2" class="circle">
-          <span class="circle-number">2</span>
-          <div class="output-container">
-            <div class="outputStarting"></div>
-            <div class="outputBackup"></div>
-          </div>
+        <div class="input-container">
+          <label class="label" for="starting2">RB:</label>
+          <input type="text" id="starting2" class="inputBox" placeholder="Starting RB">
         </div>
-        <div id="circle3" class="circle">
-          <span class="circle-number">3</span>
-          <div class="output-container">
-            <div class="outputStarting"></div>
-            <div class="outputBackup"></div>
-          </div>
+        <div class="input-container">
+          <label class="label" for="starting3">RCV:</label>
+          <input type="text" id="starting3" class="inputBox" placeholder="Starting RCV">
         </div>
-        <div id="circle4" class="circle">
-          <span class="circle-number">4</span>
-          <div class="output-container">
-            <div class="outputStarting"></div>
-            <div class="outputBackup"></div>
-          </div>
+        <div class="input-container">
+          <label class="label" for="starting4">LCV:</label>
+          <input type="text" id="starting4" class="inputBox" placeholder="Starting LCV">
         </div>
-        <div id="circle5" class="circle">
-          <span class="circle-number">5</span>
-          <div class="output-container">
-            <div class="outputStarting"></div>
-            <div class="outputBackup"></div>
-          </div>
+        <div class="input-container">
+          <label class="label" for="starting5">LB:</label>
+          <input type="text" id="starting5" class="inputBox" placeholder="Starting LB">
         </div>
-        <div id="circle6" class="circle">
-          <span class="circle-number">6</span>
-          <div class="output-container">
-            <div class="outputStarting"></div>
-            <div class="outputBackup"></div>
-          </div>
+        <div class="input-container">
+          <label class="label" for="starting6">DMC:</label>
+          <input type="text" id="starting6" class="inputBox" placeholder="Starting DMC">
         </div>
-        <div id="circle8" class="circle">
-          <span class="circle-number">8</span>
-          <div class="output-container">
-            <div class="outputStarting"></div>
-            <div class="outputBackup"></div>
-          </div>
+        <div class="input-container">
+          <label class="label" for="starting8">MC:</label>
+          <input type="text" id="starting8" class="inputBox" placeholder="Starting MC">
         </div>
-        <div id="circle10" class="circle">
-          <span class="circle-number">10</span>
-          <div class="output-container">
-            <div class="outputStarting"></div>
-            <div class="outputBackup"></div>
-          </div>
+        <div class="input-container">
+          <label class="label" for="starting10">AMC:</label>
+          <input type="text" id="starting10" class="inputBox" placeholder="Starting AMC">
         </div>
-        <div id="circle7" class="circle">
-          <span class="circle-number">7</span>
-          <div class="output-container">
-            <div class="outputStarting"></div>
-            <div class="outputBackup"></div>
-          </div>
+        <div class="input-container">
+          <label class="label" for="starting7">RW:</label>
+          <input type="text" id="starting7" class="inputBox" placeholder="Starting RW">
         </div>
-        <div id="circle9" class="circle">
-          <span class="circle-number">9</span>
-          <div class="output-container">
-            <div class="outputStarting"></div>
-            <div class="outputBackup"></div>
-          </div>
+        <div class="input-container">
+          <label class="label" for="starting9">ST:</label>
+          <input type="text" id="starting9" class="inputBox" placeholder="Starting ST">
         </div>
-        <div id="circle11" class="circle">
-          <span class="circle-number">11</span>
-          <div class="output-container">
-            <div class="outputStarting"></div>
-            <div class="outputBackup"></div>
-          </div>
+        <div class="input-container">
+          <label class="label" for="starting11">LW:</label>
+          <input type="text" id="starting11" class="inputBox" placeholder="Starting LW">
+        </div>
+      </div>
+      <div class="column backup-column">
+        <h2>Backup</h2>
+        <div class="input-container">
+          <label class="label" for="backup1">GK:</label>
+          <input type="text" id="backup1" class="backupBox" placeholder="Back-up GK">
+        </div>
+        <div class="input-container">
+          <label class="label" for="backup2">RB:</label>
+          <input type="text" id="backup2" class="backupBox" placeholder="Back-up RB">
+        </div>
+        <div class="input-container">
+          <label class="label" for="backup3">RCV:</label>
+          <input type="text" id="backup3" class="backupBox" placeholder="Back-up RCV">
+        </div>
+        <div class="input-container">
+          <label class="label" for="backup4">LCV:</label>
+          <input type="text" id="backup4" class="backupBox" placeholder="Back-up LCV">
+        </div>
+        <div class="input-container">
+          <label class="label" for="backup4">LB:</label>
+          <input type="text" id="backup5" class="backupBox" placeholder="Back-up LB">
+        </div>
+        <div class="input-container">
+          <label class="label" for="backup6">DMC:</label>
+          <input type="text" id="backup6" class="backupBox" placeholder="Back-up DMC">
+        </div>
+        <div class="input-container">
+          <label class="label" for="backup8">MC:</label>
+          <input type="text" id="backup8" class="backupBox" placeholder="Back-up MC">
+        </div>
+        <div class="input-container">
+          <label class="label" for="backup10">AMC:</label>
+          <input type="text" id="backup10" class="backupBox" placeholder="Back-up AMC">
+        </div>
+        <div class="input-container">
+          <label class="label" for="backup7">RW:</label>
+          <input type="text" id="backup7" class="backupBox" placeholder="Back-up RW">
+        </div>
+        <div class="input-container">
+          <label class="label" for="backup9">ST:</label>
+          <input type="text" id="backup9" class="backupBox" placeholder="Back-up ST">
+        </div>
+        <div class="input-container">
+          <label class="label" for="backup11">LW:</label>
+          <input type="text" id="backup11" class="backupBox" placeholder="Back-up LW">
+        </div>
+      </div>
+      </br>
+      </br>
+      <div class="newTeam">
+        <div class="teamName">
+          <div><label for="select-team">Name your team:</label></div>
+          <input type="text" id="teamNameBox" class="teamNameBox" placeholder="Team name" style="width: 150%">
+          <div><label id="reminderLabel" style="display: none; color: red; font-weight: bold">Don't forget to name your
+              team!</label></div>
+        </div>
+        <div class="color-picker">
+          <label for="colorPicker">Pick main color:</label>
+          <input type="color" id="colorPickerMain" name="color" list="colorOptions" value="#FF0000"
+            onchange="updateCircleColors()">
+        </div>
+        <div class="color-picker">
+          <label for="colorPicker">Pick second color:</label>
+          <input type="color" id="colorPickerSecond" name="color" list="colorOptions" value="#FFFFFF"
+            onchange="updateCircleColors()">
+        </div>
+        <div class="color-picker">
+          <label for="colorPicker">Pick number color:</label>
+          <input type="color" id="colorPickerNumber" name="color" list="colorOptions" value="#FFFFFF"
+            onchange="updateCircleColors()">
+        </div>
+        <datalist id="colorOptions">
+          <option>#FF0000</option>
+          <option>#0000FF</option>
+          <option>#00FF00</option>
+          <option>#FFFF00</option>
+          <option>#000000</option>
+          <option>#FFFFFF</option>
+          <option>#FFA500</option>
+          <option>#800080</option>
+          <option>#808080</option>
+          <option>#000080</option>
+          <option>#FFD700</option>
+          <option>#C0C0C0</option>
+          <option>#800000</option>
+          <option>#FFC0CB</option>
+          <option>#006631</option>
+        </datalist>
+      </div>
+      </br>
+      <button id="downloadButton">Download team</button>
+      </br>
+      </br>
+
+    </div>
+    <div class="image-container">
+      <div id="circle1" class="circle">
+        <span class="circle-number">1</span>
+        <div class="output-container">
+          <div class="outputStarting"></div>
+          <div class="outputBackup"></div>
+        </div>
+      </div>
+      <div id="circle2" class="circle">
+        <span class="circle-number">2</span>
+        <div class="output-container">
+          <div class="outputStarting"></div>
+          <div class="outputBackup"></div>
+        </div>
+      </div>
+      <div id="circle3" class="circle">
+        <span class="circle-number">3</span>
+        <div class="output-container">
+          <div class="outputStarting"></div>
+          <div class="outputBackup"></div>
+        </div>
+      </div>
+      <div id="circle4" class="circle">
+        <span class="circle-number">4</span>
+        <div class="output-container">
+          <div class="outputStarting"></div>
+          <div class="outputBackup"></div>
+        </div>
+      </div>
+      <div id="circle5" class="circle">
+        <span class="circle-number">5</span>
+        <div class="output-container">
+          <div class="outputStarting"></div>
+          <div class="outputBackup"></div>
+        </div>
+      </div>
+      <div id="circle6" class="circle">
+        <span class="circle-number">6</span>
+        <div class="output-container">
+          <div class="outputStarting"></div>
+          <div class="outputBackup"></div>
+        </div>
+      </div>
+      <div id="circle8" class="circle">
+        <span class="circle-number">8</span>
+        <div class="output-container">
+          <div class="outputStarting"></div>
+          <div class="outputBackup"></div>
+        </div>
+      </div>
+      <div id="circle10" class="circle">
+        <span class="circle-number">10</span>
+        <div class="output-container">
+          <div class="outputStarting"></div>
+          <div class="outputBackup"></div>
+        </div>
+      </div>
+      <div id="circle7" class="circle">
+        <span class="circle-number">7</span>
+        <div class="output-container">
+          <div class="outputStarting"></div>
+          <div class="outputBackup"></div>
+        </div>
+      </div>
+      <div id="circle9" class="circle">
+        <span class="circle-number">9</span>
+        <div class="output-container">
+          <div class="outputStarting"></div>
+          <div class="outputBackup"></div>
+        </div>
+      </div>
+      <div id="circle11" class="circle">
+        <span class="circle-number">11</span>
+        <div class="output-container">
+          <div class="outputStarting"></div>
+          <div class="outputBackup"></div>
         </div>
       </div>
     </div>
-    <script src="script.js"></script>
-  </body>
+  </div>
+  <script src="script.js"></script>
+</body>
+
 </html>

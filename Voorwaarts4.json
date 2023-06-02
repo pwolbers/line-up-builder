@@ -3,9 +3,9 @@
   "starting": {
     "GK": "Jan",
     "RB": "Martijn",
-    "RCV": "Spijker",
+    "RCV": "Djarno",
     "LCV": "Daano",
-    "LB": "Sybren",
+    "LB": "Elmo",
     "DMC": "Stewie",
     "MC": "Kooij",
     "AMC": "Alex",
@@ -15,15 +15,15 @@
   },
   "backup": {
     "GK": "Burger | Stewie | Kooij | Peter ",
-    "RB": "Burger | Gert | Kuba",
-    "RCV": "Staal | Djarno",
-    "LCV": "Djarno",
-    "LB": "Bram | Elmo",
+    "RB": "Johan",
+    "RCV": "Spijker",
+    "LCV": "Gert",
+    "LB": "Bram | Siebe",
     "DMC": "Willy | Mueller",
-    "MC": "Timo",
+    "MC": "Mathijs | Timo",
     "AMC": "Christos",
     "RW": "Harry",
-    "ST": "Koen",
+    "ST": "Burger",
     "LW": "Luca"
   }
 }
