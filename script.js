@@ -6,6 +6,7 @@ const jsonFileInput = document.getElementById('jsonFileInput');
 const chooseFileButton = document.getElementById('chooseFileButton');
 const importButton = document.getElementById('importButton');
 const circles = document.querySelectorAll(".circle");
+
 const inputBoxes = document.querySelectorAll(".inputBox");
 const backupBoxes = document.querySelectorAll(".backupBox");
 const outputStartings = document.querySelectorAll(".outputStarting");
@@ -23,6 +24,51 @@ jsonFileInput.addEventListener('change', function (event) {
         importButton.style.display = 'none';
     }
 });
+
+window.onload = () => {
+    setCirclePositions('433');
+    setTextBoxOrders();
+
+    var json = {
+        "teamName": "Barcelona 2009 CL Final",
+        "formation": "433",
+        "starting": {
+            "GK": "Valdés",
+            "RB": "Puyol",
+            "RCB": "Touré",
+            "LCB": "Piqué",
+            "LB": "Sylvinho",
+            "DMC": "Busquets",
+            "MCR": "Xavi",
+            "MCL": "Iniesta",
+            "RW": "Messi",
+            "ST": "Eto'o",
+            "LW": "Henry"
+        },
+        "backup": {
+            "GK": "Pinto",
+            "RB": "",
+            "RCB": "Cáceres",
+            "LCB": "Muniesa",
+            "LB": "",
+            "DMC": "",
+            "MCR": "Keita",
+            "MCL": "",
+            "RW": "Pedro",
+            "ST": "Gudjohnsen",
+            "LW": "Bojan"
+        },
+        "colors": {
+            "mainColor": "#004D98",
+            "secondColor": "#A50044",
+            "numberColor": "#EDBB00"
+        }
+    };
+
+    var formattedJSON = JSON.stringify(json, null, 2);
+    document.getElementById("jsonContainer").innerText = formattedJSON;
+}
+
 
 //Reads the JSON uploaded and stores it in the textboxes
 importButton.addEventListener('click', function () {
@@ -44,11 +90,13 @@ importButton.addEventListener('click', function () {
                     backupArray.push(value);
                 }
                 setLineUp();
-                setCirclePositions(jsonData.formation.replaceAll('-',''));
+                setCirclePositions(jsonData.formation.replaceAll('-', ''));
                 document.getElementById("colorPickerMain").value = jsonData.colors.mainColor;
                 document.getElementById("colorPickerSecond").value = jsonData.colors.secondColor;
                 document.getElementById("colorPickerNumber").value = jsonData.colors.numberColor;
                 updateCircleColors(jsonData.colors.mainColor, jsonData.colors.secondColor, jsonData.colors.numberColor);
+
+                document.getElementById("teamNameBox").value = jsonData.teamName;
             }
             else {
                 alert("Uploaded JSON not valid. Please check the help button for the correct JSON format.");
@@ -71,12 +119,12 @@ document.addEventListener("DOMContentLoaded", function () {
             // Process the fetched JSON data
             data.forEach(jsonData => {
                 // Access the data for each JSON file
-                const info = jsonData.info;
+                const teamName = jsonData.teamName;
                 const starting = Object.values(jsonData.starting);
                 const backup = Object.values(jsonData.backup);
-                lineUpsObj[info] = {};
-                lineUpsObj[info].starting = starting;
-                lineUpsObj[info].backup = backup;
+                lineUpsObj[teamName] = {};
+                lineUpsObj[teamName].starting = starting;
+                lineUpsObj[teamName].backup = backup;
             });
         })
         .catch(error => {
@@ -117,7 +165,8 @@ circles.forEach((circle, index) => {
         initialY = e.clientY;
         offsetX = activeCircle.offsetLeft;
         offsetY = activeCircle.offsetTop;
-
+        console.log(offsetX);
+        console.log(offsetY);
         document.addEventListener("mousemove", dragCircle);
         document.addEventListener("mouseup", dropCircle);
     }
@@ -126,6 +175,7 @@ circles.forEach((circle, index) => {
         activeCircle = null;
         document.removeEventListener("mousemove", dragCircle);
         document.removeEventListener("mouseup", dropCircle);
+        setTextBoxOrders();
     }
 
     function dragCircle(e) {
@@ -137,15 +187,14 @@ circles.forEach((circle, index) => {
             var newX = offsetX + currentX;
             var newY = offsetY + currentY;
 
-            if (newX > 85 && newX < 555) {
+            if (newX > 88 && newX < 590) {
                 activeCircle.style.left = offsetX + currentX + "px";
             }
-            if (newY > 45 && newY < 750) {
+            if (newY > 48 && newY < 800) {
                 activeCircle.style.top = offsetY + currentY + "px";
             }
-            console.log(activeCircle.style.left);
-            console.log(activeCircle.style.top);
-            determineLabel(parseInt(activeCircle.style.left), parseInt(activeCircle.style.top), index);
+
+            setTextBoxOrders();
         }
     }
 
@@ -158,6 +207,95 @@ circles.forEach((circle, index) => {
     }
 });
 
+function setTextBoxOrders() {
+    //Gets order of circles based on first their y and then their x (7 11 9)
+    var startingCircleArray = getCurrentCircleOrder();
+    var backupCircleArray = getCurrentCircleOrder();
+    var startingColumn = document.querySelector('.starting-column');
+    var startingContainers = startingColumn.getElementsByClassName('input-container');
+
+    var backupColumn = document.querySelector('.backup-column');
+    var backupContainers = backupColumn.getElementsByClassName('input-container');
+
+    addInputContainersInOrder(startingContainers, startingCircleArray, 'starting');
+    addInputContainersInOrder(backupContainers, backupCircleArray, 'backup');
+
+    startingCircleArray.forEach((circle, index) => {
+        var posX = circle.x;
+        var posY = circle.y;
+        determineLabel(posX, posY, index);
+    });
+
+    backupCircleArray.forEach((circle, index) => {
+        var posX = circle.x;
+        var posY = circle.y;
+        determineLabel(posX, posY, index);
+    });
+}
+
+function addInputContainersInOrder(containers, circleArray, column) {
+    var listOfDivs = [];
+    for (var i = 0; i < containers.length; i++) {
+        //Gets current order of divs as it stands (7 9 11)
+        var inputElement = containers[i].querySelector('input[class*="pos"]');
+        if (inputElement) {
+            listOfDivs.push(containers[i]);
+        }
+    }
+    for (var j = 0; j < listOfDivs.length; j++) {
+        listOfDivs[j].parentNode.removeChild(listOfDivs[j]);
+    }
+    if (column == 'starting') {
+        var column = document.querySelector('.starting-column');
+    }
+    else if (column == 'backup') {
+        var column = document.querySelector('.backup-column');
+
+    }
+    //Adds the elements back in the right order (7 11 9)
+    circleArray.forEach(function (orderObj) {
+        var posClass = orderObj.pos;
+        var element = listOfDivs.find(function (el) {
+            return el.querySelector('input.' + posClass);
+        });
+
+        if (element) {
+            //7 11 9
+            column.appendChild(element);
+        }
+    });
+}
+
+function getCurrentCircleOrder() {
+    const listOfCircles = document.querySelectorAll(".circle");
+    var circleArray = [];
+    listOfCircles.forEach(circle => {
+        var circleObj = {};
+        if (circle.style.left.toString().indexOf('%') > -1) {
+            var posX = parseInt((parseInt(circle.style.left) / 100) * 730);
+            var posY = parseInt((parseInt(circle.style.top) / 100) * 900);
+        }
+        else {
+            var posX = parseInt(circle.style.left);
+            var posY = parseInt(circle.style.top);
+        }
+
+        circleObj.x = posX;
+        circleObj.y = posY;
+        circleObj.id = circle.id;
+        circleObj.pos = circle.classList.item(1);
+        circleArray.push(circleObj);
+    });
+    circleArray.sort((a, b) => {
+        if (Math.abs(a.y - b.y) < 50) {
+            return a.x > b.x ? -1 : 1
+        } else {
+            return a.y > b.y ? -1 : 1
+        }
+    })
+
+    return circleArray;
+}
 //Shows/hides textboxes below circles based on input
 function toggleOutputBoxVisibility(box, inputValue) {
 
@@ -170,56 +308,89 @@ function toggleOutputBoxVisibility(box, inputValue) {
 
 //Determines position label before the text box
 function determineLabel(xPos, yPos, index) {
-    console.log("XPOS: " + xPos + " | YPOS: " + yPos + " || INDEX: " + index);
+    const inputBoxes = document.querySelectorAll(".inputBox");
+    const backupBoxes = document.querySelectorAll(".backupBox");
     const labels = document.querySelectorAll(".label");
     if (xPos >= 200 && xPos <= 440 && yPos >= 675 && yPos <= 750) {
         labels[index].innerHTML = "GK:";
         labels[index + 11].innerHTML = "GK:";
-    } else if (xPos >= 465 && xPos <= 565 && yPos >= 535 && yPos <= 760) {
+        inputBoxes[index].placeholder = "Starting GK ";
+        backupBoxes[index].placeholder = "Back-up GK";
+    } else if (xPos >= 490 && xPos <= 610 && yPos >= 535 && yPos <= 760) {
         labels[index].innerHTML = "RB:";
         labels[index + 11].innerHTML = "RB:";
-    } else if (xPos >= 70 && xPos <= 175 && yPos >= 535 && yPos <= 760) {
+        inputBoxes[index].placeholder = "Starting RB ";
+        backupBoxes[index].placeholder = "Back-up RB";
+    } else if (xPos >= 70 && xPos <= 190 && yPos >= 535 && yPos <= 760) {
         labels[index].innerHTML = "LB:";
         labels[index + 11].innerHTML = "LB:";
-    } else if (xPos >= 370 && xPos <= 465 && yPos >= 560 && yPos <= 675) {
-        labels[index].innerHTML = "RCV:";
-        labels[index + 11].innerHTML = "RCV:";
-    } else if (xPos >= 270 && xPos <= 370 && yPos >= 560 && yPos <= 675) {
-        labels[index].innerHTML = "CV:";
-        labels[index + 11].innerHTML = "CV:";
-    } else if (xPos >= 175 && xPos <= 270 && yPos >= 560 && yPos <= 675) {
-        labels[index].innerHTML = "LCV:";
-        labels[index + 11].innerHTML = "LCV:";
-    } else if (xPos >= 440 && xPos <= 565 && yPos >= 395 && yPos <= 535) {
+        inputBoxes[index].placeholder = "Starting LB ";
+        backupBoxes[index].placeholder = "Back-up LB";
+    } else if (xPos >= 400 && xPos <= 490 && yPos >= 535 && yPos <= 675) {
+        labels[index].innerHTML = "RCB:";
+        labels[index + 11].innerHTML = "RCB:";
+        inputBoxes[index].placeholder = "Starting RCB ";
+        backupBoxes[index].placeholder = "Back-up RCB";
+    } else if (xPos >= 280 && xPos <= 400 && yPos >= 535 && yPos <= 675) {
+        labels[index].innerHTML = "CB:";
+        labels[index + 11].innerHTML = "CB:";
+        inputBoxes[index].placeholder = "Starting CB "
+        backupBoxes[index].placeholder = "Back-up CB";
+    } else if (xPos >= 190 && xPos <= 280 && yPos >= 535 && yPos <= 675) {
+        labels[index].innerHTML = "LCB:";
+        labels[index + 11].innerHTML = "LCB:";
+        inputBoxes[index].placeholder = "Starting LCB ";
+        backupBoxes[index].placeholder = "Back-up LCB";
+    } else if (xPos >= 490 && xPos <= 610 && yPos >= 424 && yPos <= 535) {
         labels[index].innerHTML = "RWB:";
         labels[index + 11].innerHTML = "RWB:";
-    } else if (xPos >= 200 && xPos <= 440 && yPos >= 444 && yPos <= 560) {
+        inputBoxes[index].placeholder = "Starting RWB";
+        backupBoxes[index].placeholder = "Back-up RWB";
+    } else if (xPos >= 190 && xPos <= 490 && yPos >= 424 && yPos <= 535) {
         labels[index].innerHTML = "DMC:";
         labels[index + 11].innerHTML = "DMC:";
-    } else if (xPos >= 75 && xPos <= 200 && yPos >= 395 && yPos <= 535) {
+        inputBoxes[index].placeholder = "Starting DMC ";
+        backupBoxes[index].placeholder = "Back-up DMC";
+    } else if (xPos >= 70 && xPos <= 190 && yPos >= 424 && yPos <= 535) {
         labels[index].innerHTML = "LWB:";
         labels[index + 11].innerHTML = "LWB:";
-    } else if (xPos >= 440 && xPos <= 565 && yPos >= 280 && yPos <= 395) {
+        inputBoxes[index].placeholder = "Starting LWB ";
+        backupBoxes[index].placeholder = "Back-up LWB";
+    } else if (xPos >= 490 && xPos <= 610 && yPos >= 280 && yPos <= 424) {
         labels[index].innerHTML = "RM:";
         labels[index + 11].innerHTML = "RM:";
-    } else if (xPos >= 200 && xPos <= 440 && yPos >= 300 && yPos <= 444) {
+        inputBoxes[index].placeholder = "Starting RM ";
+        backupBoxes[index].placeholder = "Back-up RM";
+    } else if (xPos >= 190 && xPos <= 490 && yPos >= 300 && yPos <= 424) {
         labels[index].innerHTML = "MC:";
         labels[index + 11].innerHTML = "MC:";
-    } else if (xPos >= 75 && xPos <= 200 && yPos >= 280 && yPos <= 395) {
+        inputBoxes[index].placeholder = "Starting MC ";
+        backupBoxes[index].placeholder = "Back-up MC";
+    } else if (xPos >= 70 && xPos <= 190 && yPos >= 280 && yPos <= 424) {
         labels[index].innerHTML = "LM:";
         labels[index + 11].innerHTML = "LM:";
-    } else if (xPos >= 440 && xPos <= 565 && yPos >= 35 && yPos <= 280) {
+        inputBoxes[index].placeholder = "Starting LM ";
+        backupBoxes[index].placeholder = "Back-up LM";
+    } else if (xPos >= 490 && xPos <= 610 && yPos >= 35 && yPos <= 280) {
         labels[index].innerHTML = "RW:";
         labels[index + 11].innerHTML = "RW:";
-    } else if (xPos >= 200 && xPos <= 440 && yPos >= 185 && yPos <= 300) {
+        inputBoxes[index].placeholder = "Starting RW ";
+        backupBoxes[index].placeholder = "Back-up RW";
+    } else if (xPos >= 190 && xPos <= 490 && yPos >= 185 && yPos <= 300) {
         labels[index].innerHTML = "AMC:";
         labels[index + 11].innerHTML = "AMC:";
-    } else if (xPos >= 75 && xPos <= 200 && yPos >= 35 && yPos <= 280) {
+        inputBoxes[index].placeholder = "Starting AMC ";
+        backupBoxes[index].placeholder = "Back-up AMC";
+    } else if (xPos >= 70 && xPos <= 190 && yPos >= 35 && yPos <= 280) {
         labels[index].innerHTML = "LW:";
         labels[index + 11].innerHTML = "LW:";
+        inputBoxes[index].placeholder = "Starting LW ";
+        backupBoxes[index].placeholder = "Back-up LW";
     } else if (xPos >= 200 && xPos <= 440 && yPos >= 35 && yPos <= 185) {
         labels[index].innerHTML = "ST:";
         labels[index + 11].innerHTML = "ST:";
+        inputBoxes[index].placeholder = "Starting ST ";
+        backupBoxes[index].placeholder = "Back-up ST";
     }
 }
 
@@ -260,7 +431,7 @@ selectTeam.addEventListener("change", function () {
             circleClass[i].style.backgroundColor = '#FF0000';
             circleClass[i].style.borderColor = '#FFFFFF';
             circleClass[i].querySelector(".circle-number").style.color = '#FFFFFF';
-            
+
             document.getElementById("colorPickerMain").value = '#FF0000';
             document.getElementById("colorPickerSecond").value = '#FFFFFF';
             document.getElementById("colorPickerNumber").value = '#FFFFFF';
@@ -272,13 +443,13 @@ selectTeam.addEventListener("change", function () {
 });
 
 function updateCircleColors(colorPickerMain, colorPickerSecond, colorPickerNumber) {
-    if(colorPickerMain == null){
+    if (colorPickerMain == null) {
         colorPickerMain = document.getElementById("colorPickerMain").value;
     }
-    if(colorPickerSecond == null){
+    if (colorPickerSecond == null) {
         colorPickerSecond = document.getElementById("colorPickerSecond").value;
     }
-    if(colorPickerNumber == null){
+    if (colorPickerNumber == null) {
         colorPickerNumber = document.getElementById("colorPickerNumber").value;
     }
     const circleClass = document.querySelectorAll(".circle");
@@ -287,7 +458,7 @@ function updateCircleColors(colorPickerMain, colorPickerSecond, colorPickerNumbe
         circleClass[i].style.borderColor = colorPickerSecond;
         circleClass[i].querySelector(".circle-number").style.color = colorPickerNumber;
     }
-    
+
 }
 
 function setLineUp() {
@@ -315,9 +486,9 @@ function updateUploadButton() {
 //Creates a JSON based on the line up made by the user
 document.getElementById('downloadButton').addEventListener('click', function () {
     // Create JSON data
-    const jsonData = { "info": "", "formation": "", "starting": {}, "backup": {}, "colors": {} };
+    const jsonData = { "teamName": "", "formation": "", "starting": {}, "backup": {}, "colors": {} };
 
-    const defenseArr = ['RB', 'RCV', 'CV', 'LCV', 'LB', 'RWB', 'LWB'];
+    const defenseArr = ['RB', 'RCB', 'CB', 'LCB', 'LB', 'RWB', 'LWB'];
     const midfieldArr = ['DMC', 'RM', 'LM', 'MC', 'AMC'];
     const attackArr = ['RW', 'LW', 'ST'];
 
@@ -326,19 +497,19 @@ document.getElementById('downloadButton').addEventListener('click', function () 
     let attackNr = 0;
 
     const teamName = document.querySelector('#teamNameBox');
-    jsonData.info = teamName.value;
+    jsonData.teamName = teamName.value;
     const startingContainers = document.querySelectorAll('.column.starting-column .input-container');
     startingContainers.forEach((container, index) => {
         let label = container.querySelector('.label').textContent;
         const input = container.querySelector('.inputBox').value;
         label = label.replaceAll(":", "");
-        if(defenseArr.includes(label)){
+        if (defenseArr.includes(label)) {
             defenseNr++;
         }
-        else if(midfieldArr.includes(label)){
+        else if (midfieldArr.includes(label)) {
             midfieldNr++;
         }
-        else if(attackArr.includes(label)){
+        else if (attackArr.includes(label)) {
             attackNr++;
         }
         if (Object.keys(jsonData.starting).includes(label)) {
@@ -424,12 +595,13 @@ document.getElementById('downloadButton').addEventListener('click', function () 
     // Programmatically click the anchor element to trigger the download
     if (teamName.value == '') {
         const reminder = document.getElementById('reminderLabel');
-        console.log(reminder);
         reminder.style.display = 'block';
     }
     else {
         // Set the file name
-        var teamFileName = teamName.value.toString().replaceAll(' ', '-');
+        var teamFileName = teamName.value;
+        teamFileName = teamFileName.replaceAll(' ', '_');
+        teamFileName = teamFileName.replaceAll('/', '_');
         anchor.download = teamFileName.toLowerCase() + '.json';
         anchor.click();
     }
@@ -453,54 +625,187 @@ const selectFormation = document.getElementById("select-formation");
 selectFormation.addEventListener("change", function () {
     const selectedValue = this.value;
     setCirclePositions(selectedValue);
+    setTextBoxOrders();
 });
 
 function setCirclePositions(formationValue) {
-    if (formationValue === "442") {
-        circles[0].style.top = '76%'; circles[0].style.left = '47%';    //#1
-        circles[1].style.top = '60%'; circles[1].style.left = '78%';    //#2
-        circles[2].style.top = '65%'; circles[2].style.left = '60%';    //#3
-        circles[3].style.top = '65%'; circles[3].style.left = '34%';    //#4
-        circles[4].style.top = '60%'; circles[4].style.left = '16%';    //#5
-        circles[5].style.top = '52%'; circles[5].style.left = '47%';    //#6
-        circles[6].style.top = '40%'; circles[6].style.left = '24%';     //#8
-        circles[7].style.top = '28%'; circles[7].style.left = '47%';    //#10
-        circles[8].style.top = '40%'; circles[8].style.left = '70%';    //#7
+    if (formationValue === "442flat") {
+        circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
+        circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
+        circles[2].style.top = '68%'; circles[2].style.left = '60%';    //#3
+        circles[3].style.top = '68%'; circles[3].style.left = '33%';    //#4
+        circles[4].style.top = '63%'; circles[4].style.left = '16%';    //#5
+        circles[5].style.top = '47%'; circles[5].style.left = '58%';    //#6
+        circles[6].style.top = '47%'; circles[6].style.left = '36%';    //#8
+        circles[7].style.top = '37%'; circles[7].style.left = '16%';    //#10
+        circles[8].style.top = '37%'; circles[8].style.left = '77%';    //#7
         circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
-        circles[10].style.top = '10%'; circles[10].style.left = '34%';    //#11
-    }
-    else if (formationValue === "532") {
-        circles[0].style.top = '76%'; circles[0].style.left = '47%';    //#1
+        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
+    } else if (formationValue === "442diamond") {
+        circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
+        circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
+        circles[2].style.top = '68%'; circles[2].style.left = '60%';    //#3
+        circles[3].style.top = '68%'; circles[3].style.left = '33%';    //#4
+        circles[4].style.top = '63%'; circles[4].style.left = '16%';    //#5
+        circles[5].style.top = '52%'; circles[5].style.left = '46.5%';  //#6
+        circles[6].style.top = '40%'; circles[6].style.left = '28%';    //#8
+        circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
+        circles[8].style.top = '40%'; circles[8].style.left = '66%';    //#7
+        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
+        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
+    } else if (formationValue === "451" || formationValue === "4231") {
+        circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
+        circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
+        circles[2].style.top = '68%'; circles[2].style.left = '60%';    //#3
+        circles[3].style.top = '68%'; circles[3].style.left = '33%';    //#4
+        circles[4].style.top = '63%'; circles[4].style.left = '16%';    //#5
+        circles[5].style.top = '48%'; circles[5].style.left = '58%';    //#6
+        circles[6].style.top = '48%'; circles[6].style.left = '36%';    //#8
+        circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
+        circles[8].style.top = '28%'; circles[8].style.left = '77%';    //#7
+        circles[9].style.top = '10%'; circles[9].style.left = '46.5%';  //#9
+        circles[10].style.top = '28%'; circles[10].style.left = '16%';  //#11
+    } else if (formationValue === "532") {
+        circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
+        circles[1].style.top = '68%'; circles[1].style.left = '67%';    //#2
+        circles[2].style.top = '68%'; circles[2].style.left = '46.5%';  //#3
+        circles[3].style.top = '68%'; circles[3].style.left = '27%';    //#4
+        circles[4].style.top = '53%'; circles[4].style.left = '16%';    //#5
+        circles[5].style.top = '53%'; circles[5].style.left = '58%';    //#6
+        circles[6].style.top = '53%'; circles[6].style.left = '36%';    //#8
+        circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
+        circles[8].style.top = '53%'; circles[8].style.left = '77%';    //#7
+        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
+        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
+    } else if (formationValue === "343") {
+        circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
         circles[1].style.top = '65%'; circles[1].style.left = '67%';    //#2
-        circles[2].style.top = '65%'; circles[2].style.left = '47%';    //#3
-        circles[3].style.top = '65%'; circles[3].style.left = '27%';    //#4
-        circles[4].style.top = '45%'; circles[4].style.left = '16%';    //#5
-        circles[5].style.top = '50%'; circles[5].style.left = '57%';    //#6
-        circles[6].style.top = '44%'; circles[6].style.left = '37%';     //#8
-        circles[7].style.top = '28%'; circles[7].style.left = '47%';    //#10
-        circles[8].style.top = '45%'; circles[8].style.left = '78%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
-        circles[10].style.top = '10%'; circles[10].style.left = '34%';    //#11
+        circles[2].style.top = '65%'; circles[2].style.left = '46.5%';  //#3
+        circles[3].style.top = '52%'; circles[3].style.left = '46.5%';  //#4
+        circles[4].style.top = '65%'; circles[4].style.left = '27%';    //#5
+        circles[5].style.top = '40%'; circles[5].style.left = '66%';    //#6
+        circles[6].style.top = '40%'; circles[6].style.left = '28%';    //#8
+        circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
+        circles[8].style.top = '18%'; circles[8].style.left = '77%';    //#7
+        circles[9].style.top = '10%'; circles[9].style.left = '46.5%';  //#9
+        circles[10].style.top = '18%'; circles[10].style.left = '16%';  //#11
+    } else { //4-3-3
+        circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
+        circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
+        circles[2].style.top = '68%'; circles[2].style.left = '60%';    //#3
+        circles[3].style.top = '68%'; circles[3].style.left = '33%';    //#4
+        circles[4].style.top = '63%'; circles[4].style.left = '16%';    //#5
+        circles[5].style.top = '52%'; circles[5].style.left = '46.5%';  //#6
+        circles[6].style.top = '38%'; circles[6].style.left = '33%';    //#8
+        circles[7].style.top = '32%'; circles[7].style.left = '60%';    //#10
+        circles[8].style.top = '18%'; circles[8].style.left = '77%';    //#7
+        circles[9].style.top = '10%'; circles[9].style.left = '46.5%';  //#9
+        circles[10].style.top = '18%'; circles[10].style.left = '16%';  //#11
     }
-    else {
-        circles[0].style.top = '76%'; circles[0].style.left = '47%';    //#1
-        circles[1].style.top = '60%'; circles[1].style.left = '78%';    //#2
-        circles[2].style.top = '65%'; circles[2].style.left = '60%';    //#3
-        circles[3].style.top = '65%'; circles[3].style.left = '34%';    //#4
-        circles[4].style.top = '60%'; circles[4].style.left = '16%';    //#5
-        circles[5].style.top = '50%'; circles[5].style.left = '52%';    //#6
-        circles[6].style.top = '38%'; circles[6].style.left = '34%';     //#8
-        circles[7].style.top = '28%'; circles[7].style.left = '57%';    //#10
-        circles[8].style.top = '13%'; circles[8].style.left = '78%';    //#7
-        circles[9].style.top = '5%'; circles[9].style.left = '47%';    //#9
-        circles[10].style.top = '13%'; circles[10].style.left = '16%';    //#11
-    } 
     circles.forEach((circle, index) => {
-        var posX = (parseInt(circle.style.left) / 100) * 680;
+        var posX = (parseInt(circle.style.left) / 100) * 730;
         var posY = (parseInt(circle.style.top) / 100) * 900;
         determineLabel(posX, posY, index);
     });
-    console.log(circles[10].style.top);
 }
+
+
+
+
+// Function to capture screenshot and trigger download
+function captureScreenshotAndDownload() {
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+
+    const options = {
+        // Set the x and y coordinates to capture the middle section
+        x: 1000,
+        y: 34,
+        // Set the desired width and height for the screenshot
+        width: 635,
+        height: 855
+    };
+
+    html2canvas(document.documentElement).then(function (canvas) {
+        // Create a new canvas element for the cropped image
+        const croppedCanvas = document.createElement('canvas');
+        const scaleFactor = 1.64; // 20% reduction factor
+
+        // Calculate the cropped dimensions based on the reduction factor
+        const croppedWidth = options.width * scaleFactor;
+        const croppedHeight = options.height * scaleFactor;
+
+        // Set the dimensions of the cropped canvas
+        croppedCanvas.width = croppedWidth;
+        croppedCanvas.height = croppedHeight;
+
+        // Get the context of the cropped canvas
+        const ctx = croppedCanvas.getContext('2d');
+
+        // Calculate the scaling factor for the original image
+        const scale = canvas.width / windowWidth;
+
+        // Calculate the coordinates to crop in the original image
+        const cropX = options.x * scale;
+        const cropY = options.y * scale;
+
+        // Crop the desired portion from the original screenshot
+        ctx.drawImage(
+            canvas,
+            cropX,
+            cropY,
+            options.width * scale,
+            options.height * scale,
+            0,
+            0,
+            croppedWidth,
+            croppedHeight
+        );
+
+        // Convert the cropped canvas content to a data URL
+        const screenshotData = croppedCanvas.toDataURL('image/png');
+
+        // Create an "anchor" element
+        const link = document.createElement('a');
+        link.href = screenshotData;
+        const teamName = document.querySelector('#teamNameBox');
+        var teamFileName = teamName.value;
+        teamFileName = teamFileName.replaceAll(' ', '_');
+        teamFileName = teamFileName.replaceAll('/', '_');
+        link.download = teamFileName; // Set the filename for the download
+
+        // Programmatically trigger the download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+}
+
+// Attach click event listener to the button
+const screenshotButton = document.getElementById('screenshotButton');
+screenshotButton.addEventListener('click', captureScreenshotAndDownload);
+
+document.addEventListener('DOMContentLoaded', function () {
+    const helpIcon = document.querySelector('.help-icon');
+    const popup = document.querySelector('#popup');
+    const closeBtn = document.querySelector('#closeBtn');
+  
+    helpIcon.addEventListener('click', function (event) {
+      event.stopPropagation(); // Prevent click event propagation to the document
+      popup.style.display = 'flex';
+    });
+  
+    closeBtn.addEventListener('click', function () {
+      popup.style.display = 'none';
+    });
+  
+    document.addEventListener('click', function (event) {
+      if (event.target.id == 'popup') {
+        popup.style.display = 'none'; // Hide the popup when clicking outside of it
+      }
+    });
+  });
+
+
 // Initial update on page load
 selectTeam.dispatchEvent(new Event("change"));

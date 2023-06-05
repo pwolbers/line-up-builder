@@ -30,15 +30,17 @@ body {
   display: inline;
 }
 
-.input-group,
 .color-picker {
   display: inline-block;
   vertical-align: top;
 }
 
 .input-group {
+  vertical-align: top;
   margin-top: -2px;
-  margin-left: 245px;
+  margin-left: 270px;
+  display: flex;
+  align-items: flex-end;
 }
 
 .select-box label,
@@ -53,7 +55,7 @@ body {
 }
 
 .teamName {
-  margin-right: 205px;
+  margin-right: 230px;
   margin-left: 15px;
   margin-bottom: 10px;
 }
@@ -67,11 +69,12 @@ body {
   display: block;
   margin-bottom: 5px;
   font-size: 12px;
+  font-weight: bold;
 }
 
 .color-picker input[type="color"] {
   padding: 0;
-  border: solid 1px;
+  border: solid 1px black;
   width: 30px;
   height: 30px;
   appearance: none;
@@ -113,21 +116,15 @@ body {
   transform: scale(1.1);
 }
 
-/* Optional: Additional styling for the label */
-.color-picker label {
-  font-weight: bold;
-  color: #333;
-}
-
 .column {
   position: relative;
   display: inline-block;
-  width: 300px;
+  width: 370px;
   vertical-align: top;
   margin-right: 20px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  padding: 30px;
+  padding: 5px 5px 10px 10px;
   margin-left: 10px;
 }
 
@@ -135,6 +132,18 @@ body {
   font-family: "Montserrat", sans-serif;
   font-size: 18px;
   font-weight: bold;
+}
+
+p, h2, h3, h4, li {
+  font-family: "Montserrat", sans-serif;
+}
+
+p, li {
+  font-size: 14px;
+}
+
+li {
+  margin-left: 15px;
 }
 
 .starting-column {
@@ -160,18 +169,28 @@ body {
 
 .inputBox,
 .backupBox {
+  margin-left: 5px;
   flex: 1;
   box-sizing: border-box;
 }
 
-.label {
-  width: 40px;
-  margin-right: 5px;
+.label, .label-position {
   margin-bottom: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: "Montserrat", sans-serif;
+}
+
+.label{
+  width: 40px;
+}
+
+.label-position {
+  width: 20px;
+  font-size: 12px;
+  padding-left: 10px;
+  margin-right: 10px;
 }
 
 .input-container {
@@ -209,13 +228,14 @@ body {
 }
 
 .image-container {
-  width: 760px;
+  width: 730px;
   height: 900px;
   position: relative;
   background-image: url("football field730900.png");
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position: center top;
+  border-radius: 20px;
 }
 
 .circle:before {
@@ -224,11 +244,10 @@ body {
 
 .circle {
   position: absolute;
-  font-size: 25px;
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 4px solid white;
   background-color: red;
   display: flex;
   align-items: center;
@@ -243,7 +262,7 @@ body {
   display: block;
   text-align: center;
   padding: 5px;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 255, 255, 1);
   border: 1px solid #000;
   border-radius: 5px;
   white-space: nowrap;
@@ -256,7 +275,8 @@ body {
 
 .outputBackup {
   bottom: -65px;
-  opacity: 0.6;
+  opacity: 0.85;
+  background-color: #C8C8C8;
 }
 
 .outputStarting {
@@ -272,20 +292,21 @@ body {
   display: inline;
 }
 
-.input-group {
-  display: flex;
-  align-items: flex-end;
-}
 
 .input-group label,
 .input-group button {
   margin-left: 10px;
+  
 }
 
 label {
   display: block;
   margin-bottom: 5px;
   font-family: "Montserrat", sans-serif;
+}
+
+.labelHeader {
+  color:white;
 }
 
 .select-box select {
@@ -309,7 +330,7 @@ label {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
   font-family: "Bebas Neue";
   user-select: none;
@@ -320,7 +341,8 @@ label {
 
 #chooseFileButton,
 #importButton,
-#downloadButton {
+#downloadButton,
+#screenshotButton {
   padding: 8px 16px;
   background-color: #4caf50;
   color: white;
@@ -334,7 +356,8 @@ label {
 }
 
 #chooseFileButton,
-#downloadButton {
+#downloadButton,
+#screenshotButton {
   display: inline-block;
 }
 
@@ -349,18 +372,64 @@ label {
 
 #chooseFileButton:hover,
 #importButton:hover,
-#downloadButton:hover {
+#downloadButton:hover,
+#screenshotButton:hover {
   background-color: #45a049;
 }
 
-#circle1 { top: 76%; left: 47%; background-color: #0186e1; } /* #1 */
-#circle2 { top: 60%; left: 78%; } /* #2 */
-#circle3 { top: 65%; left: 60%; } /* #3 */
-#circle4 { top: 65%; left: 34%; } /* #4 */
-#circle5 { top: 60%; left: 16%; } /* #5 */
-#circle6 { top: 50%; left: 52%; } /* #6 */
-#circle7 { top: 13%; left: 78%; } /* #7 */
-#circle8 { top: 38%; left: 34%; } /* #8 */
-#circle9 { top: 05%; left: 47%; } /* #9 */
-#circle10 { top: 28%; left: 57%; } /* #10 */
-#circle11 { top: 13%; left: 16%; } /* #11 */
+.help-icon {
+  font-size: 24px;
+  color: white;
+  position: flex;
+  top: 10px;
+  left: 10px;
+  margin-left: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content {
+  background-color: white;
+  width: 600px;
+  height: 700px;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+  overflow: auto;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.close-btn i {
+  font-size: 24px;
+  color: black;
+}
+
+
+pre {
+  background-color: #f5f5f5;
+  padding: 10px;
+}
+
+#circle1 { background-color: #0186e1; } /* #1 */
