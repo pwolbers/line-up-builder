@@ -156,53 +156,66 @@ circles.forEach((circle, index) => {
     let offsetY = 0;
 
     circle.addEventListener("mousedown", startDrag);
-    circle.addEventListener("mouseup", stopDrag);
+    circle.addEventListener("touchstart", startDrag);
 
     function startDrag(e) {
         e.preventDefault();
-        activeCircle = this;
-        initialX = e.clientX;
-        initialY = e.clientY;
+        if (e.type === "mousedown") {
+            activeCircle = this;
+            initialX = e.clientX;
+            initialY = e.clientY;
+        } else if (e.type === "touchstart") {
+            activeCircle = this;
+            initialX = e.touches[0].clientX;
+            initialY = e.touches[0].clientY;
+        }
         offsetX = activeCircle.offsetLeft;
         offsetY = activeCircle.offsetTop;
         console.log(offsetX);
         console.log(offsetY);
         document.addEventListener("mousemove", dragCircle);
-        document.addEventListener("mouseup", dropCircle);
+        document.addEventListener("touchmove", dragCircle, { passive: false });
+        document.addEventListener("mouseup", stopDrag);
+        document.addEventListener("touchend", stopDrag);
     }
 
     function stopDrag() {
         activeCircle = null;
         document.removeEventListener("mousemove", dragCircle);
-        document.removeEventListener("mouseup", dropCircle);
+        document.removeEventListener("touchmove", dragCircle);
+        document.removeEventListener("mouseup", stopDrag);
+        document.removeEventListener("touchend", stopDrag);
         setTextBoxOrders();
     }
 
     function dragCircle(e) {
         if (activeCircle) {
             e.preventDefault();
-            const currentX = e.clientX - initialX;
-            const currentY = e.clientY - initialY;
 
-            var newX = offsetX + currentX;
-            var newY = offsetY + currentY;
+            let currentX, currentY;
+
+            if (e.type === "mousemove") {
+                currentX = e.clientX;
+                currentY = e.clientY;
+            } else if (e.type === "touchmove") {
+                currentX = e.touches[0].clientX;
+                currentY = e.touches[0].clientY;
+            }
+
+            const deltaX = currentX - initialX;
+            const deltaY = currentY - initialY;
+
+            const newX = offsetX + deltaX;
+            const newY = offsetY + deltaY;
 
             if (newX > 88 && newX < 590) {
-                activeCircle.style.left = offsetX + currentX + "px";
+                activeCircle.style.left = `${newX}px`;
             }
             if (newY > 48 && newY < 800) {
-                activeCircle.style.top = offsetY + currentY + "px";
+                activeCircle.style.top = `${newY}px`;
             }
 
             setTextBoxOrders();
-        }
-    }
-
-    function dropCircle() {
-        if (activeCircle) {
-            offsetX += parseInt(activeCircle.style.left);
-            offsetY += parseInt(activeCircle.style.top);
-            activeCircle = null;
         }
     }
 });
