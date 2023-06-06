@@ -718,8 +718,8 @@ function captureScreenshotAndDownload() {
     // Extract the values
     var imgX = rect.left + (0.041*rect.width);     // X coordinate 30 730    4.1
     var imgY = rect.top + (0.011*rect.height);      // Y coordinate 10 900    1.1
-    var imgWidth = rect.width + (0.082*rect.width);   // Width -60 730       8.2
-    var imgHeight = rect.height + (0.011*rect.height); // Height -20 900      2.2
+    var imgWidth = rect.width - (0.082*rect.width);   // Width -60 730       8.2
+    var imgHeight = rect.height - (0.011*rect.height); // Height -20 900      2.2
 
     // Print the values
     console.log("x:", imgX);
