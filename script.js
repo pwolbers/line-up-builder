@@ -710,20 +710,30 @@ function setCirclePositions(formationValue) {
 }
 
 
-
-
 // Function to capture screenshot and trigger download
 function captureScreenshotAndDownload() {
-    const windowHeight = window.innerHeight;
-    const windowWidth = window.innerWidth;
+    const divElement = document.getElementById('image-container'); // Replace 'yourDivId' with the actual ID of your div
+    const rect = divElement.getBoundingClientRect();
+
+    // Extract the values
+    var imgX = rect.left + 30;     // X coordinate
+    var imgY = rect.top + 10;      // Y coordinate
+    var imgWidth = rect.width - 60;   // Width
+    var imgHeight = rect.height - 20; // Height
+
+    // Print the values
+    console.log("x:", imgX);
+    console.log("y:", imgY);
+    console.log("width:", imgWidth);
+    console.log("height:", imgHeight);
 
     const options = {
         // Set the x and y coordinates to capture the middle section
-        x: 1000,
-        y: 34,
+        x: imgX,
+        y: imgY,
         // Set the desired width and height for the screenshot
-        width: 635,
-        height: 855
+        width: imgWidth,
+        height: imgHeight
     };
 
     html2canvas(document.documentElement).then(function (canvas) {
@@ -743,6 +753,8 @@ function captureScreenshotAndDownload() {
         const ctx = croppedCanvas.getContext('2d');
 
         // Calculate the scaling factor for the original image
+        const windowWidth = window.innerWidth;
+        console.log("windowWidth: " + windowWidth);
         const scale = canvas.width / windowWidth;
 
         // Calculate the coordinates to crop in the original image
@@ -789,22 +801,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const helpIcon = document.querySelector('.help-icon');
     const popup = document.querySelector('#popup');
     const closeBtn = document.querySelector('#closeBtn');
-  
+
     helpIcon.addEventListener('click', function (event) {
-      event.stopPropagation(); // Prevent click event propagation to the document
-      popup.style.display = 'flex';
+        event.stopPropagation(); // Prevent click event propagation to the document
+        popup.style.display = 'flex';
     });
-  
+
     closeBtn.addEventListener('click', function () {
-      popup.style.display = 'none';
+        popup.style.display = 'none';
     });
-  
+
     document.addEventListener('click', function (event) {
-      if (event.target.id == 'popup') {
-        popup.style.display = 'none'; // Hide the popup when clicking outside of it
-      }
+        if (event.target.id == 'popup') {
+            popup.style.display = 'none'; // Hide the popup when clicking outside of it
+        }
     });
-  });
+});
 
 
 // Initial update on page load
