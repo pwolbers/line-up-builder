@@ -716,10 +716,10 @@ function captureScreenshotAndDownload() {
     const rect = divElement.getBoundingClientRect();
 
     // Extract the values
-    var imgX = rect.left + (0.041*rect.width);     // X coordinate 30 730    4.1
-    var imgY = rect.top + (0.011*rect.height);      // Y coordinate 10 900    1.1
-    var imgWidth = rect.width - (0.082*rect.width);   // Width -60 730       8.2
-    var imgHeight = rect.height - (0.011*rect.height); // Height -20 900      2.2
+    var imgX = rect.left + (0.041 * rect.width);     // X coordinate 30 730    4.1
+    var imgY = rect.top + (0.011 * rect.height);      // Y coordinate 10 900    1.1
+    var imgWidth = rect.width - (0.082 * rect.width);   // Width -60 730       8.2
+    var imgHeight = rect.height - (0.011 * rect.height); // Height -20 900      2.2
 
     // Print the values
     console.log("x:", imgX);
@@ -737,7 +737,47 @@ function captureScreenshotAndDownload() {
         height: imgHeight
     };
 
-    html2canvas(document.documentElement).then(function (canvas) {
+    html2canvas(divElement).then(function (canvas) {
+        // Create a new canvas to hold the trimmed image
+        var trimmedCanvas = document.createElement('canvas');
+        var trimmedContext = trimmedCanvas.getContext('2d');
+
+        // Calculate the trimming dimensions
+        var widthToTrim = canvas.width * 0.05;
+        var heightToTrim = canvas.height * 0.02;
+        var trimmedWidth = canvas.width - (widthToTrim * 2); //5% of the width on both (2) sides
+        var trimmedHeight = canvas.height - (heightToTrim * 2); //5% of the height on both (2) sides
+
+        // Draw the trimmed image onto the new canvas
+        trimmedCanvas.width = trimmedWidth;
+        trimmedCanvas.height = trimmedHeight;
+        trimmedContext.drawImage(
+            canvas,
+            widthToTrim,
+            heightToTrim,
+            trimmedWidth,
+            trimmedHeight,
+            0,
+            0,
+            trimmedWidth,
+            trimmedHeight
+        );
+
+        // Create an anchor element to download the image
+        var link = document.createElement('a');
+        link.href = trimmedCanvas.toDataURL('image/png');
+        const teamName = document.querySelector('#teamNameBox');
+        var teamFileName = teamName.value;
+        teamFileName = teamFileName.replaceAll(' ', '_');
+        teamFileName = teamFileName.replaceAll('/', '_');
+        link.download = teamFileName; // Set the filename for the download
+
+        //document.body.appendChild(link);
+        link.click();
+        //document.body.removeChild(link);
+    });
+
+    /*html2canvas(document.documentElement).then(function (canvas) {
         // Create a new canvas element for the cropped image
         const croppedCanvas = document.createElement('canvas');
         const scaleFactor = 1.64; // 20% reduction factor
@@ -791,7 +831,7 @@ function captureScreenshotAndDownload() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    });
+    });*/
 }
 
 // Attach click event listener to the button
