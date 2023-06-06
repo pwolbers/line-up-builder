@@ -716,16 +716,17 @@ function captureScreenshotAndDownload() {
     const rect = divElement.getBoundingClientRect();
 
     // Extract the values
-    var imgX = rect.left + 30;     // X coordinate
-    var imgY = rect.top + 10;      // Y coordinate
-    var imgWidth = rect.width - 60;   // Width
-    var imgHeight = rect.height - 20; // Height
+    var imgX = rect.left + (0.041*rect.width);     // X coordinate 30 730    4.1
+    var imgY = rect.top + (0.011*rect.height);      // Y coordinate 10 900    1.1
+    var imgWidth = rect.width + (0.082*rect.width);   // Width -60 730       8.2
+    var imgHeight = rect.height + (0.011*rect.height); // Height -20 900      2.2
 
     // Print the values
     console.log("x:", imgX);
     console.log("y:", imgY);
     console.log("width:", imgWidth);
     console.log("height:", imgHeight);
+    console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 
     const options = {
         // Set the x and y coordinates to capture the middle section
