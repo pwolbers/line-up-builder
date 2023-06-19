@@ -1,0 +1,35 @@
+{
+  "teamName": "Manchester United CL 1999",
+  "formation": "4-4-2 flat",
+  "starting": {
+    "#1": "Schmeichel",
+    "#2": "G. Neville",
+    "#3": "Johnsen",
+    "#4": "Stam",
+    "#5": "Irwin",
+    "#6": "Beckham",
+    "#8": "Butt",
+    "#7": "Giggs",
+    "#10": "Blomqvist",
+    "#9": "Yorke",
+    "#11": "Cole"
+  },
+  "backup": {
+    "#1": "Van der Gouw",
+    "#2": "May",
+    "#3": "Brown",
+    "#4": "",
+    "#5": "P. Neville",
+    "#6": "Greening",
+    "#8": "",
+    "#7": "",
+    "#10": "Sheringham",
+    "#9": "Solskjær",
+    "#11": ""
+  },
+  "colors": {
+    "mainColor": "#ff0000",
+    "secondColor": "#000000",
+    "numberColor": "#ffffff"
+  }
+}

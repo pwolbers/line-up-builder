@@ -1,0 +1,35 @@
+{
+  "teamName": "Ajax CL 18/19",
+  "formation": "4-3-3 ",
+  "starting": {
+    "#1": "Onana",
+    "#2": "Mazraoui",
+    "#3": "De Ligt",
+    "#4": "Blind",
+    "#5": "Tagliafico",
+    "#6": "Schöne",
+    "#8": "F. de Jong",
+    "#10": "Van de Beek",
+    "#7": "Ziyech",
+    "#11": "Neres",
+    "#9": "Tadic"
+  },
+  "backup": {
+    "#1": "Varela",
+    "#2": "Veltman",
+    "#3": "",
+    "#4": "",
+    "#5": "Sinkgraven",
+    "#6": "",
+    "#8": "",
+    "#10": "De Wit",
+    "#7": "Labyad",
+    "#11": "",
+    "#9": "Huntelaar | Dolberg"
+  },
+  "colors": {
+    "mainColor": "#000000",
+    "secondColor": "#d2c98b",
+    "numberColor": "#d2c98b"
+  }
+}
