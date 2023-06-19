@@ -1,35 +1,35 @@
 {
   "teamName": "Voorwaarts 2023-2024",
-  "formation": "433",
+  "formation": "451",
   "starting": {
-    "GK": "Jan",
-    "RB": "Martijn",
-    "RCV": "Djarno",
-    "LCV": "Daano",
-    "LB": "Elmo",
-    "DMC": "Stewie",
-    "MC": "Kooij",
-    "AMC": "Alex",
-    "RW": "Pau",
-    "ST": "Peter",
-    "LW": "Joep"
+    "#1": "Jan",
+    "#2": "Martijn",
+    "#3": "Djarno",
+    "#4": "Daano",
+    "#5": "Elmo",
+    "#7": "Pau",
+    "#10": "Alex",
+    "#8": "Stewie",
+    "#11": "Joep",
+    "#6": "Kooij",
+    "#9": "Peter"
   },
   "backup": {
-    "GK": "Burger | Stewie | Kooij | Peter ",
-    "RB": "Johan",
-    "RCV": "Spijker",
-    "LCV": "Gert",
-    "LB": "Bram | Siebe",
-    "DMC": "Willy | Mueller",
-    "MC": "Mathijs | Timo",
-    "AMC": "Christos",
-    "RW": "Harry",
-    "ST": "Burger",
-    "LW": "Luca"
+    "#1": "Burger | Stewie | Kooij | Peter ",
+    "#2": "Johan",
+    "#3": "Spijker",
+    "#4": "Gert",
+    "#5": "Bram | Siebe",
+    "#7": "Burger",
+    "#10": "Harry",
+    "#8": "Christos",
+    "#11": "Willy | Mueller",
+    "#6": "Mathijs | Timo",
+    "#9": "Luca"
   },
   "colors": {
     "mainColor": "#006631",
     "secondColor": "#000000",
-    "numberColor": "#FFFFFF"
+    "numberColor": "#ffffff"
   }
 }

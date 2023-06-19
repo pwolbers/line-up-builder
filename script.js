@@ -19,6 +19,7 @@ const outputBackups = document.querySelectorAll(".outputBackup");
 jsonFileInput.addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file) {
+        console.log("HIIII");
         if (file.name.length > 28) {
             const truncatedFilename = file.name.substring(0, 28) + '...';
             chooseFileButton.textContent = truncatedFilename;
@@ -28,6 +29,7 @@ jsonFileInput.addEventListener('change', function (event) {
         importButton.style.backgroundColor = 'blue';
         importButton.style.display = 'inline-block';
     } else {
+        console.log("BYYYYYYE");
         chooseFileButton.textContent = 'Upload your team here';
         importButton.style.display = 'none';
     }
@@ -78,6 +80,7 @@ window.onload = () => {
 
 //Reads the JSON uploaded and stores it in the textboxes
 importButton.addEventListener('click', function () {
+    console.log("BOO");
     const file = jsonFileInput.files[0];
     if (file) {
         const reader = new FileReader();
@@ -92,17 +95,17 @@ importButton.addEventListener('click', function () {
 
                 startingArray = [];
                 backupArray = [];
-                keyArray = [];
+                startKeyArray = [];
                 for (const [key, value] of Object.entries(jsonData.starting)) {
                     startingArray.push(value);
-                    keyArray.push(key);
+                    startKeyArray.push(key);
                 }
                 for (const [key, value] of Object.entries(jsonData.backup)) {
                     backupArray.push(value);
                     backupKeyArray.push(key);
                 }
 
-                setLineUp();
+                setLineUp(startKeyArray, backupKeyArray);
 
                 var mainColor = getHexCode(jsonData.colors.mainColor);
                 var secondColor = getHexCode(jsonData.colors.secondColor);
@@ -170,6 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 lineUpsObj[teamName].colors.mainColor = jsonData.colors.mainColor;
                 lineUpsObj[teamName].colors.secondColor = jsonData.colors.secondColor;
                 lineUpsObj[teamName].colors.numberColor = jsonData.colors.numberColor;
+                lineUpsObj[teamName].keysArray = Object.keys(jsonData.starting);
             });
         })
         .catch(error => {
@@ -474,23 +478,29 @@ selectTeam.addEventListener("change", function () {
     if (selectedValue === "ajax-22-23") {
         startingArray = lineUpsObj['Ajax 2022-2023'].starting;
         backupArray = lineUpsObj['Ajax 2022-2023'].backup;
+        startKeyArray = lineUpsObj['Ajax 2022-2023'].keysArray;
+        backupKeyArray = lineUpsObj['Ajax 2022-2023'].keysArray;
         setCircleColor(lineUpsObj['Ajax 2022-2023'].colors);
         document.getElementById("teamNameBox").value = "Ajax 2022-2023";
     } else if (selectedValue === "ajax-23-24") {
         startingArray = lineUpsObj['Ajax 2023-2024'].starting;
         backupArray = lineUpsObj['Ajax 2023-2024'].backup;
+        startKeyArray = lineUpsObj['Ajax 2023-2024'].keysArray;
+        backupKeyArray = lineUpsObj['Ajax 2023-2024'].keysArray;
         setCircleColor(lineUpsObj['Ajax 2023-2024'].colors);
         document.getElementById("teamNameBox").value = "Ajax 2023-2024";
     } else if (selectedValue === "voorwaarts-23-24") {
         startingArray = lineUpsObj['Voorwaarts 2023-2024'].starting;
         backupArray = lineUpsObj['Voorwaarts 2023-2024'].backup;
+        startKeyArray = lineUpsObj['Voorwaarts 2023-2024'].keysArray;
+        backupKeyArray = lineUpsObj['Voorwaarts 2023-2024'].keysArray;
         setCircleColor(lineUpsObj['Voorwaarts 2023-2024'].colors);
         document.getElementById("teamNameBox").value = "Voorwaarts 2023-2024";
     } else if (selectedValue === "clear") {
         startingArray = [];
         backupArray = [];
     }
-    setLineUp();
+    setLineUp(startKeyArray, backupKeyArray);
     determineFormation();
 });
 
@@ -531,51 +541,62 @@ function updateCircleColors(colorPickerMain, colorPickerSecond, colorPickerNumbe
 
 }
 
-function setLineUp() {
+function setLineUp(startKeyArray, backupKeyArray) {
     const outputContainer = document.querySelectorAll(".output-container");
+    console.log(startKeyArray.length);
 
-    startingArray.forEach(function (starter, index) {
-        var inputContainers = document.querySelectorAll('.column.starting-column .input-container');
-        inputContainers.forEach(function (inputContainer) {
-            var labelElement = inputContainer.querySelector('label.label-position');
-            if (labelElement.innerHTML == keyArray[index]) {
-                var inputElement = inputContainer.querySelector('input');
-                inputElement.value = starter;
-                outputContainer.forEach(function (outputStarter) {
-                    if (outputStarter.previousElementSibling.innerText == keyArray[index].replace("#", "")) {
-                        var outputElement = outputStarter.querySelector('.outputStarting');
-                        outputElement.innerText = starter;
-                        toggleOutputBoxVisibility(outputElement, starter);
+    if (startKeyArray.length > 0) {
+        startingArray.forEach(function (starter, index) {
+            var inputContainers = document.querySelectorAll('.column.starting-column .input-container');
+            inputContainers.forEach(function (inputContainer) {
+                var labelElement = inputContainer.querySelector('label.label-position');
+                if (labelElement.innerHTML == startKeyArray[index]) {
+                    var inputElement = inputContainer.querySelector('input');
+                    inputElement.value = starter;
+                    outputContainer.forEach(function (outputStarter) {
+                        if (outputStarter.previousElementSibling.innerText == startKeyArray[index].replace("#", "")) {
+                            var outputElement = outputStarter.querySelector('.outputStarting');
+                            outputElement.innerText = starter;
+                            toggleOutputBoxVisibility(outputElement, starter);
 
-                    }
-                });
-            }
-        });
-    });
-
-    backupArray.forEach(function (backup, index) {
-        var inputContainers = document.querySelectorAll('.column.backup-column .input-container');
-        inputContainers.forEach(function (inputContainer) {
-            var labelElement = inputContainer.querySelector('label.label-position');
-            if (labelElement.innerHTML == backupKeyArray[index]) {
-                var inputElement = inputContainer.querySelector('input');
-                inputElement.value = backup;
-                outputContainer.forEach(function (outputBackup) {
-                    if (outputBackup.previousElementSibling.innerText == keyArray[index].replace("#", "")) {
-                        var outputElement = outputBackup.querySelector('.outputBackup');
-                        outputElement.innerText = backup;
-                        toggleOutputBoxVisibility(outputElement, backup);
-
-                    }
-                });
-            }
+                        }
+                    });
+                }
+            });
         });
 
-        toggleOutputBoxVisibility(outputBackups[index], backupBoxes[index].value);
-        outputBackups[index].innerText = backupBoxes[index].value;
-    });
+        backupArray.forEach(function (backup, index) {
+            var inputContainers = document.querySelectorAll('.column.backup-column .input-container');
+            inputContainers.forEach(function (inputContainer) {
+                var labelElement = inputContainer.querySelector('label.label-position');
+                if (labelElement.innerHTML == backupKeyArray[index]) {
+                    var inputElement = inputContainer.querySelector('input');
+                    inputElement.value = backup;
+                    outputContainer.forEach(function (outputBackup) {
+                        if (outputBackup.previousElementSibling.innerText == backupKeyArray[index].replace("#", "")) {
+                            var outputElement = outputBackup.querySelector('.outputBackup');
+                            outputElement.innerText = backup;
+                            toggleOutputBoxVisibility(outputElement, backup);
 
+                        }
+                    });
+                }
+            });
 
+            toggleOutputBoxVisibility(outputBackups[index], backupBoxes[index].value);
+            outputBackups[index].innerText = backupBoxes[index].value;
+        });
+    }
+    else {
+        inputBoxes.forEach((inputBox, index) => {
+            inputBox.value = startingArray[index] || "";
+            toggleOutputBoxVisibility(outputStartings[index], inputBox.value);
+            backupBoxes[index].value = backupArray[index] || "";
+            toggleOutputBoxVisibility(outputBackups[index], backupBoxes[index].value);
+            outputStartings[index].innerText = inputBox.value;
+            outputBackups[index].innerText = backupBoxes[index].value;
+        });
+    }
 }
 
 
@@ -583,10 +604,12 @@ function setLineUp() {
 function updateUploadButton() {
     var selectBox = document.getElementById("select-team");
     var chooseFileButton = document.getElementById("chooseFileButton");
+    var jsonFileInput = document.getElementById("jsonFileInput");
 
     if (selectBox.value !== "clear") {
         chooseFileButton.innerHTML = "Upload your team here";
         importButton.style.display = 'none';
+        jsonFileInput.value = "";
     }
 }
 
