@@ -262,17 +262,18 @@ selectTeam.addEventListener("change", function () {
         setCirclePositions('433');
     }
     else {
-        
         startingArray = lineUpsObj[selectedValue].starting;
         backupArray = lineUpsObj[selectedValue].backup;
         startKeyArray = lineUpsObj[selectedValue].keysArray;
         backupKeyArray = lineUpsObj[selectedValue].keysArray;
+        var formattedFormation = lineUpsObj[selectedValue].formation.replaceAll('-', '').replaceAll(" ", "");
 
-        document.getElementById("select-formation").value = lineUpsObj[selectedValue].formation;
+        document.getElementById("select-formation").value = formattedFormation;
         document.getElementById("teamNameBox").value = selectedValue;
 
         setCircleColor(lineUpsObj[selectedValue].colors);
-        setCirclePositions(lineUpsObj[selectedValue].formation);        
+        setCirclePositions(formattedFormation);
+        determineFormation();
     }
 
     setLineUp(startKeyArray, backupKeyArray);
