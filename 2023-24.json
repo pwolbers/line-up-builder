@@ -1,12 +1,13 @@
 {
-  "info": "Ajax 2023-2024",
+  "teamName": "Ajax 2023-2024",
+  "formation": "433",
   "starting": {
     "GK": "Rulli",
     "RB": "Rensch",
     "RCV": "Timber",
     "LCV": "Hato",
     "LB": "Wijndal",
-    "DMC": "?",
+    "DMC": "Tahirovic",
     "MC": "Van den Boomen",
     "AMC": "Berghuis",
     "RW": "?",
@@ -15,7 +16,7 @@
   },
   "backup": {
     "GK": "Pasveer | Gorter",
-    "RB": "Sanchez",
+    "RB": "?",
     "RCV": "?",
     "LCV": "Kaplan | Bassey",
     "LB": "Salah-Edinne",
@@ -25,5 +26,10 @@
     "RW": "Conceição",
     "ST": "?",
     "LW": "Bergwijn | Godts"
+  },
+  "colors": {
+    "mainColor": "#FF0000",
+    "secondColor": "#FFFFFF",
+    "numberColor": "#FFFFFF"
   }
 }

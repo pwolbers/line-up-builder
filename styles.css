@@ -16,72 +16,70 @@ body {
 }
 
 .textbox-container {
-  width: 65%;
   padding: 20px;
   margin-left: 30px;
   box-sizing: border-box;
 }
 
-/* Additional styling to enhance the appearance */
-.select-box label,
-.input-group label,
-#importButton {
-  margin-right: 5px;
-  display: inline;
+.teamSelectBox {
+  cursor: pointer;
+  background-color: #004D3E;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  transform: skew(-10deg);
+  padding: 5px; /* Adjust the padding to your preference */
+  border: none; /* Remove the default border */
 }
 
-.color-picker {
-  display: inline-block;
-  vertical-align: top;
+
+.teamSelectBox:hover {
+  background-color: rgb(0, 90, 0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .input-group {
-  vertical-align: top;
-  margin-top: -2px;
-  margin-left: 270px;
+  margin-left: 290px;
   display: flex;
   align-items: flex-end;
 }
 
 .select-box label,
 .select-box select {
+  margin-top: 4px;
   margin-left: 15px;
-  display: block;
 }
 
 .newTeam {
   display: flex;
-  align-items: center;
 }
 
 .teamName {
-  margin-right: 230px;
+  margin-right: 60px;
   margin-left: 15px;
-  margin-bottom: 10px;
+}
+
+.teamName label {
+  margin-bottom: 5px;
 }
 
 .color-picker {
-  margin-bottom: 10px;
   margin-right: 20px;
 }
 
-.color-picker label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 12px;
+label {
   font-weight: bold;
+}
+
+.color-picker label {
+  font-size: 12px;
 }
 
 .color-picker input[type="color"] {
   padding: 0;
-  border: solid 1px black;
   width: 30px;
   height: 30px;
-  appearance: none;
-  vertical-align: middle;
   border-radius: 50%;
   cursor: pointer;
-  background: none;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   transition: transform 0.2s;
 }
@@ -100,42 +98,36 @@ body {
   border-radius: 50%;
 }
 
-.color-picker input[type="color"]::-moz-focus-inner {
-  border: none;
-}
-
-.color-picker input[type="color"]::-ms-check {
-  border: none;
-}
-
-.color-picker input[type="color"]::-ms-expand {
-  display: none;
-}
-
 .color-picker input[type="color"]:hover {
   transform: scale(1.1);
 }
 
 .column {
-  position: relative;
   display: inline-block;
-  width: 370px;
-  vertical-align: top;
+  width: 400px;
   margin-right: 20px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  padding: 5px 5px 10px 10px;
+  padding: 5px 0px 2px 0px;
   margin-left: 10px;
 }
 
-.column h2 {
+p, h2, h3, h4, li, option, button, input, label, .formation-label {
   font-family: "Montserrat", sans-serif;
-  font-size: 18px;
+}
+
+label {
+  display: block;
+}
+
+button {
   font-weight: bold;
 }
 
-p, h2, h3, h4, li {
-  font-family: "Montserrat", sans-serif;
+.column h2 {
+  font-size: 18px;
+  color: white;
+  text-align: center;
 }
 
 p, li {
@@ -146,14 +138,9 @@ li {
   margin-left: 15px;
 }
 
-.starting-column {
-  background-color: #e8f1fa;
-  border-right: 2px solid #a6c3d9;
-}
-
-.backup-column {
-  background-color: #d8e5f3;
-  border-left: 2px solid #a6c3d9;
+.starting-column, .backup-column {
+  background: linear-gradient(#32154E, #32154E 98%, #1B1D2C 2%, #1B1D2C);
+  border: 2px solid #383B45;
 }
 
 .label-container {
@@ -169,33 +156,34 @@ li {
 
 .inputBox,
 .backupBox {
-  margin-left: 5px;
+  margin-left: 0px;
   flex: 1;
-  box-sizing: border-box;
 }
 
 .label, .label-position {
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-family: "Montserrat", sans-serif;
+  color:white;
+  margin-top: 3px;
 }
 
 .label{
   width: 40px;
+  padding: 3px 20px 0 15px; /* Add padding to create the border around the label */
+  text-align: left;
 }
 
 .label-position {
   width: 20px;
   font-size: 12px;
   padding-left: 10px;
-  margin-right: 10px;
+  text-align: right;
+  padding: 6px 10px; /* Add padding to create the border around the label */
 }
 
 .input-container {
   display: flex;
-  align-items: center;
+  padding: 5px 0px;
+  border-radius: 3px;
 }
 
 .inputBox {
@@ -205,19 +193,12 @@ li {
 
 .textbox-container input {
   width: 100%;
-  margin-bottom: 15px;
+  background-color: rgb(238, 238, 238);
   padding: 5px;
-  border-radius: 4px;
-  font-family: "Roboto", sans-serif;
   font-size: 14px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
 }
 
-.textbox-container input:hover {
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
 .container {
   display: flex;
@@ -228,6 +209,7 @@ li {
 }
 
 .image-container {
+  display: flex;
   width: 730px;
   height: 900px;
   position: relative;
@@ -236,6 +218,23 @@ li {
   background-size: 100% auto;
   background-position: center top;
   border-radius: 20px;
+}
+
+.formation-label, .copyright {
+  font-family: 'Montserrat', sans-serif;
+  align-self: flex-end;
+  margin-bottom: 25px;
+  color: white;
+}
+
+.formation-label {
+  margin-left: 90px;
+  text-align: left;
+}
+
+.copyright {
+  margin-left: 210px;
+  text-align: right;
 }
 
 .circle:before {
@@ -259,7 +258,7 @@ li {
   position: absolute;
   left: 50%;
   transform: translate(-50%, 50%);
-  display: block;
+  display: none;
   text-align: center;
   padding: 5px;
   background-color: rgba(255, 255, 255, 1);
@@ -289,40 +288,18 @@ li {
 
 .select-box {
   margin-bottom: 10px;
-  display: inline;
 }
-
 
 .input-group label,
 .input-group button {
   margin-left: 10px;
-  
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-family: "Montserrat", sans-serif;
+  margin-bottom: 10px;
 }
 
 .labelHeader {
   color:white;
 }
 
-.select-box select {
-  width: 100%;
-  padding: 5px;
-  border-radius: 4px;
-  font-family: "Roboto", sans-serif;
-  font-size: 14px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease;
-}
-
-.select-box select:hover {
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
 .circle-number {
   color: white;
@@ -343,8 +320,9 @@ label {
 #importButton,
 #downloadButton,
 #screenshotButton {
+  margin-top: 10px;
   padding: 8px 16px;
-  background-color: #4caf50;
+  background-color: #017D3E;
   color: white;
   cursor: pointer;
   border: none;
@@ -362,7 +340,6 @@ label {
 }
 
 #importButton {
-  margin-bottom: 5px;
   display: none;
 }
 
@@ -384,7 +361,7 @@ label {
   top: 10px;
   left: 10px;
   margin-left: 10px;
-  margin-bottom: 8px;
+  margin-bottom: 14px;
   cursor: pointer;
 }
 

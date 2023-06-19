@@ -1,6 +1,8 @@
 const lineUpsObj = {};
 var startingArray = [];
 var backupArray = [];
+var startKeyArray = [];
+var backupKeyArray = [];
 
 const jsonFileInput = document.getElementById('jsonFileInput');
 const chooseFileButton = document.getElementById('chooseFileButton');
@@ -9,6 +11,7 @@ const circles = document.querySelectorAll(".circle");
 
 const inputBoxes = document.querySelectorAll(".inputBox");
 const backupBoxes = document.querySelectorAll(".backupBox");
+
 const outputStartings = document.querySelectorAll(".outputStarting");
 const outputBackups = document.querySelectorAll(".outputBackup");
 
@@ -16,7 +19,12 @@ const outputBackups = document.querySelectorAll(".outputBackup");
 jsonFileInput.addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file) {
-        chooseFileButton.textContent = file.name;
+        if (file.name.length > 28) {
+            const truncatedFilename = file.name.substring(0, 28) + '...';
+            chooseFileButton.textContent = truncatedFilename;
+        } else {
+            chooseFileButton.textContent = file.name;
+        }
         importButton.style.backgroundColor = 'blue';
         importButton.style.display = 'inline-block';
     } else {
@@ -27,36 +35,34 @@ jsonFileInput.addEventListener('change', function (event) {
 
 window.onload = () => {
     setCirclePositions('433');
-    setTextBoxOrders();
-
     var json = {
         "teamName": "Barcelona 2009 CL Final",
         "formation": "433",
         "starting": {
-            "GK": "Valdés",
-            "RB": "Puyol",
-            "RCB": "Touré",
-            "LCB": "Piqué",
-            "LB": "Sylvinho",
-            "DMC": "Busquets",
-            "MCR": "Xavi",
-            "MCL": "Iniesta",
-            "RW": "Messi",
-            "ST": "Eto'o",
-            "LW": "Henry"
+            "#1": "Valdés",
+            "#2": "Puyol",
+            "#3": "Touré",
+            "#4": "Piqué",
+            "#5": "Sylvinho",
+            "#6": "Busquets",
+            "#7": "Messi",
+            "#8": "Xavi",
+            "#9": "Eto'o",
+            "#10": "Iniesta",
+            "#11": "Henry"
         },
         "backup": {
-            "GK": "Pinto",
-            "RB": "",
-            "RCB": "Cáceres",
-            "LCB": "Muniesa",
-            "LB": "",
-            "DMC": "",
-            "MCR": "Keita",
-            "MCL": "",
-            "RW": "Pedro",
-            "ST": "Gudjohnsen",
-            "LW": "Bojan"
+            "#1": "Pinto",
+            "#2": "",
+            "#3": "Cáceres",
+            "#4": "Muniesa",
+            "#5": "",
+            "#6": "",
+            "#7": "Pedro",
+            "#8": "Keita",
+            "#9": "Gudjohnsen",
+            "#10": "",
+            "#11": "Bojan"
         },
         "colors": {
             "mainColor": "#004D98",
@@ -81,22 +87,35 @@ importButton.addEventListener('click', function () {
             const startingCount = Object.keys(jsonData.starting).length;
             const backupCount = Object.keys(jsonData.backup).length;
             if (startingCount == 11 && backupCount == 11) {
+
+                setCirclePositions(jsonData.formation.replaceAll('-', ''));
+
                 startingArray = [];
                 backupArray = [];
+                keyArray = [];
                 for (const [key, value] of Object.entries(jsonData.starting)) {
                     startingArray.push(value);
+                    keyArray.push(key);
                 }
                 for (const [key, value] of Object.entries(jsonData.backup)) {
                     backupArray.push(value);
+                    backupKeyArray.push(key);
                 }
+
                 setLineUp();
-                setCirclePositions(jsonData.formation.replaceAll('-', ''));
-                document.getElementById("colorPickerMain").value = jsonData.colors.mainColor;
-                document.getElementById("colorPickerSecond").value = jsonData.colors.secondColor;
-                document.getElementById("colorPickerNumber").value = jsonData.colors.numberColor;
+
+                var mainColor = getHexCode(jsonData.colors.mainColor);
+                var secondColor = getHexCode(jsonData.colors.secondColor);
+                var numberColor = getHexCode(jsonData.colors.numberColor);
+
+                document.getElementById("colorPickerMain").value = mainColor;
+                document.getElementById("colorPickerSecond").value = secondColor;
+                document.getElementById("colorPickerNumber").value = numberColor;
+
                 updateCircleColors(jsonData.colors.mainColor, jsonData.colors.secondColor, jsonData.colors.numberColor);
 
                 document.getElementById("teamNameBox").value = jsonData.teamName;
+                setTextBoxOrders();
             }
             else {
                 alert("Uploaded JSON not valid. Please check the help button for the correct JSON format.");
@@ -104,11 +123,33 @@ importButton.addEventListener('click', function () {
 
         };
         reader.readAsText(file);
+        chooseFileButton.innerHTML = "Upload your team here";
+        importButton.style.display = 'none';
+
     } else {
         console.log('No file selected.');
     }
 });
 
+function getHexCode(color) {
+    if (color.startsWith('#')) {
+        return color;
+    }
+
+    var tempElement = document.createElement('div');
+    tempElement.style.color = color;
+    document.body.appendChild(tempElement);
+    var computedColor = window.getComputedStyle(tempElement).color;
+    document.body.removeChild(tempElement);
+
+    var rgbValues = computedColor.match(/\d+/g);
+    var hexValues = rgbValues.map(function (value) {
+        var hex = parseInt(value).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+    });
+    var hexColor = '#' + hexValues.join('');
+    return hexColor;
+}
 
 //Pre loads the JSON files stored locally
 document.addEventListener("DOMContentLoaded", function () {
@@ -120,11 +161,15 @@ document.addEventListener("DOMContentLoaded", function () {
             data.forEach(jsonData => {
                 // Access the data for each JSON file
                 const teamName = jsonData.teamName;
-                const starting = Object.values(jsonData.starting);
-                const backup = Object.values(jsonData.backup);
                 lineUpsObj[teamName] = {};
-                lineUpsObj[teamName].starting = starting;
-                lineUpsObj[teamName].backup = backup;
+                lineUpsObj[teamName].teamName = teamName;
+                lineUpsObj[teamName].formation = jsonData.formation;
+                lineUpsObj[teamName].starting = Object.values(jsonData.starting);
+                lineUpsObj[teamName].backup = Object.values(jsonData.backup);
+                lineUpsObj[teamName].colors = {};
+                lineUpsObj[teamName].colors.mainColor = jsonData.colors.mainColor;
+                lineUpsObj[teamName].colors.secondColor = jsonData.colors.secondColor;
+                lineUpsObj[teamName].colors.numberColor = jsonData.colors.numberColor;
             });
         })
         .catch(error => {
@@ -171,8 +216,6 @@ circles.forEach((circle, index) => {
         }
         offsetX = activeCircle.offsetLeft;
         offsetY = activeCircle.offsetTop;
-        console.log(offsetX);
-        console.log(offsetY);
         document.addEventListener("mousemove", dragCircle);
         document.addEventListener("touchmove", dragCircle, { passive: false });
         document.addEventListener("mouseup", stopDrag);
@@ -216,6 +259,7 @@ circles.forEach((circle, index) => {
             }
 
             setTextBoxOrders();
+            determineFormation();
         }
     }
 });
@@ -249,7 +293,7 @@ function setTextBoxOrders() {
 function addInputContainersInOrder(containers, circleArray, column) {
     var listOfDivs = [];
     for (var i = 0; i < containers.length; i++) {
-        //Gets current order of divs as it stands (7 9 11)
+        //Gets current order of divs as it stands
         var inputElement = containers[i].querySelector('input[class*="pos"]');
         if (inputElement) {
             listOfDivs.push(containers[i]);
@@ -265,16 +309,22 @@ function addInputContainersInOrder(containers, circleArray, column) {
         var column = document.querySelector('.backup-column');
 
     }
-    //Adds the elements back in the right order (7 11 9)
-    circleArray.forEach(function (orderObj) {
+    //Adds the elements back in the right order
+    var i = 0;
+    circleArray.forEach(function (orderObj, i) {
         var posClass = orderObj.pos;
         var element = listOfDivs.find(function (el) {
             return el.querySelector('input.' + posClass);
         });
 
         if (element) {
-            //7 11 9
             column.appendChild(element);
+            if (i % 2 == 0) {
+                element.style.backgroundColor = "#1B1D2C";
+            }
+            else {
+                element.style.backgroundColor = "#32154E";
+            }
         }
     });
 }
@@ -300,18 +350,18 @@ function getCurrentCircleOrder() {
         circleArray.push(circleObj);
     });
     circleArray.sort((a, b) => {
+        //Adds a buffer of 75px (if within 75px, it's considered the same y)
         if (Math.abs(a.y - b.y) < 50) {
             return a.x > b.x ? -1 : 1
         } else {
             return a.y > b.y ? -1 : 1
         }
     })
-
     return circleArray;
 }
+
 //Shows/hides textboxes below circles based on input
 function toggleOutputBoxVisibility(box, inputValue) {
-
     if (inputValue.trim() !== "") {
         box.style.display = "block";
     } else if (box.style.display != "none") {
@@ -324,85 +374,95 @@ function determineLabel(xPos, yPos, index) {
     const inputBoxes = document.querySelectorAll(".inputBox");
     const backupBoxes = document.querySelectorAll(".backupBox");
     const labels = document.querySelectorAll(".label");
-    if (xPos >= 200 && xPos <= 440 && yPos >= 675 && yPos <= 750) {
-        labels[index].innerHTML = "GK:";
-        labels[index + 11].innerHTML = "GK:";
-        inputBoxes[index].placeholder = "Starting GK ";
+    if (xPos >= 190 && xPos <= 490 && yPos >= 675 && yPos <= 800) {
+        labels[index].innerHTML = "GK";
+        labels[index + 11].innerHTML = "GK";
+        inputBoxes[index].placeholder = "Starting GK";
         backupBoxes[index].placeholder = "Back-up GK";
-    } else if (xPos >= 490 && xPos <= 610 && yPos >= 535 && yPos <= 760) {
-        labels[index].innerHTML = "RB:";
-        labels[index + 11].innerHTML = "RB:";
-        inputBoxes[index].placeholder = "Starting RB ";
+    } else if (xPos >= 490 && xPos <= 610 && yPos >= 535 && yPos <= 800) {
+        labels[index].innerHTML = "RB";
+        labels[index + 11].innerHTML = "RB";
+        inputBoxes[index].placeholder = "Starting RB";
         backupBoxes[index].placeholder = "Back-up RB";
-    } else if (xPos >= 70 && xPos <= 190 && yPos >= 535 && yPos <= 760) {
-        labels[index].innerHTML = "LB:";
-        labels[index + 11].innerHTML = "LB:";
+    } else if (xPos >= 70 && xPos <= 190 && yPos >= 535 && yPos <= 800) {
+        labels[index].innerHTML = "LB";
+        labels[index + 11].innerHTML = "LB";
         inputBoxes[index].placeholder = "Starting LB ";
         backupBoxes[index].placeholder = "Back-up LB";
     } else if (xPos >= 400 && xPos <= 490 && yPos >= 535 && yPos <= 675) {
-        labels[index].innerHTML = "RCB:";
-        labels[index + 11].innerHTML = "RCB:";
-        inputBoxes[index].placeholder = "Starting RCB ";
+        labels[index].innerHTML = "RCB";
+        labels[index + 11].innerHTML = "RCB";
+        inputBoxes[index].placeholder = "Starting RCB";
         backupBoxes[index].placeholder = "Back-up RCB";
     } else if (xPos >= 280 && xPos <= 400 && yPos >= 535 && yPos <= 675) {
-        labels[index].innerHTML = "CB:";
-        labels[index + 11].innerHTML = "CB:";
-        inputBoxes[index].placeholder = "Starting CB "
+        labels[index].innerHTML = "CB";
+        labels[index + 11].innerHTML = "CB";
+        inputBoxes[index].placeholder = "Starting CB"
         backupBoxes[index].placeholder = "Back-up CB";
     } else if (xPos >= 190 && xPos <= 280 && yPos >= 535 && yPos <= 675) {
-        labels[index].innerHTML = "LCB:";
-        labels[index + 11].innerHTML = "LCB:";
-        inputBoxes[index].placeholder = "Starting LCB ";
+        labels[index].innerHTML = "LCB";
+        labels[index + 11].innerHTML = "LCB";
+        inputBoxes[index].placeholder = "Starting LCB";
         backupBoxes[index].placeholder = "Back-up LCB";
     } else if (xPos >= 490 && xPos <= 610 && yPos >= 424 && yPos <= 535) {
-        labels[index].innerHTML = "RWB:";
-        labels[index + 11].innerHTML = "RWB:";
+        labels[index].innerHTML = "RWB";
+        labels[index + 11].innerHTML = "RWB";
         inputBoxes[index].placeholder = "Starting RWB";
         backupBoxes[index].placeholder = "Back-up RWB";
-    } else if (xPos >= 190 && xPos <= 490 && yPos >= 424 && yPos <= 535) {
-        labels[index].innerHTML = "DMC:";
-        labels[index + 11].innerHTML = "DMC:";
-        inputBoxes[index].placeholder = "Starting DMC ";
+    } else if (xPos >= 400 && xPos <= 490 && yPos >= 424 && yPos <= 535) {
+        labels[index].innerHTML = "DMCR";
+        labels[index + 11].innerHTML = "DMCR";
+        inputBoxes[index].placeholder = "Starting DMCR";
+        backupBoxes[index].placeholder = "Back-up DMCR";
+    } else if (xPos >= 280 && xPos <= 400 && yPos >= 424 && yPos <= 535) {
+        labels[index].innerHTML = "DMC";
+        labels[index + 11].innerHTML = "DMC";
+        inputBoxes[index].placeholder = "Starting DMC";
         backupBoxes[index].placeholder = "Back-up DMC";
+    } else if (xPos >= 190 && xPos <= 280 && yPos >= 424 && yPos <= 535) {
+        labels[index].innerHTML = "DMCL";
+        labels[index + 11].innerHTML = "DMCL";
+        inputBoxes[index].placeholder = "Starting DMCL";
+        backupBoxes[index].placeholder = "Back-up DMCL";
     } else if (xPos >= 70 && xPos <= 190 && yPos >= 424 && yPos <= 535) {
-        labels[index].innerHTML = "LWB:";
-        labels[index + 11].innerHTML = "LWB:";
-        inputBoxes[index].placeholder = "Starting LWB ";
+        labels[index].innerHTML = "LWB";
+        labels[index + 11].innerHTML = "LWB";
+        inputBoxes[index].placeholder = "Starting LWB";
         backupBoxes[index].placeholder = "Back-up LWB";
     } else if (xPos >= 490 && xPos <= 610 && yPos >= 280 && yPos <= 424) {
-        labels[index].innerHTML = "RM:";
-        labels[index + 11].innerHTML = "RM:";
-        inputBoxes[index].placeholder = "Starting RM ";
+        labels[index].innerHTML = "RM";
+        labels[index + 11].innerHTML = "RM";
+        inputBoxes[index].placeholder = "Starting RM";
         backupBoxes[index].placeholder = "Back-up RM";
     } else if (xPos >= 190 && xPos <= 490 && yPos >= 300 && yPos <= 424) {
-        labels[index].innerHTML = "MC:";
-        labels[index + 11].innerHTML = "MC:";
-        inputBoxes[index].placeholder = "Starting MC ";
+        labels[index].innerHTML = "MC";
+        labels[index + 11].innerHTML = "MC";
+        inputBoxes[index].placeholder = "Starting MC";
         backupBoxes[index].placeholder = "Back-up MC";
     } else if (xPos >= 70 && xPos <= 190 && yPos >= 280 && yPos <= 424) {
-        labels[index].innerHTML = "LM:";
-        labels[index + 11].innerHTML = "LM:";
-        inputBoxes[index].placeholder = "Starting LM ";
+        labels[index].innerHTML = "LM";
+        labels[index + 11].innerHTML = "LM";
+        inputBoxes[index].placeholder = "Starting LM";
         backupBoxes[index].placeholder = "Back-up LM";
     } else if (xPos >= 490 && xPos <= 610 && yPos >= 35 && yPos <= 280) {
-        labels[index].innerHTML = "RW:";
-        labels[index + 11].innerHTML = "RW:";
-        inputBoxes[index].placeholder = "Starting RW ";
+        labels[index].innerHTML = "RW";
+        labels[index + 11].innerHTML = "RW";
+        inputBoxes[index].placeholder = "Starting RW";
         backupBoxes[index].placeholder = "Back-up RW";
     } else if (xPos >= 190 && xPos <= 490 && yPos >= 185 && yPos <= 300) {
-        labels[index].innerHTML = "AMC:";
-        labels[index + 11].innerHTML = "AMC:";
-        inputBoxes[index].placeholder = "Starting AMC ";
+        labels[index].innerHTML = "AMC";
+        labels[index + 11].innerHTML = "AMC";
+        inputBoxes[index].placeholder = "Starting AMC";
         backupBoxes[index].placeholder = "Back-up AMC";
     } else if (xPos >= 70 && xPos <= 190 && yPos >= 35 && yPos <= 280) {
-        labels[index].innerHTML = "LW:";
-        labels[index + 11].innerHTML = "LW:";
-        inputBoxes[index].placeholder = "Starting LW ";
+        labels[index].innerHTML = "LW";
+        labels[index + 11].innerHTML = "LW";
+        inputBoxes[index].placeholder = "Starting LW";
         backupBoxes[index].placeholder = "Back-up LW";
     } else if (xPos >= 200 && xPos <= 440 && yPos >= 35 && yPos <= 185) {
-        labels[index].innerHTML = "ST:";
-        labels[index + 11].innerHTML = "ST:";
-        inputBoxes[index].placeholder = "Starting ST ";
+        labels[index].innerHTML = "ST";
+        labels[index + 11].innerHTML = "ST";
+        inputBoxes[index].placeholder = "Starting ST";
         backupBoxes[index].placeholder = "Back-up ST";
     }
 }
@@ -414,46 +474,43 @@ selectTeam.addEventListener("change", function () {
     if (selectedValue === "ajax-22-23") {
         startingArray = lineUpsObj['Ajax 2022-2023'].starting;
         backupArray = lineUpsObj['Ajax 2022-2023'].backup;
+        setCircleColor(lineUpsObj['Ajax 2022-2023'].colors);
+        document.getElementById("teamNameBox").value = "Ajax 2022-2023";
     } else if (selectedValue === "ajax-23-24") {
         startingArray = lineUpsObj['Ajax 2023-2024'].starting;
         backupArray = lineUpsObj['Ajax 2023-2024'].backup;
+        setCircleColor(lineUpsObj['Ajax 2023-2024'].colors);
+        document.getElementById("teamNameBox").value = "Ajax 2023-2024";
     } else if (selectedValue === "voorwaarts-23-24") {
         startingArray = lineUpsObj['Voorwaarts 2023-2024'].starting;
         backupArray = lineUpsObj['Voorwaarts 2023-2024'].backup;
+        setCircleColor(lineUpsObj['Voorwaarts 2023-2024'].colors);
+        document.getElementById("teamNameBox").value = "Voorwaarts 2023-2024";
     } else if (selectedValue === "clear") {
         startingArray = [];
         backupArray = [];
     }
-
-    //Changes color of the jersey
-    if (selectedValue.indexOf('oorwaarts') > -1) {
-        const circleClass = document.querySelectorAll(".circle");
-        for (var i = 1; i < circleClass.length; i++) {
-            circleClass[i].style.backgroundColor = '#006631';
-            circleClass[i].style.borderColor = '#000000';
-            circleClass[i].querySelector(".circle-number").style.color = '#FFFFFF';
-
-            document.getElementById("colorPickerMain").value = '#006631';
-            document.getElementById("colorPickerSecond").value = '#000000';
-            document.getElementById("colorPickerNumber").value = '#FFFFFF';
-        }
-    }
-    else {
-        const circleClass = document.querySelectorAll(".circle");
-        for (var i = 1; i < circleClass.length; i++) {
-            circleClass[i].style.backgroundColor = '#FF0000';
-            circleClass[i].style.borderColor = '#FFFFFF';
-            circleClass[i].querySelector(".circle-number").style.color = '#FFFFFF';
-
-            document.getElementById("colorPickerMain").value = '#FF0000';
-            document.getElementById("colorPickerSecond").value = '#FFFFFF';
-            document.getElementById("colorPickerNumber").value = '#FFFFFF';
-        }
-    }
-
     setLineUp();
-
+    determineFormation();
 });
+
+function setCircleColor(colors) {
+    const circleClass = document.querySelectorAll(".circle");
+    for (var i = 1; i < circleClass.length; i++) {
+
+        var mainColor = getHexCode(colors.mainColor);
+        var secondColor = getHexCode(colors.secondColor);
+        var numberColor = getHexCode(colors.numberColor);
+
+        circleClass[i].style.backgroundColor = mainColor;
+        circleClass[i].style.borderColor = secondColor;
+        circleClass[i].querySelector(".circle-number").style.color = numberColor;
+
+        document.getElementById("colorPickerMain").value = mainColor;
+        document.getElementById("colorPickerSecond").value = secondColor;
+        document.getElementById("colorPickerNumber").value = numberColor;
+    }
+}
 
 function updateCircleColors(colorPickerMain, colorPickerSecond, colorPickerNumber) {
     if (colorPickerMain == null) {
@@ -475,16 +532,53 @@ function updateCircleColors(colorPickerMain, colorPickerSecond, colorPickerNumbe
 }
 
 function setLineUp() {
-    //Sets the value of each output textbox
-    inputBoxes.forEach((inputBox, index) => {
-        inputBox.value = startingArray[index] || "";
-        toggleOutputBoxVisibility(outputStartings[index], inputBox.value);
-        backupBoxes[index].value = backupArray[index] || "";
+    const outputContainer = document.querySelectorAll(".output-container");
+
+    startingArray.forEach(function (starter, index) {
+        var inputContainers = document.querySelectorAll('.column.starting-column .input-container');
+        inputContainers.forEach(function (inputContainer) {
+            var labelElement = inputContainer.querySelector('label.label-position');
+            if (labelElement.innerHTML == keyArray[index]) {
+                var inputElement = inputContainer.querySelector('input');
+                inputElement.value = starter;
+                outputContainer.forEach(function (outputStarter) {
+                    if (outputStarter.previousElementSibling.innerText == keyArray[index].replace("#", "")) {
+                        var outputElement = outputStarter.querySelector('.outputStarting');
+                        outputElement.innerText = starter;
+                        toggleOutputBoxVisibility(outputElement, starter);
+
+                    }
+                });
+            }
+        });
+    });
+
+    backupArray.forEach(function (backup, index) {
+        var inputContainers = document.querySelectorAll('.column.backup-column .input-container');
+        inputContainers.forEach(function (inputContainer) {
+            var labelElement = inputContainer.querySelector('label.label-position');
+            if (labelElement.innerHTML == backupKeyArray[index]) {
+                var inputElement = inputContainer.querySelector('input');
+                inputElement.value = backup;
+                outputContainer.forEach(function (outputBackup) {
+                    if (outputBackup.previousElementSibling.innerText == keyArray[index].replace("#", "")) {
+                        var outputElement = outputBackup.querySelector('.outputBackup');
+                        outputElement.innerText = backup;
+                        toggleOutputBoxVisibility(outputElement, backup);
+
+                    }
+                });
+            }
+        });
+
         toggleOutputBoxVisibility(outputBackups[index], backupBoxes[index].value);
-        outputStartings[index].innerText = inputBox.value;
         outputBackups[index].innerText = backupBoxes[index].value;
     });
+
+
 }
+
+
 
 function updateUploadButton() {
     var selectBox = document.getElementById("select-team");
@@ -496,26 +590,22 @@ function updateUploadButton() {
     }
 }
 
-//Creates a JSON based on the line up made by the user
-document.getElementById('downloadButton').addEventListener('click', function () {
-    // Create JSON data
-    const jsonData = { "teamName": "", "formation": "", "starting": {}, "backup": {}, "colors": {} };
-
+function determineFormation() {
     const defenseArr = ['RB', 'RCB', 'CB', 'LCB', 'LB', 'RWB', 'LWB'];
-    const midfieldArr = ['DMC', 'RM', 'LM', 'MC', 'AMC'];
+    const midfieldArr = ['DMCR', 'DMC', 'DMCL', 'RM', 'LM', 'MC', 'AMC'];
     const attackArr = ['RW', 'LW', 'ST'];
 
     let defenseNr = 0;
     let midfieldNr = 0;
     let attackNr = 0;
 
-    const teamName = document.querySelector('#teamNameBox');
-    jsonData.teamName = teamName.value;
     const startingContainers = document.querySelectorAll('.column.starting-column .input-container');
-    startingContainers.forEach((container, index) => {
+    const lineupArray = [];
+    startingContainers.forEach((container) => {
         let label = container.querySelector('.label').textContent;
         const input = container.querySelector('.inputBox').value;
         label = label.replaceAll(":", "");
+        lineupArray.push(label);
         if (defenseArr.includes(label)) {
             defenseNr++;
         }
@@ -525,42 +615,53 @@ document.getElementById('downloadButton').addEventListener('click', function () 
         else if (attackArr.includes(label)) {
             attackNr++;
         }
-        if (Object.keys(jsonData.starting).includes(label)) {
-            let newLabel = label + "2"; // Append "2" to the existing label
-            let counter = 3;
-
-            // Generate a new label by adding a number suffix until a unique label is found
-            while (Object.keys(jsonData.starting).includes(newLabel)) {
-                newLabel = label + counter;
-                counter++;
-            }
-            jsonData.starting[newLabel] = input; // Add the input with the new label
-        } else {
-            jsonData.starting[label] = input;
-        }
     });
-
     let formation = "" + defenseNr + midfieldNr + attackNr;
+    if (formation == '433') {
+        if (lineupArray.includes('DMCR') && lineupArray.includes('DMCL') && lineupArray.includes('AMC')) {
+            formation = '4231';
+        }
+    }
+    if (formation == '442') {
+        if (lineupArray.includes('DMC') && lineupArray.includes('AMC')) {
+            formation = '442diamond';
+        }
+        else if (lineupArray.includes('LM') && lineupArray.includes('RM')) {
+            formation = '442flat';
+        }
+    }
+
+    var formationLabel = document.querySelector('.formation-label');
+    formationLabel.textContent = 'Formation: ' + formation;
+
+    return formation;
+}
+
+//Creates a JSON based on the line up made by the user
+document.getElementById('downloadButton').addEventListener('click', function () {
+    // Create JSON data
+    const jsonData = { "teamName": "", "formation": "", "starting": {}, "backup": {}, "colors": {} };
+
+    let formation = determineFormation();
     jsonData.formation = formation;
+
+    const teamName = document.querySelector('#teamNameBox');
+    jsonData.teamName = teamName.value;
+
+    const startingContainers = document.querySelectorAll('.column.starting-column .input-container');
+    startingContainers.forEach((container) => {
+        let label = container.querySelector('.label-position').textContent;
+        const input = container.querySelector('.inputBox').value;
+        jsonData.starting[label] = input;
+
+    });
 
     const backupContainers = document.querySelectorAll('.column.backup-column .input-container');
     backupContainers.forEach((container, index) => {
-        let label = container.querySelector('.label').textContent;
+        let label = container.querySelector('.label-position').textContent;
         const input = container.querySelector('.backupBox').value;
-        label = label.replaceAll(":", "");
-        if (Object.keys(jsonData.backup).includes(label)) {
-            let newLabel = label + "2"; // Append "2" to the label
-            let counter = 3;
+        jsonData.backup[label] = input;
 
-            // Generate a new label by adding a number suffix until a unique label is found
-            while (Object.keys(jsonData.backup).includes(newLabel)) {
-                newLabel = label + counter;
-                counter++;
-            }
-            jsonData.backup[newLabel] = input; // Add the input with the new label
-        } else {
-            jsonData.backup[label] = input;
-        }
     });
 
     var keysToUseST = getExistingKeys(jsonData.starting);
@@ -608,7 +709,7 @@ document.getElementById('downloadButton').addEventListener('click', function () 
     // Programmatically click the anchor element to trigger the download
     if (teamName.value == '') {
         const reminder = document.getElementById('reminderLabel');
-        reminder.style.display = 'block';
+        reminder.style.display = "inline";
     }
     else {
         // Set the file name
@@ -638,10 +739,12 @@ const selectFormation = document.getElementById("select-formation");
 selectFormation.addEventListener("change", function () {
     const selectedValue = this.value;
     setCirclePositions(selectedValue);
+    determineFormation();
     setTextBoxOrders();
 });
 
 function setCirclePositions(formationValue) {
+    const circles = document.querySelectorAll(".circle");
     if (formationValue === "442flat") {
         circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
         circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
@@ -652,8 +755,8 @@ function setCirclePositions(formationValue) {
         circles[6].style.top = '47%'; circles[6].style.left = '36%';    //#8
         circles[7].style.top = '37%'; circles[7].style.left = '16%';    //#10
         circles[8].style.top = '37%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
-        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
+        circles[9].style.top = '10%'; circles[9].style.left = '34%';    //#11
+        circles[10].style.top = '10%'; circles[10].style.left = '60%';  //#9
     } else if (formationValue === "442diamond") {
         circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
         circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
@@ -664,8 +767,8 @@ function setCirclePositions(formationValue) {
         circles[6].style.top = '40%'; circles[6].style.left = '28%';    //#8
         circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
         circles[8].style.top = '40%'; circles[8].style.left = '66%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
-        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
+        circles[9].style.top = '10%'; circles[9].style.left = '34%';    //#11
+        circles[10].style.top = '10%'; circles[10].style.left = '60%';  //#9
     } else if (formationValue === "451" || formationValue === "4231") {
         circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
         circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
@@ -676,8 +779,8 @@ function setCirclePositions(formationValue) {
         circles[6].style.top = '48%'; circles[6].style.left = '36%';    //#8
         circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
         circles[8].style.top = '28%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '46.5%';  //#9
-        circles[10].style.top = '28%'; circles[10].style.left = '16%';  //#11
+        circles[9].style.top = '28%'; circles[9].style.left = '16%';  //#11
+        circles[10].style.top = '10%'; circles[10].style.left = '46.5%';  //#9
     } else if (formationValue === "532") {
         circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
         circles[1].style.top = '68%'; circles[1].style.left = '67%';    //#2
@@ -688,8 +791,8 @@ function setCirclePositions(formationValue) {
         circles[6].style.top = '53%'; circles[6].style.left = '36%';    //#8
         circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
         circles[8].style.top = '53%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
-        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
+        circles[9].style.top = '10%'; circles[9].style.left = '34%';    //#9
+        circles[10].style.top = '10%'; circles[10].style.left = '60%';  //#11
     } else if (formationValue === "343") {
         circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
         circles[1].style.top = '65%'; circles[1].style.left = '67%';    //#2
@@ -700,8 +803,8 @@ function setCirclePositions(formationValue) {
         circles[6].style.top = '40%'; circles[6].style.left = '28%';    //#8
         circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
         circles[8].style.top = '18%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '46.5%';  //#9
-        circles[10].style.top = '18%'; circles[10].style.left = '16%';  //#11
+        circles[9].style.top = '18%'; circles[9].style.left = '16%';  //#11
+        circles[10].style.top = '10%'; circles[10].style.left = '46.5%';  //#9
     } else { //4-3-3
         circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
         circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
@@ -710,16 +813,18 @@ function setCirclePositions(formationValue) {
         circles[4].style.top = '63%'; circles[4].style.left = '16%';    //#5
         circles[5].style.top = '52%'; circles[5].style.left = '46.5%';  //#6
         circles[6].style.top = '38%'; circles[6].style.left = '33%';    //#8
-        circles[7].style.top = '32%'; circles[7].style.left = '60%';    //#10
+        circles[7].style.top = '30%'; circles[7].style.left = '60%';    //#10
         circles[8].style.top = '18%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '46.5%';  //#9
-        circles[10].style.top = '18%'; circles[10].style.left = '16%';  //#11
+        circles[9].style.top = '18%'; circles[9].style.left = '16%';  //#11
+        circles[10].style.top = '10%'; circles[10].style.left = '46.5%';  //#9
     }
+    setTextBoxOrders();
     circles.forEach((circle, index) => {
         var posX = (parseInt(circle.style.left) / 100) * 730;
         var posY = (parseInt(circle.style.top) / 100) * 900;
         determineLabel(posX, posY, index);
     });
+    setTextBoxOrders();
 }
 
 
@@ -733,13 +838,6 @@ function captureScreenshotAndDownload() {
     var imgY = rect.top + (0.011 * rect.height);      // Y coordinate 10 900    1.1
     var imgWidth = rect.width - (0.082 * rect.width);   // Width -60 730       8.2
     var imgHeight = rect.height - (0.011 * rect.height); // Height -20 900      2.2
-
-    // Print the values
-    console.log("x:", imgX);
-    console.log("y:", imgY);
-    console.log("width:", imgWidth);
-    console.log("height:", imgHeight);
-    console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 
     const options = {
         // Set the x and y coordinates to capture the middle section
@@ -789,62 +887,6 @@ function captureScreenshotAndDownload() {
         link.click();
         //document.body.removeChild(link);
     });
-
-    /*html2canvas(document.documentElement).then(function (canvas) {
-        // Create a new canvas element for the cropped image
-        const croppedCanvas = document.createElement('canvas');
-        const scaleFactor = 1.64; // 20% reduction factor
-
-        // Calculate the cropped dimensions based on the reduction factor
-        const croppedWidth = options.width * scaleFactor;
-        const croppedHeight = options.height * scaleFactor;
-
-        // Set the dimensions of the cropped canvas
-        croppedCanvas.width = croppedWidth;
-        croppedCanvas.height = croppedHeight;
-
-        // Get the context of the cropped canvas
-        const ctx = croppedCanvas.getContext('2d');
-
-        // Calculate the scaling factor for the original image
-        const windowWidth = window.innerWidth;
-        console.log("windowWidth: " + windowWidth);
-        const scale = canvas.width / windowWidth;
-
-        // Calculate the coordinates to crop in the original image
-        const cropX = options.x * scale;
-        const cropY = options.y * scale;
-
-        // Crop the desired portion from the original screenshot
-        ctx.drawImage(
-            canvas,
-            cropX,
-            cropY,
-            options.width * scale,
-            options.height * scale,
-            0,
-            0,
-            croppedWidth,
-            croppedHeight
-        );
-
-        // Convert the cropped canvas content to a data URL
-        const screenshotData = croppedCanvas.toDataURL('image/png');
-
-        // Create an "anchor" element
-        const link = document.createElement('a');
-        link.href = screenshotData;
-        const teamName = document.querySelector('#teamNameBox');
-        var teamFileName = teamName.value;
-        teamFileName = teamFileName.replaceAll(' ', '_');
-        teamFileName = teamFileName.replaceAll('/', '_');
-        link.download = teamFileName; // Set the filename for the download
-
-        // Programmatically trigger the download
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    });*/
 }
 
 // Attach click event listener to the button

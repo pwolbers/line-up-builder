@@ -1,5 +1,6 @@
 {
-  "info": "Ajax 2022-2023",
+  "teamName": "Ajax 2022-2023",
+  "formation": "433",
   "starting": {
     "GK": "Rulli",
     "RB": "Rensch",
@@ -25,5 +26,10 @@
     "RW": "Conceição",
     "ST": "Lucca",
     "LW": "Bergwijn | Godts"
+  },
+  "colors": {
+    "mainColor": "#FF0000",
+    "secondColor": "#FFFFFF",
+    "numberColor": "#FFFFFF"
   }
 }

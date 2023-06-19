@@ -1,5 +1,6 @@
 {
-  "info": "Voorwaarts 2023-2024",
+  "teamName": "Voorwaarts 2023-2024",
+  "formation": "433",
   "starting": {
     "GK": "Jan",
     "RB": "Martijn",
@@ -25,5 +26,10 @@
     "RW": "Harry",
     "ST": "Burger",
     "LW": "Luca"
+  },
+  "colors": {
+    "mainColor": "#006631",
+    "secondColor": "#000000",
+    "numberColor": "#FFFFFF"
   }
 }
