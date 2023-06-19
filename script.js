@@ -257,11 +257,14 @@ const selectTeam = document.getElementById("select-team");
 selectTeam.addEventListener("change", function () {
     const selectedValue = this.value;
     if (selectedValue === "clear") {
-        startingArray = [];
-        backupArray = [];
+        startingArray = ['','','','','','','','','','',''];
+        backupArray = ['','','','','','','','','','',''];
+        const defaultColors = {mainColor: '#ff0000', secondColor: '#ffffff', numberColor: '#ffffff'};
+        setCircleColor(defaultColors);
         setCirclePositions('433');
     }
     else {
+        console.log(lineUpsObj[selectedValue].colors);
         startingArray = lineUpsObj[selectedValue].starting;
         backupArray = lineUpsObj[selectedValue].backup;
         startKeyArray = lineUpsObj[selectedValue].keysArray;
@@ -273,7 +276,6 @@ selectTeam.addEventListener("change", function () {
 
         setCircleColor(lineUpsObj[selectedValue].colors);
         setCirclePositions(formattedFormation);
-        determineFormation();
     }
 
     setLineUp(startKeyArray, backupKeyArray);
