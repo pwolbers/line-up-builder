@@ -27,8 +27,10 @@ body {
   color: white;
   font-family: "Montserrat", sans-serif;
   transform: skew(-10deg);
-  padding: 5px; /* Adjust the padding to your preference */
-  border: none; /* Remove the default border */
+  padding: 5px;
+  /* Adjust the padding to your preference */
+  border: none;
+  /* Remove the default border */
 }
 
 
@@ -105,14 +107,26 @@ label {
 .column {
   display: inline-block;
   width: 400px;
-  margin-right: 20px;
+  margin-right: 5px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   padding: 5px 0px 2px 0px;
+}
+
+.starting-column {
   margin-left: 10px;
 }
 
-p, h2, h3, h4, li, option, button, input, label, .formation-label {
+p,
+h2,
+h3,
+h4,
+li,
+option,
+button,
+input,
+label,
+.formation-label {
   font-family: "Montserrat", sans-serif;
 }
 
@@ -130,7 +144,8 @@ button {
   text-align: center;
 }
 
-p, li {
+p,
+li {
   font-size: 14px;
 }
 
@@ -138,7 +153,8 @@ li {
   margin-left: 15px;
 }
 
-.starting-column, .backup-column {
+.starting-column,
+.backup-column {
   background: linear-gradient(#32154E, #32154E 98%, #1B1D2C 2%, #1B1D2C);
   border: 2px solid #383B45;
 }
@@ -160,15 +176,17 @@ li {
   flex: 1;
 }
 
-.label, .label-position {
+.label,
+.label-position {
   font-family: "Montserrat", sans-serif;
-  color:white;
+  color: white;
   margin-top: 3px;
 }
 
-.label{
+.label {
   width: 40px;
-  padding: 3px 20px 0 15px; /* Add padding to create the border around the label */
+  padding: 3px 20px 0 15px;
+  /* Add padding to create the border around the label */
   text-align: left;
 }
 
@@ -177,7 +195,8 @@ li {
   font-size: 12px;
   padding-left: 10px;
   text-align: right;
-  padding: 6px 10px; /* Add padding to create the border around the label */
+  padding: 6px 10px;
+  /* Add padding to create the border around the label */
 }
 
 .input-container {
@@ -222,12 +241,15 @@ li {
 
 .text-container {
   display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
 }
 
-.formation-label, .copyright {
+.formation-label,
+.copyright {
+  box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
   color: white;
 }
@@ -239,7 +261,7 @@ li {
 }
 
 .copyright {
-  margin-bottom: 50px;
+  margin-bottom: 25px;
   margin-left: 90px;
   text-align: left;
 }
@@ -304,7 +326,7 @@ li {
 }
 
 .labelHeader {
-  color:white;
+  color: white;
 }
 
 
@@ -416,4 +438,8 @@ pre {
   padding: 10px;
 }
 
-#circle1 { background-color: #0186e1; } /* #1 */
+#circle1 {
+  background-color: #0186e1;
+}
+
+/* #1 */
