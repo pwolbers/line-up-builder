@@ -156,12 +156,9 @@ function getHexCode(color) {
 
 //Pre loads the JSON files stored locally
 document.addEventListener("DOMContentLoaded", function () {
-    const jsonFiles = ['2022-23.json', '2023-24.json', 'Voorwaarts4.json'];
-    const teamLineups = jsonFiles.map(file => fetch(file).then(response => response.json()));
-    Promise.all(teamLineups)
-        .then(data => {
-            // Process the fetched JSON data
-            data.forEach(jsonData => {
+    getJsonFiles()
+        .then(jsonFiles => {
+            jsonFiles.forEach(jsonData => {
                 // Access the data for each JSON file
                 const teamName = jsonData.teamName;
                 lineUpsObj[teamName] = {};
@@ -179,8 +176,43 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => {
             console.error('Error fetching JSON data:', error);
         });
-
 });
+
+function getJsonFiles() {
+    return new Promise((resolve, reject) => {
+        fetch('https://api.github.com/repos/pwolbers/line-up-builder/contents/')
+            .then(response => response.json())
+            .then(gitHubContent => {
+                const jsonFilePromises = gitHubContent
+                    .filter(file => file.name.indexOf('json') > -1)
+                    .map(file => {
+                        return fetch(file.download_url)
+                            .then(response => response.json())
+                            .then(data => {
+                                return data;
+                            })
+                            .catch(error => {
+                                console.error('Error fetching JSON file:', error);
+                                return null;
+                            });
+                    });
+
+                Promise.all(jsonFilePromises)
+                    .then(files => {
+                        const fileArray = files.filter(file => file !== null);
+                        resolve(fileArray);
+                    })
+                    .catch(error => {
+                        console.error('Error resolving JSON files:', error);
+                        reject(error);
+                    });
+            })
+            .catch(error => {
+                console.error('Error fetching GitHub content:', error);
+                reject(error);
+            });
+    });
+}
 
 //Adds drag functionality
 circles.forEach((circle, index) => {
@@ -655,9 +687,31 @@ function determineFormation() {
     }
 
     var formationLabel = document.querySelector('.formation-label');
+    formation = formatFormationString(formation);
     formationLabel.textContent = 'Formation: ' + formation;
 
     return formation;
+}
+
+function formatFormationString(value) {
+    const valueString = String(value);
+    const resultArray = [];
+
+    for (let i = 0; i < valueString.length; i++) {
+        const currentChar = valueString[i];
+        const nextChar = valueString[i + 1];
+
+        resultArray.push(currentChar);
+
+        if (/[0-9]/.test(currentChar) && /[a-zA-Z]/.test(nextChar)) {
+            resultArray.push(' ');
+        } else if (/[0-9]/.test(currentChar) && /[0-9]/.test(nextChar)) {
+            resultArray.push('-');
+        }
+    }
+
+    const formattedValue = resultArray.join('');
+    return formattedValue;
 }
 
 //Creates a JSON based on the line up made by the user

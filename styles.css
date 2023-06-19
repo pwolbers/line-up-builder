@@ -220,21 +220,28 @@ li {
   border-radius: 20px;
 }
 
+.text-container {
+  display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
 .formation-label, .copyright {
   font-family: 'Montserrat', sans-serif;
-  align-self: flex-end;
-  margin-bottom: 25px;
   color: white;
 }
 
 .formation-label {
+  margin-top: 25px;
   margin-left: 90px;
   text-align: left;
 }
 
 .copyright {
-  margin-left: 210px;
-  text-align: right;
+  margin-bottom: 50px;
+  margin-left: 90px;
+  text-align: left;
 }
 
 .circle:before {
