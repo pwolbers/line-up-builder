@@ -264,7 +264,6 @@ selectTeam.addEventListener("change", function () {
         setCirclePositions('433');
     }
     else {
-        console.log(lineUpsObj[selectedValue].colors);
         startingArray = lineUpsObj[selectedValue].starting;
         backupArray = lineUpsObj[selectedValue].backup;
         startKeyArray = lineUpsObj[selectedValue].keysArray;
