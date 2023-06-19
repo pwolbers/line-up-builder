@@ -159,8 +159,16 @@ document.addEventListener("DOMContentLoaded", function () {
     getJsonFiles()
         .then(jsonFiles => {
             jsonFiles.forEach(jsonData => {
-                // Access the data for each JSON file
                 const teamName = jsonData.teamName;
+
+                const selectElement = document.getElementById("select-team");
+
+                const optionElement = document.createElement("option");
+                optionElement.value = teamName;
+                optionElement.textContent = teamName;
+                selectElement.appendChild(optionElement);
+                // Access the data for each JSON file
+                
                 lineUpsObj[teamName] = {};
                 lineUpsObj[teamName].teamName = teamName;
                 lineUpsObj[teamName].formation = jsonData.formation;
@@ -507,30 +515,17 @@ function determineLabel(xPos, yPos, index) {
 const selectTeam = document.getElementById("select-team");
 selectTeam.addEventListener("change", function () {
     const selectedValue = this.value;
-    if (selectedValue === "ajax-22-23") {
-        startingArray = lineUpsObj['Ajax 2022-2023'].starting;
-        backupArray = lineUpsObj['Ajax 2022-2023'].backup;
-        startKeyArray = lineUpsObj['Ajax 2022-2023'].keysArray;
-        backupKeyArray = lineUpsObj['Ajax 2022-2023'].keysArray;
-        setCircleColor(lineUpsObj['Ajax 2022-2023'].colors);
-        document.getElementById("teamNameBox").value = "Ajax 2022-2023";
-    } else if (selectedValue === "ajax-23-24") {
-        startingArray = lineUpsObj['Ajax 2023-2024'].starting;
-        backupArray = lineUpsObj['Ajax 2023-2024'].backup;
-        startKeyArray = lineUpsObj['Ajax 2023-2024'].keysArray;
-        backupKeyArray = lineUpsObj['Ajax 2023-2024'].keysArray;
-        setCircleColor(lineUpsObj['Ajax 2023-2024'].colors);
-        document.getElementById("teamNameBox").value = "Ajax 2023-2024";
-    } else if (selectedValue === "voorwaarts-23-24") {
-        startingArray = lineUpsObj['Voorwaarts 2023-2024'].starting;
-        backupArray = lineUpsObj['Voorwaarts 2023-2024'].backup;
-        startKeyArray = lineUpsObj['Voorwaarts 2023-2024'].keysArray;
-        backupKeyArray = lineUpsObj['Voorwaarts 2023-2024'].keysArray;
-        setCircleColor(lineUpsObj['Voorwaarts 2023-2024'].colors);
-        document.getElementById("teamNameBox").value = "Voorwaarts 2023-2024";
-    } else if (selectedValue === "clear") {
+    if (selectedValue === "clear") {
         startingArray = [];
         backupArray = [];
+    }
+    else{
+        startingArray = lineUpsObj[selectedValue].starting;
+        backupArray = lineUpsObj[selectedValue].backup;
+        startKeyArray = lineUpsObj[selectedValue].keysArray;
+        backupKeyArray = lineUpsObj[selectedValue].keysArray;
+        setCircleColor(lineUpsObj[selectedValue].colors);
+        document.getElementById("teamNameBox").value = selectedValue;
     }
     setLineUp(startKeyArray, backupKeyArray);
     determineFormation();
