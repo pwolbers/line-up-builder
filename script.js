@@ -259,6 +259,9 @@ selectTeam.addEventListener("change", function () {
     if (selectedValue === "clear") {
         startingArray = ['','','','','','','','','','',''];
         backupArray = ['','','','','','','','','','',''];
+        
+        document.getElementById("select-formation").value = '';
+
         const defaultColors = {mainColor: '#ff0000', secondColor: '#ffffff', numberColor: '#ffffff'};
         setCircleColor(defaultColors);
         setCirclePositions('433');
