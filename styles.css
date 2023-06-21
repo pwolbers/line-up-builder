@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Exo&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
@@ -11,38 +10,25 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
+  width: 100vw;
   margin: 0;
   padding: 0;
 }
 
-.textbox-container {
-  padding: 20px;
-  margin-left: 30px;
-  box-sizing: border-box;
-}
-
-.teamSelectBox {
-  cursor: pointer;
-  background-color: #004D3E;
-  color: white;
-  font-family: "Montserrat", sans-serif;
-  transform: skew(-10deg);
-  padding: 5px;
-  /* Adjust the padding to your preference */
-  border: none;
-  /* Remove the default border */
-}
-
-
-.teamSelectBox:hover {
-  background-color: rgb(0, 90, 0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.input-group {
-  margin-left: 290px;
+.container {
   display: flex;
-  align-items: flex-end;
+  width: 100%;
+  height: 98%;
+  justify-content: flex-start;
+}
+
+.textbox-container {
+  padding: 20px 0px 20px 30px;
+  width: 50vw;
+}
+
+.select-box {
+  margin-bottom: 10px;
 }
 
 .select-box label,
@@ -51,29 +37,168 @@ body {
   margin-left: 15px;
 }
 
-.newTeam {
+.input-group {
+  margin-left: 40px;
   display: flex;
+  align-items: flex-end;
+}
+
+.lineup-container {
+  width: 50vw;
+}
+
+.column {
+  display: inline-block;
+  width: 22.5vw;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 5px 0px 2px 0px;
+  margin-left: 10px;
+  background: linear-gradient(#32154E, #32154E 98%, #1B1D2C 2%, #1B1D2C);
+  border: 2px solid #383B45;
+}
+
+.input-container {
+  display: flex;
+  padding: 5px 0px;
+  border-radius: 3px;
+}
+
+.textbox-container input {
+  width: 100%;
+  background-color: rgb(238, 238, 238);
+  padding: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.labelHeader {
+  color: white;
+}
+
+.teamSelectBox {
+  cursor: pointer;
+  background-color: #004D3E;
+  color: white;
+  font-family: "Exo", sans-serif;
+  transform: skew(-10deg);
+  padding: 5px;
+  border: none;
+  width: 12vw;
+}
+
+.teamSelectBox:hover {
+  background-color: rgb(0, 90, 0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.newTeam {
+  width: 90vw;
+  flex-wrap: wrap;
 }
 
 .teamName {
-  margin-right: 60px;
+  margin-right: 50px;
   margin-left: 15px;
+}
+
+.teamNameBox {
+  width: 20vw !important;
 }
 
 .teamName label {
   margin-bottom: 5px;
 }
 
-.color-picker {
-  margin-right: 20px;
+p,
+h2,
+h3,
+h4,
+li,
+option,
+button,
+input,
+label,
+.formation-label,
+.copyright {
+  font-family: "Exo", sans-serif;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 label {
   font-weight: bold;
+  display: inline-flex;
+}
+
+button {
+  font-weight: bold;
+}
+
+.column h2 {
+  font-size: 18px;
+  color: white;
+  text-align: center;
+}
+
+p,
+li {
+  font-size: 14px;
+}
+
+li {
+  margin-left: 15px;
+}
+
+
+.inputBox,
+.backupBox {
+  flex: 1;
+}
+
+.label,
+.label-position {
+  font-family: "Exo", sans-serif;
+  color: white;
+  margin-top: 3px;
+}
+
+.label {
+  width: 8%;
+  padding: 3px 20px 0px 12px;
+  text-align: left;
+}
+
+.label-position {
+  width: 5%;
+  font-size: 12px;
+  text-align: left;
+  padding: 6px 10px;
+}
+
+/**************
+*  Color-     *
+*  picker     *
+**************/
+.newTeam {
+  display: flex;
+}
+
+.color-pickers-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.color-picker {
+  margin-right: 20px;
 }
 
 .color-picker label {
   font-size: 12px;
+  margin-bottom: 5px;
+  display: block;
 }
 
 .color-picker input[type="color"] {
@@ -104,128 +229,10 @@ label {
   transform: scale(1.1);
 }
 
-.column {
-  display: inline-block;
-  width: 400px;
-  margin-right: 5px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  padding: 5px 0px 2px 0px;
-}
-
-.starting-column {
-  margin-left: 10px;
-}
-
-p,
-h2,
-h3,
-h4,
-li,
-option,
-button,
-input,
-label,
-.formation-label {
-  font-family: "Montserrat", sans-serif;
-}
-
-label {
-  display: block;
-}
-
-button {
-  font-weight: bold;
-}
-
-.column h2 {
-  font-size: 18px;
-  color: white;
-  text-align: center;
-}
-
-p,
-li {
-  font-size: 14px;
-}
-
-li {
-  margin-left: 15px;
-}
-
-.starting-column,
-.backup-column {
-  background: linear-gradient(#32154E, #32154E 98%, #1B1D2C 2%, #1B1D2C);
-  border: 2px solid #383B45;
-}
-
-.label-container {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-}
-
-.label-container label {
-  margin-right: 5px;
-}
-
-.inputBox,
-.backupBox {
-  margin-left: 0px;
-  flex: 1;
-}
-
-.label,
-.label-position {
-  font-family: "Montserrat", sans-serif;
-  color: white;
-  margin-top: 3px;
-}
-
-.label {
-  width: 40px;
-  padding: 3px 20px 0 15px;
-  /* Add padding to create the border around the label */
-  text-align: left;
-}
-
-.label-position {
-  width: 20px;
-  font-size: 12px;
-  padding-left: 10px;
-  text-align: right;
-  padding: 6px 10px;
-  /* Add padding to create the border around the label */
-}
-
-.input-container {
-  display: flex;
-  padding: 5px 0px;
-  border-radius: 3px;
-}
-
-.inputBox {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.textbox-container input {
-  width: 100%;
-  background-color: rgb(238, 238, 238);
-  padding: 5px;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-
-.container {
-  display: flex;
-  width: 100%;
-  height: 900px;
-  justify-content: flex-start;
-  margin-left: -50px;
-}
+/**************
+*  Pitch      *
+*  and labels *
+**************/
 
 .image-container {
   display: flex;
@@ -243,15 +250,12 @@ li {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
-  width: 100%;
+  color: white;
 }
 
 .formation-label,
 .copyright {
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
-  color: white;
 }
 
 .formation-label {
@@ -266,9 +270,10 @@ li {
   text-align: left;
 }
 
-.circle:before {
-  font-family: 'Bebas Neue', sans-serif;
-}
+/**************
+*   Circles   *
+*   and text  *
+**************/
 
 .circle {
   position: absolute;
@@ -282,53 +287,9 @@ li {
   justify-content: center;
 }
 
-.outputStarting,
-.outputBackup {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 50%);
-  display: none;
-  text-align: center;
-  padding: 5px;
-  background-color: rgba(255, 255, 255, 1);
-  border: 1px solid #000;
-  border-radius: 5px;
-  white-space: nowrap;
-  font-size: 15px;
-  font-family: "Exo", sans-serif;
-  font-weight: bold;
-  letter-spacing: 1px;
-  width: fit-content;
+#circle1 {
+  background-color: #0186e1;
 }
-
-.outputBackup {
-  bottom: -65px;
-  opacity: 0.85;
-  background-color: #C8C8C8;
-}
-
-.outputStarting {
-  bottom: -35px;
-}
-
-.output-container {
-  position: relative;
-}
-
-.select-box {
-  margin-bottom: 10px;
-}
-
-.input-group label,
-.input-group button {
-  margin-left: 10px;
-  margin-bottom: 10px;
-}
-
-.labelHeader {
-  color: white;
-}
-
 
 .circle-number {
   color: white;
@@ -343,6 +304,48 @@ li {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+}
+
+.output-container {
+  position: relative; /*Sets the position of the text labels to the circle*/ 
+}
+
+.outputStarting,
+.outputBackup {
+  position: absolute;
+  transform: translate(-50%, 50%);
+  padding: 5px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 15px;
+  font-family: "Exo", sans-serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+  width: fit-content;
+}
+
+.outputStarting {
+  bottom: -35px;
+  background-color: #ffffff;
+}
+
+.outputBackup {
+  bottom: -65px;
+  opacity: 0.85;
+  background-color: #C8C8C8;
+}
+
+/**************
+*   Buttons   *
+**************/
+
+.select-buttons {
+  display: flex;
+}
+
+.button-container {
+  display: flex;
 }
 
 #chooseFileButton,
@@ -374,6 +377,7 @@ li {
 
 #downloadButton {
   margin-left: 15px;
+  margin-right: 15px;
 }
 
 #chooseFileButton:hover,
@@ -383,10 +387,25 @@ li {
   background-color: #45a049;
 }
 
+/* Upload button */
+.input-group label,
+.input-group button {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+#downloadButton,
+#screenshotbutton {
+  display: flex;
+}
+
+/**************
+*  Help icon  *
+**************/
+
 .help-icon {
   font-size: 24px;
   color: white;
-  position: flex;
   top: 10px;
   left: 10px;
   margin-left: 10px;
@@ -432,14 +451,42 @@ li {
   color: black;
 }
 
-
 pre {
   background-color: #f5f5f5;
   padding: 10px;
 }
 
-#circle1 {
-  background-color: #0186e1;
-}
+@media screen and (max-width: 767px) {
+  .newTeam {
+    display: block;
+  }
 
-/* #1 */
+  .textbox-container {
+    width: 80vw;
+  }
+
+  .column {
+    width: 75vw;
+  }
+
+  .teamSelectBox {
+    width: 30vw;
+  }
+
+  .select-buttons {
+    display: block;
+  }
+
+  .input-group {
+    margin-left: -5px;
+  }
+
+  .color-pickers-container {
+    margin-left: 15px;
+    margin-top: 10px;
+  }
+
+  .teamNameBox {
+    width: 70vw !important;
+  }
+}
