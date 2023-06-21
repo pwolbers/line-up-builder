@@ -460,7 +460,7 @@ pre {
   padding: 10px;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1000px) {
   .newTeam {
     display: block;
   }
@@ -473,7 +473,7 @@ pre {
     width: 75vw;
     margin-top: 20px;
   }
-  
+
   .teamSelectBox {
     width: 50vw;
   }
