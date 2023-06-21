@@ -498,4 +498,8 @@ pre {
   .teamNameBox {
     width: 70vw !important;
   }
+
+  .input-container{
+    display: none;
+  }
 }

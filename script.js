@@ -15,30 +15,39 @@ const backupBoxes = document.querySelectorAll(".backupBox");
 const outputStartings = document.querySelectorAll(".outputStarting");
 const outputBackups = document.querySelectorAll(".outputBackup");
 
-$(document).ready(function () {
-    $(".starting-column > h2").click(function () {
-        var inputContainers = $(this).siblings(".input-container");
-        if (isMobileDevice()) {
-            console.log("MOBILE? : " + navigator.userAgent.indexOf('obile'));
-            toggleDisplay(inputContainers, true);
-        }
-        else {
-            toggleDisplay(inputContainers, false);
-            console.log("NO MOBILE? : " + navigator.userAgent.indexOf('obile'));
-        }
+$(document).ready(function() {
+    var screenWidth = screen.width;
+  
+    function handleWindowResize() {
+      screenWidth = screen.width;
+    }
+  
+    $(window).on('resize', handleWindowResize);
+  
+    $(".starting-column > h2").click(function() {
+      console.log("screenWidth: " + screenWidth);
+      var inputContainers = $(this).siblings(".input-container");
+      if (screenWidth <= 767) {
+        console.log("MOBILE? : " + navigator.userAgent.indexOf('Mobile'));
+        toggleDisplay(inputContainers, true);
+      } else {
+        toggleDisplay(inputContainers, false);
+        console.log("NO MOBILE? : " + navigator.userAgent.indexOf('Mobile'));
+      }
     });
-    $(".backup-column > h2").click(function () {
-        var inputContainers = $(this).siblings(".input-container");
-        if (isMobileDevice()) {
-            console.log("MOBILE? : " + navigator.userAgent.indexOf('obile'));
-            toggleDisplay(inputContainers, true);
-        }
-        else {
-            toggleDisplay(inputContainers, false);
-            console.log("NO MOBILE? : " + navigator.userAgent.indexOf('obile'));
-        }
+  
+    $(".backup-column > h2").click(function() {
+      console.log("screenWidth: " + screenWidth);
+      var inputContainers = $(this).siblings(".input-container");
+      if (screenWidth <= 767) {
+        console.log("MOBILE? : " + navigator.userAgent.indexOf('Mobile'));
+        toggleDisplay(inputContainers, true);
+      } else {
+        toggleDisplay(inputContainers, false);
+        console.log("NO MOBILE? : " + navigator.userAgent.indexOf('Mobile'));
+      }
     });
-});
+  });
 
 function toggleDisplay(elements, mobileCheck) {
     if (mobileCheck) {
@@ -50,14 +59,9 @@ function toggleDisplay(elements, mobileCheck) {
     }
     else {
         elements.each(function () {
-            var displayValue = $(this).css("display");
             $(this).css("display", "flex");
         });
     }
-}
-
-function isMobileDevice() {
-    return (navigator.userAgent.indexOf('obile') !== -1);
 }
 
 //Changes color and name of the upload button
