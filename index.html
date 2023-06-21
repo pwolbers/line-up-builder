@@ -8,90 +8,87 @@
   <meta charset="utf8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body onload="displayFormattedJSON()" style="background-color:#212331">
   <div class="container">
     <div class="textbox-container">
-      <div class="select-and-upload">
-        <div class="select-buttons">
-          <div class="select-box">
-            <div><label for="select-team" class="labelHeader">Select preset team:</label></div>
-            <select id="select-team" name="team" class="teamSelectBox"
-              onchange="updateUploadButton()">
-              <option value="clear"> - </option>
-            </select>
-          </div>
-          <div style="display: inline-flex">
-            <div class="select-box">
-              <div><label for="select-formation" class="labelHeader">Select formation:</label></div>
-              <select id="select-formation" style="width: 100%" class="teamSelectBox" name="formation" onchange="">
-                <option value=""> - </option>
-                <option value="433">4-3-3</option>
-                <option value="442diamond">4-4-2 diamond</option>
-                <option value="442flat">4-4-2 flat</option>
-                <option value="424">4-2-4</option>
-                <option value="451">4-5-1 / 4-2-3-1</option>
-                <option value="532">5-3-2 / 3-5-2</option>
-                <option value="343">3-4-3</option>
-              </select>
-            </div>
-          </div>
-          <div class="input-group">
-            <input type="file" id="jsonFileInput" accept=".json" style="display: none">
-            <label for="jsonFileInput" id="chooseFileButton">Upload your team here</label>
-            <button id="importButton">Import Team</button>
-            <i class="fas fa-question-circle help-icon"></i>
-          </div>
-          <div class="popup" id="popup">
-            <div class="popup-content">
-              <button class="close-btn" id="closeBtn">
-                <i class="fas fa-times"></i>
-              </button>
-              <h2>Help</h2>
-              <p>You can directly import a team through a saved .JSON file.</p>
-              <p>JSON files need to be imported in the following format:</p>
-              <pre id="jsonContainer"></pre>
-              <h4>Details</h4>
-              <p><b>teamName:</b> Put your team name here</p>
-              <p><b>formation: </b> Recognized inputs for formations are:</p>
-              <li>433</li>
-              <li>442flat</li>
-              <li>442diamond</li>
-              <li>451</li>
-              <li>4231</li>
-              <li>532</li>
-              <li>343</li>
-              <p>Other formations will be defaulted to a 4-3-3.</p>
-              <p><b>starting & backup:</b> Put your starting and backup players in the positions linked to that number.
-              </p>
-              <p>Be aware that each formation has a predetermined position for each number (for example, the #11 will be
-                the left striker in a 4-4-2 and a left winger in a 4-3-3).</p>
-              <p><b style="color:red">IMPORTANT NOTE:</b> Make sure the labels (or keys) are as shown in the template
-                (i.e. #1, #2, etc. to #11). The
-                tool will not recognize the JSON if they are changed.</p>
-              <p><b>Colors: </b></p>
-              <li><i>mainColor:</i> the filling of the circle</li>
-              <li><i>secondColor:</i> the border of the circle</li>
-              <li><i>numberColor:</i> the number in the circle</li>
-              <p>Colors can be in words ['red', 'blue'], RGB [rgb(255, 0, 0)] (you can also use percentages) and
-                hexadecimals [#ff0000].</p>
-              <h3>Download</h3>
-              <p>You can download your team in two filetypes: .JSON and .PNG. The .JSON will be downloaded in a similar
-                format as above based on your input when downloading.
-                This can be useful if you want to continue working on your team later.</p>
-              <p>Be aware that the order of the labels and their corresponding players in the .JSON is irrelevant. The
-                #7
-                in the JSON will always match the #7 in the lineup.</p>
-              <p>The .PNG will take a snapshot of the pitch on the right and can be used for sharing your team with
-                others
-                .</p>
-            </div>
+      <div class="select-buttons">
+        <div class="select-box">
+          <div><label for="select-team" class="labelHeader">Select preset team:</label></div>
+          <select id="select-team" name="team" class="teamSelectBox" onchange="updateUploadButton()">
+            <option value="clear"> - </option>
+          </select>
+        </div>
+        <div class="select-box">
+          <div><label for="select-formation" class="labelHeader">Select formation:</label></div>
+          <select id="select-formation" class="teamSelectBox" name="formation" onchange="">
+            <option value=""> - </option>
+            <option value="433">4-3-3</option>
+            <option value="442diamond">4-4-2 diamond</option>
+            <option value="442flat">4-4-2 flat</option>
+            <option value="424">4-2-4</option>
+            <option value="451">4-5-1 / 4-2-3-1</option>
+            <option value="532">5-3-2 / 3-5-2</option>
+            <option value="343">3-4-3</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <input type="file" id="jsonFileInput" accept=".json" style="display: none">
+          <label for="jsonFileInput" id="chooseFileButton">Upload your team here</label>
+          <button id="importButton">Import Team</button>
+          <i class="fas fa-question-circle help-icon"></i>
+        </div>
+        <div class="popup" id="popup">
+          <div class="popup-content">
+            <button class="close-btn" id="closeBtn">
+              <i class="fas fa-times"></i>
+            </button>
+            <h2>Help</h2>
+            <p>You can directly import a team through a saved .JSON file.</p>
+            <p>JSON files need to be imported in the following format:</p>
+            <pre id="jsonContainer"></pre>
+            <h4>Details</h4>
+            <p><b>teamName:</b> Put your team name here</p>
+            <p><b>formation: </b> Recognized inputs for formations are:</p>
+            <li>433</li>
+            <li>442flat</li>
+            <li>442diamond</li>
+            <li>451</li>
+            <li>4231</li>
+            <li>532</li>
+            <li>343</li>
+            <p>Other formations will be defaulted to a 4-3-3.</p>
+            <p><b>starting & backup:</b> Put your starting and backup players in the positions linked to that number.
+            </p>
+            <p>Be aware that each formation has a predetermined position for each number (for example, the #11 will be
+              the left striker in a 4-4-2 and a left winger in a 4-3-3).</p>
+            <p><b style="color:red">IMPORTANT NOTE:</b> Make sure the labels (or keys) are as shown in the template
+              (i.e. #1, #2, etc. to #11). The
+              tool will not recognize the JSON if they are changed.</p>
+            <p><b>Colors: </b></p>
+            <li><i>mainColor:</i> the filling of the circle</li>
+            <li><i>secondColor:</i> the border of the circle</li>
+            <li><i>numberColor:</i> the number in the circle</li>
+            <p>Colors can be in words ['red', 'blue'], RGB [rgb(255, 0, 0)] (you can also use percentages) and
+              hexadecimals [#ff0000].</p>
+            <h3>Download</h3>
+            <p>You can download your team in two filetypes: .JSON and .PNG. The .JSON will be downloaded in a similar
+              format as above based on your input when downloading.
+              This can be useful if you want to continue working on your team later.</p>
+            <p>Be aware that the order of the labels and their corresponding players in the .JSON is irrelevant. The
+              #7
+              in the JSON will always match the #7 in the lineup.</p>
+            <p>The .PNG will take a snapshot of the pitch on the right and can be used for sharing your team with
+              others
+              .</p>
           </div>
         </div>
       </div>
       <div class="column starting-column">
         <h2>Starting eleven</h2>
+
         <div class="input-container">
           <label for="starting1" class="label">GK</label>
           <input type="text" id="starting1" class="inputBox pos1" placeholder="Starting GK">

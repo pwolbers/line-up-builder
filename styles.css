@@ -92,6 +92,10 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.teamSelectBox[name="formation"] {
+  width: 6vw;
+}
+
 .newTeam {
   width: 90vw;
   flex-wrap: wrap;
@@ -103,7 +107,7 @@ body {
 }
 
 .teamNameBox {
-  width: 20vw !important;
+  width: 21.5vw !important;
 }
 
 .teamName label {
@@ -470,15 +474,20 @@ pre {
   }
 
   .teamSelectBox {
-    width: 30vw;
+    width: 50vw;
+  }
+
+  .teamSelectBox[name="formation"] {
+    width: 25vw;
   }
 
   .select-buttons {
+    margin-left: -5px;
     display: block;
   }
 
   .input-group {
-    margin-left: -5px;
+    margin-left: 5px !important;
   }
 
   .color-pickers-container {

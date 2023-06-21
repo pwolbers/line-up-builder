@@ -15,6 +15,51 @@ const backupBoxes = document.querySelectorAll(".backupBox");
 const outputStartings = document.querySelectorAll(".outputStarting");
 const outputBackups = document.querySelectorAll(".outputBackup");
 
+$(document).ready(function () {
+    $(".starting-column > h2").click(function () {
+        var inputContainers = $(this).siblings(".input-container");
+        if (isMobileDevice()) {
+            console.log("MOBILE? : " + navigator.userAgent.indexOf('obile'));
+            toggleDisplay(inputContainers, true);
+        }
+        else {
+            toggleDisplay(inputContainers, false);
+            console.log("NO MOBILE? : " + navigator.userAgent.indexOf('obile'));
+        }
+    });
+    $(".backup-column > h2").click(function () {
+        var inputContainers = $(this).siblings(".input-container");
+        if (isMobileDevice()) {
+            console.log("MOBILE? : " + navigator.userAgent.indexOf('obile'));
+            toggleDisplay(inputContainers, true);
+        }
+        else {
+            toggleDisplay(inputContainers, false);
+            console.log("NO MOBILE? : " + navigator.userAgent.indexOf('obile'));
+        }
+    });
+});
+
+function toggleDisplay(elements, mobileCheck) {
+    if (mobileCheck) {
+        elements.each(function () {
+            var displayValue = $(this).css("display");
+            var newDisplay = (displayValue === "flex") ? "none" : "flex";
+            $(this).css("display", newDisplay);
+        });
+    }
+    else {
+        elements.each(function () {
+            var displayValue = $(this).css("display");
+            $(this).css("display", "flex");
+        });
+    }
+}
+
+function isMobileDevice() {
+    return (navigator.userAgent.indexOf('obile') !== -1);
+}
+
 //Changes color and name of the upload button
 jsonFileInput.addEventListener('change', function (event) {
     const file = event.target.files[0];
@@ -257,12 +302,12 @@ const selectTeam = document.getElementById("select-team");
 selectTeam.addEventListener("change", function () {
     const selectedValue = this.value;
     if (selectedValue === "clear") {
-        startingArray = ['','','','','','','','','','',''];
-        backupArray = ['','','','','','','','','','',''];
-        
+        startingArray = ['', '', '', '', '', '', '', '', '', '', ''];
+        backupArray = ['', '', '', '', '', '', '', '', '', '', ''];
+
         document.getElementById("select-formation").value = '';
 
-        const defaultColors = {mainColor: '#ff0000', secondColor: '#ffffff', numberColor: '#ffffff'};
+        const defaultColors = { mainColor: '#ff0000', secondColor: '#ffffff', numberColor: '#ffffff' };
         setCircleColor(defaultColors);
         setCirclePositions('433');
     }
@@ -872,7 +917,7 @@ function updateUploadButton() {
     var selectBox = document.getElementById("select-team");
     var chooseFileButton = document.getElementById("chooseFileButton");
     var jsonFileInput = document.getElementById("jsonFileInput");
-    
+
     if (selectBox.value !== "clear") {
         chooseFileButton.innerHTML = "Upload your team here";
         importButton.style.display = 'none';
