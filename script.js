@@ -28,11 +28,9 @@ $(document).ready(function() {
       console.log("screenWidth: " + screenWidth);
       var inputContainers = $(this).siblings(".input-container");
       if (screenWidth <= 767) {
-        console.log("MOBILE? : " + navigator.userAgent.indexOf('Mobile'));
         toggleDisplay(inputContainers, true);
       } else {
         toggleDisplay(inputContainers, false);
-        console.log("NO MOBILE? : " + navigator.userAgent.indexOf('Mobile'));
       }
     });
   
@@ -40,11 +38,9 @@ $(document).ready(function() {
       console.log("screenWidth: " + screenWidth);
       var inputContainers = $(this).siblings(".input-container");
       if (screenWidth <= 767) {
-        console.log("MOBILE? : " + navigator.userAgent.indexOf('Mobile'));
         toggleDisplay(inputContainers, true);
       } else {
         toggleDisplay(inputContainers, false);
-        console.log("NO MOBILE? : " + navigator.userAgent.indexOf('Mobile'));
       }
     });
   });

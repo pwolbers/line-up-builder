@@ -471,8 +471,9 @@ pre {
 
   .column {
     width: 75vw;
+    margin-top: 20px;
   }
-
+  
   .teamSelectBox {
     width: 50vw;
   }
