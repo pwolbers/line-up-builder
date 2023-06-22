@@ -44,7 +44,7 @@ body {
 }
 
 .input-group {
-  margin-left: 40px;
+  margin-left: 185px;
   display: flex;
   align-items: flex-end;
 }
@@ -100,11 +100,6 @@ body {
 
 .teamSelectBox[name="formation"] {
   width: 6vw;
-}
-
-.newTeam {
-  width: 90vw;
-  flex-wrap: wrap;
 }
 
 .teamName {
@@ -194,6 +189,9 @@ li {
 **************/
 .newTeam {
   display: flex;
+  width: 90vw;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .color-pickers-container {
@@ -499,7 +497,8 @@ pre {
 
   .column {
     width: 99%;
-    margin-top: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     margin-left: 0px;
   }
 

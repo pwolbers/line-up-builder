@@ -190,6 +190,22 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    var mediaQuery = window.matchMedia('(min-width: 1001px)'); // Adjust the media query as needed
+    handleViewportChange(mediaQuery.matches); // Check initial viewport state
+    mediaQuery.addEventListener("change", () => {
+        handleViewportChange(mediaQuery.matches); // Handle changes in viewport state
+    });
+
+    function handleViewportChange(matches) {
+        if (matches) {
+            lineupContainer.style.display = 'block'; // Set display to 'block'
+        } else {
+            lineupContainer.style.display = 'none'; // Set display to 'none'
+        }
+    }
+
+   
+
 });
 //Pre loads the JSON files stored locally
 document.addEventListener("DOMContentLoaded", function () {
