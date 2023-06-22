@@ -5,7 +5,7 @@
   <title>Ajax Line-Up Builder</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  <meta charset="utf8"/>
+  <meta charset="utf8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -15,24 +15,26 @@
   <div class="container">
     <div class="textbox-container">
       <div class="select-buttons">
-        <div class="select-box">
-          <div><label for="select-team" class="labelHeader">Select preset team:</label></div>
-          <select id="select-team" name="team" class="teamSelectBox" onchange="updateUploadButton()">
-            <option value="clear"> - </option>
-          </select>
-        </div>
-        <div class="select-box">
-          <div><label for="select-formation" class="labelHeader">Select formation:</label></div>
-          <select id="select-formation" class="teamSelectBox" name="formation" onchange="">
-            <option value=""> - </option>
-            <option value="433">4-3-3</option>
-            <option value="442diamond">4-4-2 diamond</option>
-            <option value="442flat">4-4-2 flat</option>
-            <option value="424">4-2-4</option>
-            <option value="451">4-5-1 / 4-2-3-1</option>
-            <option value="532">5-3-2 / 3-5-2</option>
-            <option value="343">3-4-3</option>
-          </select>
+        <div class="teams-and-formations">
+          <div class="select-box" id="select-team-box">
+            <div><label for="select-team" class="labelHeader">Select preset team:</label></div>
+            <select id="select-team" name="team" class="teamSelectBox" onchange="updateUploadButton()">
+              <option value="clear"> - </option>
+            </select>
+          </div>
+          <div class="select-box" id="select-formation-box">
+            <div><label for="select-formation" class="labelHeader">Select formation:</label></div>
+            <select id="select-formation" class="teamSelectBox" name="formation" onchange="">
+              <option value=""> - </option>
+              <option value="433">4-3-3</option>
+              <option value="442diamond">4-4-2 diamond</option>
+              <option value="442flat">4-4-2 flat</option>
+              <option value="424">4-2-4</option>
+              <option value="451">4-5-1 / 4-2-3-1</option>
+              <option value="532">5-3-2 / 3-5-2</option>
+              <option value="343">3-4-3</option>
+            </select>
+          </div>
         </div>
         <div class="input-group">
           <input type="file" id="jsonFileInput" accept=".json" style="display: none">
@@ -205,8 +207,7 @@
       </div>
       </br>
       </br>
-      <button id="showLineUpButton">Show line-up</button>
-      <button id="scrollButton">Scroll</button>
+      <button id="showLineUpButton">Show line-up and formation</button>
       <div class="newTeam">
         <div class="teamName">
           <div><label for="team-name" class="labelHeader">Name your team:</label></div>

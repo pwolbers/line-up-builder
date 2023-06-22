@@ -5,6 +5,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
 
+html,
+body {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 body {
   display: flex;
   align-items: center;
@@ -466,6 +472,12 @@ pre {
 }
 
 @media screen and (max-width: 1000px) {
+
+  #select-team-box {
+    width: 45vw;
+    margin-right: 15px;
+  }
+
   .newTeam {
     display: block;
     width: 80vw;
@@ -481,6 +493,10 @@ pre {
     display: none;
   }
 
+  .teams-and-formations {
+    display: flex;
+  }
+
   .column {
     width: 99%;
     margin-top: 20px;
@@ -488,7 +504,7 @@ pre {
   }
 
   .teamSelectBox {
-    width: 50vw;
+    width: 45vw;
   }
 
   .teamSelectBox[name="formation"] {

@@ -25,7 +25,6 @@ $(document).ready(function () {
     $(window).on('resize', handleWindowResize);
 
     $(".starting-column > h2").click(function () {
-        console.log("screenWidth: " + screenWidth);
         var inputContainers = $(this).siblings(".input-container");
         if (screenWidth <= 1000) {
             toggleDisplay(inputContainers, true);
@@ -35,7 +34,6 @@ $(document).ready(function () {
     });
 
     $(".backup-column > h2").click(function () {
-        console.log("screenWidth: " + screenWidth);
         var inputContainers = $(this).siblings(".input-container");
         if (screenWidth <= 1000) {
             toggleDisplay(inputContainers, true);
@@ -176,26 +174,43 @@ importButton.addEventListener('click', function () {
         console.error('No file selected.');
     }
 });
-
-//Pre loads the JSON files stored locally
-document.addEventListener("DOMContentLoaded", function () {
+window.addEventListener('DOMContentLoaded', function () {
     var showLineUpButton = document.getElementById('showLineUpButton');
     var lineupContainer = document.querySelector('.lineup-container');
 
-    if (showLineUpButton && lineupContainer) {
-        showLineUpButton.addEventListener('click', function () {
-            if (screen.width <= 1000) { // Check if mobile device
-                if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
-                    lineupContainer.style.display = 'block'; // Show the lineup-container div
-                    showLineUpButton.textContent = 'Hide line-up'; // Change button text
-                    lineupContainer.scroll(0, 1000);
-                } else {
-                    lineupContainer.style.display = 'none'; // Hide the lineup-container div
-                    showLineUpButton.textContent = 'Show line-up'; // Change button text
-                }
+    showLineUpButton.addEventListener('click', function () {
+        if (screen.width <= 1000) { // Check if mobile device
+            if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
+                lineupContainer.style.display = 'block'; // Show the lineup-container div
+                showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
+            } else {
+                lineupContainer.style.display = 'none'; // Hide the lineup-container div
+                showLineUpButton.textContent = 'Show line-up and formation'; // Change button text                
             }
-        });
-    }
+        }
+    });
+
+});
+//Pre loads the JSON files stored locally
+document.addEventListener("DOMContentLoaded", function () {
+    const helpIcon = document.querySelector('.help-icon');
+    const popup = document.querySelector('#popup');
+    const closeBtn = document.querySelector('#closeBtn');
+
+    helpIcon.addEventListener('click', function (event) {
+        event.stopPropagation(); // Prevent click event propagation to the document
+        popup.style.display = 'flex';
+    });
+
+    closeBtn.addEventListener('click', function () {
+        popup.style.display = 'none';
+    });
+
+    document.addEventListener('click', function (event) {
+        if (event.target.id == 'popup') {
+            popup.style.display = 'none'; // Hide the popup when clicking outside of it
+        }
+    });
 
     getJsonFiles()
         .then(jsonFiles => {
@@ -348,27 +363,6 @@ selectTeam.addEventListener("change", function () {
 // Attach click event listener to the button
 const screenshotButton = document.getElementById('screenshotButton');
 screenshotButton.addEventListener('click', captureScreenshotAndDownload);
-
-document.addEventListener('DOMContentLoaded', function () {
-    const helpIcon = document.querySelector('.help-icon');
-    const popup = document.querySelector('#popup');
-    const closeBtn = document.querySelector('#closeBtn');
-
-    helpIcon.addEventListener('click', function (event) {
-        event.stopPropagation(); // Prevent click event propagation to the document
-        popup.style.display = 'flex';
-    });
-
-    closeBtn.addEventListener('click', function () {
-        popup.style.display = 'none';
-    });
-
-    document.addEventListener('click', function (event) {
-        if (event.target.id == 'popup') {
-            popup.style.display = 'none'; // Hide the popup when clicking outside of it
-        }
-    });
-});
 
 // Initial update on page load
 selectTeam.dispatchEvent(new Event("change"));
