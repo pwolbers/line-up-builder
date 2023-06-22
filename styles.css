@@ -409,7 +409,7 @@ li {
   width: 99%;
   margin-bottom: 20px;
   display: none;
-  background-color: #50b4e2 !important;
+  background-color: #a7219a !important;
   /* background-color: #E85253 !important; */
 }
 
@@ -489,7 +489,7 @@ pre {
 
   .lineup-container {
     margin-left: 10px;
-    display: none;
+   
   }
 
   .teams-and-formations {
