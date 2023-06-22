@@ -409,7 +409,7 @@ li {
   width: 99%;
   margin-bottom: 20px;
   display: none;
-  background-color: #a7219a !important;
+  background-color: #cd9a19 !important;
   /* background-color: #E85253 !important; */
 }
 
@@ -473,17 +473,17 @@ pre {
 @media screen and (max-width: 1000px) {
 
   #select-team-box {
-    width: 40vw;
+    width: 20vw;
     margin-right: 10px;
   }
 
   .newTeam {
     display: block;
-    width: 80vw;
+    width: 50vw;
   }
 
   .textbox-container {
-    width: 80vw;
+    width: 45vw;
     margin-left: 5px;
   }
 
@@ -504,11 +504,16 @@ pre {
   }
 
   .teamSelectBox {
-    width: 40vw;
+    width: 20vw;
   }
 
   .teamSelectBox[name="formation"] {
-    width: 35vw;
+    width: 20vw;
+    margin-left: 10px;
+  }
+
+  #select-formation-box {
+    margin-left: 15px;
   }
 
   .select-buttons {
@@ -530,11 +535,11 @@ pre {
 
   .color-pickers-container {
     margin-top: 10px;
-    width: 100%;
+    width: 90%;
   }
 
   .teamNameBox {
-    width: 96% !important;
+    width: 43vw !important;
   }
 
   .teamName {
