@@ -102,7 +102,7 @@ body {
 }
 
 .teamName {
-  margin-right: 50px;
+  margin-right: 20px;
   margin-left: 15px;
 }
 
@@ -192,11 +192,11 @@ li {
 
 .color-pickers-container {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .color-picker {
-  margin-right: 20px;
+  padding-right: 35px;
 }
 
 .color-picker label {
@@ -311,7 +311,8 @@ li {
 }
 
 .output-container {
-  position: relative; /*Sets the position of the text labels to the circle*/ 
+  position: relative;
+  /*Sets the position of the text labels to the circle*/
 }
 
 .outputStarting,
@@ -377,6 +378,8 @@ li {
 
 #importButton {
   display: none;
+  background-color: blue;
+  margin-left: 10px;
 }
 
 #downloadButton {
@@ -401,6 +404,7 @@ li {
 #downloadButton,
 #screenshotbutton {
   display: flex;
+  margin-right: 18px;
 }
 
 /**************
@@ -463,15 +467,22 @@ pre {
 @media screen and (max-width: 1000px) {
   .newTeam {
     display: block;
+    width: 80vw;
   }
 
   .textbox-container {
     width: 80vw;
+    margin-left: 10px;
+  }
+
+  .lineup-container {
+    margin-left: 10px;
   }
 
   .column {
-    width: 75vw;
+    width: 99%;
     margin-top: 20px;
+    margin-left: 0px;
   }
 
   .teamSelectBox {
@@ -483,16 +494,20 @@ pre {
   }
 
   .select-buttons {
-    margin-left: -5px;
     display: block;
   }
 
-  .input-group {
-    margin-left: 5px !important;
+  .select-box label,
+  .select-box select,
+  .input-group,
+  .input-group label,
+  .teamName,
+  #downloadButton {
+    margin-left: 0px !important;
+    ;
   }
 
   .color-pickers-container {
-    margin-left: 15px;
     margin-top: 10px;
   }
 
@@ -500,7 +515,7 @@ pre {
     width: 70vw !important;
   }
 
-  .input-container{
+  .input-container {
     display: none;
   }
 }
