@@ -512,7 +512,11 @@ pre {
   }
 
   .teamNameBox {
-    width: 70vw !important;
+    width: 96% !important;
+  }
+
+  .teamName {
+    margin-right: 0px;
   }
 
   .input-container {
