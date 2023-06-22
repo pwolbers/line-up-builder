@@ -181,7 +181,7 @@ importButton.addEventListener('click', function () {
 
 //Pre loads the JSON files stored locally
 document.addEventListener("DOMContentLoaded", function () {
-    var deviceWidth = window.innerWidth;
+    var deviceWidth = screen.width;
     var span = document.querySelector('.device-width');
     if (span) {
         span.textContent = deviceWidth.toString();
