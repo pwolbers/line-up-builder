@@ -177,35 +177,23 @@ importButton.addEventListener('click', function () {
     }
 });
 
-
-
 //Pre loads the JSON files stored locally
 document.addEventListener("DOMContentLoaded", function () {
-    var deviceWidth = screen.width;
-    var span = document.querySelector('.device-width');
-    if (span) {
-        span.textContent = deviceWidth.toString();
-    }
-
     var showLineUpButton = document.getElementById('showLineUpButton');
     var lineupContainer = document.querySelector('.lineup-container');
 
     if (showLineUpButton && lineupContainer) {
         showLineUpButton.addEventListener('click', function () {
-            console.log("DISPLAY = " + lineupContainer.style.display);
-            if (window.innerWidth <= 1000) { // Check if mobile device
-
+            if (screen.width <= 1000) { // Check if mobile device
                 if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
                     lineupContainer.style.display = 'block'; // Show the lineup-container div
                     showLineUpButton.textContent = 'Hide line-up'; // Change button text
-                    window.scrollBy(500, 0); // Scroll 200 pixels to the right
+                    lineupContainer.scroll(0, 1000);
                 } else {
                     lineupContainer.style.display = 'none'; // Hide the lineup-container div
                     showLineUpButton.textContent = 'Show line-up'; // Change button text
                 }
             }
-            
-            console.log("DISPLAY AFTER = " + lineupContainer.style.display);
         });
     }
 

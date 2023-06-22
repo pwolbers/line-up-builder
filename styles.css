@@ -402,8 +402,10 @@ li {
 
 #showLineUpButton {
   position: relative;
-  left: 40%;
+  width: 99%;
+  margin-bottom: 20px;
   display: none;
+  background-color: #E85253 !important;
 }
 
 /**************
@@ -509,7 +511,7 @@ pre {
   #showLineUpButton {
     display: block;
   }
-  
+
   .color-pickers-container {
     margin-top: 10px;
     width: 100%;
