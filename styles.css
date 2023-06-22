@@ -193,10 +193,7 @@ li {
 .color-pickers-container {
   display: flex;
   justify-content: space-between;
-}
-
-.color-picker {
-  padding-right: 35px;
+  width: 22.5vw;
 }
 
 .color-picker label {
@@ -509,6 +506,7 @@ pre {
 
   .color-pickers-container {
     margin-top: 10px;
+    width: 100%;
   }
 
   .teamNameBox {

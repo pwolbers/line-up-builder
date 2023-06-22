@@ -15,35 +15,35 @@ const backupBoxes = document.querySelectorAll(".backupBox");
 const outputStartings = document.querySelectorAll(".outputStarting");
 const outputBackups = document.querySelectorAll(".outputBackup");
 
-$(document).ready(function() {
+$(document).ready(function () {
     var screenWidth = screen.width;
-  
+
     function handleWindowResize() {
-      screenWidth = screen.width;
+        screenWidth = screen.width;
     }
-  
+
     $(window).on('resize', handleWindowResize);
-  
-    $(".starting-column > h2").click(function() {
-      console.log("screenWidth: " + screenWidth);
-      var inputContainers = $(this).siblings(".input-container");
-      if (screenWidth <= 767) {
-        toggleDisplay(inputContainers, true);
-      } else {
-        toggleDisplay(inputContainers, false);
-      }
+
+    $(".starting-column > h2").click(function () {
+        console.log("screenWidth: " + screenWidth);
+        var inputContainers = $(this).siblings(".input-container");
+        if (screenWidth <= 1000) {
+            toggleDisplay(inputContainers, true);
+        } else {
+            toggleDisplay(inputContainers, false);
+        }
     });
-  
-    $(".backup-column > h2").click(function() {
-      console.log("screenWidth: " + screenWidth);
-      var inputContainers = $(this).siblings(".input-container");
-      if (screenWidth <= 767) {
-        toggleDisplay(inputContainers, true);
-      } else {
-        toggleDisplay(inputContainers, false);
-      }
+
+    $(".backup-column > h2").click(function () {
+        console.log("screenWidth: " + screenWidth);
+        var inputContainers = $(this).siblings(".input-container");
+        if (screenWidth <= 1000) {
+            toggleDisplay(inputContainers, true);
+        } else {
+            toggleDisplay(inputContainers, false);
+        }
     });
-  });
+});
 
 function toggleDisplay(elements, mobileCheck) {
     if (mobileCheck) {
@@ -181,6 +181,11 @@ importButton.addEventListener('click', function () {
 
 //Pre loads the JSON files stored locally
 document.addEventListener("DOMContentLoaded", function () {
+    var deviceWidth = window.innerWidth;
+    var span = document.querySelector('.device-width');
+    if (span) {
+        span.textContent = deviceWidth.toString();
+    }
     getJsonFiles()
         .then(jsonFiles => {
             jsonFiles.forEach(jsonData => {
