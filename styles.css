@@ -17,7 +17,7 @@ body {
 
 .container {
   display: flex;
-  width: 100%;
+  width: auto;
   height: 98%;
   justify-content: flex-start;
 }
