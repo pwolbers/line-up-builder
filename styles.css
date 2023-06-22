@@ -29,7 +29,7 @@ body {
 }
 
 .textbox-container {
-  padding: 20px 0px 20px 30px;
+  padding: 20px 0px 20px 20px;
   width: 50vw;
 }
 
@@ -409,7 +409,8 @@ li {
   width: 99%;
   margin-bottom: 20px;
   display: none;
-  background-color: #E85253 !important;
+  background-color: #50b4e2 !important;
+  /* background-color: #E85253 !important; */
 }
 
 /**************
@@ -472,8 +473,8 @@ pre {
 @media screen and (max-width: 1000px) {
 
   #select-team-box {
-    width: 45vw;
-    margin-right: 15px;
+    width: 40vw;
+    margin-right: 10px;
   }
 
   .newTeam {
@@ -483,7 +484,7 @@ pre {
 
   .textbox-container {
     width: 80vw;
-    margin-left: 10px;
+    margin-left: 5px;
   }
 
   .lineup-container {
@@ -503,11 +504,11 @@ pre {
   }
 
   .teamSelectBox {
-    width: 45vw;
+    width: 40vw;
   }
 
   .teamSelectBox[name="formation"] {
-    width: 25vw;
+    width: 35vw;
   }
 
   .select-buttons {

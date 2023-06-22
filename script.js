@@ -175,8 +175,23 @@ importButton.addEventListener('click', function () {
     }
 });
 window.addEventListener('DOMContentLoaded', function () {
-    var showLineUpButton = document.getElementById('showLineUpButton');
     var lineupContainer = document.querySelector('.lineup-container');
+
+    function adjustViewportScale() {
+        var viewport = document.querySelector('meta[name="viewport"]');
+        var viewportContent = viewport.getAttribute('content');
+
+        if (container.style.display === 'none') {
+            // Container is hidden, adjust viewport scale to normal
+            viewport.setAttribute('content', viewportContent.replace('initial-scale=0.5', 'initial-scale=1'));
+        } else {
+            // Container is visible, adjust viewport scale to fit the entire page
+            viewport.setAttribute('content', viewportContent.replace('initial-scale=1', 'initial-scale=0.5'));
+        }
+    }
+
+    var showLineUpButton = document.getElementById('showLineUpButton');
+    
 
     showLineUpButton.addEventListener('click', function () {
         if (screen.width <= 1000) { // Check if mobile device
@@ -188,6 +203,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 showLineUpButton.textContent = 'Show line-up and formation'; // Change button text                
             }
         }
+        adjustViewportScale();
     });
 
     var mediaQuery = window.matchMedia('(min-width: 1001px)'); // Adjust the media query as needed
@@ -204,7 +220,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-   
+
 
 });
 //Pre loads the JSON files stored locally
