@@ -176,7 +176,6 @@ importButton.addEventListener('click', function () {
 });
 window.addEventListener('DOMContentLoaded', function () {
     var lineupContainer = document.querySelector('.lineup-container');
-    //lineupContainer.style.display = 'none';
 
     var showLineUpButton = document.getElementById('showLineUpButton');
 
@@ -349,6 +348,11 @@ circles.forEach((circle, index) => {
 //Sets the line up based on the JSON content retried from GitHub
 const selectTeam = document.getElementById("select-team");
 selectTeam.addEventListener("change", function () {
+    var lineupContainer = document.querySelector('.lineup-container');
+    if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
+        lineupContainer.style.display = 'block'; // Show the lineup-container div
+        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
+    }
     const selectedValue = this.value;
     if (selectedValue === "clear") {
         startingArray = ['', '', '', '', '', '', '', '', '', '', ''];
@@ -485,6 +489,11 @@ document.getElementById('downloadButton').addEventListener('click', function () 
 //Sets the formation based on formation select box
 const selectFormation = document.getElementById("select-formation");
 selectFormation.addEventListener("change", function () {
+    var lineupContainer = document.querySelector('.lineup-container');
+    if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
+        lineupContainer.style.display = 'block'; // Show the lineup-container div
+        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
+    }
     const selectedValue = this.value;
     setCirclePositions(selectedValue);
     determineFormation();
@@ -1026,7 +1035,12 @@ function formatFormationString(value) {
 
 // Function to capture screenshot and trigger download
 function captureScreenshotAndDownload() {
-    const divElement = document.getElementById('image-container'); // Replace 'yourDivId' with the actual ID of your div
+    var lineupContainer = document.querySelector('.lineup-container');
+    if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
+        lineupContainer.style.display = 'block'; // Show the lineup-container div
+        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
+    }
+    const divElement = document.getElementById('image-container');
     const rect = divElement.getBoundingClientRect();
 
     // Extract the values
