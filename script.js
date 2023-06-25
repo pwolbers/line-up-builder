@@ -24,9 +24,13 @@ $(document).ready(function () {
 
     $(window).on('resize', handleWindowResize);
 
+
     $(".starting-column > h2").click(function () {
         var inputContainers = $(this).siblings(".input-container");
-        if (screenWidth <= 1000) {
+
+        var showLineUpButton = document.getElementById('showLineUpButton');
+        const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
+        if (displayValue == 'block') {
             toggleDisplay(inputContainers, true);
         } else {
             toggleDisplay(inputContainers, false);
@@ -35,7 +39,10 @@ $(document).ready(function () {
 
     $(".backup-column > h2").click(function () {
         var inputContainers = $(this).siblings(".input-container");
-        if (screenWidth <= 1000) {
+
+        var showLineUpButton = document.getElementById('showLineUpButton');
+        const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
+        if (displayValue == 'block') {
             toggleDisplay(inputContainers, true);
         } else {
             toggleDisplay(inputContainers, false);
@@ -180,15 +187,14 @@ window.addEventListener('DOMContentLoaded', function () {
     var showLineUpButton = document.getElementById('showLineUpButton');
 
     showLineUpButton.addEventListener('click', function () {
-        if (screen.width <= 1000) { // Check if mobile device
-            if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
-                lineupContainer.style.display = 'block'; // Show the lineup-container div
-                showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
-            } else {
-                lineupContainer.style.display = 'none'; // Hide the lineup-container div
-                showLineUpButton.textContent = 'Show line-up and formation'; // Change button text
-            }
+        if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
+            lineupContainer.style.display = 'block'; // Show the lineup-container div
+            showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
+        } else {
+            lineupContainer.style.display = 'none'; // Hide the lineup-container div
+            showLineUpButton.textContent = 'Show line-up and formation'; // Change button text
         }
+
     });
 
     var mediaQuery = window.matchMedia('(min-width: 1001px)'); // Adjust the media query as needed
@@ -730,6 +736,12 @@ function updateCircleColors(colorPickerMain, colorPickerSecond, colorPickerNumbe
         circleClass[i].style.borderColor = colorPickerSecond;
         circleClass[i].querySelector(".circle-number").style.color = colorPickerNumber;
     }
+    var lineupContainer = document.querySelector('.lineup-container');
+    if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
+        lineupContainer.style.display = 'block'; // Show the lineup-container div
+        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
+    }
+
 }
 
 // Determines the order of the circles from bottom to top, from right to left
@@ -766,6 +778,11 @@ function getCurrentCircleOrder() {
 
 // Shows/hides textboxes below circles based on input
 function toggleOutputBoxVisibility(box, inputValue) {
+    var lineupContainer = document.querySelector('.lineup-container');
+    if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
+        lineupContainer.style.display = 'block'; // Show the lineup-container div
+        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
+    }
     if (inputValue.trim() !== "") {
         box.style.display = "block";
     } else if (box.style.display != "none") {
