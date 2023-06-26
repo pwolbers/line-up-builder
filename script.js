@@ -317,6 +317,11 @@ circles.forEach((circle, index) => {
         document.removeEventListener("touchmove", dragCircle);
         document.removeEventListener("mouseup", stopDrag);
         document.removeEventListener("touchend", stopDrag);
+
+        if(document.getElementById("select-formation").value != ''){
+            document.getElementById("select-formation").value = '';
+        }
+
         setTextBoxOrders();
     }
 
@@ -371,6 +376,7 @@ selectTeam.addEventListener("change", function () {
         const defaultColors = { mainColor: '#ff0000', secondColor: '#ffffff', numberColor: '#ffffff' };
         setCircleColor(defaultColors);
         setCirclePositions('433');
+        setTextBoxOrders();
     }
     else {
         startingArray = lineUpsObj[selectedValue].starting;
@@ -384,6 +390,7 @@ selectTeam.addEventListener("change", function () {
 
         setCircleColor(lineUpsObj[selectedValue].colors);
         setCirclePositions(formattedFormation);
+        setTextBoxOrders();
     }
 
     setLineUp(startKeyArray, backupKeyArray);
@@ -631,11 +638,11 @@ function setCirclePositions(formationValue) {
         circles[1].style.top = '68%'; circles[1].style.left = '67%';    //#2
         circles[2].style.top = '68%'; circles[2].style.left = '46.5%';  //#3
         circles[3].style.top = '68%'; circles[3].style.left = '27%';    //#4
-        circles[4].style.top = '53%'; circles[4].style.left = '16%';    //#5
-        circles[5].style.top = '53%'; circles[5].style.left = '58%';    //#6
-        circles[6].style.top = '53%'; circles[6].style.left = '36%';    //#8
+        circles[4].style.top = '56%'; circles[4].style.left = '16%';    //#5
+        circles[5].style.top = '50%'; circles[5].style.left = '58%';    //#6
+        circles[6].style.top = '50%'; circles[6].style.left = '36%';    //#8
         circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
-        circles[8].style.top = '53%'; circles[8].style.left = '77%';    //#7
+        circles[8].style.top = '56%'; circles[8].style.left = '77%';    //#7
         circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
         circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
     } else if (formationValue === "343") {
