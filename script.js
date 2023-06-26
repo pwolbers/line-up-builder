@@ -123,6 +123,8 @@ window.onload = () => {
 
     var formattedJSON = JSON.stringify(json, null, 2);
     document.getElementById("jsonContainer").innerText = formattedJSON;
+    setTextBoxOrders();
+    determineFormation();
 }
 
 
@@ -509,37 +511,67 @@ selectFormation.addEventListener("change", function () {
 // Retrieves the JSONs loaded in the GitHub
 function getJsonFiles() {
     return new Promise((resolve, reject) => {
-        fetch('https://api.github.com/repos/pwolbers/line-up-builder/contents/')
-            .then(response => response.json())
-            .then(gitHubContent => {
-                const jsonFilePromises = gitHubContent
-                    .filter(file => file.name.indexOf('json') > -1)
-                    .map(file => {
-                        return fetch(file.download_url)
-                            .then(response => response.json())
-                            .then(data => {
-                                return data;
-                            })
-                            .catch(error => {
-                                console.error('Error fetching JSON file:', error);
-                                return null;
-                            });
-                    });
+        console.log("HREF: " + window.location.href);
+        const isFileServer = window.location.href.includes('127');
 
-                Promise.all(jsonFilePromises)
-                    .then(files => {
-                        const fileArray = files.filter(file => file !== null);
-                        resolve(fileArray);
+        if (isFileServer) {
+            // Fetch JSON files locally
+            const jsonFileNames = ['Ajax CL 18-19.json', 'Ajax Possible 23-24.json', 'Argentina WC 2022.json', 'Man Utd CL 1999.json']; // Replace with actual file names
+
+            const jsonFilePromises = jsonFileNames.map(fileName => {
+                return fetch(fileName)
+                    .then(response => response.json())
+                    .then(data => {
+                        return data;
                     })
                     .catch(error => {
-                        console.error('Error resolving JSON files:', error);
-                        reject(error);
+                        console.error('Error fetching JSON file:', error);
+                        return null;
                     });
-            })
-            .catch(error => {
-                console.error('Error fetching GitHub content:', error);
-                reject(error);
             });
+
+            Promise.all(jsonFilePromises)
+                .then(files => {
+                    const fileArray = files.filter(file => file !== null);
+                    resolve(fileArray);
+                })
+                .catch(error => {
+                    console.error('Error resolving JSON files:', error);
+                    reject(error);
+                });
+        } else {
+            fetch('https://api.github.com/repos/pwolbers/line-up-builder/contents/')
+                .then(response => response.json())
+                .then(gitHubContent => {
+                    const jsonFilePromises = gitHubContent
+                        .filter(file => file.name.endsWith('.json'))
+                        .map(file => {
+                            return fetch(file.download_url)
+                                .then(response => response.json())
+                                .then(data => {
+                                    return data;
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching JSON file:', error);
+                                    return null;
+                                });
+                        });
+
+                    Promise.all(jsonFilePromises)
+                        .then(files => {
+                            const fileArray = files.filter(file => file !== null);
+                            resolve(fileArray);
+                        })
+                        .catch(error => {
+                            console.error('Error resolving JSON files:', error);
+                            reject(error);
+                        });
+                })
+                .catch(error => {
+                    console.error('Error fetching GitHub content:', error);
+                    reject(error);
+                });
+        }
     });
 }
 
@@ -556,8 +588,8 @@ function setCirclePositions(formationValue) {
         circles[6].style.top = '47%'; circles[6].style.left = '36%';    //#8
         circles[7].style.top = '37%'; circles[7].style.left = '16%';    //#10
         circles[8].style.top = '37%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '34%';    //#11
-        circles[10].style.top = '10%'; circles[10].style.left = '60%';  //#9
+        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
+        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
     } else if (formationValue === "424") {
         circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
         circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
@@ -568,8 +600,8 @@ function setCirclePositions(formationValue) {
         circles[6].style.top = '47%'; circles[6].style.left = '36%';    //#8
         circles[7].style.top = '28%'; circles[7].style.left = '16%';    //#10
         circles[8].style.top = '28%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '34%';    //#11
-        circles[10].style.top = '10%'; circles[10].style.left = '60%';  //#9
+        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
+        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
     } else if (formationValue === "442diamond") {
         circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
         circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
@@ -580,8 +612,8 @@ function setCirclePositions(formationValue) {
         circles[6].style.top = '40%'; circles[6].style.left = '28%';    //#8
         circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
         circles[8].style.top = '40%'; circles[8].style.left = '66%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '34%';    //#11
-        circles[10].style.top = '10%'; circles[10].style.left = '60%';  //#9
+        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
+        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
     } else if (formationValue === "451" || formationValue === "4231") {
         circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
         circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
@@ -592,8 +624,8 @@ function setCirclePositions(formationValue) {
         circles[6].style.top = '48%'; circles[6].style.left = '36%';    //#8
         circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
         circles[8].style.top = '28%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '28%'; circles[9].style.left = '16%';  //#11
-        circles[10].style.top = '10%'; circles[10].style.left = '46.5%';  //#9
+        circles[9].style.top = '10%'; circles[9].style.left = '46.5%';    //#9
+        circles[10].style.top = '28%'; circles[10].style.left = '16%';  //#11
     } else if (formationValue === "532") {
         circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
         circles[1].style.top = '68%'; circles[1].style.left = '67%';    //#2
@@ -604,8 +636,8 @@ function setCirclePositions(formationValue) {
         circles[6].style.top = '53%'; circles[6].style.left = '36%';    //#8
         circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
         circles[8].style.top = '53%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '34%';    //#9
-        circles[10].style.top = '10%'; circles[10].style.left = '60%';  //#11
+        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
+        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
     } else if (formationValue === "343") {
         circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
         circles[1].style.top = '65%'; circles[1].style.left = '67%';    //#2
@@ -615,9 +647,9 @@ function setCirclePositions(formationValue) {
         circles[5].style.top = '40%'; circles[5].style.left = '66%';    //#6
         circles[6].style.top = '40%'; circles[6].style.left = '28%';    //#8
         circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
-        circles[8].style.top = '18%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '18%'; circles[9].style.left = '16%';  //#11
-        circles[10].style.top = '10%'; circles[10].style.left = '46.5%';  //#9
+        circles[8].style.top = '14%'; circles[8].style.left = '77%';    //#7
+        circles[9].style.top = '10%'; circles[9].style.left = '46.5%';    //#9
+        circles[10].style.top = '14%'; circles[10].style.left = '16%';  //#11
     } else { //4-3-3
         circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
         circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
@@ -627,9 +659,9 @@ function setCirclePositions(formationValue) {
         circles[5].style.top = '52%'; circles[5].style.left = '46.5%';  //#6
         circles[6].style.top = '38%'; circles[6].style.left = '33%';    //#8
         circles[7].style.top = '30%'; circles[7].style.left = '60%';    //#10
-        circles[8].style.top = '18%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '18%'; circles[9].style.left = '16%';  //#11
-        circles[10].style.top = '10%'; circles[10].style.left = '46.5%';  //#9
+        circles[8].style.top = '14%'; circles[8].style.left = '77%';    //#7
+        circles[9].style.top = '10%'; circles[9].style.left = '46.5%';    //#9
+        circles[10].style.top = '14%'; circles[10].style.left = '16%';  //#11
     }
     setTextBoxOrders();
     circles.forEach((circle, index) => {
