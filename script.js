@@ -1142,21 +1142,41 @@ function captureScreenshotAndDownload() {
     }
 
 
+    //TESTING
+    var widthLabel = document.querySelector(".widthLabelTwo");
+    widthLabel.innerText = '0W: ';
+    var outputStartings = document.querySelectorAll(".outputStarting");
+    outputStartings.forEach(outputBox => {
+        console.log("0WIDTH = " + parseInt(outputBox.getBoundingClientRect().width));
+        var outputBoxWidth = parseInt(outputBox.getBoundingClientRect().width);
+        widthLabel.innerText += outputBoxWidth + ' | W: ';
+    });
+    
     setTimeout(function () {
-        //TESTING
-        var widthLabel = document.querySelector(".widthLabelTwo");
-        widthLabel.innerText = '1W: ';
-        var outputStartings = document.querySelectorAll(".outputStarting");
-        outputStartings.forEach(outputBox => {
-            console.log("WIDTH = " + parseInt(outputBox.getBoundingClientRect().width));
-            var outputBoxWidth = parseInt(outputBox.getBoundingClientRect().width);
-            widthLabel.innerText += outputBoxWidth + ' | W: ';
-        });
-
         html2canvas(divElement).then(function (canvas) {
+            //TESTING
+            var widthLabel = document.querySelector(".widthLabelTwo");
+            widthLabel.innerText = '1W: ';
+            var outputStartings = document.querySelectorAll(".outputStarting");
+            outputStartings.forEach(outputBox => {
+                console.log("1WIDTH = " + parseInt(outputBox.getBoundingClientRect().width));
+                var outputBoxWidth = parseInt(outputBox.getBoundingClientRect().width);
+                widthLabel.innerText += outputBoxWidth + ' | W: ';
+            });
+
             // Create a new canvas to hold the trimmed image
             var trimmedCanvas = document.createElement('canvas');
             var trimmedContext = trimmedCanvas.getContext('2d');
+
+            //TESTING
+            var widthLabel = document.querySelector(".widthLabelTwo");
+            widthLabel.innerText = '2W: ';
+            var outputStartings = document.querySelectorAll(".outputStarting");
+            outputStartings.forEach(outputBox => {
+                console.log("2WIDTH = " + parseInt(outputBox.getBoundingClientRect().width));
+                var outputBoxWidth = parseInt(outputBox.getBoundingClientRect().width);
+                widthLabel.innerText += outputBoxWidth + ' | W: ';
+            });
 
             // Calculate the trimming dimensions
             var widthToTrim = canvas.width * 0.05;
@@ -1178,6 +1198,16 @@ function captureScreenshotAndDownload() {
                 trimmedWidth,
                 trimmedHeight
             );
+
+            //TESTING
+            var widthLabel = document.querySelector(".widthLabelTwo");
+            widthLabel.innerText = '3W: ';
+            var outputStartings = document.querySelectorAll(".outputStarting");
+            outputStartings.forEach(outputBox => {
+                console.log("3WIDTH = " + parseInt(outputBox.getBoundingClientRect().width));
+                var outputBoxWidth = parseInt(outputBox.getBoundingClientRect().width);
+                widthLabel.innerText += outputBoxWidth + ' | W: ';
+            });
 
             // Create an anchor element to download the image
             var link = document.createElement('a');
