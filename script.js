@@ -403,8 +403,6 @@ selectTeam.addEventListener("change", function () {
 const screenshotButton = document.getElementById('screenshotButton');
 screenshotButton.addEventListener('click', captureScreenshotAndDownload);
 
-// Initial update on page load
-selectTeam.dispatchEvent(new Event("change"));
 
 //Creates a JSON based on the line up made by the user
 document.getElementById('downloadButton').addEventListener('click', function () {
@@ -1103,13 +1101,32 @@ function formatFormationString(value) {
 // Function to capture screenshot and trigger download
 function captureScreenshotAndDownload() {
     document.body.classList.add('desktop-mode');
-    
+
     var lineupContainer = document.querySelector('.lineup-container');
     if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
         lineupContainer.style.display = 'block'; // Show the lineup-container div
         showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
     }
-    const divElement = document.getElementById('image-container');
+
+    // Get all the <span> elements with the class "outputStarting"
+    const outputStartingSpans = document.querySelectorAll('span.outputStarting');
+
+    // Iterate over the <span> elements and set their max-width
+    outputStartingSpans.forEach(span => {
+        const currentWidth = span.offsetWidth;
+        span.style.maxWidth = `${currentWidth}px`;
+        console.log("CURRENT WIDTH: " + currentWidth);
+    });
+
+    // Get all the <span> elements with the class "outputStarting"
+    const outputBackupSpans = document.querySelectorAll('span.outputBackup');
+
+    // Iterate over the <span> elements and set their max-width
+    outputBackupSpans.forEach(span => {
+        const currentWidth = span.offsetWidth;
+        span.style.maxWidth = `${currentWidth}px`;
+        console.log("CURRENT WIDTH: " + currentWidth);
+    });
 
     const currentWidth = screenshotButton.getBoundingClientRect().width;
     const currentHeight = screenshotButton.getBoundingClientRect().height;
@@ -1128,10 +1145,12 @@ function captureScreenshotAndDownload() {
     var timeOutValue;
     const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
     if (displayValue == 'block') {
-        timeOutValue = 1414;
+        timeOutValue = 1;
     } else {
         timeOutValue = 1;
     }
+
+    const divElement = document.getElementById('image-container');
 
     setTimeout(function () {
         html2canvas(divElement).then(function (canvas) {
@@ -1176,6 +1195,13 @@ function captureScreenshotAndDownload() {
             screenshotButton.innerText = "Download image (.png)";
 
             document.body.classList.remove('desktop-mode');
+            outputStartingSpans.forEach(span => {
+                span.style.maxWidth = '';
+            });
+
+            outputBackupSpans.forEach(span => {
+                span.style.maxWidth = '';
+            });
         });
     }, timeOutValue);
 
