@@ -1113,7 +1113,7 @@ function captureScreenshotAndDownload() {
     const downloadWidth = downloadButton.getBoundingClientRect().width;
     const downloadHeight = downloadButton.getBoundingClientRect().height;
 
-    screenshotButton.innerText = "Downloading.....";
+    screenshotButton.innerText = "Downloading...";
 
     var widthAndHeightSB = 'width: ' + currentWidth + 'px; height: ' + currentHeight + 'px;'
     var widthAndHeightDB = 'width: ' + downloadWidth + 'px; height: ' + downloadHeight + 'px;'
@@ -1138,7 +1138,7 @@ function captureScreenshotAndDownload() {
     var timeOutValue;
     const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
     if (displayValue == 'block') {
-        timeOutValue = 1500;
+        timeOutValue = 1;
     } else {
         timeOutValue = 1;
     }
