@@ -370,7 +370,7 @@ selectTeam.addEventListener("change", function () {
 
         document.getElementById("select-formation").value = '';
         document.getElementById("teamNameBox").value = '';
-        
+
         const defaultColors = { mainColor: '#ff0000', secondColor: '#ffffff', numberColor: '#ffffff' };
         setCircleColor(defaultColors);
         setCirclePositions('433');
@@ -405,6 +405,14 @@ selectTeam.dispatchEvent(new Event("change"));
 //Creates a JSON based on the line up made by the user
 document.getElementById('downloadButton').addEventListener('click', function () {
     // Create JSON data
+    const currentWidth = screenshotButton.offsetWidth;
+    const currentHeight = screenshotButton.offsetHeight;
+
+    screenshotButton.innerText = "Downloading.....";
+
+    screenshotButton.style.width = currentWidth + 'px';
+    screenshotButton.style.height = currentHeight + 'px';
+
     const jsonData = { "teamName": "", "formation": "", "starting": {}, "backup": {}, "colors": {} };
 
     let formation = determineFormation();
@@ -497,6 +505,8 @@ document.getElementById('downloadButton').addEventListener('click', function () 
         });
         return duplicatePositions;
     }
+
+    screenshotButton.innerText = "Download team (.JSON)";
 });
 
 //Sets the formation based on formation select box
@@ -1096,6 +1106,20 @@ function captureScreenshotAndDownload() {
     const divElement = document.getElementById('image-container');
     const rect = divElement.getBoundingClientRect();
 
+    const currentWidth = screenshotButton.getBoundingClientRect().width;
+    const currentHeight = screenshotButton.getBoundingClientRect().height;
+
+    var downloadButton = document.getElementById('downloadButton');
+    const downloadWidth = downloadButton.getBoundingClientRect().width;
+    const downloadHeight = downloadButton.getBoundingClientRect().height;
+
+    screenshotButton.innerText = "Downloading.....";
+
+    var widthAndHeightSB = 'width: ' + currentWidth + 'px; height: ' + currentHeight + 'px;'
+    var widthAndHeightDB = 'width: ' + downloadWidth + 'px; height: ' + downloadHeight + 'px;'
+    screenshotButton.style.cssText += widthAndHeightSB;
+    downloadButton.style.cssText += widthAndHeightDB;
+
     // Extract the values
     var imgX = rect.left + (0.041 * rect.width);     // X coordinate 30 730    4.1
     var imgY = rect.top + (0.011 * rect.height);      // Y coordinate 10 900    1.1
@@ -1114,7 +1138,7 @@ function captureScreenshotAndDownload() {
     var timeOutValue;
     const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
     if (displayValue == 'block') {
-        timeOutValue = 400;
+        timeOutValue = 1500;
     } else {
         timeOutValue = 1;
     }
@@ -1158,6 +1182,12 @@ function captureScreenshotAndDownload() {
             //document.body.appendChild(link);
             link.click();
             //document.body.removeChild(link);
+
+            screenshotButton.innerText = "Download image (.png)";
+          
         });
     }, timeOutValue);
+
+    downloadButton.style.setProperty('height', downloadWidth);
+    downloadButton.style.setProperty('height', downloadHeight);
 }
