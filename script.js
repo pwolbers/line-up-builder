@@ -16,8 +16,6 @@ const outputStartings = document.querySelectorAll(".outputStarting");
 const outputBackups = document.querySelectorAll(".outputBackup");
 
 $(document).ready(function () {
-    var screenWidth = screen.width;
-
     function handleWindowResize() {
         screenWidth = screen.width;
     }
@@ -318,10 +316,9 @@ circles.forEach((circle, index) => {
         document.removeEventListener("mouseup", stopDrag);
         document.removeEventListener("touchend", stopDrag);
 
-        if(document.getElementById("select-formation").value != ''){
+        if (document.getElementById("select-formation").value != '') {
             document.getElementById("select-formation").value = '';
         }
-
         setTextBoxOrders();
     }
 
@@ -372,7 +369,8 @@ selectTeam.addEventListener("change", function () {
         backupArray = ['', '', '', '', '', '', '', '', '', '', ''];
 
         document.getElementById("select-formation").value = '';
-
+        document.getElementById("teamNameBox").value = '';
+        
         const defaultColors = { mainColor: '#ff0000', secondColor: '#ffffff', numberColor: '#ffffff' };
         setCircleColor(defaultColors);
         setCirclePositions('433');
@@ -518,7 +516,6 @@ selectFormation.addEventListener("change", function () {
 // Retrieves the JSONs loaded in the GitHub
 function getJsonFiles() {
     return new Promise((resolve, reject) => {
-        console.log("HREF: " + window.location.href);
         const isFileServer = window.location.href.includes('127');
 
         if (isFileServer) {
@@ -1114,43 +1111,53 @@ function captureScreenshotAndDownload() {
         height: imgHeight
     };
 
-    html2canvas(divElement).then(function (canvas) {
-        // Create a new canvas to hold the trimmed image
-        var trimmedCanvas = document.createElement('canvas');
-        var trimmedContext = trimmedCanvas.getContext('2d');
+    var timeOutValue;
+    const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
+    if (displayValue == 'block') {
+        timeOutValue = 400;
+    } else {
+        timeOutValue = 1;
+    }
 
-        // Calculate the trimming dimensions
-        var widthToTrim = canvas.width * 0.05;
-        var heightToTrim = canvas.height * 0.02;
-        var trimmedWidth = canvas.width - (widthToTrim * 2); //5% of the width on both (2) sides
-        var trimmedHeight = canvas.height - (heightToTrim * 2); //5% of the height on both (2) sides
+    setTimeout(function () {
+        html2canvas(divElement).then(function (canvas) {
+            // Create a new canvas to hold the trimmed image
+            var trimmedCanvas = document.createElement('canvas');
+            var trimmedContext = trimmedCanvas.getContext('2d');
 
-        // Draw the trimmed image onto the new canvas
-        trimmedCanvas.width = trimmedWidth;
-        trimmedCanvas.height = trimmedHeight;
-        trimmedContext.drawImage(
-            canvas,
-            widthToTrim,
-            heightToTrim,
-            trimmedWidth,
-            trimmedHeight,
-            0,
-            0,
-            trimmedWidth,
-            trimmedHeight
-        );
+            // Calculate the trimming dimensions
+            var widthToTrim = canvas.width * 0.05;
+            var heightToTrim = canvas.height * 0.02;
+            var trimmedWidth = canvas.width - (widthToTrim * 2); //5% of the width on both (2) sides
+            var trimmedHeight = canvas.height - (heightToTrim * 2); //5% of the height on both (2) sides
 
-        // Create an anchor element to download the image
-        var link = document.createElement('a');
-        link.href = trimmedCanvas.toDataURL('image/png');
-        const teamName = document.querySelector('#teamNameBox');
-        var teamFileName = teamName.value;
-        teamFileName = teamFileName.replaceAll(' ', '_');
-        teamFileName = teamFileName.replaceAll('/', '_');
-        link.download = teamFileName; // Set the filename for the download
+            // Draw the trimmed image onto the new canvas
+            trimmedCanvas.width = trimmedWidth;
+            trimmedCanvas.height = trimmedHeight;
+            trimmedContext.drawImage(
+                canvas,
+                widthToTrim,
+                heightToTrim,
+                trimmedWidth,
+                trimmedHeight,
+                0,
+                0,
+                trimmedWidth,
+                trimmedHeight
+            );
 
-        //document.body.appendChild(link);
-        link.click();
-        //document.body.removeChild(link);
-    });
+            // Create an anchor element to download the image
+            var link = document.createElement('a');
+            link.href = trimmedCanvas.toDataURL('image/png');
+            const teamName = document.querySelector('#teamNameBox');
+            var teamFileName = teamName.value;
+            teamFileName = teamFileName.replaceAll(' ', '_');
+            teamFileName = teamFileName.replaceAll('/', '_');
+            link.download = teamFileName; // Set the filename for the download
+
+            //document.body.appendChild(link);
+            link.click();
+            //document.body.removeChild(link);
+        });
+    }, timeOutValue);
 }
