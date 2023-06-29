@@ -3,6 +3,7 @@ var startingArray = [];
 var backupArray = [];
 var startKeyArray = [];
 var backupKeyArray = [];
+var screenWidth;
 
 const jsonFileInput = document.getElementById('jsonFileInput');
 const chooseFileButton = document.getElementById('chooseFileButton');
@@ -16,12 +17,6 @@ const outputStartings = document.querySelectorAll(".outputStarting");
 const outputBackups = document.querySelectorAll(".outputBackup");
 
 $(document).ready(function () {
-    function handleWindowResize() {
-        screenWidth = screen.width;
-    }
-
-    $(window).on('resize', handleWindowResize);
-
 
     $(".starting-column > h2").click(function () {
         var inputContainers = $(this).siblings(".input-container");
@@ -1109,23 +1104,21 @@ function captureScreenshotAndDownload() {
     }
 
     // Get all the <span> elements with the class "outputStarting"
-    const outputStartingSpans = document.querySelectorAll('span.outputStarting');
+    var outputStartingSpans = document.querySelectorAll('span.outputStarting');
 
     // Iterate over the <span> elements and set their max-width
     outputStartingSpans.forEach(span => {
-        const currentWidth = span.offsetWidth;
+        const currentWidth = span.offsetWidth - 1;
         span.style.maxWidth = `${currentWidth}px`;
-        console.log("CURRENT WIDTH: " + currentWidth);
     });
 
     // Get all the <span> elements with the class "outputStarting"
-    const outputBackupSpans = document.querySelectorAll('span.outputBackup');
+    var outputBackupSpans = document.querySelectorAll('span.outputBackup');
 
     // Iterate over the <span> elements and set their max-width
     outputBackupSpans.forEach(span => {
-        const currentWidth = span.offsetWidth;
+        var currentWidth = span.offsetWidth - 1;
         span.style.maxWidth = `${currentWidth}px`;
-        console.log("CURRENT WIDTH: " + currentWidth);
     });
 
     const currentWidth = screenshotButton.getBoundingClientRect().width;
