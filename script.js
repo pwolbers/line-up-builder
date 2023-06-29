@@ -397,16 +397,6 @@ selectTeam.addEventListener("change", function () {
 
     setLineUp(startKeyArray, backupKeyArray);
     determineFormation();
-
-    //TESTING
-    const widthLabel = document.querySelector(".widthLabelOne");
-    widthLabel.innerText = 'W: ';
-    const outputStartings = document.querySelectorAll(".outputStarting");
-    outputStartings.forEach(outputBox => {
-        console.log("WIDTH = " + parseInt(outputBox.getBoundingClientRect().width));
-        var outputBoxWidth = parseInt(outputBox.getBoundingClientRect().width);
-        widthLabel.innerText += outputBoxWidth + ' | W: ';
-    });
 });
 
 // Attach click event listener to the button
@@ -1112,6 +1102,8 @@ function formatFormationString(value) {
 
 // Function to capture screenshot and trigger download
 function captureScreenshotAndDownload() {
+    document.body.classList.add('desktop-mode');
+    
     var lineupContainer = document.querySelector('.lineup-container');
     if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
         lineupContainer.style.display = 'block'; // Show the lineup-container div
@@ -1136,47 +1128,16 @@ function captureScreenshotAndDownload() {
     var timeOutValue;
     const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
     if (displayValue == 'block') {
-        timeOutValue = 200;
+        timeOutValue = 1414;
     } else {
         timeOutValue = 1;
     }
 
-
-    //TESTING
-    var widthLabel = document.querySelector(".widthLabelTwo");
-    widthLabel.innerText = '0W: ';
-    var outputStartings = document.querySelectorAll(".outputStarting");
-    outputStartings.forEach(outputBox => {
-        console.log("0WIDTH = " + parseInt(outputBox.getBoundingClientRect().width));
-        var outputBoxWidth = parseInt(outputBox.getBoundingClientRect().width);
-        widthLabel.innerText += outputBoxWidth + ' | W: ';
-    });
-    
     setTimeout(function () {
         html2canvas(divElement).then(function (canvas) {
-            //TESTING
-            var widthLabel = document.querySelector(".widthLabelTwo");
-            widthLabel.innerText = '1W: ';
-            var outputStartings = document.querySelectorAll(".outputStarting");
-            outputStartings.forEach(outputBox => {
-                console.log("1WIDTH = " + parseInt(outputBox.getBoundingClientRect().width));
-                var outputBoxWidth = parseInt(outputBox.getBoundingClientRect().width);
-                widthLabel.innerText += outputBoxWidth + ' | W: ';
-            });
-
             // Create a new canvas to hold the trimmed image
             var trimmedCanvas = document.createElement('canvas');
             var trimmedContext = trimmedCanvas.getContext('2d');
-
-            //TESTING
-            var widthLabel = document.querySelector(".widthLabelTwo");
-            widthLabel.innerText = '2W: ';
-            var outputStartings = document.querySelectorAll(".outputStarting");
-            outputStartings.forEach(outputBox => {
-                console.log("2WIDTH = " + parseInt(outputBox.getBoundingClientRect().width));
-                var outputBoxWidth = parseInt(outputBox.getBoundingClientRect().width);
-                widthLabel.innerText += outputBoxWidth + ' | W: ';
-            });
 
             // Calculate the trimming dimensions
             var widthToTrim = canvas.width * 0.05;
@@ -1199,16 +1160,6 @@ function captureScreenshotAndDownload() {
                 trimmedHeight
             );
 
-            //TESTING
-            var widthLabel = document.querySelector(".widthLabelTwo");
-            widthLabel.innerText = '3W: ';
-            var outputStartings = document.querySelectorAll(".outputStarting");
-            outputStartings.forEach(outputBox => {
-                console.log("3WIDTH = " + parseInt(outputBox.getBoundingClientRect().width));
-                var outputBoxWidth = parseInt(outputBox.getBoundingClientRect().width);
-                widthLabel.innerText += outputBoxWidth + ' | W: ';
-            });
-
             // Create an anchor element to download the image
             var link = document.createElement('a');
             link.href = trimmedCanvas.toDataURL('image/png');
@@ -1224,6 +1175,7 @@ function captureScreenshotAndDownload() {
 
             screenshotButton.innerText = "Download image (.png)";
 
+            document.body.classList.remove('desktop-mode');
         });
     }, timeOutValue);
 
