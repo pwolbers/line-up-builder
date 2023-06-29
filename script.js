@@ -1138,7 +1138,7 @@ function captureScreenshotAndDownload() {
     var timeOutValue;
     const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
     if (displayValue == 'block') {
-        timeOutValue = 1;
+        timeOutValue = 1500;
     } else {
         timeOutValue = 1;
     }
