@@ -212,6 +212,9 @@ window.addEventListener('DOMContentLoaded', function () {
             lineupContainer.style.display = 'none'; // Set display to 'none'
         }
     }
+
+    var showLineUpButton = document.getElementById('showLineUpButton');
+    showLineUpButton.textContent = 'Show line-up and formation'; // Change button text
 });
 
 //Pre loads the JSON files stored locally
@@ -358,12 +361,13 @@ circles.forEach((circle, index) => {
 //Sets the line up based on the JSON content retried from GitHub
 const selectTeam = document.getElementById("select-team");
 selectTeam.addEventListener("change", function () {
+
+    const selectedValue = this.value;
     var lineupContainer = document.querySelector('.lineup-container');
     if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
         lineupContainer.style.display = 'block'; // Show the lineup-container div
         showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
     }
-    const selectedValue = this.value;
     if (selectedValue === "clear") {
         startingArray = ['', '', '', '', '', '', '', '', '', '', ''];
         backupArray = ['', '', '', '', '', '', '', '', '', '', ''];
@@ -393,6 +397,16 @@ selectTeam.addEventListener("change", function () {
 
     setLineUp(startKeyArray, backupKeyArray);
     determineFormation();
+
+    //TESTING
+    const widthLabel = document.querySelector(".widthLabelOne");
+    widthLabel.innerText = 'W: ';
+    const outputStartings = document.querySelectorAll(".outputStarting");
+    outputStartings.forEach(outputBox => {
+        console.log("WIDTH = " + parseInt(outputBox.getBoundingClientRect().width));
+        var outputBoxWidth = parseInt(outputBox.getBoundingClientRect().width);
+        widthLabel.innerText += outputBoxWidth + ' | W: ';
+    });
 });
 
 // Attach click event listener to the button
@@ -1104,7 +1118,6 @@ function captureScreenshotAndDownload() {
         showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
     }
     const divElement = document.getElementById('image-container');
-    const rect = divElement.getBoundingClientRect();
 
     const currentWidth = screenshotButton.getBoundingClientRect().width;
     const currentHeight = screenshotButton.getBoundingClientRect().height;
@@ -1120,30 +1133,26 @@ function captureScreenshotAndDownload() {
     screenshotButton.style.cssText += widthAndHeightSB;
     downloadButton.style.cssText += widthAndHeightDB;
 
-    // Extract the values
-    var imgX = rect.left + (0.041 * rect.width);     // X coordinate 30 730    4.1
-    var imgY = rect.top + (0.011 * rect.height);      // Y coordinate 10 900    1.1
-    var imgWidth = rect.width - (0.082 * rect.width);   // Width -60 730       8.2
-    var imgHeight = rect.height - (0.011 * rect.height); // Height -20 900      2.2
-
-    const options = {
-        // Set the x and y coordinates to capture the middle section
-        x: imgX,
-        y: imgY,
-        // Set the desired width and height for the screenshot
-        width: imgWidth,
-        height: imgHeight
-    };
-
     var timeOutValue;
     const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
     if (displayValue == 'block') {
-        timeOutValue = 1500;
+        timeOutValue = 200;
     } else {
         timeOutValue = 1;
     }
 
+
     setTimeout(function () {
+        //TESTING
+        var widthLabel = document.querySelector(".widthLabelTwo");
+        widthLabel.innerText = '1W: ';
+        var outputStartings = document.querySelectorAll(".outputStarting");
+        outputStartings.forEach(outputBox => {
+            console.log("WIDTH = " + parseInt(outputBox.getBoundingClientRect().width));
+            var outputBoxWidth = parseInt(outputBox.getBoundingClientRect().width);
+            widthLabel.innerText += outputBoxWidth + ' | W: ';
+        });
+
         html2canvas(divElement).then(function (canvas) {
             // Create a new canvas to hold the trimmed image
             var trimmedCanvas = document.createElement('canvas');
@@ -1184,7 +1193,7 @@ function captureScreenshotAndDownload() {
             //document.body.removeChild(link);
 
             screenshotButton.innerText = "Download image (.png)";
-          
+
         });
     }, timeOutValue);
 

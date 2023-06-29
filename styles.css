@@ -548,4 +548,12 @@ pre {
   .input-container {
     display: none;
   }
+
+  .widthLabelOne, .widthLabelTwo {
+    margin-left: 40px;
+    font-size:25px;
+    font-weight: bold;
+    background-color: white;
+    display: inline;
+  }
 }
