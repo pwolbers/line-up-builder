@@ -9,9 +9,9 @@
     "#5": "Wijndal",
     "#6": "Tahirovic",
     "#8": "Van den Boomen",
-    "#10": "Bergwijn",
+    "#10": "Berghuis",
     "#7": "?",
-    "#11": "Tadic",
+    "#11": "Bergwijn",
     "#9": "Brobbey"
   },
   "backup": {
@@ -20,12 +20,12 @@
     "#3": "? | Aertssen",
     "#4": "Bassey | Kaplan",
     "#5": "Salah-Edinne",
-    "#6": "Vos | Fitz-Jim",
+    "#6": "Vos",
     "#8": "Taylor | Fitz-Jim",
-    "#10": "Berghuis | Klaassen",
+    "#10": "Klaassen",
     "#7": "Conceição",
-    "#11": "Bergwijn | Godts",
-    "#9": "Tadic | ?"
+    "#11": "Godts",
+    "#9": "?"
   },
   "colors": {
     "mainColor": "#ff0000",
