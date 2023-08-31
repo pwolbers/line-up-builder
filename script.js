@@ -77,7 +77,7 @@ jsonFileInput.addEventListener('change', function (event) {
 });
 
 window.onload = () => {
-    setCirclePositions('433');
+    setCirclePositions('433', 'main');
     var json = {
         "teamName": "Barcelona 2009 CL Final",
         "formation": "433",
@@ -133,7 +133,7 @@ importButton.addEventListener('click', function () {
             const backupCount = Object.keys(jsonData.backup).length;
             if (startingCount == 11 && backupCount == 11) {
 
-                setCirclePositions(jsonData.formation.replaceAll('-', ''));
+                setCirclePositions(jsonData.formation.replaceAll('-', ''), 'main');
 
                 startingArray = [];
                 backupArray = [];
@@ -157,7 +157,7 @@ importButton.addEventListener('click', function () {
                 document.getElementById("colorPickerSecond").value = secondColor;
                 document.getElementById("colorPickerNumber").value = numberColor;
 
-                updateCircleColors(jsonData.colors.mainColor, jsonData.colors.secondColor, jsonData.colors.numberColor);
+                updateCircleColors();
 
                 document.getElementById("teamNameBox").value = jsonData.teamName;
                 setTextBoxOrders();
@@ -353,7 +353,7 @@ circles.forEach((circle, index) => {
     }
 });
 
-//Sets the line up based on the JSON content retried from GitHub
+//Sets the line up based on the JSON content retrieved from GitHub
 const selectTeam = document.getElementById("select-team");
 selectTeam.addEventListener("change", function () {
 
@@ -372,7 +372,7 @@ selectTeam.addEventListener("change", function () {
 
         const defaultColors = { mainColor: '#ff0000', secondColor: '#ffffff', numberColor: '#ffffff' };
         setCircleColor(defaultColors);
-        setCirclePositions('433');
+        setCirclePositions('433', 'main');
         setTextBoxOrders();
     }
     else {
@@ -386,7 +386,7 @@ selectTeam.addEventListener("change", function () {
         document.getElementById("teamNameBox").value = selectedValue;
 
         setCircleColor(lineUpsObj[selectedValue].colors);
-        setCirclePositions(formattedFormation);
+        setCirclePositions(formattedFormation, 'main');
         setTextBoxOrders();
     }
 
@@ -515,10 +515,23 @@ selectFormation.addEventListener("change", function () {
         showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
     }
     const selectedValue = this.value;
-    setCirclePositions(selectedValue);
+    setCirclePositions(selectedValue, 'main');
     determineFormation();
     setTextBoxOrders();
 });
+
+//Sets the oppo formation based on formation select box
+const oppoFormation = document.getElementById("oppo-formation");
+oppoFormation.addEventListener("change", function () {
+    var lineupContainer = document.querySelector('.lineup-container');
+    if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
+        lineupContainer.style.display = 'block'; // Show the lineup-container div
+        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
+    }
+    const selectedValue = this.value;
+    setCirclePositions(selectedValue, 'oppo');
+});
+
 
 // Retrieves the JSONs loaded in the GitHub
 function getJsonFiles() {
@@ -587,99 +600,191 @@ function getJsonFiles() {
 }
 
 // Sets the circles location on the pitch
-function setCirclePositions(formationValue) {
-    const circles = document.querySelectorAll(".circle");
-    if (formationValue === "442flat") {
-        circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
-        circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
-        circles[2].style.top = '68%'; circles[2].style.left = '60%';    //#3
-        circles[3].style.top = '68%'; circles[3].style.left = '33%';    //#4
-        circles[4].style.top = '63%'; circles[4].style.left = '16%';    //#5
-        circles[5].style.top = '47%'; circles[5].style.left = '58%';    //#6
-        circles[6].style.top = '47%'; circles[6].style.left = '36%';    //#8
-        circles[7].style.top = '37%'; circles[7].style.left = '16%';    //#10
-        circles[8].style.top = '37%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
-        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
-    } else if (formationValue === "424") {
-        circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
-        circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
-        circles[2].style.top = '68%'; circles[2].style.left = '60%';    //#3
-        circles[3].style.top = '68%'; circles[3].style.left = '33%';    //#4
-        circles[4].style.top = '63%'; circles[4].style.left = '16%';    //#5
-        circles[5].style.top = '47%'; circles[5].style.left = '58%';    //#6
-        circles[6].style.top = '47%'; circles[6].style.left = '36%';    //#8
-        circles[7].style.top = '28%'; circles[7].style.left = '16%';    //#10
-        circles[8].style.top = '28%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
-        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
-    } else if (formationValue === "442diamond") {
-        circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
-        circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
-        circles[2].style.top = '68%'; circles[2].style.left = '60%';    //#3
-        circles[3].style.top = '68%'; circles[3].style.left = '33%';    //#4
-        circles[4].style.top = '63%'; circles[4].style.left = '16%';    //#5
-        circles[5].style.top = '52%'; circles[5].style.left = '46.5%';  //#6
-        circles[6].style.top = '40%'; circles[6].style.left = '28%';    //#8
-        circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
-        circles[8].style.top = '40%'; circles[8].style.left = '66%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
-        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
-    } else if (formationValue === "451" || formationValue === "4231") {
-        circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
-        circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
-        circles[2].style.top = '68%'; circles[2].style.left = '60%';    //#3
-        circles[3].style.top = '68%'; circles[3].style.left = '33%';    //#4
-        circles[4].style.top = '63%'; circles[4].style.left = '16%';    //#5
-        circles[5].style.top = '48%'; circles[5].style.left = '58%';    //#6
-        circles[6].style.top = '48%'; circles[6].style.left = '36%';    //#8
-        circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
-        circles[8].style.top = '28%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '46.5%';    //#9
-        circles[10].style.top = '28%'; circles[10].style.left = '16%';  //#11
-    } else if (formationValue === "532") {
-        circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
-        circles[1].style.top = '68%'; circles[1].style.left = '67%';    //#2
-        circles[2].style.top = '68%'; circles[2].style.left = '46.5%';  //#3
-        circles[3].style.top = '68%'; circles[3].style.left = '27%';    //#4
-        circles[4].style.top = '56%'; circles[4].style.left = '16%';    //#5
-        circles[5].style.top = '50%'; circles[5].style.left = '58%';    //#6
-        circles[6].style.top = '50%'; circles[6].style.left = '36%';    //#8
-        circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
-        circles[8].style.top = '56%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '60%';    //#9
-        circles[10].style.top = '10%'; circles[10].style.left = '34%';  //#11
-    } else if (formationValue === "343") {
-        circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
-        circles[1].style.top = '65%'; circles[1].style.left = '67%';    //#2
-        circles[2].style.top = '65%'; circles[2].style.left = '46.5%';  //#3
-        circles[3].style.top = '52%'; circles[3].style.left = '46.5%';  //#4
-        circles[4].style.top = '65%'; circles[4].style.left = '27%';    //#5
-        circles[5].style.top = '40%'; circles[5].style.left = '66%';    //#6
-        circles[6].style.top = '40%'; circles[6].style.left = '28%';    //#8
-        circles[7].style.top = '28%'; circles[7].style.left = '46.5%';  //#10
-        circles[8].style.top = '14%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '46.5%';    //#9
-        circles[10].style.top = '14%'; circles[10].style.left = '16%';  //#11
-    } else { //4-3-3
-        circles[0].style.top = '82%'; circles[0].style.left = '46.5%';  //#1
-        circles[1].style.top = '63%'; circles[1].style.left = '77%';    //#2
-        circles[2].style.top = '68%'; circles[2].style.left = '60%';    //#3
-        circles[3].style.top = '68%'; circles[3].style.left = '33%';    //#4
-        circles[4].style.top = '63%'; circles[4].style.left = '16%';    //#5
-        circles[5].style.top = '52%'; circles[5].style.left = '46.5%';  //#6
-        circles[6].style.top = '38%'; circles[6].style.left = '33%';    //#8
-        circles[7].style.top = '30%'; circles[7].style.left = '60%';    //#10
-        circles[8].style.top = '14%'; circles[8].style.left = '77%';    //#7
-        circles[9].style.top = '10%'; circles[9].style.left = '46.5%';    //#9
-        circles[10].style.top = '14%'; circles[10].style.left = '16%';  //#11
+function setCirclePositions(formationValue, circleType) {
+    if (circleType == 'main') {
+        const circles = document.querySelectorAll(".circle");
+        circles[0].style.top = '84%'; circles[0].style.left = '47%';  //#1
+        //4 at the back
+        if (formationValue.charAt(0) === '4') {
+            circles[1].style.top = '67%'; circles[1].style.left = '77%';    //#2
+            circles[2].style.top = '72%'; circles[2].style.left = '60%';    //#3
+            circles[3].style.top = '72%'; circles[3].style.left = '33%';    //#4
+            circles[4].style.top = '67%'; circles[4].style.left = '16%';    //#5
+        }
+        //3 at the back
+        else if (formationValue.charAt(0) === '3' || formationValue.charAt(0) === '5') {
+            circles[1].style.top = '70%'; circles[1].style.left = '66%';    //#2
+            circles[2].style.top = '72%'; circles[2].style.left = '47%';  //#3
+            circles[3].style.top = '70%'; circles[3].style.left = '27%';    //#4
+            if (formationValue.charAt(0) === '5') {
+                circles[4].style.top = '60%'; circles[4].style.left = '16%';    //#5
+                circles[8].style.top = '60%'; circles[8].style.left = '77%';    //#7
+            }
+        }
+        //3 up front
+        if (formationValue.charAt(2) === '3' && formationValue != '4231') {
+            circles[8].style.top = '26%'; circles[8].style.left = '77%';    //#7
+            circles[9].style.top = '18%'; circles[9].style.left = '47%';    //#9
+            circles[10].style.top = '26%'; circles[10].style.left = '16%';  //#11
+        }
+        //2 up front (with 0 or 2 wingers)
+        else if (formationValue.charAt(2) === '2' || formationValue.charAt(2) === '4') {
+            circles[9].style.top = '18%'; circles[9].style.left = '60%';    //#9
+            circles[10].style.top = '18%'; circles[10].style.left = '34%';  //#11
+        }
+        //1 striker
+        else if (formationValue.charAt(2) === '1') {
+            circles[9].style.top = '20%'; circles[9].style.left = '60%';    //#9
+        }
+        if (formationValue === '433') {
+            circles[5].style.top = '54%'; circles[5].style.left = '56%';  //#6
+            circles[6].style.top = '46%'; circles[6].style.left = '35%';    //#8
+            circles[7].style.top = '34%'; circles[7].style.left = '47%';    //#10  
+        }
+        else if (formationValue === '442diamond') {
+            circles[5].style.top = '58%'; circles[5].style.left = '47%';  //#6
+            circles[6].style.top = '47%'; circles[6].style.left = '27%';    //#8
+            circles[7].style.top = '34%'; circles[7].style.left = '47%';  //#10
+            circles[8].style.top = '47%'; circles[8].style.left = '66%';    //#7
+        }
+        else if (formationValue === '442flat' || formationValue === '424') {
+            circles[5].style.top = '46%'; circles[5].style.left = '58%';    //#6
+            circles[6].style.top = '46%'; circles[6].style.left = '36%';    //#8
+            if (formationValue === '442flat') {
+                circles[7].style.top = '42%'; circles[7].style.left = '16%';    //#10
+                circles[8].style.top = '42%'; circles[8].style.left = '77%';    //#7
+            }
+            else{
+                circles[7].style.top = '34%'; circles[7].style.left = '16%';    //#10
+                circles[8].style.top = '34%'; circles[8].style.left = '77%';    //#7
+            }
+        }
+        else if (formationValue == '343') {
+            circles[4].style.top = '58%'; circles[4].style.left = '47%';    //#5
+            circles[5].style.top = '47%'; circles[5].style.left = '66%';    //#6
+            circles[6].style.top = '47%'; circles[6].style.left = '27%';    //#8
+            circles[7].style.top = '34%'; circles[7].style.left = '47%';  //#10
+        }
+       else if (formationValue === "451" || formationValue === "4231") {
+            circles[5].style.top = '54%'; circles[5].style.left = '58%';    //#6
+            circles[6].style.top = '54%'; circles[6].style.left = '36%';    //#8
+            circles[7].style.top = '34%'; circles[7].style.left = '47%';  //#10
+            circles[8].style.top = '34%'; circles[8].style.left = '77%';    //#7
+            circles[9].style.top = '20%'; circles[9].style.left = '47%';    //#9
+            circles[10].style.top = '34%'; circles[10].style.left = '16%';  //#11
+        } else if (formationValue === "532") {
+            circles[5].style.top = '54%'; circles[5].style.left = '58%';    //#6
+            circles[6].style.top = '54%'; circles[6].style.left = '36%';    //#8
+            circles[7].style.top = '34%'; circles[7].style.left = '47%';  //#10
+        }
+
+        setTextBoxOrders();
+        circles.forEach((circle, index) => {
+            var posX = (parseInt(circle.style.left) / 100) * 730;
+            var posY = (parseInt(circle.style.top) / 100) * 900;
+            determineLabel(posX, posY, index);
+        });
     }
-    setTextBoxOrders();
-    circles.forEach((circle, index) => {
-        var posX = (parseInt(circle.style.left) / 100) * 730;
-        var posY = (parseInt(circle.style.top) / 100) * 900;
-        determineLabel(posX, posY, index);
-    });
+    else if (circleType == 'oppo') {
+        const circles = document.querySelectorAll(".oppoCircle");
+        circles[0].style.top = '6%'; circles[0].style.left = '47%';  //#1
+        if(formationValue === '433') {
+            circles[1].style.top = '18%'; circles[1].style.left = '16%';    //#2
+            circles[2].style.top = '14%'; circles[2].style.left = '33%';    //#3
+            circles[3].style.top = '14%'; circles[3].style.left = '60%';    //#4
+            circles[4].style.top = '18%'; circles[4].style.left = '77%';    //#5
+            circles[5].style.top = '28%'; circles[5].style.left = '47%';  //#6
+            circles[6].style.top = '44%'; circles[6].style.left = '60%';    //#8
+            circles[7].style.top = '52%'; circles[7].style.left = '33%';    //#10
+            circles[8].style.top = '56%'; circles[8].style.left = '16%';    //#7
+            circles[9].style.top = '66%'; circles[9].style.left = '47%';    //#9
+            circles[10].style.top = '56%'; circles[10].style.left = '77%';  //#11
+        }
+        else if (formationValue === "442diamond") {
+            circles[1].style.top = '18%'; circles[1].style.left = '16%';    //#2
+            circles[2].style.top = '14%'; circles[2].style.left = '33%';    //#3
+            circles[3].style.top = '14%'; circles[3].style.left = '60%';    //#4
+            circles[4].style.top = '18%'; circles[4].style.left = '77%';    //#5
+            circles[5].style.top = '28%'; circles[5].style.left = '47%';  //#6
+            circles[6].style.top = '40%'; circles[6].style.left = '27%';    //#8
+            circles[7].style.top = '52%'; circles[7].style.left = '47%';  //#10
+            circles[8].style.top = '40%'; circles[8].style.left = '66%';    //#7
+            circles[9].style.top = '66%'; circles[9].style.left = '33%';    //#9
+            circles[10].style.top = '66%'; circles[10].style.left = '60%';  //#11
+        }
+        else if (formationValue === "442flat") {
+            circles[1].style.top = '18%'; circles[1].style.left = '16%';    //#2
+            circles[2].style.top = '14%'; circles[2].style.left = '33%';    //#3
+            circles[3].style.top = '14%'; circles[3].style.left = '60%';    //#4
+            circles[4].style.top = '18%'; circles[4].style.left = '77%';    //#5
+            circles[5].style.top = '40%'; circles[5].style.left = '36%';  //#6
+            circles[6].style.top = '40%'; circles[6].style.left = '58%';    //#8
+            circles[7].style.top = '48%'; circles[7].style.left = '77%';  //#10
+            circles[8].style.top = '48%'; circles[8].style.left = '16%';    //#7
+            circles[9].style.top = '66%'; circles[9].style.left = '33%';    //#9
+            circles[10].style.top = '66%'; circles[10].style.left = '60%';  //#11
+        }
+        else if (formationValue === "424") {
+            circles[1].style.top = '18%'; circles[1].style.left = '16%';    //#2
+            circles[2].style.top = '14%'; circles[2].style.left = '33%';    //#3
+            circles[3].style.top = '14%'; circles[3].style.left = '60%';    //#4
+            circles[4].style.top = '18%'; circles[4].style.left = '77%';    //#5
+            circles[5].style.top = '40%'; circles[5].style.left = '36%';  //#6
+            circles[6].style.top = '40%'; circles[6].style.left = '58%';    //#8
+            circles[7].style.top = '56%'; circles[7].style.left = '77%';  //#10
+            circles[8].style.top = '56%'; circles[8].style.left = '16%';    //#7
+            circles[9].style.top = '66%'; circles[9].style.left = '33%';    //#9
+            circles[10].style.top = '66%'; circles[10].style.left = '60%';  //#11
+        }
+        else if (formationValue === "451" || formationValue === '4231') {
+            circles[1].style.top = '18%'; circles[1].style.left = '16%';    //#2
+            circles[2].style.top = '14%'; circles[2].style.left = '33%';    //#3
+            circles[3].style.top = '14%'; circles[3].style.left = '60%';    //#4
+            circles[4].style.top = '18%'; circles[4].style.left = '77%';    //#5
+            circles[5].style.top = '32%'; circles[5].style.left = '36%';    //#6
+            circles[6].style.top = '32%'; circles[6].style.left = '58%';    //#8
+            circles[7].style.top = '52%'; circles[7].style.left = '47%';  //#10
+            circles[8].style.top = '52%'; circles[8].style.left = '16%';    //#7
+            circles[9].style.top = '66%'; circles[9].style.left = '47%';    //#9
+            circles[10].style.top = '52%'; circles[10].style.left = '77%';  //#11
+        }
+        else if (formationValue === "532" || formationValue === "352") {
+            circles[1].style.top = '18%'; circles[1].style.left = '27%';    //#2
+            circles[2].style.top = '14%'; circles[2].style.left = '47%';  //#3
+            circles[3].style.top = '18%'; circles[3].style.left = '66%';  //#4
+            circles[4].style.top = '30%'; circles[4].style.left = '77%';    //#5
+            circles[5].style.top = '32%'; circles[5].style.left = '36%';    //#6
+            circles[6].style.top = '32%'; circles[6].style.left = '58%';    //#8
+            circles[7].style.top = '52%'; circles[7].style.left = '47%';  //#10
+            circles[8].style.top = '30%'; circles[8].style.left = '16%';    //#7
+            circles[9].style.top = '66%'; circles[9].style.left = '33%';    //#9
+            circles[10].style.top = '66%'; circles[10].style.left = '60%';  //#11
+        }
+        else if (formationValue === "343") {
+            circles[1].style.top = '18%'; circles[1].style.left = '27%';    //#2
+            circles[2].style.top = '14%'; circles[2].style.left = '47%';  //#3
+            circles[3].style.top = '18%'; circles[3].style.left = '66%';  //#4
+            circles[4].style.top = '30%'; circles[4].style.left = '47%';    //#5
+            circles[5].style.top = '40%'; circles[5].style.left = '66%';    //#6
+            circles[6].style.top = '40%'; circles[6].style.left = '27%';    //#8
+            circles[7].style.top = '52%'; circles[7].style.left = '47%';  //#10
+            circles[8].style.top = '54%'; circles[8].style.left = '16%';    //#7
+            circles[9].style.top = '66%'; circles[9].style.left = '47%';    //#9
+            circles[10].style.top = '54%'; circles[10].style.left = '77%';  //#11
+        }
+        else{
+            circles[1].style.top = '18%'; circles[1].style.left = '16%';    //#2
+            circles[2].style.top = '14%'; circles[2].style.left = '33%';    //#3
+            circles[3].style.top = '14%'; circles[3].style.left = '60%';    //#4
+            circles[4].style.top = '18%'; circles[4].style.left = '77%';    //#5
+            circles[5].style.top = '28%'; circles[5].style.left = '47%';  //#6
+            circles[6].style.top = '44%'; circles[6].style.left = '60%';    //#8
+            circles[7].style.top = '52%'; circles[7].style.left = '33%';    //#10
+            circles[8].style.top = '56%'; circles[8].style.left = '16%';    //#7
+            circles[9].style.top = '66%'; circles[9].style.left = '47%';    //#9
+            circles[10].style.top = '56%'; circles[10].style.left = '77%';  //#11
+        }
+    }
 }
 
 // Sets the color of the color pickers and the circles
@@ -692,7 +797,7 @@ function setCircleColor(colors) {
     document.getElementById("colorPickerSecond").value = secondColor;
     document.getElementById("colorPickerNumber").value = numberColor;
 
-    updateCircleColors(mainColor, secondColor, numberColor);
+    updateCircleColors('main');
 }
 
 // Changes the order of the input boxes and labels based on the circle Array order and determines labels
@@ -763,17 +868,31 @@ function addInputContainersInOrder(containers, circleArray, column) {
 }
 
 // Changes the color of the circles when using the color picker (or when loaded from JSON)
-function updateCircleColors(colorPickerMain, colorPickerSecond, colorPickerNumber) {
-    if (colorPickerMain == null) {
+document.getElementById("colorPickerMain").addEventListener("change", function () { updateCircleColors('main'); }, false);
+document.getElementById("colorPickerSecond").addEventListener("change", function () { updateCircleColors('main'); }, false);
+document.getElementById("colorPickerNumber").addEventListener("change", function () { updateCircleColors('main'); }, false);
+document.getElementById("oppoColorMain").addEventListener("change", function () { updateCircleColors('oppo'); }, false);
+document.getElementById("oppoColorSecond").addEventListener("change", function () { updateCircleColors('oppo'); }, false);
+document.getElementById("oppoColorNumber").addEventListener("change", function () { updateCircleColors('oppo'); }, false);
+
+function updateCircleColors(teamColor) {
+    var colorPickerMain;
+    var colorPickerSecond;
+    var colorPickerNumber;
+    var circleClassName;
+    if (teamColor == 'main') {
+        circleClassName = ".circle";
         colorPickerMain = document.getElementById("colorPickerMain").value;
-    }
-    if (colorPickerSecond == null) {
         colorPickerSecond = document.getElementById("colorPickerSecond").value;
-    }
-    if (colorPickerNumber == null) {
         colorPickerNumber = document.getElementById("colorPickerNumber").value;
     }
-    const circleClass = document.querySelectorAll(".circle");
+    else if (teamColor == 'oppo') {
+        circleClassName = ".oppoCircle";
+        colorPickerMain = document.getElementById("oppoColorMain").value;
+        colorPickerSecond = document.getElementById("oppoColorSecond").value;
+        colorPickerNumber = document.getElementById("oppoColorNumber").value;
+    }
+    const circleClass = document.querySelectorAll(circleClassName);
     for (var i = 1; i < circleClass.length; i++) {
         circleClass[i].style.backgroundColor = colorPickerMain;
         circleClass[i].style.borderColor = colorPickerSecond;
@@ -784,7 +903,6 @@ function updateCircleColors(colorPickerMain, colorPickerSecond, colorPickerNumbe
         lineupContainer.style.display = 'block'; // Show the lineup-container div
         showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
     }
-
 }
 
 // Determines the order of the circles from bottom to top, from right to left
@@ -809,13 +927,21 @@ function getCurrentCircleOrder() {
         circleArray.push(circleObj);
     });
     circleArray.sort((a, b) => {
-        //Adds a buffer of 50 (if within 50px, it's considered the same y)
-        if (Math.abs(a.y - b.y) < 50) {
+        //Adds a buffer of 60 (if within 60px, it's considered the same y)
+        if (Math.abs(a.y - b.y) < 70) {
             return a.x > b.x ? -1 : 1
         } else {
             return a.y > b.y ? -1 : 1
         }
     })
+    circleArray.sort(customSort);
+    function customSort(a, b) {
+        if (a.id === 'circle1') return -1;  // 'circle1' comes first
+        if (b.id === 'circle1') return 1;   // 'circle1' comes first
+    
+        // If neither is 'circle1', maintain the original order
+        return a.pos - b.pos;
+    }
     return circleArray;
 }
 
@@ -838,92 +964,92 @@ function determineLabel(xPos, yPos, index) {
     const inputBoxes = document.querySelectorAll(".inputBox");
     const backupBoxes = document.querySelectorAll(".backupBox");
     const labels = document.querySelectorAll(".label");
-    if (xPos >= 190 && xPos <= 490 && yPos >= 675 && yPos <= 800) {
+    if (xPos >= 180 && xPos <= 500 && yPos >= 710 && yPos <= 800) {
         labels[index].innerHTML = "GK";
         labels[index + 11].innerHTML = "GK";
         inputBoxes[index].placeholder = "Starting GK";
         backupBoxes[index].placeholder = "Back-up GK";
-    } else if (xPos >= 490 && xPos <= 610 && yPos >= 535 && yPos <= 800) {
+    } else if (xPos >= 500 && xPos <= 610 && yPos >= 565 && yPos <= 800) {
         labels[index].innerHTML = "RB";
         labels[index + 11].innerHTML = "RB";
         inputBoxes[index].placeholder = "Starting RB";
         backupBoxes[index].placeholder = "Back-up RB";
-    } else if (xPos >= 70 && xPos <= 190 && yPos >= 535 && yPos <= 800) {
-        labels[index].innerHTML = "LB";
-        labels[index + 11].innerHTML = "LB";
-        inputBoxes[index].placeholder = "Starting LB ";
-        backupBoxes[index].placeholder = "Back-up LB";
-    } else if (xPos >= 400 && xPos <= 490 && yPos >= 535 && yPos <= 675) {
-        labels[index].innerHTML = "RCB";
-        labels[index + 11].innerHTML = "RCB";
-        inputBoxes[index].placeholder = "Starting RCB";
-        backupBoxes[index].placeholder = "Back-up RCB";
-    } else if (xPos >= 280 && xPos <= 400 && yPos >= 535 && yPos <= 675) {
-        labels[index].innerHTML = "CB";
-        labels[index + 11].innerHTML = "CB";
-        inputBoxes[index].placeholder = "Starting CB"
-        backupBoxes[index].placeholder = "Back-up CB";
-    } else if (xPos >= 190 && xPos <= 280 && yPos >= 535 && yPos <= 675) {
-        labels[index].innerHTML = "LCB";
-        labels[index + 11].innerHTML = "LCB";
-        inputBoxes[index].placeholder = "Starting LCB";
-        backupBoxes[index].placeholder = "Back-up LCB";
-    } else if (xPos >= 490 && xPos <= 610 && yPos >= 424 && yPos <= 535) {
+    } else if (xPos >= 500 && xPos <= 610 && yPos >= 484 && yPos <= 565) {
         labels[index].innerHTML = "RWB";
         labels[index + 11].innerHTML = "RWB";
         inputBoxes[index].placeholder = "Starting RWB";
         backupBoxes[index].placeholder = "Back-up RWB";
-    } else if (xPos >= 400 && xPos <= 490 && yPos >= 424 && yPos <= 535) {
-        labels[index].innerHTML = "DMCR";
-        labels[index + 11].innerHTML = "DMCR";
-        inputBoxes[index].placeholder = "Starting DMCR";
-        backupBoxes[index].placeholder = "Back-up DMCR";
-    } else if (xPos >= 280 && xPos <= 400 && yPos >= 424 && yPos <= 535) {
-        labels[index].innerHTML = "DMC";
-        labels[index + 11].innerHTML = "DMC";
-        inputBoxes[index].placeholder = "Starting DMC";
-        backupBoxes[index].placeholder = "Back-up DMC";
-    } else if (xPos >= 190 && xPos <= 280 && yPos >= 424 && yPos <= 535) {
-        labels[index].innerHTML = "DMCL";
-        labels[index + 11].innerHTML = "DMCL";
-        inputBoxes[index].placeholder = "Starting DMCL";
-        backupBoxes[index].placeholder = "Back-up DMCL";
-    } else if (xPos >= 70 && xPos <= 190 && yPos >= 424 && yPos <= 535) {
-        labels[index].innerHTML = "LWB";
-        labels[index + 11].innerHTML = "LWB";
-        inputBoxes[index].placeholder = "Starting LWB";
-        backupBoxes[index].placeholder = "Back-up LWB";
-    } else if (xPos >= 490 && xPos <= 610 && yPos >= 280 && yPos <= 424) {
+    } else if (xPos >= 500 && xPos <= 610 && yPos >= 340 && yPos <= 484) {
         labels[index].innerHTML = "RM";
         labels[index + 11].innerHTML = "RM";
         inputBoxes[index].placeholder = "Starting RM";
         backupBoxes[index].placeholder = "Back-up RM";
-    } else if (xPos >= 190 && xPos <= 490 && yPos >= 300 && yPos <= 424) {
-        labels[index].innerHTML = "MC";
-        labels[index + 11].innerHTML = "MC";
-        inputBoxes[index].placeholder = "Starting MC";
-        backupBoxes[index].placeholder = "Back-up MC";
-    } else if (xPos >= 70 && xPos <= 190 && yPos >= 280 && yPos <= 424) {
-        labels[index].innerHTML = "LM";
-        labels[index + 11].innerHTML = "LM";
-        inputBoxes[index].placeholder = "Starting LM";
-        backupBoxes[index].placeholder = "Back-up LM";
-    } else if (xPos >= 490 && xPos <= 610 && yPos >= 35 && yPos <= 280) {
+    } else if (xPos >= 500 && xPos <= 610 && yPos >= 35 && yPos <= 340) {
         labels[index].innerHTML = "RW";
         labels[index + 11].innerHTML = "RW";
         inputBoxes[index].placeholder = "Starting RW";
         backupBoxes[index].placeholder = "Back-up RW";
-    } else if (xPos >= 190 && xPos <= 490 && yPos >= 185 && yPos <= 300) {
-        labels[index].innerHTML = "AMC";
-        labels[index + 11].innerHTML = "AMC";
-        inputBoxes[index].placeholder = "Starting AMC";
-        backupBoxes[index].placeholder = "Back-up AMC";
-    } else if (xPos >= 70 && xPos <= 190 && yPos >= 35 && yPos <= 280) {
+    } else if (xPos >= 70 && xPos <= 180 && yPos >= 565 && yPos <= 800) {
+        labels[index].innerHTML = "LB";
+        labels[index + 11].innerHTML = "LB";
+        inputBoxes[index].placeholder = "Starting LB ";
+        backupBoxes[index].placeholder = "Back-up LB";
+    } else if (xPos >= 70 && xPos <= 180 && yPos >= 484 && yPos <= 565) {
+        labels[index].innerHTML = "LWB";
+        labels[index + 11].innerHTML = "LWB";
+        inputBoxes[index].placeholder = "Starting LWB";
+        backupBoxes[index].placeholder = "Back-up LWB";
+    } else if (xPos >= 70 && xPos <= 180 && yPos >= 340 && yPos <= 484) {
+        labels[index].innerHTML = "LM";
+        labels[index + 11].innerHTML = "LM";
+        inputBoxes[index].placeholder = "Starting LM";
+        backupBoxes[index].placeholder = "Back-up LM";
+    } else if (xPos >= 70 && xPos <= 180 && yPos >= 35 && yPos <= 340) {
         labels[index].innerHTML = "LW";
         labels[index + 11].innerHTML = "LW";
         inputBoxes[index].placeholder = "Starting LW";
         backupBoxes[index].placeholder = "Back-up LW";
-    } else if (xPos >= 200 && xPos <= 440 && yPos >= 35 && yPos <= 185) {
+    } else if (xPos >= 380 && xPos <= 500 && yPos >= 565 && yPos <= 710) {
+        labels[index].innerHTML = "RCB";
+        labels[index + 11].innerHTML = "RCB";
+        inputBoxes[index].placeholder = "Starting RCB";
+        backupBoxes[index].placeholder = "Back-up RCB";
+    } else if (xPos >= 300 && xPos <= 380 && yPos >= 565 && yPos <= 710) {
+        labels[index].innerHTML = "CB";
+        labels[index + 11].innerHTML = "CB";
+        inputBoxes[index].placeholder = "Starting CB"
+        backupBoxes[index].placeholder = "Back-up CB";
+    } else if (xPos >= 180 && xPos <= 300 && yPos >= 565 && yPos <= 710) {
+        labels[index].innerHTML = "LCB";
+        labels[index + 11].innerHTML = "LCB";
+        inputBoxes[index].placeholder = "Starting LCB";
+        backupBoxes[index].placeholder = "Back-up LCB";
+    } else if (xPos >= 420 && xPos <= 500 && yPos >= 484 && yPos <= 565) {
+        labels[index].innerHTML = "DMCR";
+        labels[index + 11].innerHTML = "DMCR";
+        inputBoxes[index].placeholder = "Starting DMCR";
+        backupBoxes[index].placeholder = "Back-up DMCR";
+    } else if (xPos >= 260 && xPos <= 420 && yPos >= 484 && yPos <= 565) {
+        labels[index].innerHTML = "DMC";
+        labels[index + 11].innerHTML = "DMC";
+        inputBoxes[index].placeholder = "Starting DMC";
+        backupBoxes[index].placeholder = "Back-up DMC";
+    } else if (xPos >= 180 && xPos <= 260 && yPos >= 484 && yPos <= 565) {
+        labels[index].innerHTML = "DMCL";
+        labels[index + 11].innerHTML = "DMCL";
+        inputBoxes[index].placeholder = "Starting DMCL";
+        backupBoxes[index].placeholder = "Back-up DMCL";
+    } else if (xPos >= 180 && xPos <= 500 && yPos >= 340 && yPos <= 484) {
+        labels[index].innerHTML = "MC";
+        labels[index + 11].innerHTML = "MC";
+        inputBoxes[index].placeholder = "Starting MC";
+        backupBoxes[index].placeholder = "Back-up MC";
+    } else if (xPos >= 180 && xPos <= 500 && yPos >= 240 && yPos <= 340) {
+        labels[index].innerHTML = "AMC";
+        labels[index + 11].innerHTML = "AMC";
+        inputBoxes[index].placeholder = "Starting AMC";
+        backupBoxes[index].placeholder = "Back-up AMC";
+    } else if (xPos >= 180 && xPos <= 500 && yPos >= 35 && yPos <= 240) {
         labels[index].innerHTML = "ST";
         labels[index + 11].innerHTML = "ST";
         inputBoxes[index].placeholder = "Starting ST";
@@ -1010,6 +1136,7 @@ function setLineUp(startKeyArray, backupKeyArray) {
 }
 
 // Resets the upload button when the select team field is changed
+document.getElementById("select-team").addEventListener("change", updateUploadButton);
 function updateUploadButton() {
     var selectBox = document.getElementById("select-team");
     var chooseFileButton = document.getElementById("chooseFileButton");
@@ -1200,4 +1327,134 @@ function captureScreenshotAndDownload() {
 
     downloadButton.style.setProperty('height', downloadWidth);
     downloadButton.style.setProperty('height', downloadHeight);
+}
+
+// Function to toggle background of pitch background
+var pitchCheck = document.getElementById("pitch-checkbox");
+pitchCheck.addEventListener("change", changeSwitch);
+
+var oppoCheck = document.getElementById("oppo-checkbox");
+oppoCheck.addEventListener("change", changeSwitch);
+
+function changeSwitch(evt) {
+    var currentSwitch = evt.currentTarget;
+    if (currentSwitch.id == 'pitch-checkbox') {
+        if (currentSwitch.checked === true) {
+            document.getElementById("image-container").style.backgroundImage = "url('football field730900.png')";
+            document.getElementById("pitch-text").innerHTML = "Green";
+            document.getElementById("pitch-text").style.paddingLeft = "10px";
+
+        } else {
+            document.getElementById("image-container").style.backgroundImage = "url('football field730900-black.png')";
+            document.getElementById("pitch-text").innerHTML = "Black";
+            document.getElementById("pitch-text").style.paddingLeft = "30px";
+        }
+    }
+    else if (currentSwitch.id == 'oppo-checkbox') {
+        var circles = Array.from(document.getElementsByClassName('oppoCircle'));
+        if (currentSwitch.checked === true) {
+            document.getElementById("oppo-text").innerHTML = "On";
+            document.getElementById("oppo-text").style.paddingLeft = "10px";
+
+            circles.forEach(function (circle) {
+                circle.style.display = 'flex';
+            });
+            addDragForOppo(circles);
+            setCirclePositions('433', 'oppo');
+            document.getElementById('oppo-color-container').style.display = 'flex';
+            document.getElementById('oppo-formation-box').style.display = 'flex';
+            if (window.innerWidth <= 1000) {
+            document.getElementById('textbox-container').style.height = '94vw';
+            }
+        }
+        else {
+            document.getElementById("oppo-text").innerHTML = "Off";
+            document.getElementById("oppo-text").style.paddingLeft = "45px";
+
+            circles.forEach(function (circle) {
+                circle.style.display = 'none';
+            });
+
+            document.getElementById('oppo-color-container').style.display = 'none';
+            document.getElementById('oppo-formation-box').style.display = 'none';
+            if (window.innerWidth <= 1000) {
+                document.getElementById('textbox-container').style.height = '80vw';
+                }
+        }
+    }
+}
+
+function addDragForOppo(oppoCircles) {
+    //Adds drag functionality
+    oppoCircles.forEach((circle) => {
+        let activeCircle = null;
+        let initialX = 0;
+        let initialY = 0;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        circle.addEventListener("mousedown", startDrag);
+        circle.addEventListener("touchstart", startDrag);
+
+        function startDrag(e) {
+            e.preventDefault();
+            if (e.type === "mousedown") {
+                activeCircle = this;
+                initialX = e.clientX;
+                initialY = e.clientY;
+            } else if (e.type === "touchstart") {
+                activeCircle = this;
+                initialX = e.touches[0].clientX;
+                initialY = e.touches[0].clientY;
+            }
+            offsetX = activeCircle.offsetLeft;
+            offsetY = activeCircle.offsetTop;
+            document.addEventListener("mousemove", dragCircle);
+            document.addEventListener("touchmove", dragCircle, { passive: false });
+            document.addEventListener("mouseup", stopDrag);
+            document.addEventListener("touchend", stopDrag);
+        }
+
+        function stopDrag() {
+            activeCircle = null;
+            document.removeEventListener("mousemove", dragCircle);
+            document.removeEventListener("touchmove", dragCircle);
+            document.removeEventListener("mouseup", stopDrag);
+            document.removeEventListener("touchend", stopDrag);
+
+            if (document.getElementById("select-formation").value != '') {
+                document.getElementById("select-formation").value = '';
+            }
+            setTextBoxOrders();
+        }
+
+        function dragCircle(e) {
+            if (activeCircle) {
+                e.preventDefault();
+
+                let currentX, currentY;
+
+                if (e.type === "mousemove") {
+                    currentX = e.clientX;
+                    currentY = e.clientY;
+                } else if (e.type === "touchmove") {
+                    currentX = e.touches[0].clientX;
+                    currentY = e.touches[0].clientY;
+                }
+
+                const deltaX = currentX - initialX;
+                const deltaY = currentY - initialY;
+
+                const newX = offsetX + deltaX;
+                const newY = offsetY + deltaY;
+
+                if (newX > 88 && newX < 590) {
+                    activeCircle.style.left = `${newX}px`;
+                }
+                if (newY > 48 && newY < 800) {
+                    activeCircle.style.top = `${newY}px`;
+                }
+            }
+        }
+    });
 }

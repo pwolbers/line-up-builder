@@ -2,7 +2,7 @@
   "teamName": "Ajax possible 23/24",
   "formation": "4-3-3 ",
   "starting": {
-    "#1": "Rulli",
+    "#1": "Gorter",
     "#2": "Rensch",
     "#3": "Sutalo",
     "#4": "Hato",
@@ -10,21 +10,21 @@
     "#6": "Tahirovic",
     "#8": "Van den Boomen",
     "#10": "Berghuis",
-    "#7": "Kudus",
+    "#7": "Mikautadze",
     "#9": "Brobbey",
     "#11": "Bergwijn"
   },
   "backup": {
-    "#1": "Gorter | Ramaj | Pasveer",
+    "#1": "Ramaj | Pasveer",
     "#2": "Gaaei",
     "#3": "Medic | Aertssen",
     "#4": "Kaplan",
     "#5": "Salah-Edinne | Wijndal",
-    "#6": "Vos",
-    "#8": "Taylor | Fitz-Jim",
-    "#10": "Taylor | Klaassen",
+    "#6": "Mannsverk | Vos",
+    "#8": "Taylor | Vos",
+    "#10": "Akpom | Klaassen",
     "#7": "Forbs | Conceição",
-    "#9": "Akpom",
+    "#9": "Akpom | Mikautadze",
     "#11": "Forbs | Godts"
   },
   "colors": {

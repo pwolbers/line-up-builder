@@ -29,12 +29,35 @@ body {
 }
 
 .textbox-container {
-  padding: 20px 0px 20px 20px;
+  padding: 10px;
   width: 50vw;
+  height: 50vw;
+  margin-right: 10px;
+  border-color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 20px;
 }
 
-.select-box {
+.full-settings {
+  display:flex;
+}
+
+.settings-column {
+  flex: 22.5vw;
+}
+
+.select-box, .oppo-select-box {
   margin-bottom: 10px;
+}
+
+.oppo-select-box {
+  display: none;
+}
+
+#oppo-formation {
+  margin-top: 10px;
+  height: 28px;
 }
 
 .select-box label,
@@ -189,15 +212,22 @@ li {
 **************/
 .newTeam {
   display: flex;
-  width: 90vw;
+  width: 22.5vw;
   flex-wrap: wrap;
   margin-top: 10px;
 }
 
-.color-pickers-container {
+.color-pickers-container, .color-pickers-oppo-container {
   display: flex;
   justify-content: space-between;
-  width: 22.5vw;
+  width: 21vw;
+  margin-left: 15px;
+  margin-top: 10px;
+}
+
+.color-pickers-oppo-container {
+  margin-top: 11px !important;
+  margin-left: 0px !important;
 }
 
 .color-picker label {
@@ -235,6 +265,98 @@ li {
 }
 
 /**************
+*    Toggle   *
+*    switch   *
+**************/
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 24px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 4px;
+  bottom: 0;
+  -webkit-transition: .4s;
+  transition: .4s;
+  background-color: #1F1F1F;
+  box-shadow: 0 0 1px white;
+}
+
+.slider:before {
+  content: "testtttt";
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #017D3E;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px white;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(50px);
+  -ms-transform: translateX(50px);
+  transform: translateX(50px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.switch-label {
+  font-size: 16px;
+  margin-top: 2px;
+  display: block;
+  color: white;
+  margin-right: 12px;
+}
+
+#pitch-text, #oppo-text {
+  color: white;
+  font-size: 12px;
+  padding-top: 4px;
+}
+
+#pitch-text {
+  padding-left: 10px;
+}
+
+#oppo-text {
+  padding-left: 45px;
+}
+
+/**************
 *  Pitch      *
 *  and labels *
 **************/
@@ -248,7 +370,6 @@ li {
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position: center top;
-  border-radius: 20px;
 }
 
 .text-container {
@@ -256,6 +377,13 @@ li {
   flex-direction: column;
   justify-content: space-between;
   color: white;
+}
+
+.image-container {
+  border-color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 20px;
 }
 
 .formation-label,
@@ -282,27 +410,47 @@ li {
 
 .circle {
   position: absolute;
-  width: 45px;
-  height: 45px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  border: 4px solid white;
+  border: 3px solid white;
   background-color: red;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  z-index: 1;
 }
 
 #circle1 {
   background-color: #0186e1;
 }
 
+.oppoCircle {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid #006631;
+  background-color: #000000;
+  display: none;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+#oppoCircle1 {
+  background-color: #ffd700;
+  border: 3px solid white;
+}
+
 .circle-number {
   color: white;
   position: absolute;
-  top: 6px;
-  font-size: 26px;
+  top: 4.5px;
+  font-size: 23px;
   font-weight: bold;
   font-family: "Bebas Neue";
   text-align:center;
@@ -322,10 +470,10 @@ li {
 .outputBackup {
   display: none;
   position: absolute;
-  padding: 5px 6px;
+  padding: 4px 5px;
   border: 1px solid #000;
   border-radius: 5px;
-  font-size: 15px;
+  font-size: 12px;
   font-family: "Exo", sans-serif;
   font-weight: bold;
   letter-spacing: 1px;
@@ -337,12 +485,13 @@ li {
 }
 
 .outputStarting {
-  bottom: -25px;
+  bottom: -23px;
   background-color: #ffffff;
+  z-index: 1;
 }
 
 .outputBackup {
-  bottom: -56px;
+  bottom: -47px;
   opacity: 0.85;
   background-color: #C8C8C8;
 }
@@ -480,19 +629,27 @@ pre {
     margin-right: 10px;
   }
 
+  .full-settings {
+    display: block;
+  }
+
+  .settings-column {
+    margin-top: 15px;
+  }
   .newTeam {
     display: block;
-    width: 50vw;
+    width: 45vw;
   }
 
   .textbox-container {
     width: 45vw;
+    height: 80vw;
     margin-left: 5px;
+    padding: 10px;
   }
 
   .lineup-container {
     margin-left: 10px;
-   
   }
 
   .teams-and-formations {
@@ -536,9 +693,10 @@ pre {
     display: block;
   }
 
-  .color-pickers-container {
+  .color-pickers-container, .color-pickers-oppo-container {
     margin-top: 10px;
     width: 90%;
+    margin-left: 0px;
   }
 
   .teamNameBox {
@@ -552,5 +710,4 @@ pre {
   .input-container {
     display: none;
   }
-
 }

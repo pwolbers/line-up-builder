@@ -13,12 +13,12 @@
 
 <body onload="displayFormattedJSON()" style="background-color:#212331">
   <div class="container">
-    <div class="textbox-container">
+    <div id="textbox-container" class="textbox-container">
       <div class="select-buttons">
         <div class="teams-and-formations">
           <div class="select-box" id="select-team-box">
             <div><label for="select-team" class="labelHeader">Select preset team:</label></div>
-            <select id="select-team" name="team" class="teamSelectBox" onchange="updateUploadButton()">
+            <select id="select-team" name="team" class="teamSelectBox">
               <option value="clear"> - </option>
             </select>
           </div>
@@ -90,7 +90,6 @@
       </div>
       <div class="column starting-column">
         <h2>Starting eleven</h2>
-
         <div class="input-container">
           <label for="starting1" class="label">GK</label>
           <input type="text" id="starting1" class="inputBox pos1" placeholder="Starting GK">
@@ -207,54 +206,97 @@
       </div>
       </br>
       <button id="showLineUpButton">Show line-up and formation</button>
-      <div class="newTeam">
-        <div class="teamName">
-          <div><label for="team-name" class="labelHeader">Name your team:</label></div>
-          <input type="text" id="teamNameBox" class="teamNameBox" placeholder="Team name">
-          <div><label id="reminderLabel" style="display: none; color: red; font-weight: bold">Don't forget to name your
-              team!</label></div>
+      <div class="full-settings">
+        <div class="settings-column">
+          <div class="newTeam">
+            <div class="teamName">
+              <div><label for="team-name" class="labelHeader">Name your team:</label></div>
+              <input type="text" id="teamNameBox" class="teamNameBox" placeholder="Team name">
+              <div><label id="reminderLabel" style="display: none; color: red; font-weight: bold">Don't forget to name
+                  your
+                  team!</label></div>
+            </div>
+          </div>
+          <div class="color-pickers-container">
+            <div class="color-picker">
+              <label for="colorPicker" class="labelHeader">Main color:</label>
+              <input type="color" id="colorPickerMain" name="color" list="colorOptions" value="#FF0000">
+            </div>
+            <div class="color-picker">
+              <label for="colorPicker" class="labelHeader">Second color:</label>
+              <input type="color" id="colorPickerSecond" name="color" list="colorOptions" value="#FFFFFF">
+            </div>
+            <div class="color-picker">
+              <label for="colorPicker" class="labelHeader">Number color:</label>
+              <input type="color" id="colorPickerNumber" name="color" list="colorOptions" value="#FFFFFF">
+            </div>
+            <datalist id="colorOptions">
+              <option>#FF0000</option>
+              <option>#0000FF</option>
+              <option>#00FF00</option>
+              <option>#FFFF00</option>
+              <option>#000000</option>
+              <option>#FFFFFF</option>
+              <option>#FFA500</option>
+              <option>#800080</option>
+              <option>#808080</option>
+              <option>#000080</option>
+              <option>#FFD700</option>
+              <option>#C0C0C0</option>
+              <option>#800000</option>
+              <option>#FFC0CB</option>
+              <option>#006631</option>
+            </datalist>
+          </div>
+          <div class="button-container">
+            <button id="downloadButton">Download team (.JSON)</button>
+            <button id="screenshotButton">Download image (.png)</button>
+          </div>
         </div>
-        <div class="color-pickers-container">
-          <div class="color-picker">
-            <label for="colorPicker" class="labelHeader">Main color:</label>
-            <input type="color" id="colorPickerMain" name="color" list="colorOptions" value="#FF0000"
-              onchange="updateCircleColors()">
+        <div class="settings-column">
+          <div style="margin-top: 10px; display: flex">
+            <label id="pitchLabel" class="switch-label">Pitch background: </label>
+            <label class="switch">
+              <input id="pitch-checkbox" type="checkbox" checked>
+              <span id="pitch-text" class="slider round sliderPitch">Green</span>
+            </label>
           </div>
-          <div class="color-picker">
-            <label for="colorPicker" class="labelHeader">Second color:</label>
-            <input type="color" id="colorPickerSecond" name="color" list="colorOptions" value="#FFFFFF"
-              onchange="updateCircleColors()">
+          <div style="margin-top: 10px; display: flex">
+            <label id="pitchLabel" class="switch-label">Opposition: </label>
+            <label class="switch">
+              <input id="oppo-checkbox" type="checkbox">
+              <span id="oppo-text" class="slider round sliderOppo">Off</span>
+            </label>
           </div>
-          <div class="color-picker">
-            <label for="colorPicker" class="labelHeader">Number color:</label>
-            <input type="color" id="colorPickerNumber" name="color" list="colorOptions" value="#FFFFFF"
-              onchange="updateCircleColors()">
+          <div id="oppo-color-container" class="color-pickers-oppo-container" style="display:none">
+            <div class="color-picker">
+              <label for="colorPicker" class="labelHeader">Main color:</label>
+              <input type="color" id="oppoColorMain" name="color" list="colorOptions" value="#006631">
+            </div>
+            <div class="color-picker">
+              <label for="colorPicker" class="labelHeader">Second color:</label>
+              <input type="color" id="oppoColorSecond" name="color" list="colorOptions" value="#000000">
+            </div>
+            <div class="color-picker">
+              <label for="colorPicker" class="labelHeader">Number color:</label>
+              <input type="color" id="oppoColorNumber" name="color" list="colorOptions" value="#FFFFFF">
+            </div>
           </div>
-          <datalist id="colorOptions">
-            <option>#FF0000</option>
-            <option>#0000FF</option>
-            <option>#00FF00</option>
-            <option>#FFFF00</option>
-            <option>#000000</option>
-            <option>#FFFFFF</option>
-            <option>#FFA500</option>
-            <option>#800080</option>
-            <option>#808080</option>
-            <option>#000080</option>
-            <option>#FFD700</option>
-            <option>#C0C0C0</option>
-            <option>#800000</option>
-            <option>#FFC0CB</option>
-            <option>#006631</option>
-          </datalist>
+          <div class="oppo-select-box" id="oppo-formation-box">
+            <div><label for="oppo-formation" class="labelHeader" style="margin-right: 10px; margin-top: 15px">Opposition formation:</label></div>
+            <select id="oppo-formation" name="formation" class="teamSelectBox">
+              <option value=""> - </option>
+              <option value="433">4-3-3</option>
+              <option value="442diamond">4-4-2 diamond</option>
+              <option value="442flat">4-4-2 flat</option>
+              <option value="424">4-2-4</option>
+              <option value="451">4-5-1 / 4-2-3-1</option>
+              <option value="532">5-3-2 / 3-5-2</option>
+              <option value="343">3-4-3</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div class="button-container">
-        <button id="downloadButton">Download team (.JSON)</button>
-        <button id="screenshotButton">Download image (.png)</button>
-      </div>
-      </br>
-      </br>
     </div>
     <div class="lineup-container" id="lineupContainer">
       <div class="image-container" id="image-container">
@@ -262,7 +304,7 @@
           <span class="formation-label">Formation: </span>
           <span class="copyright">© 2023 - pwolbers.github.io/line-up-builder</span>
         </div>
-        <div>
+        <div id="allCircles">
           <div id="circle1" class="circle pos1">
             <span class="circle-number">1</span>
             <div class="output-container">
@@ -341,10 +383,22 @@
             <span class="outputBackup"></span>
           </div>
         </div>
+        <div id="oppoCircle1" class="oppoCircle oppo1"><span class="circle-number">1</span></div>
+        <div id="oppoCircle2" class="oppoCircle oppo2"><span class="circle-number">2</span></div>
+        <div id="oppoCircle3" class="oppoCircle oppo3"><span class="circle-number">3</span></div>
+        <div id="oppoCircle4" class="oppoCircle oppo4"><span class="circle-number">4</span></div>
+        <div id="oppoCircle5" class="oppoCircle oppo5"><span class="circle-number">5</span></div>
+        <div id="oppoCircle6" class="oppoCircle oppo6"><span class="circle-number">6</span></div>
+        <div id="oppoCircle8" class="oppoCircle oppo8"><span class="circle-number">8</span></div>
+        <div id="oppoCircle10" class="oppoCircle oppo10"><span class="circle-number">10</span></div>
+        <div id="oppoCircle7" class="oppoCircle oppo7"><span class="circle-number">7</span></div>
+        <div id="oppoCircle9" class="oppoCircle oppo9"><span class="circle-number">9</span></div>
+        <div id="oppoCircle11" class="oppoCircle oppo11"><span class="circle-number">11</span></div>
       </div>
     </div>
   </div>
+
+  <script type="module" src="script.js"></script>
 </body>
-<script type="module" src="script.js"></script>
 
 </html>
