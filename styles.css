@@ -31,7 +31,7 @@ body {
 .textbox-container {
   padding: 10px;
   width: 50vw;
-  height: 50vw;
+  height: 880px;
   margin-right: 10px;
   border-color: white;
   border-style: solid;
@@ -44,6 +44,7 @@ body {
 }
 
 .settings-column {
+  margin-top: 10px;
   flex: 22.5vw;
 }
 
