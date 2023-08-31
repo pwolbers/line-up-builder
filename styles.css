@@ -94,14 +94,25 @@ body {
   border-radius: 3px;
 }
 
-.textbox-container input {
+.inputBox, .backupBox, .teamNameBox {
   width: 100%;
-  background-color: rgb(238, 238, 238);
+  background-color: rgba(200, 200, 200, 0.14);
   padding: 5px;
   font-size: 14px;
   transition: background-color 0.3s ease;
+  opacity: 100%;
+  border-radius: 5px;
+  color: white;
+  border-color: rgb(150, 150, 150, 0.5);
 }
 
+.teamNameBox {
+  background-color: rgba(200, 200, 200, 0.28);
+}
+.textbox-container input::placeholder {
+  color:rgb(80, 80, 80);
+
+}
 .labelHeader {
   color: white;
 }
@@ -180,7 +191,6 @@ li {
 li {
   margin-left: 15px;
 }
-
 
 .inputBox,
 .backupBox {
@@ -421,7 +431,7 @@ input:checked + .slider:before {
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  z-index: 1;
+  z-index: 2;
 }
 
 #circle1 {
@@ -459,6 +469,7 @@ input:checked + .slider:before {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  z-index: 2;
 }
 
 .output-container {
@@ -644,7 +655,7 @@ pre {
 
   .textbox-container {
     width: 45vw;
-    height: 80vw;
+    height: 46%;
     margin-left: 5px;
     padding: 10px;
   }

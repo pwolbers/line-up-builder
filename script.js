@@ -118,6 +118,7 @@ window.onload = () => {
     document.getElementById("jsonContainer").innerText = formattedJSON;
     setTextBoxOrders();
     determineFormation();
+
 }
 
 
@@ -285,8 +286,53 @@ circles.forEach((circle, index) => {
     let offsetX = 0;
     let offsetY = 0;
 
+    let isEditing = false;
+    circle.addEventListener("dblclick", handleDoubleClick);
     circle.addEventListener("mousedown", startDrag);
     circle.addEventListener("touchstart", startDrag);
+
+    function handleDoubleClick() {
+
+        if (!isEditing) {
+            isEditing = true;
+            var number = circle.querySelector('.circle-number');
+            const currentValue = number.textContent;
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentValue;
+
+            input.classList.add('inputBox');
+            input.style.backgroundColor = 'rgba(220, 220, 220, 0.9)';
+            input.style.width = '2vw';
+            input.style.textAlign = 'center';
+            input.style.position = 'relative';
+            input.style.top = '-65px';
+            input.style.zIndex = '2';
+
+
+            // Replace the number with an input field for editing
+            //number.innerHTML = '';
+            number.appendChild(input);
+            input.focus();
+
+            // Add an event listener to save the edited value on Enter and cancel on Esc
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    number.textContent = input.value;
+                    isEditing = false;
+                } else if (event.key === 'Escape') {
+                    number.textContent = currentValue;
+                    isEditing = false;
+                }
+            });
+
+            // Remove the input field and revert to the number when it loses focus
+            input.addEventListener('blur', function () {
+                number.textContent = currentValue;
+                isEditing = false;
+            });
+        }
+    }
 
     function startDrag(e) {
         e.preventDefault();
@@ -654,7 +700,7 @@ function setCirclePositions(formationValue, circleType) {
                 circles[7].style.top = '42%'; circles[7].style.left = '16%';    //#10
                 circles[8].style.top = '42%'; circles[8].style.left = '77%';    //#7
             }
-            else{
+            else {
                 circles[7].style.top = '34%'; circles[7].style.left = '16%';    //#10
                 circles[8].style.top = '34%'; circles[8].style.left = '77%';    //#7
             }
@@ -665,7 +711,7 @@ function setCirclePositions(formationValue, circleType) {
             circles[6].style.top = '47%'; circles[6].style.left = '27%';    //#8
             circles[7].style.top = '34%'; circles[7].style.left = '47%';  //#10
         }
-       else if (formationValue === "451" || formationValue === "4231") {
+        else if (formationValue === "451" || formationValue === "4231") {
             circles[5].style.top = '54%'; circles[5].style.left = '58%';    //#6
             circles[6].style.top = '54%'; circles[6].style.left = '36%';    //#8
             circles[7].style.top = '34%'; circles[7].style.left = '47%';  //#10
@@ -688,7 +734,7 @@ function setCirclePositions(formationValue, circleType) {
     else if (circleType == 'oppo') {
         const circles = document.querySelectorAll(".oppoCircle");
         circles[0].style.top = '6%'; circles[0].style.left = '47%';  //#1
-        if(formationValue === '433') {
+        if (formationValue === '433') {
             circles[1].style.top = '18%'; circles[1].style.left = '16%';    //#2
             circles[2].style.top = '14%'; circles[2].style.left = '33%';    //#3
             circles[3].style.top = '14%'; circles[3].style.left = '60%';    //#4
@@ -772,7 +818,7 @@ function setCirclePositions(formationValue, circleType) {
             circles[9].style.top = '66%'; circles[9].style.left = '47%';    //#9
             circles[10].style.top = '54%'; circles[10].style.left = '77%';  //#11
         }
-        else{
+        else {
             circles[1].style.top = '18%'; circles[1].style.left = '16%';    //#2
             circles[2].style.top = '14%'; circles[2].style.left = '33%';    //#3
             circles[3].style.top = '14%'; circles[3].style.left = '60%';    //#4
@@ -938,7 +984,7 @@ function getCurrentCircleOrder() {
     function customSort(a, b) {
         if (a.id === 'circle1') return -1;  // 'circle1' comes first
         if (b.id === 'circle1') return 1;   // 'circle1' comes first
-    
+
         // If neither is 'circle1', maintain the original order
         return a.pos - b.pos;
     }
@@ -1364,7 +1410,7 @@ function changeSwitch(evt) {
             document.getElementById('oppo-color-container').style.display = 'flex';
             document.getElementById('oppo-formation-box').style.display = 'flex';
             if (window.innerWidth <= 1000) {
-            document.getElementById('textbox-container').style.height = '94vw';
+                document.getElementById('textbox-container').style.height = '54%';
             }
         }
         else {
@@ -1378,8 +1424,8 @@ function changeSwitch(evt) {
             document.getElementById('oppo-color-container').style.display = 'none';
             document.getElementById('oppo-formation-box').style.display = 'none';
             if (window.innerWidth <= 1000) {
-                document.getElementById('textbox-container').style.height = '80vw';
-                }
+                document.getElementById('textbox-container').style.height = '46%';
+            }
         }
     }
 }
