@@ -24,9 +24,9 @@ $(document).ready(function () {
         var showLineUpButton = document.getElementById('showLineUpButton');
         const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
         if (displayValue == 'block') {
-            toggleDisplay(inputContainers, true);
+            toggleDisplay(inputContainers, true, 'starting');
         } else {
-            toggleDisplay(inputContainers, false);
+            toggleDisplay(inputContainers, false, 'starting');
         }
     });
 
@@ -36,15 +36,51 @@ $(document).ready(function () {
         var showLineUpButton = document.getElementById('showLineUpButton');
         const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
         if (displayValue == 'block') {
-            toggleDisplay(inputContainers, true);
+            toggleDisplay(inputContainers, true, 'backup');
         } else {
-            toggleDisplay(inputContainers, false);
+            toggleDisplay(inputContainers, false, 'backup');
         }
     });
 });
 
-function toggleDisplay(elements, mobileCheck) {
+function toggleDisplay(elements, mobileCheck, type) {
     if (mobileCheck) {
+        if (type == 'starting') {
+            console.log('STARTING COLUMN CLICKED');
+            const backupColumn = document.querySelector('div.backup-column');
+            const children = backupColumn.querySelectorAll('*');
+
+            children.forEach((child) => {
+                console.log(child.tagName);
+                if(child.tagName == 'DIV'){
+                    child.style.display = 'none';
+                }
+                else if(child.tagName == 'H2'){
+                    child.style.display = 'block';
+                }
+                else {
+                    child.style.display = 'flex';
+                }
+            });
+        }
+        else if (type == 'backup') {
+            console.log('BACKUP COLUMN CLICKED');
+            const startingColumn = document.querySelector('div.starting-column');
+            const children = startingColumn.querySelectorAll('*');
+
+            children.forEach((child) => {
+                console.log(child.tagName);
+                if(child.tagName == 'DIV'){
+                    child.style.display = 'none';
+                }
+                else if(child.tagName == 'H2'){
+                    child.style.display = 'block';
+                }
+                else{
+                    child.style.display = 'flex';
+                }
+            });
+        }
         elements.each(function () {
             var displayValue = $(this).css("display");
             var newDisplay = (displayValue === "flex") ? "none" : "flex";
@@ -1409,9 +1445,7 @@ function changeSwitch(evt) {
             setCirclePositions('433', 'oppo');
             document.getElementById('oppo-color-container').style.display = 'flex';
             document.getElementById('oppo-formation-box').style.display = 'flex';
-            if (window.innerWidth <= 1000) {
-                document.getElementById('textbox-container').style.height = '54%';
-            }
+
         }
         else {
             document.getElementById("oppo-text").innerHTML = "Off";
@@ -1423,9 +1457,7 @@ function changeSwitch(evt) {
 
             document.getElementById('oppo-color-container').style.display = 'none';
             document.getElementById('oppo-formation-box').style.display = 'none';
-            if (window.innerWidth <= 1000) {
-                document.getElementById('textbox-container').style.height = '46%';
-            }
+
         }
     }
 }

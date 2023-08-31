@@ -24,14 +24,12 @@ body {
 .container {
   display: flex;
   width: 100%;
-  height: 98%;
   justify-content: flex-start;
 }
 
 .textbox-container {
   padding: 10px;
   width: 50vw;
-  height: 880px;
   margin-right: 10px;
   border-color: white;
   border-style: solid;
@@ -636,6 +634,11 @@ pre {
 }
 
 @media screen and (max-width: 1000px) {
+  .container {
+    position: absolute;
+    top: 5px;
+  }
+
   #select-team-box {
     width: 20vw;
     margin-right: 10px;
@@ -655,7 +658,7 @@ pre {
 
   .textbox-container {
     width: 45vw;
-    height: 46%;
+    height: 0%;
     margin-left: 5px;
     padding: 10px;
   }
