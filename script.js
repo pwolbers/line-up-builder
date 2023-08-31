@@ -46,7 +46,6 @@ $(document).ready(function () {
 function toggleDisplay(elements, mobileCheck, type) {
     if (mobileCheck) {
         if (type == 'starting') {
-            console.log('STARTING COLUMN CLICKED');
             const backupColumn = document.querySelector('div.backup-column');
             const children = backupColumn.querySelectorAll('*');
 
@@ -64,7 +63,6 @@ function toggleDisplay(elements, mobileCheck, type) {
             });
         }
         else if (type == 'backup') {
-            console.log('BACKUP COLUMN CLICKED');
             const startingColumn = document.querySelector('div.starting-column');
             const children = startingColumn.querySelectorAll('*');
 
@@ -335,7 +333,7 @@ circles.forEach((circle, index) => {
             const currentValue = number.textContent;
             const input = document.createElement('input');
             input.type = 'text';
-            input.value = currentValue;
+            input.value = '';
 
             input.classList.add('inputBox');
             input.style.backgroundColor = 'rgba(220, 220, 220, 0.9)';
@@ -364,8 +362,34 @@ circles.forEach((circle, index) => {
 
             // Remove the input field and revert to the number when it loses focus
             input.addEventListener('blur', function () {
-                number.textContent = currentValue;
-                isEditing = false;
+                if(input.value.length == 1 || input.value.length == 2){
+                    number.style.fontSize = '23px';
+                    number.style.top = '4.5px';
+                    number.textContent = input.value;
+                    isEditing = false;
+                }
+                if(input.value.length == 3){
+                    number.style.fontSize = '20px';
+                    number.style.top = '6px';
+                    number.textContent = input.value;
+                    isEditing = false;
+                }
+                else if(input.value.length == 4){
+                    number.style.fontSize = '17px';
+                    number.style.top = '7px';
+                    number.textContent = input.value;
+                    isEditing = false;
+                }
+                else if(input.value.length > 4 || input.value.length == 0){
+                    number.textContent = currentValue;
+                    isEditing = false;
+                    alert("Length has to be between 1 and 4  characters");
+                    isEditing = false;
+                }
+                else{
+                    number.textContent = input.value;
+                    isEditing = false;
+                }
             });
         }
     }
