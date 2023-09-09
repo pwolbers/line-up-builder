@@ -152,6 +152,7 @@ p,
 h2,
 h3,
 h4,
+h5,
 li,
 option,
 button,
@@ -159,11 +160,16 @@ input,
 label,
 .formation-label,
 .copyright {
+  margin-block-start: 0.2em;
   font-family: "Exo", sans-serif;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+}
+
+h3, h4, p {
+  margin-block-end: 0.4em;
 }
 
 label {
@@ -183,7 +189,7 @@ button {
 
 p,
 li {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 li {
@@ -351,7 +357,7 @@ input:checked + .slider:before {
   margin-right: 12px;
 }
 
-#pitch-text, #oppo-text {
+#pitch-text, #oppo-text, #ball-text {
   color: white;
   font-size: 12px;
   padding-top: 4px;
@@ -361,8 +367,12 @@ input:checked + .slider:before {
   padding-left: 10px;
 }
 
-#oppo-text {
+#oppo-text, #ball-text {
   padding-left: 45px;
+}
+
+.pitchCheckBox, .ballCheckbox {
+  display: flex;
 }
 
 /**************
@@ -422,17 +432,26 @@ input:checked + .slider:before {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 3px solid white;
-  background-color: red;
   display: flex;
   align-items: center;
-  flex-direction: column;
   justify-content: center;
+}
+
+.circleColor, .circleColorGK {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid white;
   text-align: center;
   z-index: 2;
 }
 
-#circle1 {
+.circleColor {
+  background-color: red;
+}
+
+.circleColorGK {
   background-color: #0186e1;
 }
 
@@ -467,7 +486,7 @@ input:checked + .slider:before {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-  /*z-index: 2;*/
+  z-index: 2;
 }
 
 .output-container {
@@ -504,6 +523,18 @@ input:checked + .slider:before {
   bottom: -47px;
   opacity: 0.85;
   background-color: #C8C8C8;
+}
+
+.ball {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  display: none;
+  background: url(https://upload.wikimedia.org/wikipedia/en/e/ec/Soccer_ball.svg) no-repeat;
+  border: #000000 1px solid;
+  border-radius: 50%;
+  background-size: 100%;
+  z-index: 5;
 }
 
 /**************
@@ -633,6 +664,8 @@ pre {
   padding: 10px;
 }
 
+
+
 @media screen and (max-width: 1000px) {
   .container {
     position: absolute;
@@ -724,5 +757,13 @@ pre {
 
   .input-container {
     display: none;
+  }
+
+  .pitchCheckBox, .ballCheckbox {
+    display: block;
+  }
+
+  #pitchLabel, #ballLabel {
+    margin-bottom: 5px;
   }
 }

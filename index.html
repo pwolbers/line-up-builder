@@ -33,6 +33,7 @@
               <option value="451">4-5-1 / 4-2-3-1</option>
               <option value="532">5-3-2 / 3-5-2</option>
               <option value="343">3-4-3</option>
+              <option value="3421">3-4-2-1</option>
             </select>
           </div>
         </div>
@@ -48,10 +49,21 @@
               <i class="fas fa-times"></i>
             </button>
             <h2>Help</h2>
+            <h3>Controls</h3>
+            <h4>Computer</h4>
+            <li style="font-size: 13px"><b>Left click and drag circle:</b> change position of circle on the pitch</li>
+            <li style="font-size: 13px"><b>Double left click on circle:</b> change number in circle</li>
+            <li style="font-size: 13px"><b>Right click and drag on circle:</b> Draw dotted arrow from circle</li>
+            <li style="font-size: 13px"><b>Double right click on circle:</b> Remove arrows from circle</li>
+            <h4>Mobile</h4>
+            <li style="font-size: 13px"><b>Left tap and drag circle:</b> change position of circle on the pitch</li>
+            <li style="font-size: 13px"><b>Double left tap on circle:</b> change number in circle</li>
+            <br>
+            <h3>Importing team</h3>
             <p>You can directly import a team through a saved .JSON file.</p>
             <p>JSON files need to be imported in the following format:</p>
             <pre id="jsonContainer"></pre>
-            <h4>Details</h4>
+            <h3>Details</h3>
             <p><b>teamName:</b> Put your team name here</p>
             <p><b>formation: </b> Recognized inputs for formations are:</p>
             <li>433</li>
@@ -61,6 +73,7 @@
             <li>4231</li>
             <li>532</li>
             <li>343</li>
+            <li>3421</li>
             <p>Other formations will be defaulted to a 4-3-3.</p>
             <p><b>starting & backup:</b> Put your starting and backup players in the positions linked to that number.
             </p>
@@ -75,6 +88,7 @@
             <li><i>numberColor:</i> the number in the circle</li>
             <p>Colors can be in words ['red', 'blue'], RGB [rgb(255, 0, 0)] (you can also use percentages) and
               hexadecimals [#ff0000].</p>
+            <br>
             <h3>Download</h3>
             <p>You can download your team in two filetypes: .JSON and .PNG. The .JSON will be downloaded in a similar
               format as above based on your input when downloading.
@@ -255,13 +269,22 @@
         </div>
         <div class="settings-column">
           <div style="margin-top: 10px; display: flex">
-            <label id="pitchLabel" class="switch-label">Pitch background: </label>
-            <label class="switch">
-              <input id="pitch-checkbox" type="checkbox" checked>
-              <span id="pitch-text" class="slider round sliderPitch">Green</span>
-            </label>
+            <div class="pitchCheckBox">
+              <label id="pitchLabel" class="switch-label">Pitch background: </label>
+              <label class="switch">
+                <input id="pitch-checkbox" type="checkbox" checked>
+                <span id="pitch-text" class="slider round sliderPitch">Green</span>
+              </label>
+            </div>
+            <div class="ballCheckbox" style="margin-left: 30px">
+              <label id="ballLabel" class="switch-label">Ball: </label>
+              <label class="switch">
+                <input id="ball-checkbox" type="checkbox">
+                <span id="ball-text" class="slider round sliderBall">Off</span>
+              </label>
+            </div>
           </div>
-          <div style="margin-top: 10px; display: flex">
+          <div class="oppoCheckbox" style="margin-top: 10px; display: flex">
             <label id="pitchLabel" class="switch-label">Opposition: </label>
             <label class="switch">
               <input id="oppo-checkbox" type="checkbox">
@@ -283,7 +306,8 @@
             </div>
           </div>
           <div class="oppo-select-box" id="oppo-formation-box">
-            <div><label for="oppo-formation" class="labelHeader" style="margin-right: 10px; margin-top: 15px">Opposition formation:</label></div>
+            <div><label for="oppo-formation" class="labelHeader" style="margin-right: 10px; margin-top: 15px">Opposition
+                formation:</label></div>
             <select id="oppo-formation" name="formation" class="teamSelectBox">
               <option value=""> - </option>
               <option value="433">4-3-3</option>
@@ -293,12 +317,13 @@
               <option value="451">4-5-1 / 4-2-3-1</option>
               <option value="532">5-3-2 / 3-5-2</option>
               <option value="343">3-4-3</option>
+              <option value="3421">3-4-2-1</option>
             </select>
           </div>
         </div>
       </div>
     </div>
-    <div class="lineup-container" id="lineupContainer">
+    <div class="lineup-container" id="lineupContainer" oncontextmenu="return false;">
       <div class="image-container" id="image-container">
         <div class="text-container">
           <span class="formation-label">Formation: </span>
@@ -306,98 +331,109 @@
         </div>
         <div id="allCircles">
           <div id="circle1" class="circle pos1">
+            <div class="circleColorGK"></div>
             <span class="circle-number">1</span>
             <div class="output-container">
               <span class="outputStarting"></span>
               <span class="outputBackup"></span>
             </div>
           </div>
-        </div>
-        <div id="circle2" class="circle pos2">
-          <span class="circle-number">2</span>
-          <div class="output-container">
-            <span class="outputStarting"></span>
-            <span class="outputBackup"></span>
+          <div id="circle2" class="circle pos2">
+            <div class="circleColor"></div>
+            <span class="circle-number">2</span>
+            <div class="output-container">
+              <span class="outputStarting"></span>
+              <span class="outputBackup"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle3" class="circle pos3">
-          <span class="circle-number">3</span>
-          <div class="output-container">
-            <span class="outputStarting"></span>
-            <span class="outputBackup"></span>
+          <div id="circle3" class="circle pos3">
+            <div class="circleColor"></div>
+            <span class="circle-number">3</span>
+            <div class="output-container">
+              <span class="outputStarting"></span>
+              <span class="outputBackup"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle4" class="circle pos4">
-          <span class="circle-number">4</span>
-          <div class="output-container">
-            <span class="outputStarting"></span>
-            <span class="outputBackup"></span>
+          <div id="circle4" class="circle pos4">
+            <div class="circleColor"></div>
+            <span class="circle-number">4</span>
+            <div class="output-container">
+              <span class="outputStarting"></span>
+              <span class="outputBackup"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle5" class="circle pos5">
-          <span class="circle-number">5</span>
-          <div class="output-container">
-            <span class="outputStarting"></span>
-            <span class="outputBackup"></span>
+          <div id="circle5" class="circle pos5">
+            <div class="circleColor"></div>
+            <span class="circle-number">5</span>
+            <div class="output-container">
+              <span class="outputStarting"></span>
+              <span class="outputBackup"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle6" class="circle pos6">
-          <span class="circle-number">6</span>
-          <div class="output-container">
-            <span class="outputStarting"></span>
-            <span class="outputBackup"></span>
+          <div id="circle6" class="circle pos6">
+            <div class="circleColor"></div>
+            <span class="circle-number">6</span>
+            <div class="output-container">
+              <span class="outputStarting"></span>
+              <span class="outputBackup"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle8" class="circle pos8">
-          <span class="circle-number">8</span>
-          <div class="output-container">
-            <span class="outputStarting"></span>
-            <span class="outputBackup"></span>
+          <div id="circle8" class="circle pos8">
+            <div class="circleColor"></div>
+            <span class="circle-number">8</span>
+            <div class="output-container">
+              <span class="outputStarting"></span>
+              <span class="outputBackup"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle10" class="circle pos10">
-          <span class="circle-number">10</span>
-          <div class="output-container">
-            <span class="outputStarting"></span>
-            <span class="outputBackup"></span>
+          <div id="circle10" class="circle pos10">
+            <div class="circleColor"></div>
+            <span class="circle-number">10</span>
+            <div class="output-container">
+              <span class="outputStarting"></span>
+              <span class="outputBackup"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle7" class="circle pos7">
-          <span class="circle-number">7</span>
-          <div class="output-container">
-            <span class="outputStarting"></span>
-            <span class="outputBackup"></span>
+          <div id="circle7" class="circle pos7">
+            <div class="circleColor"></div>
+            <span class="circle-number">7</span>
+            <div class="output-container">
+              <span class="outputStarting"></span>
+              <span class="outputBackup"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle9" class="circle pos9">
-          <span class="circle-number">9</span>
-          <div class="output-container">
-            <span class="outputStarting"></span>
-            <span class="outputBackup"></span>
+          <div id="circle9" class="circle pos9">
+            <div class="circleColor"></div>
+            <span class="circle-number">9</span>
+            <div class="output-container">
+              <span class="outputStarting"></span>
+              <span class="outputBackup"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle11" class="circle pos11">
-          <span class="circle-number">11</span>
-          <div class="output-container">
-            <span class="outputStarting"></span>
-            <span class="outputBackup"></span>
+          <div id="circle11" class="circle pos11">
+            <div class="circleColor"></div>
+            <span class="circle-number">11</span>
+            <div class="output-container">
+              <span class="outputStarting"></span>
+              <span class="outputBackup"></span>
+            </div>
           </div>
+          <div id="oppoCircle1" class="oppoCircle oppo1"><span class="circle-number">1</span></div>
+          <div id="oppoCircle2" class="oppoCircle oppo2"><span class="circle-number">2</span></div>
+          <div id="oppoCircle3" class="oppoCircle oppo3"><span class="circle-number">3</span></div>
+          <div id="oppoCircle4" class="oppoCircle oppo4"><span class="circle-number">4</span></div>
+          <div id="oppoCircle5" class="oppoCircle oppo5"><span class="circle-number">5</span></div>
+          <div id="oppoCircle6" class="oppoCircle oppo6"><span class="circle-number">6</span></div>
+          <div id="oppoCircle8" class="oppoCircle oppo8"><span class="circle-number">8</span></div>
+          <div id="oppoCircle10" class="oppoCircle oppo10"><span class="circle-number">10</span></div>
+          <div id="oppoCircle7" class="oppoCircle oppo7"><span class="circle-number">7</span></div>
+          <div id="oppoCircle9" class="oppoCircle oppo9"><span class="circle-number">9</span></div>
+          <div id="oppoCircle11" class="oppoCircle oppo11"><span class="circle-number">11</span></div>
+          <div id="ball" class="ball"></div>
         </div>
-        <div id="oppoCircle1" class="oppoCircle oppo1"><span class="circle-number">1</span></div>
-        <div id="oppoCircle2" class="oppoCircle oppo2"><span class="circle-number">2</span></div>
-        <div id="oppoCircle3" class="oppoCircle oppo3"><span class="circle-number">3</span></div>
-        <div id="oppoCircle4" class="oppoCircle oppo4"><span class="circle-number">4</span></div>
-        <div id="oppoCircle5" class="oppoCircle oppo5"><span class="circle-number">5</span></div>
-        <div id="oppoCircle6" class="oppoCircle oppo6"><span class="circle-number">6</span></div>
-        <div id="oppoCircle8" class="oppoCircle oppo8"><span class="circle-number">8</span></div>
-        <div id="oppoCircle10" class="oppoCircle oppo10"><span class="circle-number">10</span></div>
-        <div id="oppoCircle7" class="oppoCircle oppo7"><span class="circle-number">7</span></div>
-        <div id="oppoCircle9" class="oppoCircle oppo9"><span class="circle-number">9</span></div>
-        <div id="oppoCircle11" class="oppoCircle oppo11"><span class="circle-number">11</span></div>
       </div>
     </div>
   </div>
-
   <script type="module" src="script.js"></script>
 </body>
 
