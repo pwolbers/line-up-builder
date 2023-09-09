@@ -352,6 +352,7 @@ circles.forEach((circle, index) => {
                 // Replace the number with an input field for editing
                 //number.innerHTML = '';
                 number.appendChild(input);
+
                 input.focus();
 
                 // Add an event listener to save the edited value on Enter and cancel on Esc
@@ -368,13 +369,13 @@ circles.forEach((circle, index) => {
                 // Remove the input field and revert to the number when it loses focus
                 input.addEventListener('blur', function () {
                     if (input.value.length == 1 || input.value.length == 2) {
+                        number.textContent = input.value;
                         number.style.fontSize = '23px';
                         number.style.top = '4.5px';
-                        number.textContent = input.value;
                         isEditing = false;
                         changeNumberOnTextbox(circle, input.value);
                     }
-                    if (input.value.length == 3) {
+                    else if (input.value.length == 3) {
                         number.style.fontSize = '20px';
                         number.style.top = '6px';
                         number.textContent = input.value;
@@ -572,8 +573,8 @@ circles.forEach((circle, index) => {
                 // Calculate the horizontal and vertical differences
                 const deltaX = currentX - startX;
                 const deltaY = currentY - startY;
-                
-                
+
+
                 // Calculate the angle in radians
                 const angleInRadians = Math.atan2(deltaY, deltaX);
                 const angleDeg = ((angleInRadians * 180) / Math.PI) - 90;
@@ -605,11 +606,11 @@ circles.forEach((circle, index) => {
 
     function stopLine() {
         var lineDivs = activeCircle.querySelectorAll('.line');
-            lineDivs.forEach(function (lineElement) {
-                if(!(parseInt(lineElement.style.height) > 22)){
-                    lineElement.parentNode.removeChild(lineElement);
-                }
-            });
+        lineDivs.forEach(function (lineElement) {
+            if (!(parseInt(lineElement.style.height) > 22)) {
+                lineElement.parentNode.removeChild(lineElement);
+            }
+        });
         activeCircle = null;
         document.removeEventListener("mousemove", dragLine);
         document.removeEventListener("touchmove", dragLine);
@@ -1764,26 +1765,29 @@ function addDragForOppo(oppoCircles) {
     });
 }
 
-function changeNumberOnTextbox(circle, newInput){
+function changeNumberOnTextbox(circle, newInput) {
     const regex = /[^0-9]/;
     //anything else than digits
-    if(!regex.test(newInput)){
+    if (!regex.test(newInput)) {
         newInput = '#' + newInput;
     }
-    
-    console.log(circle);
+
     var circleClass = circle.classList[1];
-    console.log(circleClass);
     var query = 'input.' + circleClass;
     const divElements = document.querySelectorAll(query);
     divElements.forEach((div) => {
-        
-    div.nextElementSibling.innerHTML = newInput;
-    if(newInput.length >= 4){
-        div.nextElementSibling.style.fontSize = '10px';
-    }
-    else{
-        div.nextElementSibling.style.fontSize = '12px';
-    }
+        div.nextElementSibling.innerHTML = newInput;
+        if (newInput.length > 4) {
+            div.nextElementSibling.style.fontSize = '10px';
+            div.nextElementSibling.style.marginRight = '8px';
+        }
+        else if (newInput.length == 4) {
+            div.nextElementSibling.style.fontSize = '11px';
+            div.nextElementSibling.style.marginRight = '6px';
+        }
+        else {
+            div.nextElementSibling.style.fontSize = '12px';
+            div.nextElementSibling.style.marginRight = '';
+        }
     });
 }
