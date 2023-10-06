@@ -197,9 +197,8 @@ function loadTeam() {
                 circle.style.left = result.arrayLeft[q];
             }
         }
-
-        setTextBoxOrders();
         setOppoTextBoxOrder();
+        setTextBoxOrders();
         determineFormation();
         
     }
@@ -383,7 +382,7 @@ function importJSON() {
 
                     document.getElementById("teamNameBox").value = jsonData.teamName;
                     setCircleColor(jsonData.colors, 'main');
-                    setCirclePositions(jsonData.formation.replaceAll('-', ''), 'main');
+                    setCirclePositions(jsonData.formation.replaceAll('-', '').replaceAll(' ', ''), 'main');
                     setTextBoxOrders();
                     setLineUp(startKeyArray, secondKeyArray, secondType);
                     determineFormation();

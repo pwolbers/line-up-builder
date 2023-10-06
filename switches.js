@@ -135,8 +135,10 @@ function oppoCheckBox(switchId) {
     else {
         document.getElementById("oppo-text").innerHTML = "Off";
         document.getElementById("oppo-text").style.paddingLeft = "45px";
-        document.getElementById("oppo-name-checkbox").checked = false;
-        oppoNameCheckBox("oppo-name-checkbox");
+        if (checkOppositionName.checked) {
+            checkOppositionName.checked = false;
+            oppoNameCheckBox("oppo-name-checkbox");
+        }
 
         circles.forEach(function (circle) {
             circle.style.display = 'none';
