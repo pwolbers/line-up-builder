@@ -643,7 +643,7 @@ function formatFormationString(value) {
         resultArray.push(currentChar);
         if (/[0-9]/.test(currentChar) && /[a-zA-Z]/.test(nextChar) && nextChar != undefined && !tenOrEleven) {
             resultArray.push(' ');
-        } else if (/[0-9]/.test(currentChar) && /[0-9]/.test(nextChar) && nextChar != undefined  && !tenOrEleven) {
+        } else if (/[0-9]/.test(currentChar) && /[0-9]/.test(nextChar) && nextChar != undefined && !tenOrEleven) {
             resultArray.push('-');
         }
     }
@@ -709,17 +709,16 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
     const oppoOutputContainer = document.querySelectorAll(".oppo-output-container");
     if (startKeyArray.length > 0) {
         if (secondType == 'opposition') {
-            document.getElementById("oppo-checkbox").checked = true;
-            document.getElementById("oppo-name-checkbox").checked = true;
-            oppoCheckBox("oppo-checkbox");
-            //Changes the style of the second column and stores the names in the textboxes
-            oppoNameCheckBox("oppo-name-checkbox");
+            checkOpposition.checked = true;
+            checkOppositionName.checked = true;
+
         }
         else {
-            document.getElementById("oppo-checkbox").checked = false;
-            document.getElementById("oppo-name-checkbox").checked = false;
-            oppoCheckBox("oppo-checkbox");
+            checkOpposition.checked = false;
+            checkOppositionName.checked = false;
         }
+        oppoCheckBox("oppo-checkbox");
+        oppoNameCheckBox("oppo-name-checkbox");
 
         startingArray.forEach(function (starter, index) {
             var inputContainers = document.querySelectorAll('.column.starting-column .input-container');

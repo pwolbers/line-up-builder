@@ -165,7 +165,7 @@ function loadTeam() {
         document.getElementById("select-formation").value = formattedFormation;
         document.getElementById("teamNameBox").value = selectedValue;
         setCircleColor(lineUpsObj[selectedValue].colors, 'main');
-        setCirclePositions(formattedFormation, 'main');        
+        setCirclePositions(formattedFormation, 'main');
         if (secondType == 'opposition') {
             if (lineUpsObj[selectedValue].oppoColors) {
                 setCircleColor(lineUpsObj[selectedValue].oppoColors, 'oppo');
@@ -175,7 +175,7 @@ function loadTeam() {
             }
         }
         setLineUp(startKeyArray, secondKeyArray, secondType);
-        
+
         //If specific position data is available, use it
         if (lineUpsObj[selectedValue].circlePositions) {
             var circlePositionString = lineUpsObj[selectedValue].circlePositions;
@@ -191,16 +191,19 @@ function loadTeam() {
             var circlePositionString = lineUpsObj[selectedValue].oppoCirclePositions;
             const result = getSpecificCirclePositions(circlePositionString);
             for (var q = 0; q < 11; q++) {
-                
+
                 var circle = document.getElementById(result.arrayId[q]);
                 circle.style.top = result.arrayTop[q];
                 circle.style.left = result.arrayLeft[q];
             }
         }
-        setOppoTextBoxOrder();
+        if (secondType == 'opposition') {
+            setOppoTextBoxOrder();
+        }
+
         setTextBoxOrders();
         determineFormation();
-        
+
     }
 }
 
@@ -258,11 +261,11 @@ function downloadJSON() {
     mainCircles.forEach((circle) => {
         var circleStyleTop = circle.style.top;
         var circleStyleLeft = '';
-        if(circle.style.top.indexOf('px') > -1 ){
+        if (circle.style.top.indexOf('px') > -1) {
             circleStyleTop = circle.style.top.replace('px', '') / document.querySelector(".image-container").offsetHeight;
             circleStyleTop = (circleStyleTop * 100).toFixed(2) + '%';
         }
-        if(circle.style.left.indexOf('px') > -1 ){
+        if (circle.style.left.indexOf('px') > -1) {
             circleStyleLeft = circle.style.left.replace('px', '') / document.querySelector(".image-container").offsetWidth;
             circleStyleLeft = (circleStyleLeft * 100).toFixed(2) + '%';
         }
