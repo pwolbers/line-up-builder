@@ -2,19 +2,58 @@
   "teamName": "Argentina WC 2022",
   "formation": "4-3-3",
   "starting": {
-    "#1": "E. Martínez",
-    "#2": "Molina",
-    "#3": "Romero",
-    "#4": "Otamendi",
-    "#5": "Tagliafico",
-    "#6": "Fernández",
-    "#8": "Mac Allister",
-    "#10": "De Paul",
-    "#7": "Messi",
-    "#11": "Di María",
-    "#9": "Álvarez"
+    "#1": {
+      "name": "E. Martínez",
+      "number": "23"
+    },
+    "#2": {
+      "name": "Molina",
+      "number": "26"
+    },
+    "#3": {
+      "name": "Romero",
+      "number": "13"
+    },
+    "#4": {
+      "name": "Otamendi",
+      "number": "19"
+    },
+    "#5": {
+      "name": "Tagliafico",
+      "number": "3"
+    },
+    "#6": {
+      "name": "Fernández",
+      "number": "24"
+    },
+    "#8": {
+      "name": "Mac Allister",
+      "number": "20"
+    },
+    "#10": {
+      "name": "De Paul",
+      "number": "7"
+    },
+    "#7": {
+      "name": "Messi",
+      "number": "10"
+    },
+    "#11": {
+      "name": "Di María",
+      "number": "11"
+    },
+    "#9": {
+      "name": "Álvarez",
+      "number": "9"
+    }
   },
-  "backup": {
+  "colors": {
+    "mainColor": "#ffffff",
+    "secondColor": "#6cace4",
+    "numberColor": "#6cace4"
+  },
+  "secondType": "back-up",
+  "second": {
     "#1": "Armani | Rulli",
     "#2": "Montiel",
     "#3": "Foyth | Pezzella",
@@ -26,10 +65,5 @@
     "#7": "Correa",
     "#11": "Gómez",
     "#9": "Dybala | La. Martínez"
-  },
-  "colors": {
-    "mainColor": "#ffffff",
-    "secondColor": "#6cace4",
-    "numberColor": "#6cace4"
   }
 }

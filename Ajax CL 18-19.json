@@ -2,19 +2,53 @@
   "teamName": "Ajax CL 18/19",
   "formation": "4-5-1",
   "starting": {
-    "#1": "Onana",
-    "#2": "Mazraoui",
-    "#3": "De Ligt",
-    "#4": "Blind",
-    "#5": "Tagliafico",
-    "#6": "Schöne",
-    "#8": "F. de Jong",
-    "#10": "Van de Beek",
-    "#7": "Ziyech",
-    "#11": "Neres",
-    "#9": "Tadic"
+    "#1": {
+      "name": "Onana",
+      "number": "24"
+    },
+    "#2": {
+      "name": "Mazraoui",
+      "number": "12"
+    },
+    "#3": {
+      "name": "De Ligt",
+      "number": "4"
+    },
+    "#4": {
+      "name": "Blind",
+      "number": "17"
+    },
+    "#5": {
+      "name": "Tagliafico",
+      "number": "31"
+    },
+    "#6": {
+      "name": "Schöne",
+      "number": "20"
+    },
+    "#8": {
+      "name": "F. de Jong",
+      "number": "21"
+    },
+    "#7": {
+      "name": "Ziyech",
+      "number": "22"
+    },
+    "#10": {
+      "name": "Van de Beek",
+      "number": "6"
+    },
+    "#11": {
+      "name": "Neres",
+      "number": "7"
+    },
+    "#9": {
+      "name": "Tadic",
+      "number": "10"
+    }
   },
-  "backup": {
+  "secondType": "back-up",
+  "second": {
     "#1": "Varela",
     "#2": "Veltman",
     "#3": "",
@@ -22,8 +56,8 @@
     "#5": "Sinkgraven",
     "#6": "",
     "#8": "",
-    "#10": "De Wit",
     "#7": "Labyad",
+    "#10": "De Wit",
     "#11": "",
     "#9": "Huntelaar | Dolberg"
   },

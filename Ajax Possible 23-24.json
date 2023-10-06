@@ -2,34 +2,68 @@
   "teamName": "Ajax possible 23/24",
   "formation": "4-3-3",
   "starting": {
-    "#1": "Gorter",
-    "#2": "Gaaei",
-    "#3": "Sutalo",
-    "#4": "Hato",
-    "#5": "Sosa",
-    "#6": "Tahirovic",
-    "#8": "Van den Boomen",
-    "#10": "Berghuis",
-    "#7": "Mikautadze",
-    "#9": "Brobbey",
-    "#11": "Bergwijn"
-  },
-  "backup": {
-    "#1": "Ramaj | Rulli | Pasveer",
-    "#2": "Rensch",
-    "#3": "Medic | Aertssen",
-    "#4": "Ávila | Kaplan",
-    "#5": "Ávila | Salah-Edinne",
-    "#6": "Mannsverk | Vos",
-    "#8": "Taylor | Vos",
-    "#10": "Mikautadze | Akpom ",
-    "#7": "Berghuis | Forbs",
-    "#9": "Akpom | Mikautadze",
-    "#11": "Forbs | Godts"
+    "#1": {
+      "name": "Gorter",
+      "number": "12"
+    },
+    "#2": {
+      "name": "Gaaei",
+      "number": "3"
+    },
+    "#3": {
+      "name": "Sutalo",
+      "number": "37"
+    },
+    "#4": {
+      "name": "Hato",
+      "number": "4"
+    },
+    "#5": {
+      "name": "Sosa",
+      "number": "25"
+    },
+    "#6": {
+      "name": "Tahirovic",
+      "number": "33"
+    },
+    "#8": {
+      "name": "Van den Boomen",
+      "number": "21"
+    },
+    "#10": {
+      "name": "Berghuis",
+      "number": "23"
+    },
+    "#7": {
+      "name": "Forbs",
+      "number": "11"
+    },
+    "#11": {
+      "name": "Bergwijn",
+      "number": "7"
+    },
+    "#9": {
+      "name": "Brobbey",
+      "number": "9"
+    }
   },
   "colors": {
     "mainColor": "#ff0000",
     "secondColor": "#ffffff",
     "numberColor": "#ffffff"
+  },
+  "secondType": "back-up",
+  "second": {
+    "#1": "Ramaj | Rulli | Pasveer",
+    "#2": "Rensch",
+    "#3": "Medic | Aertssen",
+    "#4": "Ávila | Kaplan",
+    "#5": "Ávila | Salah-Edinne",
+    "#6": "Vos | Mannsverk",
+    "#8": "Taylor | Vos",
+    "#10": "Mikautadze | Akpom",
+    "#7": "Mikautadze | Berghuis",
+    "#11": "Forbs | Godts",
+    "#9": "Akpom | Mikautadze"
   }
 }

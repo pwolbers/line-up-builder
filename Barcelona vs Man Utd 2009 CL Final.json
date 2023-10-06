@@ -1,0 +1,108 @@
+{
+  "teamName": "Barcelona vs Man Utd - 2009 CL Final",
+  "formation": "7-3-0",
+  "starting": {
+    "#1": {
+      "name": "Valdés",
+      "number": "1"
+    },
+    "#2": {
+      "name": "Puyol",
+      "number": "5"
+    },
+    "#3": {
+      "name": "Touré",
+      "number": "24"
+    },
+    "#4": {
+      "name": "Piqué",
+      "number": "3"
+    },
+    "#6": {
+      "name": "Busquets",
+      "number": "28"
+    },
+    "#5": {
+      "name": "Sylvinho",
+      "number": "16"
+    },
+    "#7": {
+      "name": "Messi",
+      "number": "10"
+    },
+    "#10": {
+      "name": "Iniesta",
+      "number": "8"
+    },
+    "#8": {
+      "name": "Xavi",
+      "number": "6"
+    },
+    "#9": {
+      "name": "Eto'o",
+      "number": "9"
+    },
+    "#11": {
+      "name": "Henry",
+      "number": "14"
+    }
+  },
+  "colors": {
+    "mainColor": "#004d98",
+    "secondColor": "#a50044",
+    "numberColor": "#edbb00"
+  },
+  "secondType": "opposition",
+  "second": {
+    "#1": {
+      "name": "Van der Sar",
+      "number": "1"
+    },
+    "#2": {
+      "name": "O'Shea",
+      "number": "22"
+    },
+    "#3": {
+      "name": "Ferdinand",
+      "number": "5"
+    },
+    "#6": {
+      "name": "Carrick",
+      "number": "16"
+    },
+    "#4": {
+      "name": "Vidić",
+      "number": "15"
+    },
+    "#7": {
+      "name": "Park",
+      "number": "13"
+    },
+    "#10": {
+      "name": "Giggs",
+      "number": "11"
+    },
+    "#8": {
+      "name": "Anderson",
+      "number": "8"
+    },
+    "#5": {
+      "name": "Evra",
+      "number": "3"
+    },
+    "#11": {
+      "name": "Rooney",
+      "number": "10"
+    },
+    "#9": {
+      "name": "Ronaldo",
+      "number": "7"
+    }
+  },
+  "oppoFormation": "710",
+  "oppoColors": {
+    "mainColor": "#ffffff",
+    "secondColor": "#000080",
+    "numberColor": "#000080"
+  }
+}
