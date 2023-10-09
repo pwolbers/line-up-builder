@@ -1,3 +1,12 @@
+const oppoLineYOne = (25/900) * imageContainer.offsetHeight;
+const oppoLineYTwo = (125/900) * imageContainer.offsetHeight;
+const oppoLineYThree = (255/900) * imageContainer.offsetHeight;
+const oppoLineYFour = (355/900) * imageContainer.offsetHeight;
+const oppoLineYFive = (385/900) * imageContainer.offsetHeight;
+const oppoLineYSix = (495/900) * imageContainer.offsetHeight;
+const oppoLineYSeven = (595/900) * imageContainer.offsetHeight;
+const oppoLineYEight = (835/900) * imageContainer.offsetHeight;
+
 function setOppoTextBoxOrder() {
     var secondColumn = document.querySelector('.second-column');
     var secondContainers = secondColumn.getElementsByClassName('input-container');
@@ -94,64 +103,64 @@ function determineOppoLabel(xPos, yPos, index) {
     var oppoLabels = document.querySelectorAll(".label");
     const secondBoxes = document.querySelectorAll(".secondBox");
 
-    if (xPos >= 210 && xPos <= 520 && yPos >= 65 && yPos <= 155) {
+    if (xPos >= lineXTwo && xPos <= lineXSeven && yPos >= oppoLineYOne && yPos <= oppoLineYTwo) {
         oppoLabels[index + 11].innerHTML = "GK";
         secondBoxes[index].placeholder = "Opposition GK";
-    } else if (xPos >= 110 && xPos <= 210 && yPos >= 35 && yPos <= 270) {
+    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= oppoLineYOne && yPos <= oppoLineYThree) {
         oppoLabels[index + 11].innerHTML = "RB";
         secondBoxes[index].placeholder = "Opposition RB";
-    } else if (xPos >= 110 && xPos <= 210 && yPos >= 270 && yPos <= 385) {
+    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= oppoLineYThree && yPos <= oppoLineYFour) {
         oppoLabels[index + 11].innerHTML = "RWB";
         secondBoxes[index].placeholder = "Opposition RWB";
-    } else if (xPos >= 110 && xPos <= 210 && yPos >= 385 && yPos <= 495) {
+    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= oppoLineYFour && yPos <= oppoLineYSix) {
         oppoLabels[index + 11].innerHTML = "RM";
         secondBoxes[index].placeholder = "Opposition RM";
-    } else if (xPos >= 110 && xPos <= 210 && yPos >= 495 && yPos <= 830) {
+    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= oppoLineYSix && yPos <= oppoLineYEight) {
         oppoLabels[index + 11].innerHTML = "RW";
         secondBoxes[index].placeholder = "Opposition RW";
-    } else if (xPos >= 520 && xPos <= 620 && yPos >= 35 && yPos <= 270) {
+    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= oppoLineYOne && yPos <= oppoLineYThree) {
         oppoLabels[index + 11].innerHTML = "LB";
         secondBoxes[index].placeholder = "Opposition LB";
-    } else if (xPos >= 520 && xPos <= 620 && yPos >= 270 && yPos <= 385) {
+    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= oppoLineYThree && yPos <= oppoLineYFour) {
         oppoLabels[index + 11].innerHTML = "LWB";
         secondBoxes[index].placeholder = "Opposition LWB";
-    } else if (xPos >= 520 && xPos <= 620 && yPos >= 385 && yPos <= 495) {
+    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= oppoLineYFour && yPos <= oppoLineYSix) {
         oppoLabels[index + 11].innerHTML = "LM";
         secondBoxes[index].placeholder = "Opposition LM";
-    } else if (xPos >= 520 && xPos <= 620 && yPos >= 495 && yPos <= 830) {
+    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= oppoLineYSix && yPos <= oppoLineYEight) {
         oppoLabels[index + 11].innerHTML = "LW";
         secondBoxes[index].placeholder = "Opposition LW";
-    } else if (xPos >= 210 && xPos <= 300 && yPos >= 115 && yPos <= 250) {
+    } else if (xPos >= lineXTwo && xPos <= lineXFour && yPos >= oppoLineYTwo && yPos <= oppoLineYThree) {
         oppoLabels[index + 11].innerHTML = "RCB";
         secondBoxes[index].placeholder = "Opposition RCB";
-    } else if (xPos >= 300 && xPos <= 380 && yPos >= 115 && yPos <= 250) {
+    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= oppoLineYTwo && yPos <= oppoLineYThree) {
         oppoLabels[index + 11].innerHTML = "CB";
         secondBoxes[index].placeholder = "Opposition CB";
-    } else if (xPos >= 380 && xPos <= 520 && yPos >= 115 && yPos <= 250) {
+    } else if (xPos >= lineXFive && xPos <= lineXSeven && yPos >= oppoLineYTwo && yPos <= oppoLineYThree) {
         oppoLabels[index + 11].innerHTML = "LCB";
         secondBoxes[index].placeholder = "Opposition LCB";
-    } else if (xPos >= 200 && xPos <= 320 && yPos >= 250 && yPos <= 340) {
+    } else if (xPos >= lineXTwo && xPos <= lineXFour && yPos >= oppoLineYThree && yPos <=oppoLineYFour) {
         oppoLabels[index + 11].innerHTML = "DMCR";
         secondBoxes[index].placeholder = "Opposition DMCR";
-    } else if (xPos >= 320 && xPos <= 400 && yPos >= 250 && yPos <= 340) {
+    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= oppoLineYThree && yPos <=oppoLineYFour) {
         oppoLabels[index + 11].innerHTML = "DMC";
         secondBoxes[index].placeholder = "Opposition DMC";
-    } else if (xPos >= 400 && xPos <= 520 && yPos >= 250 && yPos <= 340) {
+    } else if (xPos >= lineXFive && xPos <= lineXSeven && yPos >= oppoLineYThree && yPos <=oppoLineYFour) {
         oppoLabels[index + 11].innerHTML = "DMCL";
         secondBoxes[index].placeholder = "Opposition DMCL";
-    } else if (xPos >= 200 && xPos <= 500 && yPos >= 340 && yPos <= 450) {
+    } else if (xPos >= lineXTwo && xPos <= lineXSeven && yPos >=oppoLineYFour && yPos <= oppoLineYSix) {
         oppoLabels[index + 11].innerHTML = "MC";
         secondBoxes[index].placeholder = "Opposition MC";
-    } else if (xPos >= 200 && xPos <= 260 && yPos >= 450 && yPos <= 550) {
+    } else if (xPos >= lineXTwo && xPos <= lineXThree && yPos >= oppoLineYSix && yPos <= oppoLineYSeven) {
         oppoLabels[index + 11].innerHTML = "AMCR";
         secondBoxes[index].placeholder = "Opposition AMCR";
-    } else if (xPos >= 260 && xPos <= 460 && yPos >= 450 && yPos <= 550) {
+    } else if (xPos >= lineXThree && xPos <= lineXSix && yPos >= oppoLineYSix && yPos <= oppoLineYSeven) {
         oppoLabels[index + 11].innerHTML = "AMC";
         secondBoxes[index].placeholder = "Opposition AMC";
-    } else if (xPos >= 460 && xPos <= 520 && yPos >= 450 && yPos <= 550) {
+    } else if (xPos >= lineXSix && xPos <= lineXSeven && yPos >= oppoLineYSix && yPos <= oppoLineYSeven) {
         oppoLabels[index + 11].innerHTML = "AMCL";
         secondBoxes[index].placeholder = "Opposition AMCL";
-    } else if (xPos >= 200 && xPos <= 520 && yPos >= 550 && yPos <= 800) {
+    } else if (xPos >= lineXTwo && xPos <= lineXSeven && yPos >= oppoLineYSeven && yPos <= oppoLineYEight) {
         secondBoxes[index].placeholder = "Opposition ST";
         oppoLabels[index + 11].innerHTML = "ST";
     } else {

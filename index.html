@@ -146,7 +146,8 @@
                 For back-up players, you can just add the name to the number as shown in the example.
                 For opposition players you will have to specify the name and number similar to how it's done for the
                 starting players.</p>
-              <p><b>oppoFormation: </b> The formation that will be used for the opposition team. The recognized inputs are
+              <p><b>oppoFormation: </b> The formation that will be used for the opposition team. The recognized inputs
+                are
                 the same as specified above.</p>
               <p><b>oppoColors: </b> Uses the same format as colors for the main team.</p>
               <p><b><i>Optional:</i></b></p>
@@ -228,46 +229,57 @@
             <div class="input-container">
               <label class="label" for="second1">GK</label>
               <input type="search" id="second1" class="secondBox pos1" placeholder="Back-up GK">
+              <label class="oppo-label-position" for="oppo1">#1</label>
             </div>
             <div class="input-container">
               <label class="label" for="second2">RB</label>
               <input type="search" id="second2" class="secondBox pos2" placeholder="Back-up RB">
+              <label class="oppo-label-position" for="oppo2">#2</label>
             </div>
             <div class="input-container">
               <label class="label" for="second3">RCB</label>
               <input type="search" id="second3" class="secondBox pos3" placeholder="Back-up RCB">
+              <label class="oppo-label-position" for="oppo3">#3</label>
             </div>
             <div class="input-container">
               <label class="label" for="second4">LCB</label>
               <input type="search" id="second4" class="secondBox pos4" placeholder="Back-up LCB">
+              <label class="oppo-label-position" for="oppo4">#4</label>
             </div>
             <div class="input-container">
               <label class="label" for="second5">LB</label>
               <input type="search" id="second5" class="secondBox pos5" placeholder="Back-up LB">
+              <label class="oppo-label-position" for="oppo5">#5</label>
             </div>
             <div class="input-container">
               <label class="label" for="second6">DMC</label>
               <input type="search" id="second6" class="secondBox pos6" placeholder="Back-up DMC">
+              <label class="oppo-label-position" for="oppo6">#6</label>
             </div>
             <div class="input-container">
               <label class="label" for="second8">MC</label>
               <input type="search" id="second8" class="secondBox pos8" placeholder="Back-up MC">
+              <label class="oppo-label-position" for="oppo8">#8</label>
             </div>
             <div class="input-container">
               <label class="label" for="second10">AMC</label>
               <input type="search" id="second10" class="secondBox pos10" placeholder="Back-up AMC">
+              <label class="oppo-label-position" for="oppo10">#10</label>
             </div>
             <div class="input-container">
               <label class="label" for="second7">RW</label>
               <input type="search" id="second7" class="secondBox pos7" placeholder="Back-up RW">
+              <label class="oppo-label-position" for="oppo7">#7</label>
             </div>
             <div class="input-container">
               <label class="label" for="second9">ST</label>
               <input type="search" id="second9" class="secondBox pos9" placeholder="Back-up ST">
+              <label class="oppo-label-position" for="oppo9">#9</label>
             </div>
             <div class="input-container">
               <label class="label" for="second11">LW</label>
               <input type="search" id="second11" class="secondBox pos11" placeholder="Back-up LW">
+              <label class="oppo-label-position" for="oppo11">#11</label>
             </div>
           </div>
         </div>
@@ -368,181 +380,194 @@
       </div>
     </div>
     <div class="lineup-container" id="lineupContainer" oncontextmenu="return false">
-    <div class="image-container" id="image-container">
-      <div class="text-container">
-        <span class="formation-label">Formation: </span>
-        <span class="copyright">© 2023 - pwolbers.github.io/line-up-builder</span>
-      </div>
-      <div id="allCircles">
-        <div id="circle1" class="circle pos1">
-          <div class="circleColorGK circleStyle"></div>
-          <span id="1" class="circle-number circle-number-font-large">1</span>
-          <div class="output-container">
-            <span id="startingSpan1" class="outputStarting startingStyleOne"></span>
-            <span id="secondSpan1" class="outputSecond secondStyleOne"></span>
-          </div>
+      <div class="image-container" id="image-container">
+        <div class="button-pitch-container">
+          <label class="circle-checkbox square-checkbox">
+            <input id="circle-checkbox" type="checkbox" checked>
+            <span class="checkmark">
+            </span>
+            <img class="arrow-image" src="circle_grab_10.png" alt="Image">
+          </label>
+          <label class="arrow-checkbox square-checkbox">
+            <input id="arrow-checkbox" type="checkbox">
+            <span class="checkmark"></span>
+            <img class="arrow-image" src="arrow.png" alt="Image">
+          </label>
         </div>
-        <div id="circle2" class="circle pos2">
-          <div class="circleColor circleStyle"></div>
-          <span id="2" class="circle-number circle-number-font-large">2</span>
-          <div class="output-container">
-            <span id="startingSpan2" class="outputStarting startingStyleOne"></span>
-            <span id="secondSpan2" class="outputSecond secondStyleOne"></span>
-          </div>
+        <div class="text-container">
+          <span class="formation-label">Formation: </span>
+          <span class="copyright">© 2023 - pwolbers.github.io/line-up-builder</span>
         </div>
-        <div id="circle3" class="circle pos3">
-          <div class="circleColor circleStyle"></div>
-          <span id="3" class="circle-number circle-number-font-large">3</span>
-          <div class="output-container">
-            <span id="startingSpan3" class="outputStarting startingStyleOne"></span>
-            <span id="secondSpan3" class="outputSecond secondStyleOne"></span>
+        <div id="allCircles">
+          <div id="circle1" class="circle pos1">
+            <div class="circleColorGK circleStyle"></div>
+            <span id="1" class="circle-number circle-number-font-large">1</span>
+            <div class="output-container">
+              <span id="startingSpan1" class="outputStarting startingStyleOne"></span>
+              <span id="secondSpan1" class="outputSecond secondStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle4" class="circle pos4">
-          <div class="circleColor circleStyle"></div>
-          <span id="4" class="circle-number circle-number-font-large">4</span>
-          <div class="output-container">
-            <span id="startingSpan4" class="outputStarting startingStyleOne"></span>
-            <span id="secondSpan4" class="outputSecond secondStyleOne"></span>
+          <div id="circle2" class="circle pos2">
+            <div class="circleColor circleStyle"></div>
+            <span id="2" class="circle-number circle-number-font-large">2</span>
+            <div class="output-container">
+              <span id="startingSpan2" class="outputStarting startingStyleOne"></span>
+              <span id="secondSpan2" class="outputSecond secondStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle5" class="circle pos5">
-          <div class="circleColor circleStyle"></div>
-          <span id="5" class="circle-number circle-number-font-large">5</span>
-          <div class="output-container">
-            <span id="startingSpan5" class="outputStarting startingStyleOne"></span>
-            <span id="secondSpan5" class="outputSecond secondStyleOne"></span>
+          <div id="circle3" class="circle pos3">
+            <div class="circleColor circleStyle"></div>
+            <span id="3" class="circle-number circle-number-font-large">3</span>
+            <div class="output-container">
+              <span id="startingSpan3" class="outputStarting startingStyleOne"></span>
+              <span id="secondSpan3" class="outputSecond secondStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle6" class="circle pos6">
-          <div class="circleColor circleStyle"></div>
-          <span id="6" class="circle-number circle-number-font-large">6</span>
-          <div class="output-container">
-            <span id="startingSpan6" class="outputStarting startingStyleOne"></span>
-            <span id="secondSpan6" class="outputSecond secondStyleOne"></span>
+          <div id="circle4" class="circle pos4">
+            <div class="circleColor circleStyle"></div>
+            <span id="4" class="circle-number circle-number-font-large">4</span>
+            <div class="output-container">
+              <span id="startingSpan4" class="outputStarting startingStyleOne"></span>
+              <span id="secondSpan4" class="outputSecond secondStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle8" class="circle pos8">
-          <div class="circleColor circleStyle"></div>
-          <span id="8" class="circle-number circle-number-font-large">8</span>
-          <div class="output-container">
-            <span id="startingSpan8" class="outputStarting startingStyleOne"></span>
-            <span id="secondSpan8" class="outputSecond secondStyleOne"></span>
+          <div id="circle5" class="circle pos5">
+            <div class="circleColor circleStyle"></div>
+            <span id="5" class="circle-number circle-number-font-large">5</span>
+            <div class="output-container">
+              <span id="startingSpan5" class="outputStarting startingStyleOne"></span>
+              <span id="secondSpan5" class="outputSecond secondStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle10" class="circle pos10">
-          <div class="circleColor circleStyle"></div>
-          <span id="10" class="circle-number circle-number-font-large">10</span>
-          <div class="output-container">
-            <span id="startingSpan10" class="outputStarting startingStyleOne"></span>
-            <span id="secondSpan10" class="outputSecond secondStyleOne"></span>
+          <div id="circle6" class="circle pos6">
+            <div class="circleColor circleStyle"></div>
+            <span id="6" class="circle-number circle-number-font-large">6</span>
+            <div class="output-container">
+              <span id="startingSpan6" class="outputStarting startingStyleOne"></span>
+              <span id="secondSpan6" class="outputSecond secondStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle7" class="circle pos7">
-          <div class="circleColor circleStyle"></div>
-          <span id="7" class="circle-number circle-number-font-large">7</span>
-          <div class="output-container">
-            <span id="startingSpan7" class="outputStarting startingStyleOne"></span>
-            <span id="secondSpan7" class="outputSecond secondStyleOne"></span>
+          <div id="circle8" class="circle pos8">
+            <div class="circleColor circleStyle"></div>
+            <span id="8" class="circle-number circle-number-font-large">8</span>
+            <div class="output-container">
+              <span id="startingSpan8" class="outputStarting startingStyleOne"></span>
+              <span id="secondSpan8" class="outputSecond secondStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle9" class="circle pos9">
-          <div class="circleColor circleStyle"></div>
-          <span id="9" class="circle-number circle-number-font-large">9</span>
-          <div class="output-container">
-            <span id="startingSpan9" class="outputStarting startingStyleOne"></span>
-            <span id="secondSpan9" class="outputSecond secondStyleOne"></span>
+          <div id="circle10" class="circle pos10">
+            <div class="circleColor circleStyle"></div>
+            <span id="10" class="circle-number circle-number-font-large">10</span>
+            <div class="output-container">
+              <span id="startingSpan10" class="outputStarting startingStyleOne"></span>
+              <span id="secondSpan10" class="outputSecond secondStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="circle11" class="circle pos11">
-          <div class="circleColor circleStyle"></div>
-          <span id="11" class="circle-number circle-number-font-large">11</span>
-          <div class="output-container">
-            <span id="startingSpan11" class="outputStarting startingStyleOne"></span>
-            <span id="secondSpan11" class="outputSecond secondStyleOne"></span>
+          <div id="circle7" class="circle pos7">
+            <div class="circleColor circleStyle"></div>
+            <span id="7" class="circle-number circle-number-font-large">7</span>
+            <div class="output-container">
+              <span id="startingSpan7" class="outputStarting startingStyleOne"></span>
+              <span id="secondSpan7" class="outputSecond secondStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="oppoCircle1" class="oppoCircle oppo1">
-          <div class="oppoCircleColorGK circleStyle"></div>
-          <span id="oppo1" class="circle-number circle-number-font-large">1</span>
-          <div class="oppo-output-container">
-            <span id="oppoSpan1" class="outputOpponent startingStyleOne"></span>
+          <div id="circle9" class="circle pos9">
+            <div class="circleColor circleStyle"></div>
+            <span id="9" class="circle-number circle-number-font-large">9</span>
+            <div class="output-container">
+              <span id="startingSpan9" class="outputStarting startingStyleOne"></span>
+              <span id="secondSpan9" class="outputSecond secondStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="oppoCircle2" class="oppoCircle oppo2">
-          <div class="oppoCircleColor circleStyle"></div>
-          <span id="oppo2" class="circle-number circle-number-font-large">2</span>
-          <div class="oppo-output-container">
-            <span id="oppoSpan2" class="outputOpponent startingStyleOne"></span>
+          <div id="circle11" class="circle pos11">
+            <div class="circleColor circleStyle"></div>
+            <span id="11" class="circle-number circle-number-font-large">11</span>
+            <div class="output-container">
+              <span id="startingSpan11" class="outputStarting startingStyleOne"></span>
+              <span id="secondSpan11" class="outputSecond secondStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="oppoCircle3" class="oppoCircle oppo3">
-          <div class="oppoCircleColor circleStyle"></div>
-          <span id="oppo3" class="circle-number circle-number-font-large">3</span>
-          <div class="oppo-output-container">
-            <span id="oppoSpan3" class="outputOpponent startingStyleOne"></span>
+          <div id="oppoCircle1" class="oppoCircle oppo1">
+            <div class="oppoCircleColorGK circleStyle"></div>
+            <span id="oppo1" class="circle-number circle-number-font-large">1</span>
+            <div class="oppo-output-container">
+              <span id="oppoSpan1" class="outputOpponent startingStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="oppoCircle4" class="oppoCircle oppo4">
-          <div class="oppoCircleColor circleStyle"></div>
-          <span id="oppo4" class="circle-number circle-number-font-large">4</span>
-          <div class="oppo-output-container">
-            <span id="oppoSpan4" class="outputOpponent startingStyleOne"></span>
+          <div id="oppoCircle2" class="oppoCircle oppo2">
+            <div class="oppoCircleColor circleStyle"></div>
+            <span id="oppo2" class="circle-number circle-number-font-large">2</span>
+            <div class="oppo-output-container">
+              <span id="oppoSpan2" class="outputOpponent startingStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="oppoCircle5" class="oppoCircle oppo5">
-          <div class="oppoCircleColor circleStyle"></div>
-          <span id="oppo5" class="circle-number circle-number-font-large">5</span>
-          <div class="oppo-output-container">
-            <span id="oppoSpan5" class="outputOpponent startingStyleOne"></span>
+          <div id="oppoCircle3" class="oppoCircle oppo3">
+            <div class="oppoCircleColor circleStyle"></div>
+            <span id="oppo3" class="circle-number circle-number-font-large">3</span>
+            <div class="oppo-output-container">
+              <span id="oppoSpan3" class="outputOpponent startingStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="oppoCircle6" class="oppoCircle oppo6">
-          <div class="oppoCircleColor circleStyle"></div>
-          <span id="oppo6" class="circle-number circle-number-font-large">6</span>
-          <div class="oppo-output-container">
-            <span id="oppoSpan6" class="outputOpponent startingStyleOne"></span>
+          <div id="oppoCircle4" class="oppoCircle oppo4">
+            <div class="oppoCircleColor circleStyle"></div>
+            <span id="oppo4" class="circle-number circle-number-font-large">4</span>
+            <div class="oppo-output-container">
+              <span id="oppoSpan4" class="outputOpponent startingStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="oppoCircle8" class="oppoCircle oppo8">
-          <div class="oppoCircleColor circleStyle"></div>
-          <span id="oppo8" class="circle-number circle-number-font-large">8</span>
-          <div class="oppo-output-container">
-            <span id="oppoSpan8" class="outputOpponent startingStyleOne"></span>
+          <div id="oppoCircle5" class="oppoCircle oppo5">
+            <div class="oppoCircleColor circleStyle"></div>
+            <span id="oppo5" class="circle-number circle-number-font-large">5</span>
+            <div class="oppo-output-container">
+              <span id="oppoSpan5" class="outputOpponent startingStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="oppoCircle10" class="oppoCircle oppo10">
-          <div class="oppoCircleColor circleStyle"></div>
-          <span id="oppo10" class="circle-number circle-number-font-large">10</span>
-          <div class="oppo-output-container">
-            <span id="oppoSpan10" class="outputOpponent startingStyleOne"></span>
+          <div id="oppoCircle6" class="oppoCircle oppo6">
+            <div class="oppoCircleColor circleStyle"></div>
+            <span id="oppo6" class="circle-number circle-number-font-large">6</span>
+            <div class="oppo-output-container">
+              <span id="oppoSpan6" class="outputOpponent startingStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="oppoCircle7" class="oppoCircle oppo7">
-          <div class="oppoCircleColor circleStyle"></div>
-          <span id="oppo7" class="circle-number circle-number-font-large">7</span>
-          <div class="oppo-output-container">
-            <span id="oppoSpan7" class="outputOpponent startingStyleOne"></span>
+          <div id="oppoCircle8" class="oppoCircle oppo8">
+            <div class="oppoCircleColor circleStyle"></div>
+            <span id="oppo8" class="circle-number circle-number-font-large">8</span>
+            <div class="oppo-output-container">
+              <span id="oppoSpan8" class="outputOpponent startingStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="oppoCircle9" class="oppoCircle oppo9">
-          <div class="oppoCircleColor circleStyle"></div>
-          <span id="oppo9" class="circle-number circle-number-font-large">9</span>
-          <div class="oppo-output-container">
-            <span id="oppoSpan9" class="outputOpponent startingStyleOne"></span>
+          <div id="oppoCircle10" class="oppoCircle oppo10">
+            <div class="oppoCircleColor circleStyle"></div>
+            <span id="oppo10" class="circle-number circle-number-font-large">10</span>
+            <div class="oppo-output-container">
+              <span id="oppoSpan10" class="outputOpponent startingStyleOne"></span>
+            </div>
           </div>
-        </div>
-        <div id="oppoCircle11" class="oppoCircle oppo11">
-          <div class="oppoCircleColor circleStyle"></div>
-          <span id="oppo11" class="circle-number circle-number-font-large">11</span>
-          <div class="oppo-output-container">
-            <span id="oppoSpan11" class="outputOpponent startingStyleOne"></span>
+          <div id="oppoCircle7" class="oppoCircle oppo7">
+            <div class="oppoCircleColor circleStyle"></div>
+            <span id="oppo7" class="circle-number circle-number-font-large">7</span>
+            <div class="oppo-output-container">
+              <span id="oppoSpan7" class="outputOpponent startingStyleOne"></span>
+            </div>
           </div>
+          <div id="oppoCircle9" class="oppoCircle oppo9">
+            <div class="oppoCircleColor circleStyle"></div>
+            <span id="oppo9" class="circle-number circle-number-font-large">9</span>
+            <div class="oppo-output-container">
+              <span id="oppoSpan9" class="outputOpponent startingStyleOne"></span>
+            </div>
+          </div>
+          <div id="oppoCircle11" class="oppoCircle oppo11">
+            <div class="oppoCircleColor circleStyle"></div>
+            <span id="oppo11" class="circle-number circle-number-font-large">11</span>
+            <div class="oppo-output-container">
+              <span id="oppoSpan11" class="outputOpponent startingStyleOne"></span>
+            </div>
+          </div>
+          <div id="ball" class="ball"></div>
         </div>
-        <div id="ball" class="ball"></div>
       </div>
     </div>
-  </div>
   </div>
   <script type="text/javascript" src="onLoad.js"></script>
   <script type="text/javascript" src="script.js"></script>

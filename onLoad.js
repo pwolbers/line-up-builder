@@ -26,6 +26,7 @@ const outputSeconds = document.querySelectorAll(".outputSecond");
 const outputOppos = document.querySelectorAll(".outputOpponent");
 
 const lineupContainer = document.querySelector(".lineup-container");
+const imageContainer = document.getElementById('image-container');
 
 const teamNameBox = document.getElementById('teamNameBox');
 const screenshotButton = document.getElementById('screenshotButton');
@@ -36,6 +37,23 @@ const selectFormation = document.getElementById("select-formation");
 const checkOpposition = document.getElementById("oppo-checkbox");
 const checkOppositionName = document.getElementById("oppo-name-checkbox");
 const oppoFormation = document.getElementById("oppo-formation");
+
+const lineYOne = (25/900) * imageContainer.offsetHeight;
+const lineYTwo = (240/900) * imageContainer.offsetHeight;
+const lineYThree = (340/900) * imageContainer.offsetHeight;
+const lineYFour = (450/900) * imageContainer.offsetHeight;
+const lineYFive = (480/900) * imageContainer.offsetHeight;
+const lineYSix = (580/900) * imageContainer.offsetHeight;
+const lineYSeven = (730/900) * imageContainer.offsetHeight;
+const lineYEight = (835/900) * imageContainer.offsetHeight;
+const lineXOne = (70/730) * imageContainer.offsetWidth;
+const lineXTwo = (200/730) * imageContainer.offsetWidth;
+const lineXThree = (260/730) * imageContainer.offsetWidth;
+const lineXFour = (330/730) * imageContainer.offsetWidth;
+const lineXFive = (400/730) * imageContainer.offsetWidth;
+const lineXSix = (470/730) * imageContainer.offsetWidth;
+const lineXSeven = (500/730) * imageContainer.offsetWidth;
+const lineXEight = (630/730) * imageContainer.offsetWidth;
 
 let startX, startY;
 

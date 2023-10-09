@@ -18,6 +18,12 @@ oppoCheck.addEventListener("change", changeSwitch);
 var oppoNameCheck = document.getElementById("oppo-name-checkbox");
 oppoNameCheck.addEventListener("change", changeSwitch);
 
+var arrowCheck = document.getElementById("arrow-checkbox");
+arrowCheck.addEventListener("change", changeSwitch);
+
+var circleCheck = document.getElementById("circle-checkbox");
+circleCheck.addEventListener("change", changeSwitch);
+
 var currentSwitch;
 
 function changeSwitch(evt) {
@@ -40,6 +46,24 @@ function changeSwitch(evt) {
     else if (currentSwitch.id == 'oppo-name-checkbox') {
         oppoNameCheckBox(currentSwitch.id);
     }
+    else if ((currentSwitch.id == 'arrow-checkbox') || (currentSwitch.id == 'circle-checkbox'))  {
+        arrowCircleCheckbox(currentSwitch);
+    }
+}
+
+function arrowCircleCheckbox(switchCheckbox) {
+    var otherSwitch;
+    if(switchCheckbox.id == 'arrow-checkbox'){
+        otherSwitch = document.getElementById('circle-checkbox');
+    }
+    else{
+        otherSwitch = document.getElementById('arrow-checkbox');
+    }
+
+   // imageOn.style.opacity = 1;
+    otherSwitch.checked = false;
+    //Not possible to uncheck the active checkbox (always needs to be one of the two checked)
+    switchCheckbox.checked = true;
 }
 
 function pitchCheckBox() {
@@ -291,6 +315,14 @@ function oppoNameCheckBox(switchId) {
                 }
             }
         }
+
+        //Display all numbers from the opposition
+        var oppoNumberLabels = document.querySelectorAll('.oppo-label-position');
+        oppoNumberLabels.forEach((oppoNumberLabel) => {
+            console.log(oppoNumberLabel);
+            oppoNumberLabel.style.display = 'block';
+        });
+
         setOppoTextBoxOrder();
     }
 
@@ -347,6 +379,13 @@ function oppoNameCheckBox(switchId) {
                 }
             }
         }
+
+        //Hide all numbers from the opposition
+        var oppoNumberLabels = document.querySelectorAll('.oppo-label-position');
+        oppoNumberLabels.forEach((oppoNumberLabel) => {
+            console.log(oppoNumberLabel);
+            oppoNumberLabel.style.display = 'none';
+        });
         setTextBoxOrders();
     }
 }
