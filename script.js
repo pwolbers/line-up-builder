@@ -247,6 +247,7 @@ function setTextBoxOrders() {
     var startingContainers = startingColumn.getElementsByClassName('input-container');
     addInputContainersInOrder(startingContainers, startingCircleArray, 'starting');
     startingCircleArray.forEach((circle, index) => {
+        console.log(circle.id + " | X: " + circle.x + " | Y: " + circle.y);
         var posX = circle.x;
         var posY = circle.y;
         determineLabel(posX, posY, index);
@@ -406,32 +407,48 @@ function toggleOutputBoxVisibility(box) {
 
 // Determines the label (RB, MC, AMC, etc) that is shown before the input box
 function determineLabel(xPos, yPos, index) {
+    var lineYOne = (25/900) * imageContainer.offsetHeight;
+    var lineYTwo = (240/900) * imageContainer.offsetHeight;
+    var lineYThree = (340/900) * imageContainer.offsetHeight;
+    var lineYFour = (480/900) * imageContainer.offsetHeight;
+    var lineYFive = (580/900) * imageContainer.offsetHeight;
+    var lineYSix = (730/900) * imageContainer.offsetHeight;
+    var lineYSeven = (835/900) * imageContainer.offsetHeight;
+    var lineXOne = (70/730) * imageContainer.offsetWidth;
+    var lineXTwo = (200/730) * imageContainer.offsetWidth;
+    var lineXThree = (260/730) * imageContainer.offsetWidth;
+    var lineXFour = (330/730) * imageContainer.offsetWidth;
+    var lineXFive = (400/730) * imageContainer.offsetWidth;
+    var lineXSix = (470/730) * imageContainer.offsetWidth;
+    var lineXSeven = (500/730) * imageContainer.offsetWidth;
+    var lineXEight = (630/730) * imageContainer.offsetWidth;
+
     const inputBoxes = document.querySelectorAll(".inputBox");
     const secondBoxes = document.querySelectorAll(".secondBox");
     const labels = document.querySelectorAll(".label");
 
-    if (xPos >= lineXTwo && xPos <= lineXSeven && yPos >= lineYSeven && yPos <= lineYEight) {
+    if (xPos >= lineXTwo && xPos <= lineXSeven && yPos >= lineYSix && yPos <= lineYSeven) {
         labels[index].innerHTML = "GK";
         inputBoxes[index].placeholder = "Starting GK";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "GK";
             secondBoxes[index].placeholder = "Back-up GK";
         }
-    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= lineYSix && yPos <= lineYEight) {
+    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= lineYFive && yPos <= lineYSeven) {
         labels[index].innerHTML = "RB";
         inputBoxes[index].placeholder = "Starting RB";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "RB";
             secondBoxes[index].placeholder = "Back-up RB";
         }
-    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= lineYFive && yPos <= lineYSix) {
+    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= lineYFour && yPos <= lineYFive) {
         labels[index].innerHTML = "RWB";
         inputBoxes[index].placeholder = "Starting RWB";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "RWB";
             secondBoxes[index].placeholder = "Back-up RWB";
         }
-    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= lineYThree && yPos <= lineYFive) {
+    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= lineYThree && yPos <= lineYFour) {
         labels[index].innerHTML = "RM";
         inputBoxes[index].placeholder = "Starting RM";
         if (checkOppositionName.checked == false) {
@@ -445,21 +462,21 @@ function determineLabel(xPos, yPos, index) {
             labels[index + 11].innerHTML = "RW";
             secondBoxes[index].placeholder = "Back-up RW";
         }
-    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= lineYSix && yPos <= lineYEight) {
+    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= lineYFive && yPos <= lineYSeven) {
         labels[index].innerHTML = "LB";
         inputBoxes[index].placeholder = "Starting LB";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "LB";
             secondBoxes[index].placeholder = "Back-up LB";
         }
-    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= lineYFive && yPos <= lineYSix) {
+    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= lineYFour && yPos <= lineYFive) {
         labels[index].innerHTML = "LWB";
         inputBoxes[index].placeholder = "Starting LWB";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "LWB";
             secondBoxes[index].placeholder = "Back-up LWB";
         }
-    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= lineYThree && yPos <= lineYFive) {
+    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= lineYThree && yPos <= lineYFour) {
         labels[index].innerHTML = "LM";
         inputBoxes[index].placeholder = "Starting LM";
         if (checkOppositionName.checked == false) {
@@ -473,49 +490,49 @@ function determineLabel(xPos, yPos, index) {
             labels[index + 11].innerHTML = "LW";
             secondBoxes[index].placeholder = "Back-up LW";
         }
-    } else if (xPos >= lineXFive && xPos <= lineXSeven && yPos >= lineYSix && yPos <= lineYSeven) {
+    } else if (xPos >= lineXFive && xPos <= lineXSeven && yPos >= lineYFive && yPos <= lineYSix) {
         labels[index].innerHTML = "RCB";
         inputBoxes[index].placeholder = "Starting RCB";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "RCB";
             secondBoxes[index].placeholder = "Back-up RCB";
         }
-    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= lineYSix && yPos <= lineYSeven) {
+    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= lineYFive && yPos <= lineYSix) {
         labels[index].innerHTML = "CB";
         inputBoxes[index].placeholder = "Starting CB"
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "CB";
             secondBoxes[index].placeholder = "Back-up CB";
         }
-    } else if (xPos >= lineXTwo && xPos <= lineXFour && yPos >= lineYSix && yPos <= lineYSeven) {
+    } else if (xPos >= lineXTwo && xPos <= lineXFour && yPos >= lineYFive && yPos <= lineYSix) {
         labels[index].innerHTML = "LCB";
         inputBoxes[index].placeholder = "Starting LCB";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "LCB";
             secondBoxes[index].placeholder = "Back-up LCB";
         }
-    } else if (xPos >= lineXFive && xPos <= lineXSeven && yPos >= lineYFive && yPos <= lineYSix) {
+    } else if (xPos >= lineXFive && xPos <= lineXSeven && yPos >= lineYFour && yPos <= lineYFive) {
         labels[index].innerHTML = "DMCR";
         inputBoxes[index].placeholder = "Starting DMCR";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "DMCR";
             secondBoxes[index].placeholder = "Back-up DMCR";
         }
-    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= lineYFive && yPos <= lineYSix) {
+    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= lineYFour && yPos <= lineYFive) {
         labels[index].innerHTML = "DMC";
         inputBoxes[index].placeholder = "Starting DMC";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "DMC";
             secondBoxes[index].placeholder = "Back-up DMC";
         }
-    } else if (xPos >= lineXTwo && xPos <= lineXFour && yPos >= lineYFive && yPos <= lineYSix) {
+    } else if (xPos >= lineXTwo && xPos <= lineXFour && yPos >= lineYFour && yPos <= lineYFive) {
         labels[index].innerHTML = "DMCL";
         inputBoxes[index].placeholder = "Starting DMCL";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "DMCL";
             secondBoxes[index].placeholder = "Back-up DMCL";
         }
-    } else if (xPos >= lineXTwo && xPos <= lineXSeven && yPos >= lineYThree && yPos <= lineYFive) {
+    } else if (xPos >= lineXTwo && xPos <= lineXSeven && yPos >= lineYThree && yPos <= lineYFour) {
         labels[index].innerHTML = "MC";
         inputBoxes[index].placeholder = "Starting MC";
         if (checkOppositionName.checked == false) {
@@ -551,6 +568,7 @@ function determineLabel(xPos, yPos, index) {
             labels[index + 11].innerHTML = "ST";
         }
     }
+    console.log("LABEL: " + labels[index].innerHTML);
 }
 
 // Converts RGB or plain names ('red', 'darkgreen') to hexcode (#00ff00)
@@ -788,4 +806,13 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
         clearOutBoxes('second');
         clearOutBoxes('oppo');
     }
+}
+
+function setFormationBoundaries() {
+
+
+console.log("Y ONE: " + lineYOne);
+console.log("X ONE: " + lineXOne);
+console.log("Y EIGHT: " + lineYSeven);
+console.log("X EIGHT: " + lineXEight);
 }
