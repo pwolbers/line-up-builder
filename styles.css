@@ -7,7 +7,6 @@
 
 html,
 body {
-  overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -16,6 +15,15 @@ body {
   position: absolute;
   top: 6.5%;
   left: 6%;
+}
+
+.help-popup-square {
+  width: 30px;
+  height: 30px;
+  border: 1px #000000 solid;
+  border-radius: 20%;
+  margin-left: 10px;
+  background-color: rgba(150, 150, 150, 0.5);
 }
 
 .square-checkbox {
@@ -38,7 +46,7 @@ body {
   width: 100%;
   height: 100%;
   border: 2px solid #474747;
-  background-color: rgba(255, 255, 255, 0.18);
+  background-color: rgba(29, 44, 27, 0.75);
   cursor: pointer;
   border-radius: 20%;
   box-shadow: 0px 4px 0px #474747, inset 0px 0px 1px rgba(37, 37, 37, 0.5), inset 0px 1px 0px rgba(37, 37, 37, 0.3);
@@ -116,110 +124,139 @@ body {
 
 body {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
+  margin: 0.5%;
 }
 
-.container {
+.main-container {
   display: flex;
-  width: 100%;
-  align-items: center;
+  justify-content: flex-start;
 }
 
 .left-container {
-  display: flex;
-  width: 45%;
-  position: relative;
-  top: 4px;
-  left: 5px;
+  width: calc(0.811 * 98vh);
+  min-width: calc(0.811 * 751.3px);
+  min-height: 751.3px;
+  margin-right: 15px;
+  border-color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 2.5%;
 }
 
 .textbox-container {
-  padding: 10px;
-  margin-right: 15px;
-  margin-bottom: 10px;
-  border-color: white;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 20px;
-  width: 730px;
+  padding: 1.5%;
 }
 
 .lineup-container {
-  position: relative;
-  width: 730px;
-  height: 900px;
+  height: 98vh;
+  min-height: 751.3px;
+  width: calc(0.811 * 98vh);
+  min-width: calc(0.811 * 751.3px);
+  max-width: 100%;
   background-image: url("football_pitch_green.png");
+  background-size: cover;
   background-repeat: no-repeat;
-  background-size: 100% auto;
-  background-position: center top;
+  background-position: center;
   border-color: white;
   border-style: solid;
   border-width: 1px;
-  border-radius: 20px;
+  border-radius: 2.5%;
+  overflow: hidden
 }
 
 .image-container {
   display: flex;
-  width: 730px;
-  height: 900px;
+  width: 100%;
+  height: 100%;
   position: relative;
 }
 
 .column-container {
   display: flex;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  height: 60vh;
+  min-height: 460px;
+}
+
+.column {
+  width: 50%;
+  height: 60vh;
+  min-height: 465px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  background: #32154E;
+  border: 2px solid #383B45;
+  overflow: hidden;
+}
+
+#starting-column,
+#second-column {
+  padding: 0.5px;
+}
+
+.column-container>.second-column {
+  margin-left: 1%;
 }
 
 .full-settings {
   display: flex;
+  height: 20vh;
 }
 
-.settings-column {
-  margin-top: 5px;
+.settings-column,
+.oppo-settings-column {
+  width: 50%;
+  margin-top: 1%;
+}
+
+.oppo-settings-column {
+  margin-left: 2%;
 }
 
 .select-box {
-  margin-bottom: 10px;
+  margin-bottom: 1%;
 }
 
 .oppo-select-box {
+  margin-top: 5%;
   display: none;
 }
 
-#oppo-formation,
+.oppoCheckbox {
+  margin-top: 1%;
+  display: flex;
+}
+
+#oppo-formation-box,
 #oppo-name-switch-container {
-  margin-top: 10px;
-  height: 28px;
+  margin-top: 3%;
+  height: 2.4vh;
+  width: calc(15.72* 2.4vh);
 }
 
 .select-box label,
 .select-box select {
-  margin-top: 4px;
-  margin-left: 15px;
+  margin-top: 0.2vh;
+  font-size: 90%;
+  height: 55%;
+  min-height: 24px;
 }
 
 .input-group {
   display: flex;
   align-items: flex-end;
   width: 100%;
-}
-
-.column {
-  width: 100%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  padding: 5px 0px 2px 0px;
-  margin-left: 10px;
-  background: linear-gradient(#32154E, #32154E 98%, #1B1D2C 2%, #1B1D2C);
-  border: 2px solid #383B45;
+  height: 6vh;
+  min-height: 50px;
 }
 
 .input-container {
   display: flex;
-  padding: 5px 0px;
-  border-radius: 3px;
+  padding: 0%;
+  height: calc(0.0833333*60vh);
+  min-height: 38.5px;
+  border-radius: 0.5%;
 }
 
 .inputBox,
@@ -227,7 +264,7 @@ body {
 .teamNameBox {
   background-color: rgba(200, 200, 200, 0.14);
   padding: 5px;
-  font-size: 14px;
+  font-size: max(1.2vh, 100%);
   transition: background-color 0.3s ease;
   opacity: 100%;
   border-radius: 5px;
@@ -235,17 +272,15 @@ body {
   border-color: rgb(150, 150, 150, 0.5);
 }
 
-.secondBox {
-  margin-right: 10px;
-}
-
 .teamNameBox {
   background-color: rgba(200, 200, 200, 0.28);
+  width: 95%;
+  height: 3.5vh;
+  min-height: 25px;
 }
 
 .textbox-container input::placeholder {
   color: rgb(80, 80, 80);
-
 }
 
 .labelHeader {
@@ -258,7 +293,7 @@ body {
   color: white;
   font-family: "Exo", sans-serif;
   transform: skew(-10deg);
-  padding: 5px;
+  padding-left: 2%;
   border: none;
 }
 
@@ -267,21 +302,13 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.teamSelectBox[name="formation"] {
-  width: 6vw;
-}
-
 .teamName {
-  margin-right: 20px;
-  margin-left: 15px;
-}
-
-.teamNameBox {
-  min-width: 20vw !important;
+  width: 100%;
 }
 
 .teamName label {
   margin-bottom: 5px;
+  font-size: 100%;
 }
 
 p,
@@ -307,7 +334,8 @@ label,
 h3,
 h4,
 p {
-  margin-block-end: 0.4em;
+  margin-block-end: 0em;
+  margin-block-start: 0em;
 }
 
 label {
@@ -319,12 +347,15 @@ button {
   font-weight: bold;
 }
 
-.column h2 {
+.column p {
+  display: flex;
+  height: calc(0.0833333 * 60vh);
+  min-height: 38.5px;
+  justify-content: center;
   font-size: 18px;
   color: white;
-  text-align: center;
-  margin-block-start: 8px;
-  margin-block-end: 8px;
+  align-items: center;
+  font-weight: bold;
 }
 
 p,
@@ -340,6 +371,7 @@ li {
 .secondBox {
   flex: 1;
   width: 60%;
+  margin: 2%;
 }
 
 .label,
@@ -352,25 +384,29 @@ li {
 
 .label {
   width: 8%;
-  padding: 3px 20px 0px 12px;
-  text-align: left;
+  margin: 3% 2% 3% 2.5%;
+  justify-content: center;
+  padding-left: 1%;
+  font-size: max(1.6vh, 95%);
 }
 
 .label-position,
 .oppo-label-position {
-  width: 5%;
-  font-size: 12px;
-  text-align: left;
-  padding: 6px 10px;
+  width: 7%;
+  font-size: max(1.2vh, 80%);
+  justify-content: center;
+  margin: 4.5% 3% 0% 1%;
 }
 
 .oppo-label-position {
   display: none;
-  margin-left: -10px;
 }
 
 .teams-and-formations {
+  display: flex;
   width: 100%;
+  height: 6vh;
+  min-height: 50px
 }
 
 /**************
@@ -380,36 +416,39 @@ li {
 .newTeam {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 4px;
+  margin-top: 1%;
 }
 
 .color-picker {
-  margin-right: 10px;
+  margin-right: 2%;
 }
 
 .color-pickers-container,
 .color-pickers-oppo-container {
   display: flex;
   justify-content: space-between;
-  margin-left: 15px;
-  margin-top: 10px;
+  margin-top: 2%;
+  width: 95%
 }
 
 .color-pickers-oppo-container {
-  margin-top: 9px !important;
-  margin-left: 0px !important;
+  height: 2.3vh;
+  margin-top: 3.8%;
+  margin-bottom: 10%;
 }
 
 .color-picker label {
-  font-size: 12px;
-  margin-bottom: 5px;
+  font-size: 75%;
+  margin-bottom: 1%;
   display: block;
 }
 
 .color-picker input[type="color"] {
   padding: 0;
-  width: 30px;
-  height: 30px;
+  width: 2vh;
+  height: 2vh;
+  min-width: 26px;
+  min-height: 26px;
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
@@ -443,14 +482,14 @@ li {
 .switch {
   position: relative;
   display: inline-block;
-  width: 80px;
-  height: 24px;
-  margin-block-start: -2px;
-  margin-left: 10px;
+  width: 10vh;
+  height: 3vh;
+  margin-block-start: -1%;
+  margin-left: 4%;
 }
 
 .longSwitch {
-  width: 100px;
+  width: calc(12vh);
 }
 
 /* Hide default HTML checkbox */
@@ -466,7 +505,7 @@ li {
   cursor: pointer;
   top: 0;
   left: 0;
-  right: 4px;
+  right: 2%;
   bottom: 0;
   -webkit-transition: .4s;
   transition: .4s;
@@ -478,10 +517,10 @@ li {
   content: "testtttt";
   position: absolute;
   content: "";
-  height: 18px;
-  width: 18px;
-  left: 4px;
-  bottom: 3px;
+  height: 2.1vh;
+  width: 2.1vh;
+  left: 7%;
+  bottom: 14%;
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
@@ -496,15 +535,15 @@ input:focus+.slider {
 }
 
 input:checked+.slider:before {
-  -webkit-transform: translateX(50px);
-  -ms-transform: translateX(50px);
-  transform: translateX(50px);
+  transform: translateX(6.2vh);
+  -ms-transform: translateX(6.2vh);
+  -webkit-transform: translateX(6.2vh);
 }
 
 input:checked+.longSlider:before {
-  -webkit-transform: translateX(70px);
-  -ms-transform: translateX(70px);
-  transform: translateX(70px);
+  transform: translateX(8vh);
+  -ms-transform: translateX(8vh);
+  -webkit-transform: translateX(8vh);
 }
 
 /* Rounded sliders */
@@ -519,15 +558,30 @@ input:checked+.longSlider:before {
 .switch-label,
 .oppo-switch-label,
 .oppo-name-switch-label {
-  font-size: 12px;
   margin-top: 2px;
   display: contents;
   color: white;
-  margin-right: 12px;
+}
+
+.switch-label {
+  font-size: 75%;
+}
+
+.oppo-name-switch-label {
+  font-size: 75%;
 }
 
 .oppo-switch-label {
-  font-size: 16px;
+  font-size: 100%;
+}
+
+#oppo-formation-label {
+  font-size: 80%;
+}
+
+#oppo-formation {
+  margin-left: 5%;
+  min-height: 24px;
 }
 
 #pitch-text,
@@ -537,8 +591,14 @@ input:checked+.longSlider:before {
 #label-text,
 #tactical-text {
   color: white;
-  font-size: 12px;
-  padding-top: 4px;
+  font-size: max(1.4vh, 12px);
+  padding-top: 5%;
+  height: 2.3vh;
+  min-height: 18px;
+}
+
+#oppo-name-text {
+  font-size: max(1.3vh, 10px);
 }
 
 #pitch-text,
@@ -547,10 +607,14 @@ input:checked+.longSlider:before {
 }
 
 #oppo-text,
-#oppo-name-text,
 #ball-text,
 #tactical-text {
-  padding-left: 45px;
+  padding-left: 65%;
+}
+
+
+#oppo-name-text {
+  padding-left: 48%;
 }
 
 .pitchCheckBox,
@@ -572,13 +636,13 @@ input:checked+.longSlider:before {
 
 .formation-label {
   position: absolute;
-  margin-left: 90px;
+  margin-left: 12.5%;
   top: 2.5%;
 }
 
 .copyright {
   position: absolute;
-  margin-left: 90px;
+  margin-left: 12.5%;
   top: 94.3%;
 }
 
@@ -668,27 +732,27 @@ input:checked+.longSlider:before {
 }
 
 .circle-number-font-large {
-  font-size: 20px;
+  font-size: max(1.2vh, 115%);
 }
 
 .circle-number-font-medium {
-  font-size: 17px;
+  font-size: max(1.1vh, 95%);
 }
 
 .circle-number-font-small {
-  font-size: 15px;
+  font-size: max(1vh, 80%);
 }
 
 .circle-number-font-large-oppo {
-  font-size: 18px;
+  font-size: max(1.1vh, 95%);
 }
 
 .circle-number-font-medium-oppo {
-  font-size: 16px;
+  font-size: max(0.95vh, 80%);
 }
 
 .circle-number-font-small-oppo {
-  font-size: 14px;
+  font-size: max(0.9vh, 75%);
 }
 
 .circle>.circle-number {
@@ -767,7 +831,6 @@ input:checked+.longSlider:before {
   color: #cfcfcf;
   font-style: italic;
   bottom: -42px;
-  left: -2px;
   z-index: 1;
 }
 
@@ -815,12 +878,13 @@ input:checked+.longSlider:before {
 /**************
 *   Buttons   *
 **************/
-
 .select-buttons {
-  display: flex;
+  height: 12vh;
+  min-height: 90px;
 }
 
 .button-container {
+  height: 4vh;
   display: flex;
 }
 
@@ -829,16 +893,17 @@ input:checked+.longSlider:before {
 #downloadButton,
 #screenshotButton,
 #showLineUpButton {
-  margin-top: 10px;
-  padding: 8px 8px;
+  margin-top: 1%;
+  padding: 1.5%;
   background-color: #017D3E;
   color: white;
   cursor: pointer;
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 85%;
   border-radius: 4px;
+  -webkit-tap-highlight-color: transparent;
   transition: background-color 0.3s ease;
 }
 
@@ -846,17 +911,27 @@ input:checked+.longSlider:before {
 #downloadButton,
 #screenshotButton {
   display: inline-block;
+  font-size: 80%;
+}
+
+#chooseFileButton,
+#importButton {
+  min-height: 16px;
+}
+
+#downloadButton,
+#screenshotButton {
+  min-height: 40px;
 }
 
 #importButton {
   display: none;
   background-color: blue;
-  margin-left: 10px;
+  margin-left: 1.5%;
 }
 
 #downloadButton {
-  margin-left: 15px;
-  margin-right: 10px;
+  margin-right: 2%;
 }
 
 #chooseFileButton:hover,
@@ -870,14 +945,17 @@ input:checked+.longSlider:before {
 /* Upload button */
 .input-group label,
 .input-group button {
-  margin-left: 10px;
   margin-bottom: 10px;
+}
+
+#select-formation-box {
+  margin-left: 15px;
 }
 
 #showLineUpButton {
   position: relative;
-  width: 99%;
-  margin-bottom: 20px;
+  width: 100%;
+  margin: auto;
   display: none;
   background-color: #E85253 !important;
 }
@@ -887,7 +965,7 @@ input:checked+.longSlider:before {
   color: red;
   font-weight: bold;
   font-style: italic;
-  font-size: 10px;
+  font-size: 80%;
   float: right;
   margin-top: 10px;
 }
@@ -899,12 +977,11 @@ input:checked+.longSlider:before {
 
 .help-icon,
 .gear-icon {
-  font-size: 24px;
+  position: relative;
+  font-size: 150%;
   color: white;
-  top: 10px;
-  left: 10px;
   margin-left: 5px;
-  margin-bottom: 9px;
+  margin-bottom: 1.5%;
   cursor: pointer;
   border: #212331 6px solid;
   border-radius: 50%;
@@ -963,8 +1040,9 @@ pre {
 
 #settings {
   position: absolute;
-  top: 13%;
-  left: 48.5%;
+  width: 15%;
+  min-width: 230px;
+  min-height: 100px;
   background-color: rgba(33, 35, 49, 1);
   border: 1px solid #ccc;
   border-radius: 20px;
@@ -990,257 +1068,252 @@ pre {
   display: none;
 }
 
-@media all and (max-width: 1366px) {
-  .left-container {
-    width: 50%;
-  }
-
-  .container {
-    position: absolute;
-    top: 5px;
-    align-items: normal;
-  }
-
-  #select-team-box {
-    margin-right: 10px;
-  }
-
-  .full-settings {
-    display: block;
-  }
-
-  .settings-column {
-    margin-top: 15px;
-  }
-
-  .newTeam {
-    display: block;
-    width: 45vw;
-  }
-
-  .lineup-container {
-    width: 584px;
-    height: 720px;
-    margin-left: 2%;
-  }
-
-  .left-container {
-    display: block;
-  }
-
-  .textbox-container {
-    width: 45vw;
-    margin-left: 15px;
-    margin-top: 0px;
-    margin-right: 10px;
-  }
-
-  .image-container {
-    width: 584px;
-    height: 720px;
-  }
-
-  .column {
-    width: 99%;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 0px;
-  }
-
-  .teamSelectBox {
-    width: 20vw;
-  }
-
-  .teamSelectBox[name="formation"] {
-    width: 20vw;
-    margin-left: 10px;
-  }
-
-  #select-formation-box {
-    margin-left: 15px;
-  }
-
-  .select-buttons {
-    display: block;
-  }
-
-  .select-box label,
-  .select-box select,
-  .input-group,
-  .teamName,
-  #chooseFileButton,
-  #downloadButton {
-    margin-left: 0px !important;
-  }
-
-  .color-pickers-container,
-  .color-pickers-oppo-container {
-    margin-top: 10px;
-    width: 90%;
-    margin-left: 0px;
-    max-width: 500vw;
-  }
-
-  .teamNameBox {
-    width: 43vw !important;
-  }
-
-  .teamName {
-    margin-right: 0px;
-  }
-
-  .pitchCheckBox,
-  .ballCheckbox {
-    display: flex;
-  }
-
-  #pitchLabel,
-  #ballLabel {
-    margin-bottom: 5px;
-  }
-
-  .formation-label,
-  .copyright {
-    margin-left: 72px;
-  }
-
-  .teams-and-formations {
-    display: flex;
-  }
-
-  .circle-number-font-large {
-    font-size: 18px;
-  }
-
-  .circle-number-font-medium {
-    font-size: 15px;
-  }
-
-  .circle-number-font-small {
-    font-size: 13px;
-  }
-
-  .circle-number-font-large-oppo {
-    font-size: 16px;
-  }
-
-  .circle-number-font-medium-oppo {
-    font-size: 14px;
-  }
-
-  .circle-number-font-small-oppo {
-    font-size: 12px;
+@media all and (max-width: 1281px) {
+  .label {
+    margin-right: 4%;
   }
 }
 
-@media all and (max-width: 824px) {
-  .button-pitch-container {
-    display: block;
-    left: 4%;
-  }
-
-  .column-container {
-    display: block;
-  }
-
-  .lineup-container {
-    margin-left: 20%;
+@media all and (max-width:780px) {
+  .main-container {
+    width: 100%;
+    position: absolute;
   }
 
   .left-container {
     width: 40%;
+    min-width: 310px;
+    min-height: auto;
+    position: relative;
+    border-width: 0;
   }
 
   .textbox-container {
     width: 130%;
+    margin-right: 15px;
+    border-color: white;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 20px;
+    padding: 5%;
+  }
+
+  .select-buttons {
+    height: auto;
   }
 
   .teams-and-formations {
+    height: auto;
+  }
+
+  .input-group {
+    height: 50px;
+    margin-top: 15px;
+  }
+
+  .column-container {
+    display: block;
+    margin-top: 15px;
+    height: auto;
+    min-height: auto;
+  }
+
+  .second-column>.input-container {
+    display: none;
+  }
+
+  .column {
     width: 100%;
+    min-width: 50vw;
+    min-height: auto;
+    height: auto;
+    border-radius: 8px;
+    background: #32154E;
+    border: 2px solid #383B45;
+    overflow: hidden;
+  }
+
+  .second-column {
+    margin-top: 15px;
+    margin-bottom: 20px;
+  }
+
+  .column-container>.second-column {
+    margin-left: 0;
+  }
+
+  .column-shadow {
+    box-shadow: 0px 8px 0px #474747, inset 0px 0px 1px rgba(37, 37, 37, 0.5), inset 0px 1px 0px rgba(37, 37, 37, 0.3);
+  }
+
+  #starting-column-title,
+  #second-column-title {
+    height: auto;
+    margin-block-start: 8px;
+    margin-block-end: 8px;
+  }
+
+  #starting-column:active,
+  #second-column:active {
+    transform: translateY(4px);
+    box-shadow: 0px 4px 0px #474747, inset 0px 0px 1px rgba(37, 37, 37, 0.5), inset 0px 1px 0px rgba(37, 37, 37, 0.3);
   }
 
   .input-container {
-    display: none;
+    height: auto;
+    min-height: auto;
   }
 
   #showLineUpButton {
     display: block;
   }
-}
 
-@media all and (max-width: 640px) {
-  .left-container {
-    width: 45%;
+  .full-settings {
+    display: block;
+    height: auto;
+  }
+
+  .settings-column,
+  .oppo-settings-column {
+    width: auto;
+    margin-left: 0;
+  }
+
+  .oppo-settings-column {
+    margin-top: 15px;
+  }
+
+  .teamNameBox {
+    height: auto;
+    min-height: auto;
+  }
+
+  .button-container {
+    height: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  #oppo-name-switch-container,
+  #oppo-formation-box {
+    height: auto;
+  }
+
+  .color-pickers-oppo-container {
+    height: auto;
+    margin-top: 10px;
+    margin-bottom: 0;
   }
 
   .lineup-container {
-    margin-left: 22%;
-  }
-}
-
-@media all and (max-width: 570px) {
-  .left-container {
-    width: 50%;
+    width: 584px;
+    height: 720px;
+    min-height: 0;
+    margin-left: max(18%, 120px)
   }
 
-  .lineup-container {
-    margin-left: 24%;
-  }
-}
-
-@media all and (max-width: 520px) {
-  .left-container {
-    width: 55%;
+  .formation-label {
+    font-size: 12px;
+    top: 1%;
   }
 
-  .lineup-container {
-    margin-left: 26%;
-  }
-}
-
-@media all and (max-width: 470px) {
-  .left-container {
-    width: 60%;
+  .copyright {
+    font-size: 12px;
+    top: 96%;
   }
 
-  .lineup-container {
-    margin-left: 28%;
-  }
-}
-
-@media all and (max-width: 420px) {
-  .left-container {
-    width: 65%;
+  .label {
+    margin: 3% 2.5% 3% 2.5%;
+    font-size: max(1.1vh, 95%);
   }
 
-  .lineup-container {
-    margin-left: 30%;
+  .inputBox,
+  .secondBox,
+  .teamNameBox {
+    font-size: max(1.2vh, 90%);
   }
 
-  .switch-label,
-  .oppo-switch-label,
-  .oppo-name-switch-label {
-    font-size: 11px;
-  }
-}
-
-@media all and (max-width: 420px) {
-  .left-container {
-    width: 70%;
+  .label-position, .oppo-label-position {
+    margin: 4.5% 1% 0% 0%;
+    font-size: max(1.2vh, 80%)
   }
 
-  .lineup-container {
-    margin-left: 30%;
+  /*** Buttons ***/
+  #chooseFileButton,
+  #downloadButton,
+  #screenshotButton {
+    min-height: 20px;
+    font-size: 90%;
   }
 
-}
-
-@media all and (max-width: 320px) {
-  .left-container {
-    width: 80%;
+  /*** Switches ***/
+  .switch {
+    width: 80px;
+    height: 24px;
+    margin-block-start: -2px;
+    margin-left: 10px;
   }
 
-  .lineup-container {
-    margin-left: 36%;
+  .longSwitch {
+    width: 100px;
+  }
+
+  /* The slider */
+  .slider {
+    right: 4px;
+  }
+
+  .slider:before {
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 3px;
+  }
+
+  input:checked+.slider:before {
+    -webkit-transform: translateX(50px);
+    -ms-transform: translateX(50px);
+    transform: translateX(50px);
+  }
+
+  input:checked+.longSlider:before {
+    -webkit-transform: translateX(70px);
+    -ms-transform: translateX(70px);
+    transform: translateX(70px);
+  }
+
+  /* Slider container */
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  /* Slider ball */
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  #pitch-text,
+  #oppo-text,
+  #oppo-name-text,
+  #ball-text,
+  #label-text,
+  #tactical-text {
+    color: white;
+    font-size: 12px;
+    padding-top: 4px;
+    height: auto;
+    min-height: auto;
+  }
+
+  #pitch-text,
+  #label-text {
+    padding-left: 10px;
+  }
+
+  #oppo-text,
+  #oppo-name-text,
+  #ball-text,
+  #tactical-text {
+    padding-left: 48%;
   }
 }

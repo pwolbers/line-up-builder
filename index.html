@@ -12,7 +12,7 @@
 </head>
 
 <body onload="displayFormattedJSON()" style="background-color:#212331">
-  <div id="main-container" class="container">
+  <div id="main-container" class="main-container">
     <div class="left-container">
       <div id="textbox-container" class="textbox-container">
         <div class="select-buttons">
@@ -91,8 +91,18 @@
                 drawn)</li>
               <li style="font-size: 13px"><b>Double right click on circle:</b> Remove arrows from circle</li>
               <h4>Mobile</h4>
-              <li style="font-size: 13px"><b>Left tap and drag circle:</b> change position of circle on the pitch</li>
-              <li style="font-size: 13px"><b>Double left tap on circle:</b> change number in circle</li>
+              <p><b>Use the following buttons to switch between dragging the circle and drawing an arrow:</b></p>
+              <img src="circle_grab_10.png" alt="Image" class="help-popup-square">
+              <img src="arrow.png" alt="Image" class="help-popup-square">
+              <p><b>Dragging circle</b></p>
+              <li style="font-size: 13px"><b>Hold and drag circle:</b> change position of circle on the pitch</li>
+              <li style="font-size: 13px"><b>Double tap on circle:</b> change number in circle</li>
+              <p><b>Drawing arrow</b></p>
+              <li style="font-size: 13px"><b>Hold and drag:</b> Draw arrow from the circle</li>
+              <li style="font-size: 13px"><b>Single tap on circle:</b> Remove oldest arrow from the circle</li>
+              <li style="font-size: 13px"><b>Double tap on circle:</b> Remove all arrows from the circle</li>
+
+                
               <br>
               <h3>Importing team</h3>
               <p>You can directly import a team through a saved .JSON file.</p>
@@ -166,8 +176,8 @@
           </div>
         </div>
         <div class="column-container">
-          <div class="column starting-column">
-            <h2 id="first-column">Starting eleven</h2>
+          <button id="starting-column" class="column starting-column">
+            <p id="starting-column-title">Starting eleven</p>
             <div class="input-container">
               <label class="label" for="starting1">GK</label>
               <input type="search" id="starting1" class="inputBox pos1" placeholder="Starting GK">
@@ -223,9 +233,9 @@
               <input type="search" id="starting11" class="inputBox pos11" placeholder="Starting LW">
               <label class="label-position" for="starting11">#11</label>
             </div>
-          </div>
-          <div class="column second-column">
-            <h2 id="second-column-title">Back-up eleven</h2>
+          </button>
+          <button id="second-column" class="column second-column column-shadow">
+            <p id="second-column-title">Back-up eleven</p>
             <div class="input-container">
               <label class="label" for="second1">GK</label>
               <input type="search" id="second1" class="secondBox pos1" placeholder="Back-up GK">
@@ -281,9 +291,9 @@
               <input type="search" id="second11" class="secondBox pos11" placeholder="Back-up LW">
               <label class="oppo-label-position" for="oppo11">#11</label>
             </div>
-          </div>
+          </button>
         </div>
-        <button id="showLineUpButton">Show line-up and formation</button>
+        <button id="showLineUpButton">Hide line-up and formation</button>
         <div class="full-settings">
           <div class="settings-column">
             <div class="newTeam">
@@ -330,8 +340,8 @@
               <button id="screenshotButton">Download image (.png)</button>
             </div>
           </div>
-          <div class="settings-column">
-            <div class="oppoCheckbox" style="margin-top: 10px; display: flex">
+          <div class="oppo-settings-column">
+            <div class="oppoCheckbox">
               <label id="pitchLabel" class="oppo-switch-label">Opposition: </label>
               <label class="switch">
                 <input id="oppo-checkbox" type="checkbox">
@@ -339,7 +349,7 @@
               </label>
             </div>
             <div id="oppo-name-switch-container" style="display:none">
-              <label id="oppoNameLabel" class="oppo-name-switch-label">Set column to back-up or opposition: </label>
+              <label id="oppoNameLabel" class="oppo-name-switch-label">Set to back-up or opposition: </label>
               <label class="switch longSwitch">
                 <input id="oppo-name-checkbox" type="checkbox">
                 <span id="oppo-name-text" class="slider round longSlider">Back-up</span>
@@ -360,8 +370,7 @@
               </div>
             </div>
             <div class="oppo-select-box" id="oppo-formation-box">
-              <div><label for="oppo-formation" class="labelHeader"
-                  style="margin-right: 10px; margin-top: 15px">Opposition
+              <div style="display: contents; margin-top: 23%"><label for="oppo-formation" class="labelHeader" id="oppo-formation-label">Opposition
                   formation:</label></div>
               <select id="oppo-formation" name="formation" class="teamSelectBox">
                 <option value=""> - </option>

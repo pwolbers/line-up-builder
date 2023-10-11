@@ -1,12 +1,3 @@
-const oppoLineYOne = (25/900) * imageContainer.offsetHeight;
-const oppoLineYTwo = (125/900) * imageContainer.offsetHeight;
-const oppoLineYThree = (255/900) * imageContainer.offsetHeight;
-const oppoLineYFour = (355/900) * imageContainer.offsetHeight;
-const oppoLineYFive = (385/900) * imageContainer.offsetHeight;
-const oppoLineYSix = (495/900) * imageContainer.offsetHeight;
-const oppoLineYSeven = (595/900) * imageContainer.offsetHeight;
-const oppoLineYEight = (835/900) * imageContainer.offsetHeight;
-
 function setOppoTextBoxOrder() {
     var secondColumn = document.querySelector('.second-column');
     var secondContainers = secondColumn.getElementsByClassName('input-container');
@@ -66,8 +57,8 @@ function getOppoCircleOrder() {
     listOfCircles.forEach(circle => {
         var circleObj = {};
         if (circle.style.left.toString().indexOf('%') > -1) {
-            var posX = parseInt((parseInt(circle.style.left) / 100) * 730);
-            var posY = parseInt((parseInt(circle.style.top) / 100) * 900);
+            var posX = parseInt((parseInt(circle.style.left) / 100) * imageConWidth);
+            var posY = parseInt((parseInt(circle.style.top) / 100) * imageConHeight);
         }
         else {
             var posX = parseInt(circle.style.left);
@@ -81,8 +72,8 @@ function getOppoCircleOrder() {
         circleArray.push(circleObj);
     });
     circleArray.sort((a, b) => {
-        //Adds a buffer of 70 (if difference of height is within 70px, it's considered the same y)
-        if (Math.abs(a.y - b.y) < 70) {
+        //Adds a buffer of 60 (if difference of height is within 50px, it's considered the same y)
+        if (Math.abs(a.y - b.y) < ((60/900) * imageConHeight)) {
             return a.x < b.x ? -1 : 1
         } else {
             return a.y < b.y ? -1 : 1
@@ -103,7 +94,7 @@ function determineOppoLabel(xPos, yPos, index) {
     var oppoLabels = document.querySelectorAll(".label");
     const secondBoxes = document.querySelectorAll(".secondBox");
 
-    if (xPos >= lineXTwo && xPos <= lineXSeven && yPos >= oppoLineYOne && yPos <= oppoLineYTwo) {
+    if (xPos >= lineXTwo && xPos <= lineXFive && yPos >= oppoLineYOne && yPos <= oppoLineYTwo) {
         oppoLabels[index + 11].innerHTML = "GK";
         secondBoxes[index].placeholder = "Opposition GK";
     } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= oppoLineYOne && yPos <= oppoLineYThree) {
@@ -112,55 +103,55 @@ function determineOppoLabel(xPos, yPos, index) {
     } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= oppoLineYThree && yPos <= oppoLineYFour) {
         oppoLabels[index + 11].innerHTML = "RWB";
         secondBoxes[index].placeholder = "Opposition RWB";
-    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= oppoLineYFour && yPos <= oppoLineYSix) {
+    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= oppoLineYFour && yPos <= oppoLineYFive) {
         oppoLabels[index + 11].innerHTML = "RM";
         secondBoxes[index].placeholder = "Opposition RM";
-    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= oppoLineYSix && yPos <= oppoLineYEight) {
+    } else if (xPos >= lineXOne && xPos <= lineXTwo && yPos >= oppoLineYFive && yPos <= oppoLineYSeven) {
         oppoLabels[index + 11].innerHTML = "RW";
         secondBoxes[index].placeholder = "Opposition RW";
-    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= oppoLineYOne && yPos <= oppoLineYThree) {
+    } else if (xPos >= lineXFive && xPos <= lineXSix && yPos >= oppoLineYOne && yPos <= oppoLineYThree) {
         oppoLabels[index + 11].innerHTML = "LB";
         secondBoxes[index].placeholder = "Opposition LB";
-    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= oppoLineYThree && yPos <= oppoLineYFour) {
+    } else if (xPos >= lineXFive && xPos <= lineXSix && yPos >= oppoLineYThree && yPos <= oppoLineYFour) {
         oppoLabels[index + 11].innerHTML = "LWB";
         secondBoxes[index].placeholder = "Opposition LWB";
-    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= oppoLineYFour && yPos <= oppoLineYSix) {
+    } else if (xPos >= lineXFive && xPos <= lineXSix && yPos >= oppoLineYFour && yPos <= oppoLineYFive) {
         oppoLabels[index + 11].innerHTML = "LM";
         secondBoxes[index].placeholder = "Opposition LM";
-    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= oppoLineYSix && yPos <= oppoLineYEight) {
+    } else if (xPos >= lineXFive && xPos <= lineXSix && yPos >= oppoLineYFive && yPos <= oppoLineYSeven) {
         oppoLabels[index + 11].innerHTML = "LW";
         secondBoxes[index].placeholder = "Opposition LW";
-    } else if (xPos >= lineXTwo && xPos <= lineXFour && yPos >= oppoLineYTwo && yPos <= oppoLineYThree) {
+    } else if (xPos >= lineXTwo && xPos <= lineXThree && yPos >= oppoLineYTwo && yPos <= oppoLineYThree) {
         oppoLabels[index + 11].innerHTML = "RCB";
         secondBoxes[index].placeholder = "Opposition RCB";
-    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= oppoLineYTwo && yPos <= oppoLineYThree) {
+    } else if (xPos >= lineXThree && xPos <= lineXFour && yPos >= oppoLineYTwo && yPos <= oppoLineYThree) {
         oppoLabels[index + 11].innerHTML = "CB";
         secondBoxes[index].placeholder = "Opposition CB";
-    } else if (xPos >= lineXFive && xPos <= lineXSeven && yPos >= oppoLineYTwo && yPos <= oppoLineYThree) {
+    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= oppoLineYTwo && yPos <= oppoLineYThree) {
         oppoLabels[index + 11].innerHTML = "LCB";
         secondBoxes[index].placeholder = "Opposition LCB";
-    } else if (xPos >= lineXTwo && xPos <= lineXFour && yPos >= oppoLineYThree && yPos <=oppoLineYFour) {
+    } else if (xPos >= lineXTwo && xPos <= lineXThree && yPos >= oppoLineYThree && yPos <= oppoLineYFour) {
         oppoLabels[index + 11].innerHTML = "DMCR";
         secondBoxes[index].placeholder = "Opposition DMCR";
-    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= oppoLineYThree && yPos <=oppoLineYFour) {
+    } else if (xPos >= lineXThree && xPos <= lineXFour && yPos >= oppoLineYThree && yPos <= oppoLineYFour) {
         oppoLabels[index + 11].innerHTML = "DMC";
         secondBoxes[index].placeholder = "Opposition DMC";
-    } else if (xPos >= lineXFive && xPos <= lineXSeven && yPos >= oppoLineYThree && yPos <=oppoLineYFour) {
+    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= oppoLineYThree && yPos <= oppoLineYFour) {
         oppoLabels[index + 11].innerHTML = "DMCL";
         secondBoxes[index].placeholder = "Opposition DMCL";
-    } else if (xPos >= lineXTwo && xPos <= lineXSeven && yPos >=oppoLineYFour && yPos <= oppoLineYSix) {
+    } else if (xPos >= lineXTwo && xPos <= lineXFive && yPos >= oppoLineYFour && yPos <= oppoLineYFive) {
         oppoLabels[index + 11].innerHTML = "MC";
         secondBoxes[index].placeholder = "Opposition MC";
-    } else if (xPos >= lineXTwo && xPos <= lineXThree && yPos >= oppoLineYSix && yPos <= oppoLineYSeven) {
+    } else if (xPos >= lineXTwo && xPos <= lineXThree && yPos >= oppoLineYFive && yPos <= oppoLineYSix) {
         oppoLabels[index + 11].innerHTML = "AMCR";
         secondBoxes[index].placeholder = "Opposition AMCR";
-    } else if (xPos >= lineXThree && xPos <= lineXSix && yPos >= oppoLineYSix && yPos <= oppoLineYSeven) {
+    } else if (xPos >= lineXThree && xPos <= lineXFour && yPos >= oppoLineYFive && yPos <= oppoLineYSix) {
         oppoLabels[index + 11].innerHTML = "AMC";
         secondBoxes[index].placeholder = "Opposition AMC";
-    } else if (xPos >= lineXSix && xPos <= lineXSeven && yPos >= oppoLineYSix && yPos <= oppoLineYSeven) {
+    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= oppoLineYFive && yPos <= oppoLineYSix) {
         oppoLabels[index + 11].innerHTML = "AMCL";
         secondBoxes[index].placeholder = "Opposition AMCL";
-    } else if (xPos >= lineXTwo && xPos <= lineXSeven && yPos >= oppoLineYSeven && yPos <= oppoLineYEight) {
+    } else if (xPos >= lineXTwo && xPos <= lineXFive && yPos >= oppoLineYSix && yPos <= oppoLineYSeven) {
         secondBoxes[index].placeholder = "Opposition ST";
         oppoLabels[index + 11].innerHTML = "ST";
     } else {

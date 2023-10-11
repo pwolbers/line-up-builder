@@ -111,7 +111,7 @@ function oppoCheckBox(switchId) {
     var circles = Array.from(document.getElementsByClassName('oppoCircle'));
     if (currentSwitch.checked === true) {
         document.getElementById("oppo-text").innerHTML = "On";
-        document.getElementById("oppo-text").style.paddingLeft = "10px";
+        document.getElementById("oppo-text").style.paddingLeft = "10%";
 
         //Show opposition circles
         circles.forEach(function (circle) {
@@ -158,7 +158,7 @@ function oppoCheckBox(switchId) {
     }
     else {
         document.getElementById("oppo-text").innerHTML = "Off";
-        document.getElementById("oppo-text").style.paddingLeft = "45px";
+        document.getElementById("oppo-text").style.paddingLeft = "65%";
         if (checkOppositionName.checked) {
             checkOppositionName.checked = false;
             oppoNameCheckBox("oppo-name-checkbox");
@@ -264,9 +264,9 @@ function oppoNameCheckBox(switchId) {
     if (currentSwitch.checked === true) {
         secondContainerInputs = [];
         document.getElementById("oppo-name-text").innerText = "Opposition";
-        document.getElementById("oppo-name-text").style.paddingLeft = "10px";
+        document.getElementById("oppo-name-text").style.paddingLeft = "10%";
         document.getElementById("second-column-title").innerHTML = "Opposition eleven";
-        document.querySelector('.second-column').style.background = 'linear-gradient(#154E32, #154E32 98%, #1D2C1B 2%, #1D2C1B)';
+        document.querySelector('.second-column').style.background = '#154E32';
 
         //Change background color of input row
         secondContainers.forEach((container, index) => {
@@ -319,8 +319,7 @@ function oppoNameCheckBox(switchId) {
         //Display all numbers from the opposition
         var oppoNumberLabels = document.querySelectorAll('.oppo-label-position');
         oppoNumberLabels.forEach((oppoNumberLabel) => {
-            console.log(oppoNumberLabel);
-            oppoNumberLabel.style.display = 'block';
+            oppoNumberLabel.style.display = 'inline-flex';
         });
 
         setOppoTextBoxOrder();
@@ -329,7 +328,7 @@ function oppoNameCheckBox(switchId) {
     else {
         oppoContainerInputs = [];
         document.getElementById("oppo-name-text").innerHTML = "Back-up";
-        document.getElementById("oppo-name-text").style.paddingLeft = "40px";
+        document.getElementById("oppo-name-text").style.paddingLeft = "48%";
         document.getElementById("second-column-title").innerHTML = "Back-up eleven";
         document.querySelector('.second-column').style.background = 'linear-gradient(#32154E, #32154E 98%, #1B1D2C 2%, #1B1D2C)';
 
@@ -380,10 +379,9 @@ function oppoNameCheckBox(switchId) {
             }
         }
 
-        //Hide all numbers from the opposition
+        //Hide all opposition numbers 
         var oppoNumberLabels = document.querySelectorAll('.oppo-label-position');
         oppoNumberLabels.forEach((oppoNumberLabel) => {
-            console.log(oppoNumberLabel);
             oppoNumberLabel.style.display = 'none';
         });
         setTextBoxOrders();

@@ -28,6 +28,8 @@ const outputOppos = document.querySelectorAll(".outputOpponent");
 
 const lineupContainer = document.querySelector(".lineup-container");
 const imageContainer = document.getElementById('image-container');
+const imageConHeight = imageContainer.offsetHeight;
+const imageConWidth = imageContainer.offsetWidth;
 
 const teamNameBox = document.getElementById('teamNameBox');
 const screenshotButton = document.getElementById('screenshotButton');
@@ -39,25 +41,46 @@ const checkOpposition = document.getElementById("oppo-checkbox");
 const checkOppositionName = document.getElementById("oppo-name-checkbox");
 const oppoFormation = document.getElementById("oppo-formation");
 
+const lineYOne = (25 / 900) * imageConHeight;
+const lineYTwo = (270 / 900) * imageConHeight;
+const lineYThree = (360 / 900) * imageConHeight;
+const lineYFour = (480 / 900) * imageConHeight;
+const lineYFive = (580 / 900) * imageConHeight;
+const lineYSix = (710 / 900) * imageConHeight;
+const lineYSeven = (835 / 900) * imageConHeight;
+
+const lineXOne = (75 / 730) * imageConWidth;
+const lineXTwo = (195 / 730) * imageConWidth;
+const lineXThree = (290 / 730) * imageConWidth;
+const lineXFour = (403 / 730) * imageConWidth;
+const lineXFive = (502 / 730) * imageConWidth;
+const lineXSix = (627 / 730) * imageConWidth;
+
+const oppoLineYOne = (25/900) * imageConHeight;
+const oppoLineYTwo = (115/900) * imageConHeight;
+const oppoLineYThree = (245/900) * imageConHeight;
+const oppoLineYFour = (355/900) * imageConHeight;
+const oppoLineYFive = (465/900) * imageConHeight;
+const oppoLineYSix = (545/900) * imageConHeight;
+const oppoLineYSeven = (835/900) * imageConHeight;
+
 let startX, startY;
 
 $(document).ready(function () {
-
-    $(".starting-column > h2").click(function () {
+    $("#starting-column-title").click(function () {
         var inputContainers = $(this).siblings(".input-container");
-
         var showLineUpButton = document.getElementById('showLineUpButton');
         const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
         if (displayValue == 'block') {
             toggleDisplay(inputContainers, true, 'starting');
         } else {
             toggleDisplay(inputContainers, false, 'starting');
+            parentContainer.style.boxShadow = 'none';
         }
     });
 
-    $(".second-column > h2").click(function () {
+    $("#second-column-title").click(function () {
         var inputContainers = $(this).siblings(".input-container");
-
         var showLineUpButton = document.getElementById('showLineUpButton');
         const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
         if (displayValue == 'block') {
@@ -70,16 +93,22 @@ $(document).ready(function () {
 
 function toggleDisplay(elements, mobileCheck, type) {
     if (mobileCheck) {
+        var parentContainer;
+        var otherColumn;
+        var boxShadowYes = '0px 8px 0px #474747, inset 0px 0px 1px rgba(37, 37, 37, 0.5), inset 0px 1px 0px rgba(37, 37, 37, 0.3)';
+
         if (type == 'starting') {
-            const secondColumn = document.querySelector('div.second-column');
-            const children = secondColumn.querySelectorAll('*');
+            parentContainer = document.getElementById('starting-column');
+
+            otherColumn = document.querySelector('button.second-column');
+            const children = otherColumn.querySelectorAll('*:not(.oppo-label-position)');
 
             children.forEach((child) => {
                 if (child.tagName == 'DIV') {
                     child.style.display = 'none';
                 }
-                else if (child.tagName == 'H2') {
-                    child.style.display = 'block';
+                else if (child.tagName == 'P') {
+                    child.style.display = 'flex';
                 }
                 else {
                     child.style.display = 'flex';
@@ -87,26 +116,34 @@ function toggleDisplay(elements, mobileCheck, type) {
             });
         }
         else if (type == 'second') {
-            const startingColumn = document.querySelector('div.starting-column');
-            const children = startingColumn.querySelectorAll('*');
+            parentContainer = document.getElementById('second-column');
+
+            otherColumn = document.querySelector('button.starting-column');
+            const children = otherColumn.querySelectorAll('*');
 
             children.forEach((child) => {
                 if (child.tagName == 'DIV') {
                     child.style.display = 'none';
                 }
-                else if (child.tagName == 'H2') {
-                    child.style.display = 'block';
+                else if (child.tagName == 'P') {
+                    child.style.display = 'flex';
                 }
                 else {
                     child.style.display = 'flex';
                 }
             });
         }
+        
+        var newDisplay;
         elements.each(function () {
             var displayValue = $(this).css("display");
-            var newDisplay = (displayValue === "flex") ? "none" : "flex";
+             newDisplay = (displayValue === "flex") ? "none" : "flex";
             $(this).css("display", newDisplay);
         });
+
+        newDisplay == 'none' ? parentContainer.classList.add('column-shadow') : parentContainer.classList.remove('column-shadow');
+        otherColumn.classList.add('column-shadow');
+
     }
     else {
         elements.each(function () {
@@ -116,7 +153,6 @@ function toggleDisplay(elements, mobileCheck, type) {
 }
 
 window.onload = () => {
-    setCirclePositions('433', 'main');
     var buJson = {
         "teamName": "Argentina WC 2022",
         "formation": "4-3-3",
@@ -302,7 +338,10 @@ window.onload = () => {
     var oppositionJson = JSON.stringify(oppoJson, null, 2);
     document.getElementById("oppositionJson").innerText = oppositionJson;
 
+
+    setCirclePositions('433', 'main');
     determineFormation();
+
     setTextBoxOrders();
     textToCircle();
 }
@@ -335,7 +374,7 @@ window.addEventListener('DOMContentLoaded', function () {
         if (matches) {
             lineupContainer.style.display = 'block'; // Set display to 'block'
         } else {
-            lineupContainer.style.display = 'none'; // Set display to 'none'
+            lineupContainer.style.display = 'block'; // Set display to 'none'
         }
     }
 
@@ -359,9 +398,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     gearIcon.addEventListener('click', function (event) {
+        var gearIconLocation = event.currentTarget.getBoundingClientRect();
+        console.log(gearIconLocation.top);
+        doTheThing();
+        console.log(window.getComputedStyle(gearIcon).getPropertyValue('top'));
+        console.log(window.getComputedStyle(gearIcon).getPropertyValue('left'));
+        console.log(event.currentTarget.style.top);
         event.stopPropagation();
         if (settings.style.display != 'block') {
             settings.style.display = 'block';
+            settings.style.top = gearIconLocation.top + 20 + 'px';
+            settings.style.left = gearIconLocation.left + 14 + 'px';
         }
         else {
             settings.style.display = 'none';
@@ -422,6 +469,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (jsonData.secondType == 'opposition') {
                     if (jsonData.oppoFormation) {
                         lineUpsObj[teamName].oppoFormation = jsonData.oppoFormation;
+                        lineUpsObj[teamName].oppoKeysArray = Object.keys(jsonData.second);
                     }
                     if (jsonData.oppoColors) {
                         lineUpsObj[teamName].oppoColors = {};
@@ -431,10 +479,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 }
                 //If specific circle position data is available, use it
-                if(jsonData.circlePositions){
+                if (jsonData.circlePositions) {
                     lineUpsObj[teamName].circlePositions = jsonData.circlePositions;
                 }
-                if(jsonData.oppoCirclePositions){
+                if (jsonData.oppoCirclePositions) {
                     lineUpsObj[teamName].oppoCirclePositions = jsonData.oppoCirclePositions;
                 }
             });
@@ -444,6 +492,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 });
 
+function doTheThing() {
+
+    var gearIcon = document.querySelector('.gear-icon');
+    console.log("TEST: " + gearIcon.style.left);
+}
 // Retrieves the JSONs loaded in the GitHub
 function getJsonFiles() {
     return new Promise((resolve, reject) => {
@@ -566,7 +619,7 @@ function getSpecificCirclePositions(inputString) {
         var tIndex = inputString.indexOf('T', hashIndex);
         var lIndex = inputString.indexOf('L', tIndex);
         var newHashIndex = inputString.indexOf('#', lIndex);
-  
+
         if (hashIndex === -1 || tIndex === -1 || lIndex === -1) {
             break; // Exit the loop if any of the markers are not found
         }
@@ -578,7 +631,7 @@ function getSpecificCirclePositions(inputString) {
         result.arrayTop.push(value2);
         result.arrayLeft.push(value3);
         currentIndex = lIndex + 1; // Move the current index to the next '#'
-        
+
     }
     return result;
 }

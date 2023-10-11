@@ -59,8 +59,8 @@ function setCirclePositions(formationValue, circleType) {
         }
         if (formationValue === '433') {
             circles[5].style.top = '58.5%'; circles[5].style.left = '47.5%';  //#6
-            circles[6].style.top = '41.5%'; circles[6].style.left = '35.5%';    //#8
-            circles[7].style.top = '41.5%'; circles[7].style.left = '59.5%';    //#10  
+            circles[6].style.top = '41.5%'; circles[6].style.left = '59.5%';    //#8
+            circles[7].style.top = '41.5%'; circles[7].style.left = '35.5%';    //#10  
         } else if (formationValue === '442diamond') {
             circles[5].style.top = '58.5%'; circles[5].style.left = '47.5%';  //#6
             circles[6].style.top = '47.5%'; circles[6].style.left = '29.5%';    //#8
@@ -103,15 +103,18 @@ function setCirclePositions(formationValue, circleType) {
     }
     else if (circleType == 'oppo') {
         const circles = document.querySelectorAll(".oppoCircle");
-        circles[0].style.top = '10%'; circles[0].style.left = '47.5%';  //#1
+        circles[0].style.top = '6%'; circles[0].style.left = '47.5%';  //#1
         if (formationValue === '433') {
+            console.log("H: " + imageContainer.offsetHeight);
+            console.log("W: " + imageContainer.offsetWidth);
+
             circles[1].style.top = '22.5%'; circles[1].style.left = '18.5%';    //#2
             circles[2].style.top = '17.5%'; circles[2].style.left = '32.5%';    //#3
             circles[3].style.top = '17.5%'; circles[3].style.left = '62.5%';    //#4
             circles[4].style.top = '22.5%'; circles[4].style.left = '76.5%';    //#5
             circles[5].style.top = '30.5%'; circles[5].style.left = '47.5%';    //#6
-            circles[6].style.top = '47.5%'; circles[6].style.left = '59.5%';    //#8
-            circles[7].style.top = '47.5%'; circles[7].style.left = '35.5%';    //#10
+            circles[6].style.top = '47.5%'; circles[6].style.left = '35.5%';    //#8
+            circles[7].style.top = '47.5%'; circles[7].style.left = '59.5%';    //#10
             circles[8].style.top = '60.5%'; circles[8].style.left = '18.5%';    //#7
             circles[9].style.top = '66.5%'; circles[9].style.left = '47.5%';    //#9
             circles[10].style.top = '60.5%'; circles[10].style.left = '76.5%';  //#11
@@ -133,8 +136,8 @@ function setCirclePositions(formationValue, circleType) {
             circles[2].style.top = '17.5%'; circles[2].style.left = '32.5%';    //#3
             circles[3].style.top = '17.5%'; circles[3].style.left = '62.5%';    //#4
             circles[4].style.top = '22.5%'; circles[4].style.left = '76.5%';    //#5
-            circles[5].style.top = '41.5%'; circles[5].style.left = '35.5%';    //#6
-            circles[6].style.top = '41.5%'; circles[6].style.left = '59.5%';    //#8
+            circles[5].style.top = '44.5%'; circles[5].style.left = '35.5%';    //#6
+            circles[6].style.top = '44.5%'; circles[6].style.left = '59.5%';    //#8
             circles[7].style.top = '49.5%'; circles[7].style.left = '76.5%';    //#10
             circles[8].style.top = '49.5%'; circles[8].style.left = '18.5%';    //#7
             circles[9].style.top = '66.5%'; circles[9].style.left = '32.5%';    //#9
@@ -145,8 +148,8 @@ function setCirclePositions(formationValue, circleType) {
             circles[2].style.top = '17.5%'; circles[2].style.left = '34.5%';  //#3
             circles[3].style.top = '17.5%'; circles[3].style.left = '62.5%';    //#4
             circles[4].style.top = '22.5%'; circles[4].style.left = '76.5%';    //#5
-            circles[5].style.top = '41.5%'; circles[5].style.left = '35.5%';    //#6
-            circles[6].style.top = '41.5%'; circles[6].style.left = '59.5%';    //#8
+            circles[5].style.top = '44.5%'; circles[5].style.left = '35.5%';    //#6
+            circles[6].style.top = '44.5%'; circles[6].style.left = '59.5%';    //#8
             circles[7].style.top = '56.5%'; circles[7].style.left = '76.5%';    //#10
             circles[8].style.top = '56.5%'; circles[8].style.left = '18.5%';    //#7
             circles[9].style.top = '66.5%'; circles[9].style.left = '32.5%';    //#9
@@ -171,7 +174,7 @@ function setCirclePositions(formationValue, circleType) {
             circles[4].style.top = '35.5%'; circles[4].style.left = '76.5%';    //#5
             circles[5].style.top = '29.5%'; circles[5].style.left = '35.5%';    //#6
             circles[6].style.top = '29.5%'; circles[6].style.left = '59.5%';    //#8
-            circles[7].style.top = '49.5%'; circles[7].style.left = '47.5%';    //#10
+            circles[7].style.top = '52.5%'; circles[7].style.left = '47.5%';    //#10
             circles[8].style.top = '35.5%'; circles[8].style.left = '18.5%';    //#7
             circles[9].style.top = '66.5%'; circles[9].style.left = '32.5%';    //#9
             circles[10].style.top = '66.5%'; circles[10].style.left = '62.5%';  //#11
@@ -181,8 +184,8 @@ function setCirclePositions(formationValue, circleType) {
             circles[2].style.top = '15.5%'; circles[2].style.left = '47.5%';    //#3
             circles[3].style.top = '15.5%'; circles[3].style.left = '67.5%';    //#4
             circles[4].style.top = '30.5%'; circles[4].style.left = '47.5%';    //#5
-            circles[5].style.top = '41.5%'; circles[5].style.left = '29.5%';    //#6
-            circles[6].style.top = '41.5%'; circles[6].style.left = '65.5%';    //#8
+            circles[5].style.top = '44.5%'; circles[5].style.left = '29.5%';    //#6
+            circles[6].style.top = '44.5%'; circles[6].style.left = '65.5%';    //#8
             circles[7].style.top = '52.5%'; circles[7].style.left = '47.5%';    //#10
             circles[8].style.top = '60.5%'; circles[8].style.left = '18.5%';    //#7
             circles[9].style.top = '66.5%'; circles[9].style.left = '47.5%';    //#9
@@ -240,14 +243,12 @@ function setCircleColor(colors, teamType) {
 
 // Changes the order of the input boxes and labels based on the circle Array order and determines labels
 function setTextBoxOrders() {
-
     //Gets order of circles based on first their y and then their x (7 11 9)
     var startingCircleArray = getCurrentCircleOrder();
     var startingColumn = document.querySelector('.starting-column');
     var startingContainers = startingColumn.getElementsByClassName('input-container');
     addInputContainersInOrder(startingContainers, startingCircleArray, 'starting');
     startingCircleArray.forEach((circle, index) => {
-        console.log(circle.id + " | X: " + circle.x + " | Y: " + circle.y);
         var posX = circle.x;
         var posY = circle.y;
         determineLabel(posX, posY, index);
@@ -358,8 +359,8 @@ function getCurrentCircleOrder() {
     listOfCircles.forEach(circle => {
         var circleObj = {};
         if (circle.style.left.toString().indexOf('%') > -1) {
-            var posX = parseInt((parseInt(circle.style.left) / 100) * 730);
-            var posY = parseInt((parseInt(circle.style.top) / 100) * 900);
+            var posX = parseInt((parseInt(circle.style.left) / 100) * imageConWidth);
+            var posY = parseInt((parseInt(circle.style.top) / 100) * imageConHeight);
         }
         else {
             var posX = parseInt(circle.style.left);
@@ -374,7 +375,7 @@ function getCurrentCircleOrder() {
     });
     circleArray.sort((a, b) => {
         //Adds a buffer of 60 (if difference of height is within 60px, it's considered the same y)
-        if (Math.abs(a.y - b.y) < 60) {
+        if (Math.abs(a.y - b.y) < ((60/900) * imageConHeight)){
             return a.x > b.x ? -1 : 1
         } else {
             return a.y > b.y ? -1 : 1
@@ -407,55 +408,39 @@ function toggleOutputBoxVisibility(box) {
 
 // Determines the label (RB, MC, AMC, etc) that is shown before the input box
 function determineLabel(xPos, yPos, index) {
-    var lineYOne = (25/900) * imageContainer.offsetHeight;
-    var lineYTwo = (240/900) * imageContainer.offsetHeight;
-    var lineYThree = (340/900) * imageContainer.offsetHeight;
-    var lineYFour = (480/900) * imageContainer.offsetHeight;
-    var lineYFive = (580/900) * imageContainer.offsetHeight;
-    var lineYSix = (730/900) * imageContainer.offsetHeight;
-    var lineYSeven = (835/900) * imageContainer.offsetHeight;
-    var lineXOne = (70/730) * imageContainer.offsetWidth;
-    var lineXTwo = (200/730) * imageContainer.offsetWidth;
-    var lineXThree = (260/730) * imageContainer.offsetWidth;
-    var lineXFour = (330/730) * imageContainer.offsetWidth;
-    var lineXFive = (400/730) * imageContainer.offsetWidth;
-    var lineXSix = (470/730) * imageContainer.offsetWidth;
-    var lineXSeven = (500/730) * imageContainer.offsetWidth;
-    var lineXEight = (630/730) * imageContainer.offsetWidth;
-
     const inputBoxes = document.querySelectorAll(".inputBox");
     const secondBoxes = document.querySelectorAll(".secondBox");
     const labels = document.querySelectorAll(".label");
 
-    if (xPos >= lineXTwo && xPos <= lineXSeven && yPos >= lineYSix && yPos <= lineYSeven) {
+    if (xPos >= lineXTwo && xPos <= lineXFive && yPos >= lineYSix && yPos <= lineYSeven) {
         labels[index].innerHTML = "GK";
         inputBoxes[index].placeholder = "Starting GK";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "GK";
             secondBoxes[index].placeholder = "Back-up GK";
         }
-    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= lineYFive && yPos <= lineYSeven) {
+    } else if (xPos >= lineXFive && xPos <= lineXSix && yPos >= lineYFive && yPos <= lineYSeven) {
         labels[index].innerHTML = "RB";
         inputBoxes[index].placeholder = "Starting RB";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "RB";
             secondBoxes[index].placeholder = "Back-up RB";
         }
-    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= lineYFour && yPos <= lineYFive) {
+    } else if (xPos >= lineXFive && xPos <= lineXSix && yPos >= lineYFour && yPos <= lineYFive) {
         labels[index].innerHTML = "RWB";
         inputBoxes[index].placeholder = "Starting RWB";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "RWB";
             secondBoxes[index].placeholder = "Back-up RWB";
         }
-    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= lineYThree && yPos <= lineYFour) {
+    } else if (xPos >= lineXFive && xPos <= lineXSix && yPos >= lineYThree && yPos <= lineYFour) {
         labels[index].innerHTML = "RM";
         inputBoxes[index].placeholder = "Starting RM";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "RM";
             secondBoxes[index].placeholder = "Back-up RM";
         }
-    } else if (xPos >= lineXSeven && xPos <= lineXEight && yPos >= lineYOne && yPos <= lineYThree) {
+    } else if (xPos >= lineXFive && xPos <= lineXSix && yPos >= lineYOne && yPos <= lineYThree) {
         labels[index].innerHTML = "RW";
         inputBoxes[index].placeholder = "Starting RW";
         if (checkOppositionName.checked == false) {
@@ -490,63 +475,63 @@ function determineLabel(xPos, yPos, index) {
             labels[index + 11].innerHTML = "LW";
             secondBoxes[index].placeholder = "Back-up LW";
         }
-    } else if (xPos >= lineXFive && xPos <= lineXSeven && yPos >= lineYFive && yPos <= lineYSix) {
+    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= lineYFive && yPos <= lineYSix) {
         labels[index].innerHTML = "RCB";
         inputBoxes[index].placeholder = "Starting RCB";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "RCB";
             secondBoxes[index].placeholder = "Back-up RCB";
         }
-    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= lineYFive && yPos <= lineYSix) {
+    } else if (xPos >= lineXThree && xPos <= lineXFour && yPos >= lineYFive && yPos <= lineYSix) {
         labels[index].innerHTML = "CB";
         inputBoxes[index].placeholder = "Starting CB"
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "CB";
             secondBoxes[index].placeholder = "Back-up CB";
         }
-    } else if (xPos >= lineXTwo && xPos <= lineXFour && yPos >= lineYFive && yPos <= lineYSix) {
+    } else if (xPos >= lineXTwo && xPos <= lineXThree && yPos >= lineYFive && yPos <= lineYSix) {
         labels[index].innerHTML = "LCB";
         inputBoxes[index].placeholder = "Starting LCB";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "LCB";
             secondBoxes[index].placeholder = "Back-up LCB";
         }
-    } else if (xPos >= lineXFive && xPos <= lineXSeven && yPos >= lineYFour && yPos <= lineYFive) {
+    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= lineYFour && yPos <= lineYFive) {
         labels[index].innerHTML = "DMCR";
         inputBoxes[index].placeholder = "Starting DMCR";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "DMCR";
             secondBoxes[index].placeholder = "Back-up DMCR";
         }
-    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= lineYFour && yPos <= lineYFive) {
+    } else if (xPos >= lineXThree && xPos <= lineXFour && yPos >= lineYFour && yPos <= lineYFive) {
         labels[index].innerHTML = "DMC";
         inputBoxes[index].placeholder = "Starting DMC";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "DMC";
             secondBoxes[index].placeholder = "Back-up DMC";
         }
-    } else if (xPos >= lineXTwo && xPos <= lineXFour && yPos >= lineYFour && yPos <= lineYFive) {
+    } else if (xPos >= lineXTwo && xPos <= lineXThree && yPos >= lineYFour && yPos <= lineYFive) {
         labels[index].innerHTML = "DMCL";
         inputBoxes[index].placeholder = "Starting DMCL";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "DMCL";
             secondBoxes[index].placeholder = "Back-up DMCL";
         }
-    } else if (xPos >= lineXTwo && xPos <= lineXSeven && yPos >= lineYThree && yPos <= lineYFour) {
+    } else if (xPos >= lineXTwo && xPos <= lineXFive && yPos >= lineYThree && yPos <= lineYFour) {
         labels[index].innerHTML = "MC";
         inputBoxes[index].placeholder = "Starting MC";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "MC";
             secondBoxes[index].placeholder = "Back-up MC";
         }
-    } else if (xPos >= lineXSix && xPos <= lineXSeven && yPos >= lineYTwo && yPos <= lineYThree) {
+    } else if (xPos >= lineXFour && xPos <= lineXFive && yPos >= lineYTwo && yPos <= lineYThree) {
         labels[index].innerHTML = "AMCR";
         inputBoxes[index].placeholder = "Starting AMCR";
         if (checkOppositionName.checked == false) {
             labels[index + 11].innerHTML = "AMCR";
             secondBoxes[index].placeholder = "Back-up AMCR";
         }
-    } else if (xPos >= lineXThree && xPos <= lineXSix && yPos >= lineYTwo && yPos <= lineYThree) {
+    } else if (xPos >= lineXThree && xPos <= lineXFour && yPos >= lineYTwo && yPos <= lineYThree) {
         labels[index].innerHTML = "AMC";
         inputBoxes[index].placeholder = "Starting AMC";
         if (checkOppositionName.checked == false) {
@@ -560,15 +545,21 @@ function determineLabel(xPos, yPos, index) {
             labels[index + 11].innerHTML = "AMCL";
             secondBoxes[index].placeholder = "Back-up AMCL";
         }
-    } else if (xPos >= lineXTwo && xPos <= lineXSeven && yPos >= lineYOne && yPos <= lineYTwo) {
+    } else if (xPos >= lineXTwo && xPos <= lineXFive && yPos >= lineYOne && yPos <= lineYTwo) {
         labels[index].innerHTML = "ST";
         inputBoxes[index].placeholder = "Starting ST";
         if (checkOppositionName.checked == false) {
             secondBoxes[index].placeholder = "Back-up ST";
             labels[index + 11].innerHTML = "ST";
         }
+    } else {
+        labels[index].innerHTML = "UNK";
+        inputBoxes[index].placeholder = "Starting UNK";
+        if (checkOppositionName.checked == false) {
+            secondBoxes[index].placeholder = "Back-up UNK";
+            labels[index + 11].innerHTML = "UNK";
+        }
     }
-    console.log("LABEL: " + labels[index].innerHTML);
 }
 
 // Converts RGB or plain names ('red', 'darkgreen') to hexcode (#00ff00)
@@ -691,16 +682,14 @@ function changeNumberOnTextbox(circle, newInput) {
         if (div.id.indexOf('starting') > -1 || div.id.indexOf('second') > -1) {
             div.nextElementSibling.innerText = newInput;
             if (newInput.length > 4) {
-                div.nextElementSibling.style.fontSize = '10px';
-                div.nextElementSibling.style.marginRight = '8px';
+                div.nextElementSibling.style.fontSize = 'max(1.2vh, 65%)';
             }
             else if (newInput.length == 4) {
-                div.nextElementSibling.style.fontSize = '11px';
-                div.nextElementSibling.style.marginRight = '6px';
+                div.nextElementSibling.style.fontSize = 'max(1.4vh, 70%)';
             }
             else {
-                div.nextElementSibling.style.fontSize = '12px';
-                div.nextElementSibling.style.marginRight = '';
+                div.nextElementSibling.style.fontSize = 'max(1.6vh, 80%)';
+                div.nextElementSibling.style.marginTop = '4%';
             }
         }
     });
@@ -806,13 +795,4 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
         clearOutBoxes('second');
         clearOutBoxes('oppo');
     }
-}
-
-function setFormationBoundaries() {
-
-
-console.log("Y ONE: " + lineYOne);
-console.log("X ONE: " + lineXOne);
-console.log("Y EIGHT: " + lineYSeven);
-console.log("X EIGHT: " + lineXEight);
 }

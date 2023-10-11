@@ -159,7 +159,7 @@ function loadTeam() {
         secondArray = lineUpsObj[selectedValue].second;
         secondType = lineUpsObj[selectedValue].secondType;
         startKeyArray = lineUpsObj[selectedValue].keysArray;
-        secondKeyArray = lineUpsObj[selectedValue].keysArray;
+        secondKeyArray = lineUpsObj[selectedValue].oppoKeysArray || lineUpsObj[selectedValue].keysArray;;
         var formattedFormation = lineUpsObj[selectedValue].formation.replaceAll('-', '').replaceAll(" ", "");
 
         document.getElementById("select-formation").value = formattedFormation;
@@ -174,6 +174,11 @@ function loadTeam() {
                 setOppoFormation(lineUpsObj[selectedValue].oppoFormation.replaceAll('-', '').replaceAll(" ", ""));
             }
         }
+        
+        console.log("startKeyArray");
+        console.log(startKeyArray);
+        console.log("secondKeyArray");
+        console.log(secondKeyArray);
         setLineUp(startKeyArray, secondKeyArray, secondType);
 
         //If specific position data is available, use it
@@ -260,7 +265,7 @@ function downloadJSON() {
     var allCirclePositions = "#";
     mainCircles.forEach((circle) => {
         var circleStyleTop = circle.style.top;
-        var circleStyleLeft = '';
+        var circleStyleLeft = circle.style.left;
         if (circle.style.top.indexOf('px') > -1) {
             circleStyleTop = circle.style.top.replace('px', '') / document.querySelector(".image-container").offsetHeight;
             circleStyleTop = (circleStyleTop * 100).toFixed(2) + '%';

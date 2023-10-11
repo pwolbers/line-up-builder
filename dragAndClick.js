@@ -201,8 +201,6 @@ function drawLineFunctionality(e, circle, mobile) {
 function dragCircle(e) {
     if (activeCircle) {
         e.preventDefault();
-        console.log(imageContainer.offsetWidth);
-        console.log(imageContainer.offsetHeight);
         let currentX, currentY;
 
         if (e.type === "mousemove" || e.type === "touchmove") {
@@ -215,18 +213,19 @@ function dragCircle(e) {
 
         const newX = offsetX + deltaX;
         const newY = offsetY + deltaY;
-
+        console.log("newX: " + newX);
+        console.log("newY: " + newY);
         //max changes based on size of the imageContainer
-        const maxLeft = (70 / 730) * imageContainer.offsetWidth;
-        const maxRight = (620 / 730) * imageContainer.offsetWidth;
+        const maxLeft = (75 / 730) * imageContainer.offsetWidth;
+        const maxRight = (623 / 730) * imageContainer.offsetWidth;
         const maxTop = (30 / 900) * imageContainer.offsetHeight;
         const maxBottom = (835 / 900) * imageContainer.offsetHeight;
 
         if (newX > maxLeft && newX < maxRight) {
-            activeCircle.style.left = `${newX}px`;
+            activeCircle.style.left = newX / imageContainer.offsetWidth * 100 + '%';
         }
         if (newY > maxTop && newY < maxBottom) {
-            activeCircle.style.top = `${newY}px`;
+            activeCircle.style.top = newY / imageContainer.offsetHeight * 100 + '%';
         }
 
 
