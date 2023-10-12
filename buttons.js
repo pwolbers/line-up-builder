@@ -16,7 +16,6 @@ oppoFormation.addEventListener("change", function () {
 
 // Function to capture screenshot and trigger download
 function captureScreenshotAndDownload() {
-    document.body.classList.add('desktop-mode');
 
     var lineupContainer = document.getElementById("lineupContainer");
 
@@ -24,10 +23,9 @@ function captureScreenshotAndDownload() {
         lineupContainer.style.display = 'block'; // Show the lineup-container div
         showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
     }
-    else {
-    }
 
-    //S pan elements are the textboxes
+    //Is this still necessary?//
+    /*//Span elements are the textboxes
     // Get all the <span> elements with the class "outputStarting"
     var outputStartingSpans = document.querySelectorAll('span.outputStarting');
 
@@ -44,7 +42,8 @@ function captureScreenshotAndDownload() {
     outputSecondSpans.forEach(span => {
         var currentWidth = span.offsetWidth - 1;
         span.style.maxWidth = `${currentWidth}px`;
-    });
+    });*/
+
 
     const currentWidth = screenshotButton.getBoundingClientRect().width;
     const currentHeight = screenshotButton.getBoundingClientRect().height;
@@ -59,69 +58,73 @@ function captureScreenshotAndDownload() {
     screenshotButton.style.cssText += widthAndHeightSB;
     downloadButton.style.cssText += widthAndHeightDB;
 
-    var timeOutValue;
-    const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
-    if (displayValue == 'block') {
-        timeOutValue = 1;
-    } else {
-        timeOutValue = 1;
-    }
+    var scaleSize = 2;
+    html2canvas(lineupContainer, {scale: scaleSize}).then(function (canvas) {
+        // Create a new canvas to hold the trimmed image
+        var trimmedCanvas = document.createElement('canvas');
+        var trimmedContext = trimmedCanvas.getContext('2d');
 
-    setTimeout(function () {
-        html2canvas(lineupContainer).then(function (canvas) {
-            // Create a new canvas to hold the trimmed image
-            var trimmedCanvas = document.createElement('canvas');
-            var trimmedContext = trimmedCanvas.getContext('2d');
 
-            // Calculate the trimming dimensions
-            var widthToTrim = canvas.width * 0.05;
-            var heightToTrim = canvas.height * 0.02;
-            var trimmedWidth = canvas.width - (widthToTrim * 2); //5% of the width on both (2) sides
-            var trimmedHeight = canvas.height - (heightToTrim * 2); //5% of the height on both (2) sides
+        // Calculate the trimming dimensions
+        var widthToTrim = canvas.width * 0.05;
+        var heightToTrim = canvas.height * 0.02;
+        var trimmedWidth = canvas.width - (widthToTrim * 2); //5% of the width on both (2) sides
+        var trimmedHeight = canvas.height - (heightToTrim * 2); //5% of the height on both (2) sides
 
-            // Draw the trimmed image onto the new canvas
-            trimmedCanvas.width = trimmedWidth;
-            trimmedCanvas.height = trimmedHeight;
-            trimmedContext.drawImage(
-                canvas,
-                widthToTrim,
-                heightToTrim,
-                trimmedWidth,
-                trimmedHeight,
-                0,
-                0,
-                trimmedWidth,
-                trimmedHeight
-            );
+        console.log("canvas.width: " + canvas.width);
+        console.log("canvas.height: " + canvas.height);
+        console.log("widthToTrim: " + widthToTrim);
+        console.log("heightToTrim: " + heightToTrim);
+        console.log("trimmedWidth: " + trimmedWidth);
+        console.log("trimmedHeight: " + trimmedHeight);
 
-            // Create an anchor element to download the image
-            var link = document.createElement('a');
-            link.href = trimmedCanvas.toDataURL('image/png');
-            var teamNameValue = document.querySelector('#teamNameBox').value;
-            if (teamNameValue == '') {
-                teamNameValue = 'team_lineup_screenshot';
-            }
-            var teamFileName = teamNameValue;
-            teamFileName = teamFileName.replaceAll(' ', '_');
-            teamFileName = teamFileName.replaceAll('/', '_');
-            link.download = teamFileName; // Set the filename for the download
+        // Draw the trimmed image onto the new canvas
+        trimmedCanvas.width = trimmedWidth;
+        trimmedCanvas.height = trimmedHeight;
+        trimmedContext.drawImage(
+            canvas,
+            widthToTrim,
+            heightToTrim,
+            trimmedWidth,
+            trimmedHeight,
+            0,
+            0,
+            trimmedWidth,
+            trimmedHeight
+        );
 
-            //document.body.appendChild(link);
-            link.click();
-            //document.body.removeChild(link);
+        // Create an anchor element to download the image
+        var link = document.createElement('a');
+        link.href = trimmedCanvas.toDataURL('image/png');
+        var teamNameValue = document.querySelector('#teamNameBox').value;
+        if (teamNameValue == '') {
+            teamNameValue = 'team_lineup_screenshot';
+        }
+        var teamFileName = teamNameValue;
+        teamFileName = teamFileName.replaceAll(' ', '_');
+        teamFileName = teamFileName.replaceAll('/', '_');
+        link.download = teamFileName; // Set the filename for the download
 
-            screenshotButton.innerText = "Download image (.png)";
+        //document.body.appendChild(link);
+        link.click();
+        //document.body.removeChild(link);
 
-            document.body.classList.remove('desktop-mode');
-            outputStartingSpans.forEach(span => {
-                span.style.maxWidth = '';
-            });
+        let box = document.getElementById('circle1');
+        let width = box.offsetWidth;
+        let height = box.offsetHeight;
+        console.log("W: " + width);
+        console.log("H: " + height);
+        screenshotButton.innerText = "Download image (.png)";
 
-            outputSecondSpans.forEach(span => {
-                span.style.maxWidth = '';
-            });
+        document.body.classList.remove('desktop-mode');
+        outputStartingSpans.forEach(span => {
+            span.style.maxWidth = '';
         });
-    }, timeOutValue);
+
+        outputSecondSpans.forEach(span => {
+            span.style.maxWidth = '';
+        });
+    });
 
     downloadButton.style.setProperty('height', downloadWidth);
     downloadButton.style.setProperty('height', downloadHeight);
@@ -174,7 +177,7 @@ function loadTeam() {
                 setOppoFormation(lineUpsObj[selectedValue].oppoFormation.replaceAll('-', '').replaceAll(" ", ""));
             }
         }
-        
+
         console.log("startKeyArray");
         console.log(startKeyArray);
         console.log("secondKeyArray");

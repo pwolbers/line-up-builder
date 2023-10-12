@@ -681,16 +681,6 @@ function changeNumberOnTextbox(circle, newInput) {
     divElements.forEach((div) => {
         if (div.id.indexOf('starting') > -1 || div.id.indexOf('second') > -1) {
             div.nextElementSibling.innerText = newInput;
-            if (newInput.length > 4) {
-                div.nextElementSibling.style.fontSize = 'max(1.2vh, 65%)';
-            }
-            else if (newInput.length == 4) {
-                div.nextElementSibling.style.fontSize = 'max(1.4vh, 70%)';
-            }
-            else {
-                div.nextElementSibling.style.fontSize = 'max(1.6vh, 80%)';
-                div.nextElementSibling.style.marginTop = '4%';
-            }
         }
     });
 }

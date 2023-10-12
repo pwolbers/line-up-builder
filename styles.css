@@ -10,11 +10,355 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+.blackColor {
+  background: #202020;
+}
+
+/* Green background for the pitch */
+.football-pitch.greenColor {
+  background: linear-gradient(to bottom,
+      #4c8527,
+      #4c8527 5%,
+      #486c32 5%,
+      #486c32 10%,
+      #4c8527 10%,
+      #4c8527 15%,
+      #486c32 15%,
+      #486c32 20%,
+      #4c8527 20%,
+      #4c8527 25%,
+      #486c32 25%,
+      #486c32 30%,
+      #4c8527 30%,
+      #4c8527 35%,
+      #486c32 35%,
+      #486c32 40%,
+      #4c8527 40%,
+      #4c8527 45%,
+      #486c32 45%,
+      #486c32 50%,
+      #4c8527 50%,
+      #4c8527 55%,
+      #486c32 55%,
+      #486c32 60%,
+      #4c8527 60%,
+      #4c8527 65%,
+      #486c32 65%,
+      #486c32 70%,
+      #4c8527 70%,
+      #4c8527 75%,
+      #486c32 75%,
+      #486c32 80%,
+      #4c8527 80%,
+      #4c8527 85%,
+      #486c32 85%,
+      #486c32 90%,
+      #4c8527 90%,
+      #4c8527 95%,
+      #486c32 95%);
+}
+
+.football-pitch {
+  width: 100%;
+  height: 100%;
+  min-height: 752px;
+  /* 0.898 = 88vh/98vh6 */
+  min-width: calc(0.75 * 752px);
+  position: relative;
+  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.lineColorWhite {
+  border-color: #ffffff;
+}
+
+.lineColorGrey {
+  border-color: #808080;
+}
+
+.field {
+  height: 88vh;
+  width: calc(0.75 * 88vh);
+  min-height: calc(88/98 * 752px);
+  /* 0.898 = 88vh/98vh6 */
+  min-width: calc(0.75 * 88/98 * 752px);
+  border-width: 2px;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border-style: solid;
+}
+
+.center-circle {
+  width: calc(20/110 * 88vh);
+  /*20yd of a 110yd pitch */
+  height: calc(20/110 * 88vh);
+  min-width: calc(20/110 * 88/98 * 752px);
+  min-height: calc(20/110 * 88/98 * 752px);
+  border-width: 2px;
+  border-radius: 50%;
+  border-style: solid;
+  position: absolute;
+}
+
+.top-semicircle,
+.bottom-semicircle {
+  position: absolute;
+  width: calc(20/110 * 88vh);
+  height: calc(20/110 * 88vh);
+  min-width: calc(20/110 * 88/98 * 752px);
+  min-height: calc(20/110 * 88/98 * 752px);
+  border-radius: 50%;
+  clip-path: polygon(0 0, 100% 0, 100% 15%, 50% 50%, 0 15%);
+  border-width: 2px;
+  border-style: solid;
+}
+
+.bottom-semicircle {
+  bottom: calc(2/110 * 100%);
+}
+
+.top-semicircle {
+  top: calc(2/110 * 100%);
+  transform: rotate(180deg);
+}
+
+.top-penalty-box,
+.bottom-penalty-box {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.penalty-box {
+  width: calc(44/82.5 * (0.75 * 88vh));
+  /* 44 yd of a 82.5yd width */
+  height: calc(18/110 * 88vh);
+  /* 18 yards of a 110yd pitch */
+  min-width: calc(44/82.5 * 0.75 * 88/98 * 752px);
+  /* 0.4 = 44/18/110 */
+  min-height: calc(18/110 * 88/98 * 752px);
+  /* 0.144 = 18/110 */
+  border-left-width: 2px;
+  border-right-width: 2px;
+  border-left-style: solid;
+  border-right-style: solid;
+  position: absolute;
+}
+
+.five-yard-box {
+  width: calc(22/40 * 34.425vh);
+  height: calc(6/18 * 13.77vh);
+  min-width: calc(22/40 * 0.1405 * 2.5 * 752px);
+  /* 22/40 = proportion of width to width of penalty box, 0.1405 = 13.77vh/98vh, 2.5 = 34.425vh/13.77vh */
+  min-height: calc(6/18 * 0.1405 * 752px);
+  /* 6/18 = proportion of height to height of penalty box */
+  border-left-width: 2px;
+  border-right-width: 2px;
+  border-left-style: solid;
+  border-right-style: solid;
+  position: absolute;
+}
+
+.penaltyBoxGreenTop {
+  background: linear-gradient(to bottom,
+      #486c32,
+      #486c32 33.333333%,
+      #4c8527 33.333333%,
+      #4c8527 66.666667%,
+      #486c32 66.666667%);
+}
+
+.penaltyBoxGreenBottom {
+  background: linear-gradient(to bottom,
+      #4c8527,
+      #4c8527 33.333333%,
+      #486c32 33.333333%,
+      #486c32 66.666667%,
+      #4c8527 66.666667%);
+}
+
+.penalty-box.top,
+.five-yard-box.top {
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-top-width: 0;
+  top: 0.5px;
+}
+
+.penalty-box.bottom,
+.five-yard-box.bottom {
+  border-top-width: 2px;
+  border-top-style: solid;
+  border-bottom-width: 0;
+  bottom: 0.5px;
+}
+
+.corner {
+  position: absolute;
+  width: calc(1.5/110 * 88vh);
+  height: calc(1.5/110 * 88vh);
+  min-width: calc(1.5/110 * 88/98 * 752px);
+  min-height: calc(1.5/110 * 88/98 * 752px);
+  border-style: solid;
+}
+
+.corner.bottom-right {
+  bottom: 0;
+  right: 0;
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-bottom-width: 0px;
+  border-right-width: 0px;
+  border-top-left-radius: 100%;
+  border-top-right-radius: 0 0;
+}
+
+.corner.bottom-left {
+  bottom: 0;
+  left: 0;
+  border-top-width: 2px;
+  border-left-width: 0px;
+  border-bottom-width: 0px;
+  border-right-width: 2px;
+  border-top-right-radius: 100%;
+  border-top-left-radius: 0 0;
+}
+
+.corner.top-right {
+  top: 0;
+  right: 0;
+  border-top-width: 0px;
+  border-left-width: 2px;
+  border-bottom-width: 2px;
+  border-right-width: 0px;
+  border-bottom-left-radius: 100%;
+  border-bottom-right-radius: 0 0;
+}
+
+.corner.top-left {
+  top: 0;
+  left: 0;
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+  border-bottom-right-radius: 100%;
+  border-top-right-radius: 0 0;
+}
+
+.middleLine {
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  width: 100%;
+  border-style: solid;
+}
+
+.middleDot,
+.penaltyDot {
+  height: 0.2vh;
+  width: 0.2vh;
+  min-height: calc(0.2/98 * 752px);
+  min-width: calc(0.2/98 * 752px);
+  background: white;
+  border-radius: 50%;
+  border-style: solid;
+}
+
+.penaltyDot.bottom {
+  bottom: calc(12/110 * 100%);
+  position: absolute;
+}
+
+.penaltyDot.top {
+  top: calc(12/110 * 100%);
+  position: absolute;
+}
+
+.middleDot {
+  left: 50%;
+  position: absolute;
+}
+
+.tactical {
+  display: none;
+}
+
+.vertical1,
+.vertical2 {
+  border-left-width: 2px;
+  border-right-width: 2px;
+  border-left-style: dashed;
+  border-right-style: dashed;
+  position: absolute;
+}
+
+.vertical1 {
+  width: calc(44/82.5 * (0.75 * 88vh));
+  /* 44 yd of a 82.5yd width */
+  height: 100%;
+  min-width: calc(44/82.5 * 0.75 * 88/98 * 752px);
+  /* 0.4 = 44/18/110 */
+}
+
+.vertical2 {
+  width: calc(20/110 * 88vh);
+  /* same as middle circle */
+  height: 100%;
+  min-width: calc(20/110 * 88/98 * 752px);
+  /* 0.4 = 44/18/110 */
+}
+
+.horizontal1,
+.horizontal2,
+.horizontal3 {
+  position: absolute;
+}
+
+.horizontal1 {
+  border-top-width: 2px;
+  border-bottom-width: 2px;
+  border-top-style: dashed;
+  border-bottom-style: dashed;
+  width: 100%;
+  height: calc(40/110 * 88vh);
+  /* double size of circle */
+  min-height: calc(40/110 * 88/98 * 752px);
+}
+
+.horizontal2 {
+  width: 100%;
+  height: calc(18/110 * 88vh);
+  /* double size of circle */
+  min-height: calc(18/110 * 88/98 * 752px);
+  bottom: 0;
+  border-top-width: 2px;
+  border-top-style: dashed;
+}
+
+.horizontal3 {
+  width: 100%;
+  height: calc(18/110 * 88vh);
+  /* double size of circle */
+  min-height: calc(18/110 * 88/98 * 752px);
+  top: 0;
+  border-bottom-width: 2px;
+  border-bottom-style: dashed;
+}
+
 .button-pitch-container {
   display: none;
   position: absolute;
   top: 6.5%;
   left: 6%;
+  z-index: 2;
 }
 
 .help-popup-square {
@@ -22,7 +366,6 @@ body {
   height: 30px;
   border: 1px #000000 solid;
   border-radius: 20%;
-  margin-left: 10px;
   background-color: rgba(150, 150, 150, 0.5);
 }
 
@@ -134,8 +477,8 @@ body {
 
 .left-container {
   width: calc(0.811 * 98vh);
-  min-width: calc(0.811 * 751.3px);
-  min-height: 751.3px;
+  min-width: calc(0.811 * 752px);
+  min-height: 752px;
   margin-right: 15px;
   border-color: white;
   border-style: solid;
@@ -149,14 +492,14 @@ body {
 
 .lineup-container {
   height: 98vh;
-  min-height: 751.3px;
+  min-height: 752px;
   width: calc(0.811 * 98vh);
-  min-width: calc(0.811 * 751.3px);
+  min-width: calc(0.811 * 752px);
   max-width: 100%;
-  background-image: url("football_pitch_green.png");
+  /*background-image: url("football_pitch_green.svg");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center;*/
   border-color: white;
   border-style: solid;
   border-width: 1px;
@@ -243,6 +586,10 @@ body {
   min-height: 24px;
 }
 
+.select-box select {
+  font-size: 80%;
+}
+
 .input-group {
   display: flex;
   align-items: flex-end;
@@ -264,7 +611,7 @@ body {
 .teamNameBox {
   background-color: rgba(200, 200, 200, 0.14);
   padding: 5px;
-  font-size: max(1.2vh, 100%);
+  font-size: max(1.2vh, 90%);
   transition: background-color 0.3s ease;
   opacity: 100%;
   border-radius: 5px;
@@ -277,6 +624,7 @@ body {
   width: 95%;
   height: 3.5vh;
   min-height: 25px;
+  font-size: max(1vh, 80%);
 }
 
 .textbox-container input::placeholder {
@@ -393,7 +741,7 @@ li {
 .label-position,
 .oppo-label-position {
   width: 7%;
-  font-size: max(1.2vh, 80%);
+  font-size: max(0.8vw, 80%);
   justify-content: center;
   margin: 4.5% 3% 0% 1%;
 }
@@ -603,7 +951,7 @@ input:checked+.longSlider:before {
 
 #pitch-text,
 #label-text {
-  padding-left: 10px;
+  padding-left: 10%;
 }
 
 #oppo-text,
@@ -657,8 +1005,10 @@ input:checked+.longSlider:before {
   border-radius: 50%;
   align-items: center;
   justify-content: center;
-  width: 4.38356%;
-  height: 3.55555%;
+  width: calc(32/900 * 98vh);
+  height: calc(32/900 * 98vh);
+  min-width: calc(32/900 * 752px);
+  min-height: calc(32/900 * 752px);
   /* Same proportions as the image container (730 to 900) */
 }
 
@@ -732,27 +1082,27 @@ input:checked+.longSlider:before {
 }
 
 .circle-number-font-large {
-  font-size: max(1.2vh, 115%);
+  font-size: max(calc(0.5 * 32/900 * 98vh), 110%);
 }
 
 .circle-number-font-medium {
-  font-size: max(1.1vh, 95%);
+  font-size: max(calc(0.4 * 32/900 * 98vh), 100%);
 }
 
 .circle-number-font-small {
-  font-size: max(1vh, 80%);
+  font-size: max(calc(0.3 * 32/900 * 98vh), 90%);
 }
 
 .circle-number-font-large-oppo {
-  font-size: max(1.1vh, 95%);
+  font-size: max(calc(0.45 * 32/900 * 98vh), 100%);
 }
 
 .circle-number-font-medium-oppo {
-  font-size: max(0.95vh, 80%);
+  font-size: max(calc(0.35 * 32/900 * 98vh), 90%);
 }
 
 .circle-number-font-small-oppo {
-  font-size: max(0.9vh, 75%);
+  font-size: max(calc(0.25 * 32/900 * 98vh), 85%);
 }
 
 .circle>.circle-number {
@@ -778,10 +1128,10 @@ input:checked+.longSlider:before {
 .secondStyleOne {
   display: none;
   position: absolute;
-  padding: 4px 5px;
+  padding: 10% 12%;
   border: 1px solid #000;
   border-radius: 5px;
-  font-size: 11px;
+  font-size: max(1.2vh, 69%);
   font-family: "Exo", sans-serif;
   font-weight: bold;
   letter-spacing: 1px;
@@ -794,22 +1144,22 @@ input:checked+.longSlider:before {
 }
 
 .startingStyleOne {
-  bottom: -24px;
+  bottom: min(-2.2vh, -20px);
   background-color: #ffffff;
   z-index: 6;
 }
 
 .secondStyleOne {
-  bottom: -47px;
+  bottom: min(-4.5vh, -40px);
   opacity: 0.9;
   background-color: #C8C8C8;
-  z-index: 3;
+  z-index: 6;
 }
 
 .startingStyleTwo,
 .secondStyleTwo {
   position: absolute;
-  font-size: 13px;
+  font-size: max(1.5vh, 85%);
   font-family: "Exo", sans-serif;
   font-weight: bold;
   text-transform: uppercase;
@@ -823,21 +1173,21 @@ input:checked+.longSlider:before {
 
 .startingStyleTwo {
   color: #ffffff;
-  bottom: -24px;
+  bottom: min(-2.2vh, -20px);
   z-index: 1;
 }
 
 .secondStyleTwo {
   color: #cfcfcf;
   font-style: italic;
-  bottom: -42px;
+  bottom: min(-4vh, -38px);
   z-index: 1;
 }
 
 .ball,
 .smallBall {
-  width: 20px;
-  height: 20px;
+  width: 2.2vh;
+  height: 2.2vh;
   position: absolute;
   display: none;
   background: url('football-no-background.png') no-repeat;
@@ -845,11 +1195,13 @@ input:checked+.longSlider:before {
   border-radius: 50%;
   background-size: 100%;
   z-index: 5;
+  top: 50%;
+  bottom: 50%;
 }
 
 .smallBall {
-  width: 16px;
-  height: 16px;
+  width: 1.6vh;
+  height: 1.6vh;
 }
 
 .newNumberInputBox {
@@ -863,6 +1215,7 @@ input:checked+.longSlider:before {
 .line {
   top: 50%;
   left: 50%;
+  z-index: 1;
 }
 
 .arrowhead {
@@ -884,7 +1237,7 @@ input:checked+.longSlider:before {
 }
 
 .button-container {
-  height: 4vh;
+  min-height: 4vh;
   display: flex;
 }
 
@@ -894,7 +1247,7 @@ input:checked+.longSlider:before {
 #screenshotButton,
 #showLineUpButton {
   margin-top: 1%;
-  padding: 1.5%;
+  padding: 1%;
   background-color: #017D3E;
   color: white;
   cursor: pointer;
@@ -911,7 +1264,7 @@ input:checked+.longSlider:before {
 #downloadButton,
 #screenshotButton {
   display: inline-block;
-  font-size: 80%;
+  font-size: 75%;
 }
 
 #chooseFileButton,
@@ -921,7 +1274,7 @@ input:checked+.longSlider:before {
 
 #downloadButton,
 #screenshotButton {
-  min-height: 40px;
+  min-height: 4vh;
 }
 
 #importButton {
@@ -998,6 +1351,7 @@ input:checked+.longSlider:before {
 .popup {
   display: none;
   position: absolute;
+  margin: 20px;
   top: 0;
   left: 0;
   width: 100%;
@@ -1082,7 +1436,7 @@ pre {
 
   .left-container {
     width: 40%;
-    min-width: 310px;
+    min-width: 320px;
     min-height: auto;
     position: relative;
     border-width: 0;
@@ -1208,35 +1562,173 @@ pre {
   .lineup-container {
     width: 584px;
     height: 720px;
-    min-height: 0;
-    margin-left: max(18%, 120px)
+    min-width: 584px;
+    min-height: 720px;
+    margin-left: max(18%, 120px);
+    margin-right: 5%;
   }
 
+  .football-pitch {
+    min-height: 720px;
+    min-width: calc(0.75 * 720px);
+  }
+
+  .field {
+    height: calc(88/98 * 720px);
+    width: calc(0.75 * 88/98 * 720px);
+    min-width: auto;
+    min-height: auto;
+  }
+
+  .center-circle {
+    width: calc(20/110 * 88/98 * 720px);
+    height: calc(20/110 * 88/98 * 720px);
+    min-width: auto;
+    min-height: auto;
+  }
+
+  .top-semicircle,
+  .bottom-semicircle {
+    width: calc(20/110 * 88/98 * 720px);
+    height: calc(20/110 * 88/98 * 720px);
+    min-width: auto;
+    min-height: auto;
+  }
+
+  .penalty-box {
+    width: calc(44/82.5 * 0.75 * 88/98 * 720px);
+    height: calc(18/110 * 88/98 * 720px);
+    min-width: auto;
+    min-height: auto;
+  }
+
+  .five-yard-box {
+    width: calc(22/40 * 0.1405 * 2.5 * 720px);
+    height: calc(6/18 * 0.1405 * 720px);
+    min-width: auto;
+    min-height: auto;
+  }
+
+  .corner {
+    width: calc(1.5/110 * 88/98 * 720px);
+    height: calc(1.5/110 * 88/98 * 720px);
+    min-width: auto;
+    min-height: auto;
+  }
+
+  .middleDot,
+  .penaltyDot {
+    height: calc(0.2/98 * 720px);
+    width: calc(0.2/98 * 720px);
+  }
+
+  .vertical1 {
+    width: calc(44/82.5 * 0.75 * 88/98 * 720px);
+    min-width: auto;
+  }
+
+  .vertical2 {
+    width: calc(20/110 * 88/98 * 720px);
+    min-width: auto;
+  }
+
+  .horizontal1 {
+    height: calc(40/110 * 88/98 * 720px);
+    min-height: auto;
+  }
+
+  .horizontal2 {
+    height: calc(18/110 * 88/98 * 720px);
+    min-height: auto;
+  }
+
+  .horizontal3 {
+    height: calc(18/110 * 88/98 * 720px);
+    min-height: auto;
+  }
+
+
+
+
+
+
   .formation-label {
-    font-size: 12px;
-    top: 1%;
+    font-size: 14px;
+    top: 0.5%;
   }
 
   .copyright {
-    font-size: 12px;
+    font-size: 14px;
     top: 96%;
   }
 
   .label {
     margin: 3% 2.5% 3% 2.5%;
-    font-size: max(1.1vh, 95%);
+    font-size: min(3vw, 120%);
   }
 
   .inputBox,
   .secondBox,
   .teamNameBox {
-    font-size: max(1.2vh, 90%);
+    font-size: min(2.5vw, 95%);
   }
 
-  .label-position, .oppo-label-position {
-    margin: 4.5% 1% 0% 0%;
-    font-size: max(1.2vh, 80%)
+  .circle,
+  .oppoCircle {
+    width: calc(32/900 * 720px);
+    height: calc(32/900 * 720px);
+    min-width: auto;
+    min-height: auto;
   }
+
+  .circle-number-font-large {
+    font-size: calc(0.5 * 32/900 * 720px);
+  }
+
+  .circle-number-font-medium {
+    font-size: calc(0.4 * 32/900 * 720px);
+  }
+
+  .circle-number-font-small {
+    font-size: calc(0.3 * 32/900 * 720px);
+  }
+
+  .circle-number-font-large-oppo {
+    font-size: calc(0.45 * 32/900 * 720px);
+  }
+
+  .circle-number-font-medium-oppo {
+    font-size: calc(0.35 * 32/900 * 720px);
+  }
+
+  .circle-number-font-small-oppo {
+    font-size: calc(0.25 * 32/900 * 720px);
+  }
+
+  .label-position,
+  .oppo-label-position {
+    margin: 4.5% 2% 0% 0%;
+    font-size: max(0.8vw, 80%);
+  }
+
+  .startingStyleOne,
+  .secondStyleOne {
+    font-size: 10px;
+  }
+
+  .startingStyleOne {
+    bottom: -18px;
+  }
+
+  .secondStyleOne {
+    bottom: -38px;
+  }
+
+  .startingStyleTwo,
+  .secondStyleTwo {
+    font-size: 12px;
+  }
+
 
   /*** Buttons ***/
   #chooseFileButton,
@@ -1244,6 +1736,10 @@ pre {
   #screenshotButton {
     min-height: 20px;
     font-size: 90%;
+  }
+
+  .button-pitch-container {
+    display: block;
   }
 
   /*** Switches ***/

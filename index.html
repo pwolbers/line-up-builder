@@ -75,105 +75,7 @@
               </div>
             </div>
           </div>
-          <div class="popup" id="popup">
-            <div class="popup-content">
-              <button class="close-btn" id="closeBtn">
-                <i class="fas fa-times"></i>
-              </button>
-              <h2>Help</h2>
-              <h3>Controls</h3>
-              <h4>Computer</h4>
-              <li style="font-size: 13px"><b>Left click and drag circle:</b> change position of circle on the pitch</li>
-              <li style="font-size: 13px"><b>Double left click on circle:</b> change number in circle</li>
-              <li style="font-size: 13px"><b>Right click and drag from circle:</b> Draw dotted arrow from circle</li>
-              <li style="font-size: 13px"><b>Right click on circle:</b> Remove oldest arrow from circle (if two arrows
-                are
-                drawn)</li>
-              <li style="font-size: 13px"><b>Double right click on circle:</b> Remove arrows from circle</li>
-              <h4>Mobile</h4>
-              <p><b>Use the following buttons to switch between dragging the circle and drawing an arrow:</b></p>
-              <img src="circle_grab_10.png" alt="Image" class="help-popup-square">
-              <img src="arrow.png" alt="Image" class="help-popup-square">
-              <p><b>Dragging circle</b></p>
-              <li style="font-size: 13px"><b>Hold and drag circle:</b> change position of circle on the pitch</li>
-              <li style="font-size: 13px"><b>Double tap on circle:</b> change number in circle</li>
-              <p><b>Drawing arrow</b></p>
-              <li style="font-size: 13px"><b>Hold and drag:</b> Draw arrow from the circle</li>
-              <li style="font-size: 13px"><b>Single tap on circle:</b> Remove oldest arrow from the circle</li>
-              <li style="font-size: 13px"><b>Double tap on circle:</b> Remove all arrows from the circle</li>
 
-                
-              <br>
-              <h3>Importing team</h3>
-              <p>You can directly import a team through a saved .JSON file.</p>
-              <p>JSON files need to be imported in one of the two following formats:</p>
-              <div class="tab">
-                <button class="tablinks" onclick="openJSONVariant(event, 'Back-up')" id="defaultOpen">Back-up</button>
-                <button class="tablinks" onclick="openJSONVariant(event, 'Opposition')">Opposition</button>
-                <div id="Back-up" class="tabcontent">
-                  <pre id="backupJson"></pre>
-                </div>
-                <div id="Opposition" class="tabcontent">
-                  <pre id="oppositionJson"></pre>
-                </div>
-              </div>
-              <p><b style="color:red">IMPORTANT NOTE:</b> Make sure the labels (or keys) are as shown in the template
-                (i.e. #1, #2, etc. to #11). The
-                tool will not recognize the JSON if they are changed.</p>
-              <p>Be aware that each formation has a predetermined position for each number (for example, the #11 will
-                always be
-                the left striker in a 4-4-2 and a left winger in a 4-3-3). If you download a team, this will be
-                automatically generated for you. The order of the labels and their corresponding players in the .JSON is
-                irrelevant. The
-                #7 in the JSON will always match the #7 in the lineup, whether it's the first or last in the JSON.</p>
-              <h3>Details</h3>
-              <p><b>teamName:</b> Put your team name here</p>
-              <p><b>formation: </b> Recognized inputs for formations are:</p>
-              <li>433</li>
-              <li>442flat</li>
-              <li>442diamond</li>
-              <li>451</li>
-              <li>4231</li>
-              <li>532</li>
-              <li>343</li>
-              <li>3421</li>
-              <p>Dashes and spaces will be ignored (so for example, '4-4-2 diamond' will also work). Other formations
-                will
-                be defaulted to a 4-3-3.</p>
-              <p><b>starting:</b> Put your starting players in the positions linked to that number.</p>
-              <p>For the starters, you can also specify their shirt number (or any other label (for example: RW) you
-                want to be shown in
-                the circle)</p>
-              <p><b>colors: </b></p>
-              <li><i>mainColor:</i> the filling of the circle</li>
-              <li><i>secondColor:</i> the border of the circle</li>
-              <li><i>numberColor:</i> the number/label within the circle</li>
-              <p>Colors can be in words ['red', 'blue'], RGB [rgb(255, 0, 0)] (you can also use percentages) and
-                hexadecimals [#ff0000].</p>
-              <p><b>secondType:</b> Either 'back-up' or 'opposition'. Other inputs will be defaulted to 'back-up'.
-              <p><b>second:</b> Based on the input on secondType, this will contain either the back-up players or the
-                opposition players.
-                For back-up players, you can just add the name to the number as shown in the example.
-                For opposition players you will have to specify the name and number similar to how it's done for the
-                starting players.</p>
-              <p><b>oppoFormation: </b> The formation that will be used for the opposition team. The recognized inputs
-                are
-                the same as specified above.</p>
-              <p><b>oppoColors: </b> Uses the same format as colors for the main team.</p>
-              <p><b><i>Optional:</i></b></p>
-              <p><b>circlePositions: </b> When downloading your team, a string containing the specific position of the
-                circles on the pitch is created. This can be used to load your circles in specific positions as opposed
-                to predetermined positions from formations.</p>
-              <p><b>oppoCirclePositions: </b>The same as circlePositions, but for opposition circles.</p>
-              <br>
-              <h3>Download</h3>
-              <p>You can download your team in two filetypes: .JSON and .PNG. The .JSON will be downloaded in a similar
-                format as above based on your input when downloading.
-                This can be useful if you want to continue working on your team later.</p>
-              <p>The .PNG will take a snapshot of the pitch on the right and can be used for sharing your team with
-                others.</p>
-            </div>
-          </div>
         </div>
         <div class="column-container">
           <button id="starting-column" class="column starting-column">
@@ -370,7 +272,8 @@
               </div>
             </div>
             <div class="oppo-select-box" id="oppo-formation-box">
-              <div style="display: contents; margin-top: 23%"><label for="oppo-formation" class="labelHeader" id="oppo-formation-label">Opposition
+              <div style="display: contents; margin-top: 23%"><label for="oppo-formation" class="labelHeader"
+                  id="oppo-formation-label">Opposition
                   formation:</label></div>
               <select id="oppo-formation" name="formation" class="teamSelectBox">
                 <option value=""> - </option>
@@ -390,6 +293,36 @@
     </div>
     <div class="lineup-container" id="lineupContainer" oncontextmenu="return false">
       <div class="image-container" id="image-container">
+        <div class="football-pitch greenColor">
+          <div class="field lineColorWhite">
+            <div class="tactical vertical1 lineColorWhite"></div>
+            <div class="tactical vertical2 lineColorWhite"></div>
+            <div class="tactical horizontal1 lineColorWhite"></div>
+            <div class="tactical horizontal2 lineColorWhite"></div>
+            <div class="tactical horizontal3 lineColorWhite"></div>
+            <div class="top-penalty-box">
+              <div class="top-semicircle lineColorWhite"></div>
+              <div class="penalty-box top lineColorWhite penaltyBoxGreenTop"></div>
+              <div class="five-yard-box top lineColorWhite"></div>
+              <div class="penaltyDot top lineColorWhite"></div>
+            </div>
+            <div class="bottom-penalty-box">
+              <div class="bottom-semicircle lineColorWhite"></div>
+              <div class="penalty-box bottom lineColorWhite penaltyBoxGreenBottom"></div>
+              <div class="five-yard-box bottom lineColorWhite"></div>
+              <div class="penaltyDot bottom lineColorWhite"></div>
+            </div>
+            <div class="corner top-left lineColorWhite"></div>
+            <div class="corner top-right lineColorWhite"></div>
+            <div class="corner bottom-right lineColorWhite"></div>
+            <div class="corner bottom-left lineColorWhite"></div>
+            <div class="center-circle lineColorWhite"></div>
+            <div class="middleLine lineColorWhite"></div>
+            <div class="middleDot lineColorWhite"></div>
+          </div>
+          <div class="goal home"></div>
+          <div class="goal away"></div>
+        </div>
         <div class="button-pitch-container">
           <label class="circle-checkbox square-checkbox">
             <input id="circle-checkbox" type="checkbox" checked>
@@ -575,6 +508,107 @@
           </div>
           <div id="ball" class="ball"></div>
         </div>
+      </div>
+    </div>
+    <div class="popup" id="popup">
+      <div class="popup-content">
+        <button class="close-btn" id="closeBtn">
+          <i class="fas fa-times"></i>
+        </button>
+        <h2>Help</h2>
+        <h3>Controls</h3>
+        <h4>Computer</h4>
+        <li style="font-size: 13px"><b>Left click and drag circle:</b> change position of circle on the pitch</li>
+        <li style="font-size: 13px"><b>Double left click on circle:</b> change number in circle</li>
+        <li style="font-size: 13px"><b>Right click and drag from circle:</b> Draw dotted arrow from circle</li>
+        <li style="font-size: 13px"><b>Right click on circle:</b> Remove oldest arrow from circle (if two arrows
+          are
+          drawn)</li>
+        <li style="font-size: 13px"><b>Double right click on circle:</b> Remove arrows from circle</li>
+        <h4>Mobile</h4>
+        <p><b>Use the following buttons to switch between dragging the circle and drawing an arrow:</b></p>
+        <li><img src="circle_grab_10.png" alt="Image" class="help-popup-square"><i>Drag a circle</i></li>
+        <li><img src="arrow.png" alt="Image" class="help-popup-square"><i>Draw an arrow</i></li>
+        <br>
+        <p><b>Dragging circle</b></p>
+        <li style="font-size: 13px"><b>Hold and drag circle:</b> change position of circle on the pitch</li>
+        <li style="font-size: 13px"><b>Double tap on circle:</b> change number in circle</li>
+        <br>
+        <p><b>Drawing arrow</b></p>
+        <li style="font-size: 13px"><b>Hold and drag:</b> Draw arrow from the circle</li>
+        <li style="font-size: 13px"><b>Single tap on circle:</b> Remove oldest arrow from the circle</li>
+        <li style="font-size: 13px"><b>Double tap on circle:</b> Remove all arrows from the circle</li>
+
+
+        <br>
+        <h3>Importing team</h3>
+        <p>You can directly import a team through a saved .JSON file.</p>
+        <p>JSON files need to be imported in one of the two following formats:</p>
+        <div class="tab">
+          <button class="tablinks" onclick="openJSONVariant(event, 'Back-up')" id="defaultOpen">Back-up</button>
+          <button class="tablinks" onclick="openJSONVariant(event, 'Opposition')">Opposition</button>
+          <div id="Back-up" class="tabcontent">
+            <pre id="backupJson"></pre>
+          </div>
+          <div id="Opposition" class="tabcontent">
+            <pre id="oppositionJson"></pre>
+          </div>
+        </div>
+        <p><b style="color:red">IMPORTANT NOTE:</b> Make sure the labels (or keys) are as shown in the template
+          (i.e. #1, #2, etc. to #11). The
+          tool will not recognize the JSON if they are changed.</p>
+        <p>Be aware that each formation has a predetermined position for each number (for example, the #11 will
+          always be
+          the left striker in a 4-4-2 and a left winger in a 4-3-3). If you download a team, this will be
+          automatically generated for you. The order of the labels and their corresponding players in the .JSON is
+          irrelevant. The
+          #7 in the JSON will always match the #7 in the lineup, whether it's the first or last in the JSON.</p>
+        <h3>Details</h3>
+        <p><b>teamName:</b> Put your team name here</p>
+        <p><b>formation: </b> Recognized inputs for formations are:</p>
+        <li>433</li>
+        <li>442flat</li>
+        <li>442diamond</li>
+        <li>451</li>
+        <li>4231</li>
+        <li>532</li>
+        <li>343</li>
+        <li>3421</li>
+        <p>Dashes and spaces will be ignored (so for example, '4-4-2 diamond' will also work). Other formations
+          will
+          be defaulted to a 4-3-3.</p>
+        <p><b>starting:</b> Put your starting players in the positions linked to that number.</p>
+        <p>For the starters, you can also specify their shirt number (or any other label (for example: RW) you
+          want to be shown in
+          the circle)</p>
+        <p><b>colors: </b></p>
+        <li><i>mainColor:</i> the filling of the circle</li>
+        <li><i>secondColor:</i> the border of the circle</li>
+        <li><i>numberColor:</i> the number/label within the circle</li>
+        <p>Colors can be in words ['red', 'blue'], RGB [rgb(255, 0, 0)] (you can also use percentages) and
+          hexadecimals [#ff0000].</p>
+        <p><b>secondType:</b> Either 'back-up' or 'opposition'. Other inputs will be defaulted to 'back-up'.
+        <p><b>second:</b> Based on the input on secondType, this will contain either the back-up players or the
+          opposition players.
+          For back-up players, you can just add the name to the number as shown in the example.
+          For opposition players you will have to specify the name and number similar to how it's done for the
+          starting players.</p>
+        <p><b>oppoFormation: </b> The formation that will be used for the opposition team. The recognized inputs
+          are
+          the same as specified above.</p>
+        <p><b>oppoColors: </b> Uses the same format as colors for the main team.</p>
+        <p><b><i>Optional:</i></b></p>
+        <p><b>circlePositions: </b> When downloading your team, a string containing the specific position of the
+          circles on the pitch is created. This can be used to load your circles in specific positions as opposed
+          to predetermined positions from formations.</p>
+        <p><b>oppoCirclePositions: </b>The same as circlePositions, but for opposition circles.</p>
+        <br>
+        <h3>Download</h3>
+        <p>You can download your team in two filetypes: .JSON and .PNG. The .JSON will be downloaded in a similar
+          format as above based on your input when downloading.
+          This can be useful if you want to continue working on your team later.</p>
+        <p>The .PNG will take a snapshot of the pitch on the right and can be used for sharing your team with
+          others.</p>
       </div>
     </div>
   </div>

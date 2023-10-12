@@ -290,7 +290,7 @@ function dragLine(e) {
                 line.style.borderLeft = '4px dotted ' + lineColor;
                 line.style.transformOrigin = 'left top';
                 line.style.transform = `rotate(${angleDeg}deg)`;
-                line.style.zindex = '50';
+                line.style.zindex = '1';
 
             }
         }

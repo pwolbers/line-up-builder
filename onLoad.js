@@ -95,7 +95,6 @@ function toggleDisplay(elements, mobileCheck, type) {
     if (mobileCheck) {
         var parentContainer;
         var otherColumn;
-        var boxShadowYes = '0px 8px 0px #474747, inset 0px 0px 1px rgba(37, 37, 37, 0.5), inset 0px 1px 0px rgba(37, 37, 37, 0.3)';
 
         if (type == 'starting') {
             parentContainer = document.getElementById('starting-column');

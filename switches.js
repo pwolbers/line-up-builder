@@ -46,21 +46,21 @@ function changeSwitch(evt) {
     else if (currentSwitch.id == 'oppo-name-checkbox') {
         oppoNameCheckBox(currentSwitch.id);
     }
-    else if ((currentSwitch.id == 'arrow-checkbox') || (currentSwitch.id == 'circle-checkbox'))  {
+    else if ((currentSwitch.id == 'arrow-checkbox') || (currentSwitch.id == 'circle-checkbox')) {
         arrowCircleCheckbox(currentSwitch);
     }
 }
 
 function arrowCircleCheckbox(switchCheckbox) {
     var otherSwitch;
-    if(switchCheckbox.id == 'arrow-checkbox'){
+    if (switchCheckbox.id == 'arrow-checkbox') {
         otherSwitch = document.getElementById('circle-checkbox');
     }
-    else{
+    else {
         otherSwitch = document.getElementById('arrow-checkbox');
     }
 
-   // imageOn.style.opacity = 1;
+    // imageOn.style.opacity = 1;
     otherSwitch.checked = false;
     //Not possible to uncheck the active checkbox (always needs to be one of the two checked)
     switchCheckbox.checked = true;
@@ -69,40 +69,85 @@ function arrowCircleCheckbox(switchCheckbox) {
 function pitchCheckBox() {
     var pitchSwitch = document.getElementById('pitch-checkbox').checked;
     var tacticalSwitch = document.getElementById('tactical-checkbox').checked;
+    var footballPitch = document.querySelector('.football-pitch');
+    var penaltyBoxTop = document.querySelector('.penalty-box.top');
+    var penaltyBoxBottom = document.querySelector('.penalty-box.bottom');
+
+    var tacticalLines = document.querySelectorAll('.tactical');
 
     //Green
     if (pitchSwitch === true) {
+        footballPitch.classList.remove('blackColor');
+        penaltyBoxTop.classList.remove('blackColor');
+        penaltyBoxBottom.classList.remove('blackColor');
+        footballPitch.classList.add('greenColor');
+        penaltyBoxTop.classList.add('penaltyBoxGreenTop');
+        penaltyBoxBottom.classList.add('penaltyBoxGreenBottom');
+
+        const allGrey = document.querySelectorAll('.lineColorGrey');
+        allGrey.forEach((greyLine) => {
+            greyLine.classList.remove('lineColorGrey');
+            greyLine.classList.add('lineColorWhite');
+        });
+
+        document.getElementById("pitch-text").innerHTML = "Green";
+        document.getElementById("pitch-text").style.paddingLeft = "10%";
+
         //Tactical
         if (tacticalSwitch === true) {
-            document.getElementById("lineupContainer").style.backgroundImage = "url('football_pitch_green_tactical.png')";
+            tacticalLines.forEach((tacticalLine) => {
+                tacticalLine.style.display = 'block';
+            });
             document.getElementById("tactical-text").innerHTML = "On";
-            document.getElementById("tactical-text").style.paddingLeft = "10px";
+            document.getElementById("tactical-text").style.paddingLeft = "10%";
         }
         //Non-tactical
         else {
-            document.getElementById("lineupContainer").style.backgroundImage = "url('football_pitch_green.png')";
+            tacticalLines.forEach((tacticalLine) => {
+                tacticalLine.style.display = 'none';
+            });
+
             document.getElementById("tactical-text").innerHTML = "Off";
-            document.getElementById("tactical-text").style.paddingLeft = "30px";
+            document.getElementById("tactical-text").style.paddingLeft = "65%";
         }
-        document.getElementById("pitch-text").innerHTML = "Green";
-        document.getElementById("pitch-text").style.paddingLeft = "10px";
     }
     //Black
     else {
+        footballPitch.classList.remove('greenColor');
+        penaltyBoxTop.classList.remove('penaltyBoxGreenTop');
+        penaltyBoxBottom.classList.remove('penaltyBoxGreenBottom');
+        footballPitch.classList.add('blackColor');
+        penaltyBoxTop.classList.add('blackColor');
+        penaltyBoxBottom.classList.add('blackColor');
+
+        const allWhite = document.querySelectorAll('.lineColorWhite');
+        allWhite.forEach((whiteLine) => {
+            whiteLine.classList.remove('lineColorWhite');
+            whiteLine.classList.add('lineColorGrey');
+        });
+
+        document.getElementById("pitch-text").innerHTML = "Black";
+        document.getElementById("pitch-text").style.paddingLeft = "55%";
+        
         //Tactical
         if (tacticalSwitch === true) {
-            document.getElementById("lineupContainer").style.backgroundImage = "url('football_pitch_black_tactical.png')";
+            tacticalLines.forEach((tacticalLine) => {
+                tacticalLine.style.display = 'block';
+            });
+
             document.getElementById("tactical-text").innerHTML = "On";
-            document.getElementById("tactical-text").style.paddingLeft = "10px";
+            document.getElementById("tactical-text").style.paddingLeft = "10%";
         }
         //Non-tactical
         else {
-            document.getElementById("lineupContainer").style.backgroundImage = "url('football_pitch_black.png')";
+            tacticalLines.forEach((tacticalLine) => {
+                tacticalLine.style.display = 'none';
+            });
+
             document.getElementById("tactical-text").innerHTML = "Off";
-            document.getElementById("tactical-text").style.paddingLeft = "30px";
+            document.getElementById("tactical-text").style.paddingLeft = "65%";
         }
-        document.getElementById("pitch-text").innerHTML = "Black";
-        document.getElementById("pitch-text").style.paddingLeft = "30px";
+        
     }
 }
 
@@ -205,14 +250,14 @@ function ballCheckBox(switchId) {
         ball.style.top = '48.5%';
         ball.style.left = '48.5%';
         document.getElementById("ball-text").innerHTML = "On";
-        document.getElementById("ball-text").style.paddingLeft = "10px";
+        document.getElementById("ball-text").style.paddingLeft = "10%";
 
         ball.addEventListener("touchstart", handleSingleClick);
         ball.addEventListener("mousedown", handleSingleClick);
     }
     else {
         document.getElementById("ball-text").innerHTML = "Off";
-        document.getElementById("ball-text").style.paddingLeft = "45px";
+        document.getElementById("ball-text").style.paddingLeft = "65%";
         document.getElementById('ball').style.display = 'none';
     }
 }
@@ -234,7 +279,7 @@ function labelCheckBox(switchId) {
             box.classList.add('startingStyleTwo');
         });
         document.getElementById("label-text").innerHTML = "No box";
-        document.getElementById("label-text").style.paddingLeft = "28px";
+        document.getElementById("label-text").style.paddingLeft = "40%";
     }
     else {
         var startingBoxes = document.querySelectorAll('.outputStarting.startingStyleTwo');
