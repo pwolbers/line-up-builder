@@ -5,6 +5,53 @@
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
 
+/* vietnamese */
+@font-face {
+  font-family: 'Exo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UaZrEtFpBI4f1ZSIK9d4LjJ4lM3OwtmO24p.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Exo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UaZrEtFpBI4f1ZSIK9d4LjJ4lM3OwpmO24p.woff2) format('woff2');
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Exo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UaZrEtFpBI4f1ZSIK9d4LjJ4lM3OwRmOw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: 'Bebas Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bebasneue/v14/JTUSjIg69CK48gW7PXoo9Wdhyzbi.woff2) format('woff2');
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Bebas Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/bebasneue/v14/JTUSjIg69CK48gW7PXoo9Wlhyw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 html,
 body {
   -webkit-overflow-scrolling: touch;
@@ -79,13 +126,17 @@ body {
   border-color: #808080;
 }
 
+.field, .center-circle, .top-semicircle,
+.bottom-semicircle {
+  border-width: max(2px, 0.3vh);
+}
 .field {
   height: 88vh;
   width: calc(0.75 * 88vh);
   min-height: calc(88/98 * 752px);
   /* 0.898 = 88vh/98vh6 */
   min-width: calc(0.75 * 88/98 * 752px);
-  border-width: 2px;
+ 
   position: relative;
   justify-content: center;
   align-items: center;
@@ -99,7 +150,6 @@ body {
   height: calc(20/110 * 88vh);
   min-width: calc(20/110 * 88/98 * 752px);
   min-height: calc(20/110 * 88/98 * 752px);
-  border-width: 2px;
   border-radius: 50%;
   border-style: solid;
   position: absolute;
@@ -114,7 +164,6 @@ body {
   min-height: calc(20/110 * 88/98 * 752px);
   border-radius: 50%;
   clip-path: polygon(0 0, 100% 0, 100% 15%, 50% 50%, 0 15%);
-  border-width: 2px;
   border-style: solid;
 }
 
@@ -139,15 +188,15 @@ body {
 
 .penalty-box {
   width: calc(44/82.5 * (0.75 * 88vh));
-  /* 44 yd of a 82.5yd width */
+  /* 44 yd of a 82.5yd width, 82.5yd = 75% of the 110yd height (88vh)*/
   height: calc(18/110 * 88vh);
   /* 18 yards of a 110yd pitch */
   min-width: calc(44/82.5 * 0.75 * 88/98 * 752px);
   /* 0.4 = 44/18/110 */
   min-height: calc(18/110 * 88/98 * 752px);
   /* 0.144 = 18/110 */
-  border-left-width: 2px;
-  border-right-width: 2px;
+  border-left-width: max(2px, 0.3vh);;
+  border-right-width: max(2px, 0.3vh);;
   border-left-style: solid;
   border-right-style: solid;
   position: absolute;
@@ -160,8 +209,8 @@ body {
   /* 22/40 = proportion of width to width of penalty box, 0.1405 = 13.77vh/98vh, 2.5 = 34.425vh/13.77vh */
   min-height: calc(6/18 * 0.1405 * 752px);
   /* 6/18 = proportion of height to height of penalty box */
-  border-left-width: 2px;
-  border-right-width: 2px;
+  border-left-width: max(2px, 0.3vh);;
+  border-right-width: max(2px, 0.3vh);;
   border-left-style: solid;
   border-right-style: solid;
   position: absolute;
@@ -187,7 +236,7 @@ body {
 
 .penalty-box.top,
 .five-yard-box.top {
-  border-bottom-width: 2px;
+  border-bottom-width: max(2px, 0.3vh);
   border-bottom-style: solid;
   border-top-width: 0;
   top: 0.5px;
@@ -195,7 +244,7 @@ body {
 
 .penalty-box.bottom,
 .five-yard-box.bottom {
-  border-top-width: 2px;
+  border-top-width: max(2px, 0.3vh);;
   border-top-style: solid;
   border-bottom-width: 0;
   bottom: 0.5px;
@@ -213,8 +262,8 @@ body {
 .corner.bottom-right {
   bottom: 0;
   right: 0;
-  border-top-width: 2px;
-  border-left-width: 2px;
+  border-top-width: max(2px, 0.3vh);;
+  border-left-width: max(2px, 0.3vh);;
   border-bottom-width: 0px;
   border-right-width: 0px;
   border-top-left-radius: 100%;
@@ -224,10 +273,10 @@ body {
 .corner.bottom-left {
   bottom: 0;
   left: 0;
-  border-top-width: 2px;
+  border-top-width: max(2px, 0.3vh);;
   border-left-width: 0px;
   border-bottom-width: 0px;
-  border-right-width: 2px;
+  border-right-width: max(2px, 0.3vh);;
   border-top-right-radius: 100%;
   border-top-left-radius: 0 0;
 }
@@ -236,8 +285,8 @@ body {
   top: 0;
   right: 0;
   border-top-width: 0px;
-  border-left-width: 2px;
-  border-bottom-width: 2px;
+  border-left-width: max(2px, 0.3vh);;
+  border-bottom-width: max(2px, 0.3vh);;
   border-right-width: 0px;
   border-bottom-left-radius: 100%;
   border-bottom-right-radius: 0 0;
@@ -248,8 +297,8 @@ body {
   left: 0;
   border-top-width: 0px;
   border-left-width: 0px;
-  border-bottom-width: 2px;
-  border-right-width: 2px;
+  border-bottom-width: max(2px, 0.3vh);;
+  border-right-width: max(2px, 0.3vh);;
   border-bottom-right-radius: 100%;
   border-top-right-radius: 0 0;
 }
@@ -293,8 +342,8 @@ body {
 
 .vertical1,
 .vertical2 {
-  border-left-width: 2px;
-  border-right-width: 2px;
+  border-left-width: max(2px, 0.3vh);;
+  border-right-width: max(2px, 0.3vh);;
   border-left-style: dashed;
   border-right-style: dashed;
   position: absolute;
@@ -318,47 +367,61 @@ body {
 
 .horizontal1,
 .horizontal2,
-.horizontal3 {
+.horizontal3,
+.horizontal4 {
   position: absolute;
 }
 
-.horizontal1 {
-  border-top-width: 2px;
-  border-bottom-width: 2px;
+.horizontal1, .horizontal2 {
+  border-top-width: max(2px, 0.3vh);
+  border-bottom-width: max(2px, 0.3vh);
   border-top-style: dashed;
   border-bottom-style: dashed;
-  width: 100%;
+  width: calc(19.25/82.5 * (0.75 * 88vh));
   height: calc(40/110 * 88vh);
   /* double size of circle */
   min-height: calc(40/110 * 88/98 * 752px);
 }
 
-.horizontal2 {
-  width: 100%;
-  height: calc(18/110 * 88vh);
-  /* double size of circle */
-  min-height: calc(18/110 * 88/98 * 752px);
-  bottom: 0;
-  border-top-width: 2px;
-  border-top-style: dashed;
+.horizontal1 {
+  left: 0;
 }
+
+.horizontal2 {
+  right: 0;
+}
+
 
 .horizontal3 {
   width: 100%;
   height: calc(18/110 * 88vh);
   /* double size of circle */
   min-height: calc(18/110 * 88/98 * 752px);
+  bottom: 0;
+  border-top-width: max(2px, 0.3vh);;
+  border-top-style: dashed;
+}
+
+.horizontal4 {
+  width: 100%;
+  height: calc(18/110 * 88vh);
+  /* double size of circle */
+  min-height: calc(18/110 * 88/98 * 752px);
   top: 0;
-  border-bottom-width: 2px;
+  border-bottom-width: max(2px, 0.3vh);;
   border-bottom-style: dashed;
 }
 
 .button-pitch-container {
-  display: none;
+  display: block;
   position: absolute;
-  top: 6.5%;
-  left: 6%;
+  top: 8%;
+  left: 1.5%;
   z-index: 2;
+}
+
+.circle-checkbox {
+  display: none !important;
 }
 
 .help-popup-square {
@@ -372,8 +435,10 @@ body {
 .square-checkbox {
   display: block;
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: calc(7/110 * 0.75 * 88vh);
+  height: calc(7/110 * 0.75 * 88vh);
+  min-width: calc(7/110 * 0.75 * 752px);
+  min-height: calc(7/110 * 0.75 * 752px);
   margin-bottom: 25%;
 }
 
@@ -415,15 +480,20 @@ body {
   -moz-box-shadow: 0px 1px 0px #474747, inset 0 0 2px #fff951;
   background-color: #ededed2e;
   transform: translateY(3px);
+  border-color: #bbbbbb;
 }
 
-.square-checkbox input[type="checkbox"]:checked+.checkmark+.arrow-image,
-.square-checkbox input[type="checkbox"]:active+.checkmark+.arrow-image {
-  transform: translateY(1.5px);
+input:checked+.checkmark+.arrow-image,
+input:active+.checkmark+.arrow-image,
+input:checked+.checkmark+.circle-image,
+input:active+.checkmark+.circle-image,
+input:checked+.checkmark+.moving-image,
+input:active+.checkmark+.moving-image {
+  transform: translateY(2.5px);
   opacity: 1;
 }
 
-.arrow-image {
+.arrow-image, .circle-image, .moving-image {
   width: 80%;
   height: 80%;
 }
@@ -575,7 +645,7 @@ body {
 #oppo-name-switch-container {
   margin-top: 3%;
   height: 2.4vh;
-  width: calc(15.72* 2.4vh);
+  width: 100%;
 }
 
 .select-box label,
@@ -611,7 +681,7 @@ body {
 .teamNameBox {
   background-color: rgba(200, 200, 200, 0.14);
   padding: 5px;
-  font-size: max(1.2vh, 90%);
+  font-size: max(1.4vh, 90%);
   transition: background-color 0.3s ease;
   opacity: 100%;
   border-radius: 5px;
@@ -786,7 +856,7 @@ li {
 }
 
 .color-picker label {
-  font-size: 75%;
+  font-size: max(1.2vh, 75%);
   margin-bottom: 1%;
   display: block;
 }
@@ -830,14 +900,11 @@ li {
 .switch {
   position: relative;
   display: inline-block;
-  width: 10vh;
+  width: 120px;
   height: 3vh;
   margin-block-start: -1%;
   margin-left: 4%;
-}
-
-.longSwitch {
-  width: calc(12vh);
+  max-width: 120px;
 }
 
 /* Hide default HTML checkbox */
@@ -852,21 +919,19 @@ li {
   position: absolute;
   cursor: pointer;
   top: 0;
-  left: 0;
-  right: 2%;
   bottom: 0;
+  max-width: 110px;
   -webkit-transition: .4s;
   transition: .4s;
   background-color: #1F1F1F;
-  box-shadow: 0 0 1px white;
+  box-shadow: 0 0 0.1vh white;
 }
 
 .slider:before {
-  content: "testtttt";
   position: absolute;
   content: "";
-  height: 2.1vh;
-  width: 2.1vh;
+  height: max(2.1vh, 14px);
+  width: max(2.1vh, 14px);
   left: 7%;
   bottom: 14%;
   background-color: white;
@@ -883,15 +948,9 @@ input:focus+.slider {
 }
 
 input:checked+.slider:before {
-  transform: translateX(6.2vh);
-  -ms-transform: translateX(6.2vh);
-  -webkit-transform: translateX(6.2vh);
-}
-
-input:checked+.longSlider:before {
-  transform: translateX(8vh);
-  -ms-transform: translateX(8vh);
-  -webkit-transform: translateX(8vh);
+  transform: translateX(85px);
+  -ms-transform: translateX(85px);
+  -webkit-transform: translateX(85px);
 }
 
 /* Rounded sliders */
@@ -912,15 +971,15 @@ input:checked+.longSlider:before {
 }
 
 .switch-label {
-  font-size: 75%;
+  font-size: max(1.5vh, 75%);
 }
 
 .oppo-name-switch-label {
-  font-size: 75%;
+  font-size: max(1.2vh, 75%);
 }
 
 .oppo-switch-label {
-  font-size: 100%;
+  font-size: max(1.5vh, 100%);
 }
 
 #oppo-formation-label {
@@ -943,6 +1002,8 @@ input:checked+.longSlider:before {
   padding-top: 5%;
   height: 2.3vh;
   min-height: 18px;
+  white-space: nowrap;
+  
 }
 
 #oppo-name-text {
@@ -951,18 +1012,22 @@ input:checked+.longSlider:before {
 
 #pitch-text,
 #label-text {
-  padding-left: 10%;
+  padding-left: calc(10/120 * 100%);
+  width: calc(110/120 * 100%);
 }
 
 #oppo-text,
 #ball-text,
 #tactical-text {
-  padding-left: 65%;
+  padding-left: calc(90/120 * 100%);
+  padding-right: calc(15/120 * 100%);
+  width: calc(15/120 * 100%);
 }
 
-
 #oppo-name-text {
-  padding-left: 48%;
+  padding-left: calc(65/120 * 100%);
+  padding-right: calc(15/120 * 100%);
+  width: calc(40/120 * 100%);
 }
 
 .pitchCheckBox,
@@ -971,6 +1036,7 @@ input:checked+.longSlider:before {
 .labelCheckbox {
   display: flex;
   justify-content: space-between;
+  padding-top: max(1%, 8px);
 }
 
 /**************
@@ -980,18 +1046,23 @@ input:checked+.longSlider:before {
 
 .text-container {
   color: white;
+  z-index: 2;
 }
 
 .formation-label {
   position: absolute;
-  margin-left: 12.5%;
-  top: 2.5%;
+  left: 8%;
+  top: 2%;
+  width: 100%;
+  font-size: max(1.8vh, 80%);
 }
 
 .copyright {
   position: absolute;
-  margin-left: 12.5%;
-  top: 94.3%;
+  left: 8%;
+  bottom: 2%;
+  width: 100%;
+  font-size: max(1.8vh, 80%);
 }
 
 /**************
@@ -1009,6 +1080,7 @@ input:checked+.longSlider:before {
   height: calc(32/900 * 98vh);
   min-width: calc(32/900 * 752px);
   min-height: calc(32/900 * 752px);
+  transition: transform 1.2s ease;
   /* Same proportions as the image container (730 to 900) */
 }
 
@@ -1026,10 +1098,12 @@ input:checked+.longSlider:before {
 
 .circle {
   display: flex;
+  z-index: 2;
 }
 
 .oppoCircle {
   display: none;
+  z-index: 1;
 }
 
 .circleColor,
@@ -1039,11 +1113,13 @@ input:checked+.longSlider:before {
   position: absolute;
   border-radius: 50%;
   text-align: center;
+  border-width: max(0.25vh, 2px);
 }
 
 .circleColor,
 .circleColorGK {
-  border: 2px solid white;
+  border-style: solid;
+  border-color: #ffffff;
   z-index: 6;
 }
 
@@ -1056,15 +1132,17 @@ input:checked+.longSlider:before {
 }
 
 .oppoCircleColor {
-  border: 2px solid #000000;
+  border-style: solid;
+  border-color: #000000;
   background-color: #006631;
   display: none;
   z-index: 2;
 }
 
 .oppoCircleColorGK {
+  border-style: solid;
+  border-color: #ffffff;
   background-color: #ffd700;
-  border: 2px solid white;
   display: none;
   z-index: 2;
 }
@@ -1082,27 +1160,27 @@ input:checked+.longSlider:before {
 }
 
 .circle-number-font-large {
-  font-size: max(calc(0.5 * 32/900 * 98vh), 110%);
+  font-size: calc(0.6 * 32/900 * 98vh);
 }
 
 .circle-number-font-medium {
-  font-size: max(calc(0.4 * 32/900 * 98vh), 100%);
+  font-size: calc(0.5 * 32/900 * 98vh);
 }
 
 .circle-number-font-small {
-  font-size: max(calc(0.3 * 32/900 * 98vh), 90%);
+  font-size: calc(0.45 * 32/900 * 98vh);
 }
 
 .circle-number-font-large-oppo {
-  font-size: max(calc(0.45 * 32/900 * 98vh), 100%);
+  font-size: calc(0.55 * 32/900 * 98vh);
 }
 
 .circle-number-font-medium-oppo {
-  font-size: max(calc(0.35 * 32/900 * 98vh), 90%);
+  font-size: calc(0.45 * 32/900 * 98vh);
 }
 
 .circle-number-font-small-oppo {
-  font-size: max(calc(0.25 * 32/900 * 98vh), 85%);
+  font-size: calc(0.4 * 32/900 * 98vh);
 }
 
 .circle>.circle-number {
@@ -1130,11 +1208,12 @@ input:checked+.longSlider:before {
   position: absolute;
   padding: 10% 12%;
   border: 1px solid #000;
-  border-radius: 5px;
-  font-size: max(1.2vh, 69%);
+  border-width: max(1px, 0.14vh);
+  border-radius: max(5px, 0.7vh);
+  font-size: max(1.4vh, 69%);
   font-family: "Exo", sans-serif;
   font-weight: bold;
-  letter-spacing: 1px;
+  letter-spacing: max(1px, 0.05vw);
   text-transform: capitalize;
   text-align: center;
   user-select: none;
@@ -1144,13 +1223,13 @@ input:checked+.longSlider:before {
 }
 
 .startingStyleOne {
-  bottom: min(-2.2vh, -20px);
+  bottom: min(-2.5vh, -20px);
   background-color: #ffffff;
   z-index: 6;
 }
 
 .secondStyleOne {
-  bottom: min(-4.5vh, -40px);
+  bottom: min(-5.1vh, -40px);
   opacity: 0.9;
   background-color: #C8C8C8;
   z-index: 6;
@@ -1216,6 +1295,7 @@ input:checked+.longSlider:before {
   top: 50%;
   left: 50%;
   z-index: 1;
+  border-left-width: 4px;
 }
 
 .arrowhead {
@@ -1237,7 +1317,7 @@ input:checked+.longSlider:before {
 }
 
 .button-container {
-  min-height: 4vh;
+  min-height: 2vh;
   display: flex;
 }
 
@@ -1334,7 +1414,7 @@ input:checked+.longSlider:before {
   font-size: 150%;
   color: white;
   margin-left: 5px;
-  margin-bottom: 1.5%;
+  margin-bottom: 1%;
   cursor: pointer;
   border: #212331 6px solid;
   border-radius: 50%;
@@ -1394,13 +1474,13 @@ pre {
 
 #settings {
   position: absolute;
-  width: 15%;
-  min-width: 230px;
+  width: max(18%, 270px);
+  max-width: 300px;
   min-height: 100px;
   background-color: rgba(33, 35, 49, 1);
   border: 1px solid #ccc;
   border-radius: 20px;
-  padding: 20px 10px 10px 10px;
+  padding: 10px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 1);
   z-index: 100;
   display: none;
@@ -1632,13 +1712,8 @@ pre {
     min-width: auto;
   }
 
-  .horizontal1 {
+  .horizontal1, .horizontal2 {
     height: calc(40/110 * 88/98 * 720px);
-    min-height: auto;
-  }
-
-  .horizontal2 {
-    height: calc(18/110 * 88/98 * 720px);
     min-height: auto;
   }
 
@@ -1647,19 +1722,24 @@ pre {
     min-height: auto;
   }
 
+  .horizontal4 {
+    height: calc(18/110 * 88/98 * 720px);
+    min-height: auto;
+  }
 
-
-
-
+  .square-checkbox {
+    width: 32px;
+    height: 32px;
+  }
 
   .formation-label {
-    font-size: 14px;
-    top: 0.5%;
+    font-size: 13px;
+    top: 13px;
   }
 
   .copyright {
-    font-size: 14px;
-    top: 96%;
+    font-size: 13px;
+    bottom: 16px;
   }
 
   .label {
@@ -1682,27 +1762,27 @@ pre {
   }
 
   .circle-number-font-large {
-    font-size: calc(0.5 * 32/900 * 720px);
+    font-size: calc(0.6 * 32/900 * 720px);
   }
 
   .circle-number-font-medium {
-    font-size: calc(0.4 * 32/900 * 720px);
+    font-size: calc(0.5 * 32/900 * 720px);
   }
 
   .circle-number-font-small {
-    font-size: calc(0.3 * 32/900 * 720px);
-  }
-
-  .circle-number-font-large-oppo {
     font-size: calc(0.45 * 32/900 * 720px);
   }
 
+  .circle-number-font-large-oppo {
+    font-size: calc(0.55 * 32/900 * 720px);
+  }
+
   .circle-number-font-medium-oppo {
-    font-size: calc(0.35 * 32/900 * 720px);
+    font-size: calc(0.45 * 32/900 * 720px);
   }
 
   .circle-number-font-small-oppo {
-    font-size: calc(0.25 * 32/900 * 720px);
+    font-size: calc(0.4 * 32/900 * 720px);
   }
 
   .label-position,
@@ -1714,6 +1794,9 @@ pre {
   .startingStyleOne,
   .secondStyleOne {
     font-size: 10px;
+  border-width: 1px;
+  border-radius: 5px;
+  letter-spacing: 1.1px;
   }
 
   .startingStyleOne {
@@ -1721,7 +1804,7 @@ pre {
   }
 
   .secondStyleOne {
-    bottom: -38px;
+    bottom: -37px;
   }
 
   .startingStyleTwo,
@@ -1729,6 +1812,9 @@ pre {
     font-size: 12px;
   }
 
+  .line {
+    border-left-width: 3.5px;
+  }
 
   /*** Buttons ***/
   #chooseFileButton,
@@ -1738,8 +1824,8 @@ pre {
     font-size: 90%;
   }
 
-  .button-pitch-container {
-    display: block;
+  .circle-checkbox {
+    display: block !important;
   }
 
   /*** Switches ***/
@@ -1748,10 +1834,6 @@ pre {
     height: 24px;
     margin-block-start: -2px;
     margin-left: 10px;
-  }
-
-  .longSwitch {
-    width: 100px;
   }
 
   /* The slider */
@@ -1767,15 +1849,9 @@ pre {
   }
 
   input:checked+.slider:before {
-    -webkit-transform: translateX(50px);
-    -ms-transform: translateX(50px);
-    transform: translateX(50px);
-  }
-
-  input:checked+.longSlider:before {
-    -webkit-transform: translateX(70px);
-    -ms-transform: translateX(70px);
-    transform: translateX(70px);
+    transform: translateX(52px);
+    -ms-transform: translateX(52px);
+    -webkit-transform: translateX(52px);
   }
 
   /* Slider container */
@@ -1795,21 +1871,9 @@ pre {
   #label-text,
   #tactical-text {
     color: white;
-    font-size: 12px;
+    font-size: 11px;
     padding-top: 4px;
     height: auto;
     min-height: auto;
-  }
-
-  #pitch-text,
-  #label-text {
-    padding-left: 10px;
-  }
-
-  #oppo-text,
-  #oppo-name-text,
-  #ball-text,
-  #tactical-text {
-    padding-left: 48%;
   }
 }

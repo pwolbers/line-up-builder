@@ -7,8 +7,10 @@ let offsetY = 0;
 
 let isEditing = false;
 var lineColor = 'yellow';
+var lineStyle = 'dotted';
 
 var arrowSwitch = document.getElementById('arrow-checkbox');
+var circleSwitch = document.getElementById('circle-checkbox');
 //Adds drag functionality
 allCircles.forEach((circle, index) => {
     circle.addEventListener("dblclick", handleDoubleClick);
@@ -18,8 +20,9 @@ allCircles.forEach((circle, index) => {
 
 function handleDoubleClick(e) {
     circle = e.currentTarget;
-    if (e.button == 0 || e.button == undefined && arrowSwitch.checked == false) {
+    if (e.button == 0 || (e.button == undefined && circleSwitch.checked)) {
         if (!isEditing) {
+
             isEditing = true;
             var number = circle.querySelector('.circle-number');
             const currentValue = number.textContent;
@@ -42,12 +45,15 @@ function handleDoubleClick(e) {
 
             // Add an event listener to save the edited value on Enter and cancel on Esc
             input.addEventListener('keydown', function (event) {
+                console.log(event.key);
                 if (event.key === 'Enter') {
-                    number.textContent = input.value;
                     isEditing = false;
+                    changeNumberOnTextbox(circle, input.value);
+                    removeInputBox();
                 } else if (event.key === 'Escape') {
                     number.textContent = currentValue;
                     isEditing = false;
+                    removeInputBox();
                 }
             });
 
@@ -78,6 +84,9 @@ function handleDoubleClick(e) {
 }
 
 function handleSingleClick(e) {
+
+    //Check if click is on the circle or line
+    var clickedOnLine = (e.target.classList.toString().indexOf('line') > -1 || e.target.classList.toString().indexOf('arrowhead') > -1);
     //Set up variables for mobile tap and right click
     //Undefined = mobile tap
     if (e.button == undefined) {
@@ -107,7 +116,7 @@ function handleSingleClick(e) {
     }
     //0 == left click
     if (e.button === 0 || (e.button === undefined && doubleTap == false)) {
-        if (e.button === 0 || (e.button === undefined && arrowSwitch.checked == false)) {
+        if (e.button === 0 || (e.button === undefined && circleSwitch.checked)) {
             e.preventDefault();
             if (e.type === "mousedown") {
                 activeCircle = this;
@@ -125,26 +134,36 @@ function handleSingleClick(e) {
             document.addEventListener("mouseup", stopDrag);
             document.addEventListener("touchend", stopDrag);
         }
-        else {
+        else if (!clickedOnLine) {
             drawLineFunctionality(e, this, true);
         }
     }
-    else if (e.button === 2 && doubleTap == false && e.currentTarget.id != 'ball') {
+    else if (e.button === 2 && doubleTap == false && e.currentTarget.id != 'ball' && !clickedOnLine) {
         drawLineFunctionality(e, this);
     }
 }
 
 function removeLines(circle) {
     //Remove all lines drawn from circle
-    var lineDivs = circle.querySelectorAll('.line');
-    lineDivs.forEach(function (lineElement) {
-        lineElement.parentNode.removeChild(lineElement);
-    });
-    const filteredData = lines.filter(item => item.circle !== circle.id);
-    lines = filteredData;
+
+    var movingLine = document.getElementById('moving-checkbox').checked;
+    if (movingLine) {
+        var movingLine = circle.querySelector('.movingLine');
+        movingLine.parentNode.removeChild(movingLine);
+        movingLines = [];
+    }
+    else {
+        var normalLineDivs = circle.querySelectorAll('.normalLine');
+        normalLineDivs.forEach(function (lineElement) {
+            lineElement.parentNode.removeChild(lineElement);
+        });
+        const filteredData = lines.filter(item => item.circle !== circle.id);
+        lines = filteredData;
+    }
 }
 
 function drawLineFunctionality(e, circle, mobile) {
+    var movingLine = document.getElementById('moving-checkbox').checked;
     e.preventDefault();
     activeCircle = circle;
     document.addEventListener("mousemove", dragLine);
@@ -157,14 +176,26 @@ function drawLineFunctionality(e, circle, mobile) {
 
     const line = document.createElement("div");
     line.classList.add("line");
-
-    var lineDivs = activeCircle.querySelectorAll('.line');
-
-    if (e.currentTarget.id.indexOf('oppo') > -1) {
-        lineColor = 'red';
+    if (movingLine) {
+        line.classList.add("movingLine");
     }
     else {
-        lineColor = 'yellow';
+        line.classList.add("normalLine");
+    }
+
+
+    if (movingLine) {
+        lineStyle = 'dashed';
+        lineColor = 'blue';
+    }
+    else {
+        lineStyle = 'dotted';
+        if (e.currentTarget.id.indexOf('oppo') > -1) {
+            lineColor = 'red';
+        }
+        else {
+            lineColor = 'yellow';
+        }
     }
     // Create arrowheads
     const arrowhead1 = document.createElement("div");
@@ -176,25 +207,42 @@ function drawLineFunctionality(e, circle, mobile) {
     // Append arrowheads to the line
     line.appendChild(arrowhead1);
 
+    var normalLineDivs = activeCircle.querySelectorAll('.normalLine');
+    var movingLineDiv = activeCircle.querySelector('.movingLine');
+
     // Maximum amount of lines
-    if (lineDivs.length >= 3) {
-        const firstLine = lineDivs[0];
-        firstLine.parentNode.removeChild(firstLine);
-
-        // Find the index of the first occurrence where circle matches the id of the activeCircle
-        const indexToRemove = lines.findIndex(item => item.circle === activeCircle.id);
-
-        // Remove the element at the found index
-        if (indexToRemove !== -1) {
-            lines.splice(indexToRemove, 1);
+    if (movingLine) {
+        if (movingLineDiv) {
+            movingLineDiv.parentNode.removeChild(movingLineDiv);
+            movingLines = [];
         }
     }
+    else {
+        if (normalLineDivs.length >= 3) {
+            const firstLine = normalLineDivs[0];
+            firstLine.parentNode.removeChild(firstLine);
+
+            // Find the index of the first occurrence where circle matches the id of the activeCircle
+            const indexToRemove = lines.findIndex(item => item.circle === activeCircle.id);
+
+            // Remove the element at the found index
+            if (indexToRemove !== -1) {
+                lines.splice(indexToRemove, 1);
+            }
+        }
+    }
+
     activeCircle.appendChild(line);
     var lineObj = {
         "circle": activeCircle.id,
         "div": line
     }
-    lines.push(lineObj);
+    if (!movingLine) {
+        lines.push(lineObj);
+    }
+    else {
+        movingLines.push(lineObj);
+    }
     isDrawing = true;
 }
 
@@ -213,13 +261,13 @@ function dragCircle(e) {
 
         const newX = offsetX + deltaX;
         const newY = offsetY + deltaY;
-        console.log("newX: " + newX);
-        console.log("newY: " + newY);
+
         //max changes based on size of the imageContainer
-        const maxLeft = (75 / 730) * imageContainer.offsetWidth;
-        const maxRight = (623 / 730) * imageContainer.offsetWidth;
-        const maxTop = (30 / 900) * imageContainer.offsetHeight;
-        const maxBottom = (835 / 900) * imageContainer.offsetHeight;
+        const maxLeft = (62 / 730) * imageContainer.offsetWidth;
+        const maxRight = (637 / 730) * imageContainer.offsetWidth;
+        const maxTop = (45 / 900) * imageContainer.offsetHeight;
+        const maxBottom = (822 / 900) * imageContainer.offsetHeight;
+
 
         if (newX > maxLeft && newX < maxRight) {
             activeCircle.style.left = newX / imageContainer.offsetWidth * 100 + '%';
@@ -255,18 +303,49 @@ function dragLine(e) {
     //e.preventDefault();
     let currentX, currentY;
 
+    var movingLine = document.getElementById('moving-checkbox').checked;
+    console.log("TESTING");
     if (isDrawing) {
-        const line = lines[lines.length - 1].div;
-
+        if (!movingLine) {
+            var line = lines[lines.length - 1].div;
+        }
+        else {
+            var line = movingLines[movingLines.length - 1].div;
+        }
         if (line) {
             if (e.type === "mousemove" || e.type === "touchmove") {
                 currentX = e.clientX || e.touches[0].pageX;
                 currentY = e.clientY || e.touches[0].pageY;
             }
 
+            var lineX = e.clientX - imageContainer.getBoundingClientRect().left;
+            var lineY = e.clientY - imageContainer.getBoundingClientRect().top;
+
+            var offsetX = activeCircle.offsetWidth / 2;
+            var offsetY = activeCircle.offsetHeight / 2;
+
+            //set limits of the lines based on the pitch dimensions
+            const maxLeft = ((65 / 730) * imageContainer.offsetWidth) + offsetX;
+            const maxRight = ((660 / 730) * imageContainer.offsetWidth) - offsetX;
+            const maxTop = ((50 / 900) * imageContainer.offsetHeight) + offsetY;
+            const maxBottom = ((850 / 900) * imageContainer.offsetHeight) - offsetY;
+            if (lineX < maxLeft) {
+                currentX = imageContainer.getBoundingClientRect().left + maxLeft;
+            }
+            if (lineX > maxRight) {
+                currentX = imageContainer.getBoundingClientRect().left + maxRight;
+            }
+            if (lineY < maxTop) {
+                currentY = imageContainer.getBoundingClientRect().top + maxTop;
+            }
+            if (lineY > maxBottom) {
+                currentY = imageContainer.getBoundingClientRect().top + maxBottom;
+            }
+
+
             // Calculate the horizontal and vertical differences
-            const deltaX = currentX - startX;
-            const deltaY = currentY - startY;
+            var deltaX = currentX - startX;
+            var deltaY = currentY - startY;
 
             // Calculate the angle in radians
             const angleInRadians = Math.atan2(deltaY, deltaX);
@@ -275,37 +354,54 @@ function dragLine(e) {
             // Calculate the hypotenuse (line length)
             const hypotenuse = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
+
+
             if (hypotenuse > 10) {
                 const arrowheadDiv = line.querySelector(".arrowhead");
                 if (arrowheadDiv.style.display == 'none') {
+                    //If line is drawn higher than 20px further
                     if (Math.abs(deltaX) > 20 || Math.abs(deltaY) > 20) {
                         arrowheadDiv.style.display = 'flex';
                     }
                 };
+
+
                 // Create a div element to represent the line
                 //Circle size depends on opposition or not, so that means so does line position
                 line.style.position = 'absolute';
                 line.style.height = hypotenuse + 'px';
                 line.style.backgroundColor = 'transparent';
-                line.style.borderLeft = '4px dotted ' + lineColor;
+                line.style.borderLeftStyle = lineStyle;
+                line.style.borderLeftColor = lineColor;
                 line.style.transformOrigin = 'left top';
                 line.style.transform = `rotate(${angleDeg}deg)`;
                 line.style.zindex = '1';
 
+                var hypotenusePct = (hypotenuse / imageConHeight).toFixed(5);
+                line.setAttribute("hypotenusePct", hypotenusePct);
+                line.setAttribute('parentCircleId', activeCircle.id);
             }
         }
     }
 }
 
 function stopLine(e) {
-    var lineDivs = activeCircle.querySelectorAll('.line');
-    lineDivs.forEach(function (lineElement) {
-        if (!(parseInt(lineElement.style.height) > 22)) {
+    var movingLine = document.getElementById('moving-checkbox').checked;
+
+    var allLineDivs = activeCircle.querySelectorAll('.line');
+    allLineDivs.forEach(function (lineElement) {
+        if (parseInt(lineElement.style.height) < 22) {
             lineElement.parentNode.removeChild(lineElement);
         }
-
     });
 
+    if (movingLine) {
+        //Push data for line to array for movement functionality 
+        const line = movingLines[movingLines.length - 1].div;
+        addLineDataToArray(line, activeCircle);
+    }
+
+    //Reset functionality
     activeCircle = null;
     document.removeEventListener("mousemove", dragLine);
     document.removeEventListener("touchmove", dragLine);
@@ -319,4 +415,26 @@ function removeInputBox() {
     inputBoxes.forEach(function (inputBox) {
         inputBox.parentNode.removeChild(inputBox);
     });
+}
+
+function addLineDataToArray(line, activeCircle) {
+    // Given values
+    const height = line.style.height; // Height of the line
+    const angleDegrees = line.style.transform.split('(')[1].split('deg')[0];
+    const angleRadians = (angleDegrees * Math.PI) / 180;
+
+
+    // Calculate the x and y components
+    const x = height.split('px')[0] * Math.sin(angleRadians);
+    const y = height.split('px')[0] * Math.cos(angleRadians);
+
+
+    const arrowheadDiv = line.querySelector(".arrowhead");
+    var arrowLocationObj = {
+        "id": activeCircle.id,
+        "top": y,
+        "left": x
+    };
+    arrowLocationArray.push(arrowLocationObj);
+    liveArrowLocationArray = arrowLocationArray;
 }

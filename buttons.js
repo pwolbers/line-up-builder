@@ -1,5 +1,5 @@
 // Attach click event listener to the download image button
-screenshotButton.addEventListener("click", captureScreenshotAndDownload);
+screenshotButton.addEventListener("click", downloadImage);
 //Sets the line up based on the JSON content retrieved from GitHub/locally
 selectTeam.addEventListener("change", loadTeam);
 //Creates a JSON based on the line up made by the user
@@ -14,9 +14,8 @@ oppoFormation.addEventListener("change", function () {
     setOppoFormation(this.value);
 });
 
-// Function to capture screenshot and trigger download
-function captureScreenshotAndDownload() {
 
+function downloadImage() {
     var lineupContainer = document.getElementById("lineupContainer");
 
     if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
@@ -24,110 +23,66 @@ function captureScreenshotAndDownload() {
         showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
     }
 
-    //Is this still necessary?//
-    /*//Span elements are the textboxes
-    // Get all the <span> elements with the class "outputStarting"
-    var outputStartingSpans = document.querySelectorAll('span.outputStarting');
-
-    // Iterate over the <span> elements and set their max-width
-    outputStartingSpans.forEach(span => {
-        const currentWidth = span.offsetWidth - 1;
-        span.style.maxWidth = `${currentWidth}px`;
-    });
-
-    // Get all the <span> elements with the class "outputSecond"
-    var outputSecondSpans = document.querySelectorAll('span.outputSecond');
-
-    // Iterate over the <span> elements and set their max-width
-    outputSecondSpans.forEach(span => {
-        var currentWidth = span.offsetWidth - 1;
-        span.style.maxWidth = `${currentWidth}px`;
-    });*/
-
-
-    const currentWidth = screenshotButton.getBoundingClientRect().width;
-    const currentHeight = screenshotButton.getBoundingClientRect().height;
-
-    const downloadWidth = downloadButton.getBoundingClientRect().width;
-    const downloadHeight = downloadButton.getBoundingClientRect().height;
-
     screenshotButton.innerText = "Downloading...";
+    var buttonContainer = document.getElementById('button-pitch-container');
+    buttonContainer.style.display = 'none';
 
-    var widthAndHeightSB = 'width: ' + currentWidth + 'px; height: ' + currentHeight + 'px;'
-    var widthAndHeightDB = 'width: ' + downloadWidth + 'px; height: ' + downloadHeight + 'px;'
-    screenshotButton.style.cssText += widthAndHeightSB;
-    downloadButton.style.cssText += widthAndHeightDB;
-
-    var scaleSize = 2;
-    html2canvas(lineupContainer, {scale: scaleSize}).then(function (canvas) {
-        // Create a new canvas to hold the trimmed image
-        var trimmedCanvas = document.createElement('canvas');
-        var trimmedContext = trimmedCanvas.getContext('2d');
+    // Get a reference to the element that you want to capture.
+    const domNode = document.getElementById('image-container');
 
 
-        // Calculate the trimming dimensions
-        var widthToTrim = canvas.width * 0.05;
-        var heightToTrim = canvas.height * 0.02;
-        var trimmedWidth = canvas.width - (widthToTrim * 2); //5% of the width on both (2) sides
-        var trimmedHeight = canvas.height - (heightToTrim * 2); //5% of the height on both (2) sides
-
-        console.log("canvas.width: " + canvas.width);
-        console.log("canvas.height: " + canvas.height);
-        console.log("widthToTrim: " + widthToTrim);
-        console.log("heightToTrim: " + heightToTrim);
-        console.log("trimmedWidth: " + trimmedWidth);
-        console.log("trimmedHeight: " + trimmedHeight);
-
-        // Draw the trimmed image onto the new canvas
-        trimmedCanvas.width = trimmedWidth;
-        trimmedCanvas.height = trimmedHeight;
-        trimmedContext.drawImage(
-            canvas,
-            widthToTrim,
-            heightToTrim,
-            trimmedWidth,
-            trimmedHeight,
-            0,
-            0,
-            trimmedWidth,
-            trimmedHeight
-        );
-
-        // Create an anchor element to download the image
-        var link = document.createElement('a');
-        link.href = trimmedCanvas.toDataURL('image/png');
-        var teamNameValue = document.querySelector('#teamNameBox').value;
-        if (teamNameValue == '') {
-            teamNameValue = 'team_lineup_screenshot';
+    // Capture the DOM node as a Blob
+    var scale = 2;
+    domtoimage.toBlob(domNode, {
+        width: domNode.clientWidth * scale,
+        height: domNode.clientHeight * scale,
+        style: {
+            transform: 'scale(' + scale + ')',
+            transformOrigin: 'top left'
         }
-        var teamFileName = teamNameValue;
-        teamFileName = teamFileName.replaceAll(' ', '_');
-        teamFileName = teamFileName.replaceAll('/', '_');
-        link.download = teamFileName; // Set the filename for the download
+    }).then((originalBlob) => {
 
-        //document.body.appendChild(link);
-        link.click();
-        //document.body.removeChild(link);
+        // Create an image from the originalBlob
+        const image = new Image();
+        image.src = URL.createObjectURL(originalBlob);
 
-        let box = document.getElementById('circle1');
-        let width = box.offsetWidth;
-        let height = box.offsetHeight;
-        console.log("W: " + width);
-        console.log("H: " + height);
+        image.onload = () => {
+            // Always download the same size image
+            const newWidth = 1095; // Adjust to your desired width
+            const newHeight = 1350;
+
+            // Create a canvas for resizing
+            const canvas = document.createElement('canvas');
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            const ctx = canvas.getContext('2d');
+
+            // Draw the original image on the canvas with the new dimensions
+            ctx.drawImage(image, 0, 0, newWidth, newHeight);
+
+            // Convert the canvas content back to a Blob
+            canvas.toBlob((resizedBlob) => {
+                // Create a download link for the resized Blob
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(resizedBlob);
+
+                var teamFileName = document.querySelector('#teamNameBox').value;
+                if (teamFileName == '') {
+                    teamFileName = 'team_lineup_screenshot';
+                }
+                teamFileName = teamFileName.replaceAll(' ', '_');
+                teamFileName = teamFileName.replaceAll('/', '_');
+                downloadLink.download = teamFileName; // Set the filename for the download
+                downloadLink.style.display = 'none';
+
+                downloadLink.click();
+            }, 'image/png');
+        }
+
+        var buttonContainer = document.getElementById('button-pitch-container');
+        buttonContainer.style.display = 'block';
         screenshotButton.innerText = "Download image (.png)";
-
-        document.body.classList.remove('desktop-mode');
-        outputStartingSpans.forEach(span => {
-            span.style.maxWidth = '';
-        });
-
-        outputSecondSpans.forEach(span => {
-            span.style.maxWidth = '';
-        });
     });
-
-    downloadButton.style.setProperty('height', downloadWidth);
-    downloadButton.style.setProperty('height', downloadHeight);
 }
 
 // Function to load team from predefined JSON
@@ -177,11 +132,6 @@ function loadTeam() {
                 setOppoFormation(lineUpsObj[selectedValue].oppoFormation.replaceAll('-', '').replaceAll(" ", ""));
             }
         }
-
-        console.log("startKeyArray");
-        console.log(startKeyArray);
-        console.log("secondKeyArray");
-        console.log(secondKeyArray);
         setLineUp(startKeyArray, secondKeyArray, secondType);
 
         //If specific position data is available, use it
@@ -455,3 +405,51 @@ function updateUploadButton() {
         jsonFileInput.value = "";
     }
 }
+
+function moveCircles() {
+    if (liveArrowLocationArray.length > 0) {
+        for (var q = 0; q < liveArrowLocationArray.length; q++) {
+            var circleTest = document.getElementById(liveArrowLocationArray[q].id);
+            var lineElement = circleTest.querySelector('.movingLine');
+            lineElement.style.display = 'none';
+
+            //Get previous transform X and Y to add to the current position
+            var computedStyle = window.getComputedStyle(circleTest);
+            var transformMatrix = new DOMMatrix(computedStyle.transform);
+
+            var xTranslation = transformMatrix.m41;
+            var yTranslation = transformMatrix.m42;
+
+            // Calculate the new position
+            var currentX = circleTest.getBoundingClientRect().left;
+            var currentY = circleTest.getBoundingClientRect().top;
+            var targetX = currentX - liveArrowLocationArray[q].left + xTranslation;
+            var targetY = currentY + liveArrowLocationArray[q].top + yTranslation;
+
+
+            // Apply the new position using a CSS transform
+            circleTest.style.transform = `translate(${targetX - currentX}px, ${targetY - currentY}px)`;
+        }
+        //Set to empty, so that another button press resets the location
+        liveArrowLocationArray = [];
+    }
+    else {
+        allCircles.forEach((circle) => {
+            circle.style.transform = '';
+
+        });
+        // Define a delay equal to the duration of your animation (in milliseconds)
+        var animationDuration = 1200; // Replace with your animation duration
+
+        // Schedule your script to run after the animation duration
+        setTimeout(function () {
+            // This code block will execute after the animation is expected to have ended
+            var lineElements = document.querySelectorAll('.movingLine');
+            lineElements.forEach((lineElement) => {
+                lineElement.style.display = 'block';
+            });
+            liveArrowLocationArray = arrowLocationArray;
+        }, animationDuration);
+    }
+}
+

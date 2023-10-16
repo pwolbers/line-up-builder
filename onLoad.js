@@ -5,6 +5,7 @@ var startKeyArray = [];
 var secondKeyArray = [];
 var secondType;
 var lines = []; // Array to store line elements
+var movingLines = [];
 var screenWidth;
 var oppoCircleHasBeenDragged = false;
 var isDrawing = false;
@@ -41,29 +42,31 @@ const checkOpposition = document.getElementById("oppo-checkbox");
 const checkOppositionName = document.getElementById("oppo-name-checkbox");
 const oppoFormation = document.getElementById("oppo-formation");
 
-const lineYOne = (25 / 900) * imageConHeight;
+const lineYOne = (20 / 900) * imageConHeight;
 const lineYTwo = (270 / 900) * imageConHeight;
 const lineYThree = (360 / 900) * imageConHeight;
 const lineYFour = (480 / 900) * imageConHeight;
 const lineYFive = (580 / 900) * imageConHeight;
 const lineYSix = (710 / 900) * imageConHeight;
-const lineYSeven = (835 / 900) * imageConHeight;
+const lineYSeven = (840 / 900) * imageConHeight;
 
-const lineXOne = (75 / 730) * imageConWidth;
+const lineXOne = (55 / 730) * imageConWidth;
 const lineXTwo = (195 / 730) * imageConWidth;
 const lineXThree = (290 / 730) * imageConWidth;
 const lineXFour = (403 / 730) * imageConWidth;
 const lineXFive = (502 / 730) * imageConWidth;
-const lineXSix = (627 / 730) * imageConWidth;
+const lineXSix = (642 / 730) * imageConWidth;
 
-const oppoLineYOne = (25/900) * imageConHeight;
-const oppoLineYTwo = (115/900) * imageConHeight;
-const oppoLineYThree = (245/900) * imageConHeight;
-const oppoLineYFour = (355/900) * imageConHeight;
-const oppoLineYFive = (465/900) * imageConHeight;
-const oppoLineYSix = (545/900) * imageConHeight;
-const oppoLineYSeven = (835/900) * imageConHeight;
+const oppoLineYOne = (20 / 900) * imageConHeight;
+const oppoLineYTwo = (115 / 900) * imageConHeight;
+const oppoLineYThree = (245 / 900) * imageConHeight;
+const oppoLineYFour = (355 / 900) * imageConHeight;
+const oppoLineYFive = (465 / 900) * imageConHeight;
+const oppoLineYSix = (545 / 900) * imageConHeight;
+const oppoLineYSeven = (840 / 900) * imageConHeight;
 
+var arrowLocationArray = [];
+var liveArrowLocationArray;
 let startX, startY;
 
 $(document).ready(function () {
@@ -90,6 +93,9 @@ $(document).ready(function () {
         }
     });
 });
+
+
+
 
 function toggleDisplay(elements, mobileCheck, type) {
     if (mobileCheck) {
@@ -132,11 +138,11 @@ function toggleDisplay(elements, mobileCheck, type) {
                 }
             });
         }
-        
+
         var newDisplay;
         elements.each(function () {
             var displayValue = $(this).css("display");
-             newDisplay = (displayValue === "flex") ? "none" : "flex";
+            newDisplay = (displayValue === "flex") ? "none" : "flex";
             $(this).css("display", newDisplay);
         });
 
@@ -149,6 +155,22 @@ function toggleDisplay(elements, mobileCheck, type) {
             $(this).css("display", "flex");
         });
     }
+}
+
+window.addEventListener('resize', resizeFunctionality);
+function resizeFunctionality() {
+    //Set array for circle movement for the new line data
+    arrowLocationArray = [];
+
+    var allLines = document.querySelectorAll('.line');
+    allLines.forEach((line) => {
+        var hypotenusePct = line.getAttribute("hypotenusePct");
+        line.style.height = hypotenusePct * imageContainer.offsetHeight + 'px';
+
+        //Push new line data to array
+        var circle = document.getElementById(line.getAttribute("parentCircleId"));
+        addLineDataToArray(line, circle);
+    });
 }
 
 window.onload = () => {
@@ -337,7 +359,12 @@ window.onload = () => {
     var oppositionJson = JSON.stringify(oppoJson, null, 2);
     document.getElementById("oppositionJson").innerText = oppositionJson;
 
-
+    if (window.innerWidth > 780) {
+        document.getElementById('arrow-checkbox').checked = true;
+    }
+    else {
+        document.getElementById('circle-checkbox').checked = true;
+    }
     setCirclePositions('433', 'main');
     determineFormation();
 
@@ -378,7 +405,7 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     var showLineUpButton = document.getElementById('showLineUpButton');
-    showLineUpButton.textContent = 'Show line-up and formation'; // Change button text
+    showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
 });
 
 //Pre loads the JSON files stored locally
@@ -397,12 +424,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     gearIcon.addEventListener('click', function (event) {
+        //console.log -> This should go to the actual move circles button
+        moveCircles();
         var gearIconLocation = event.currentTarget.getBoundingClientRect();
-        console.log(gearIconLocation.top);
-        doTheThing();
-        console.log(window.getComputedStyle(gearIcon).getPropertyValue('top'));
-        console.log(window.getComputedStyle(gearIcon).getPropertyValue('left'));
-        console.log(event.currentTarget.style.top);
+
         event.stopPropagation();
         if (settings.style.display != 'block') {
             settings.style.display = 'block';
@@ -491,11 +516,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 });
 
-function doTheThing() {
 
-    var gearIcon = document.querySelector('.gear-icon');
-    console.log("TEST: " + gearIcon.style.left);
-}
 // Retrieves the JSONs loaded in the GitHub
 function getJsonFiles() {
     return new Promise((resolve, reject) => {
