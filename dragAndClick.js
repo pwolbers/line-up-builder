@@ -304,7 +304,6 @@ function dragLine(e) {
     let currentX, currentY;
 
     var movingLine = document.getElementById('moving-checkbox').checked;
-    console.log("TESTING");
     if (isDrawing) {
         if (!movingLine) {
             var line = lines[lines.length - 1].div;

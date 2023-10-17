@@ -897,14 +897,25 @@ li {
 **************/
 
 /* The switch - the box around the slider */
-.switch {
+.switch, .longSwitch {
   position: relative;
   display: inline-block;
-  width: 120px;
   height: 3vh;
   margin-block-start: -1%;
   margin-left: 4%;
-  max-width: 120px;
+  margin-right: 5px;
+}
+
+.switch {
+  width: 25%;
+  min-width: 90px;
+  max-width: 170px;
+}
+
+.longSwitch {
+  width: 33.3333%;
+  min-width: 120px;
+  max-width: 225px;
 }
 
 /* Hide default HTML checkbox */
@@ -920,18 +931,21 @@ li {
   cursor: pointer;
   top: 0;
   bottom: 0;
-  max-width: 110px;
   -webkit-transition: .4s;
   transition: .4s;
   background-color: #1F1F1F;
   box-shadow: 0 0 0.1vh white;
 }
 
+.longSlider {
+  max-width: 110px;
+}
+
 .slider:before {
   position: absolute;
   content: "";
-  height: max(2.1vh, 14px);
-  width: max(2.1vh, 14px);
+  height: max(1.9vh, 16px);
+  width: max(1.9vh, 16px);
   left: 7%;
   bottom: 14%;
   background-color: white;
@@ -948,9 +962,15 @@ input:focus+.slider {
 }
 
 input:checked+.slider:before {
-  transform: translateX(85px);
-  -ms-transform: translateX(85px);
-  -webkit-transform: translateX(85px);
+  transform: translateX(max(3vw, 55px, 330%));
+  -ms-transform: translateX(max(3vw, 55px, 330%));
+  -webkit-transform: translateX(max(3vw, 55px, 330%));
+}
+
+input:checked+.longSlider:before {
+  transform: translateX(max(5vw, 90px, 400%));
+  -ms-transform: translateX(max(5vw, 90px, 400%));
+  -webkit-transform: translateX(max(5vw, 90px, 400%));
 }
 
 /* Rounded sliders */
@@ -998,7 +1018,7 @@ input:checked+.slider:before {
 #label-text,
 #tactical-text {
   color: white;
-  font-size: max(1.4vh, 12px);
+  font-size: max(1.3vh, 30%);
   padding-top: 5%;
   height: 2.3vh;
   min-height: 18px;
@@ -1012,22 +1032,22 @@ input:checked+.slider:before {
 
 #pitch-text,
 #label-text {
-  padding-left: calc(10/120 * 100%);
-  width: calc(110/120 * 100%);
+  padding-left: 12.5%;
+  width: 87.5%;
 }
 
 #oppo-text,
 #ball-text,
 #tactical-text {
-  padding-left: calc(90/120 * 100%);
-  padding-right: calc(15/120 * 100%);
-  width: calc(15/120 * 100%);
+  padding-left: 67.5%;
+  padding-right: 2.5%;
+  width: 30%;
 }
 
 #oppo-name-text {
-  padding-left: calc(65/120 * 100%);
-  padding-right: calc(15/120 * 100%);
-  width: calc(40/120 * 100%);
+  padding-left: 55%;
+  padding-right: 12.5%;
+  width: 32.5%;
 }
 
 .pitchCheckBox,
@@ -1443,9 +1463,10 @@ input:checked+.slider:before {
 }
 
 .popup-content {
+  left: 0;
   background-color: white;
-  width: 600px;
-  height: 700px;
+  width: 50%;
+  height: 70%;
   padding: 20px;
   border-radius: 5px;
   position: relative;
@@ -1474,8 +1495,8 @@ pre {
 
 #settings {
   position: absolute;
-  width: max(18%, 270px);
-  max-width: 300px;
+  width: max(15%, 20vw);
+  min-width: 350px;
   min-height: 100px;
   background-color: rgba(33, 35, 49, 1);
   border: 1px solid #ccc;
@@ -1849,9 +1870,9 @@ pre {
   }
 
   input:checked+.slider:before {
-    transform: translateX(52px);
-    -ms-transform: translateX(52px);
-    -webkit-transform: translateX(52px);
+    transform: translateX(80%);
+    -ms-transform: translateX(80%);
+    -webkit-transform: translateX(80%);
   }
 
   /* Slider container */

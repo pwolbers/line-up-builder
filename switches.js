@@ -116,9 +116,9 @@ function pitchCheckBox() {
         });
 
         document.getElementById("pitch-text").innerHTML = "Green";
-        document.getElementById("pitch-text").style.paddingLeft = "calc(10/120 * 100%)";
-        document.getElementById("pitch-text").style.paddingRight = "0";
-        document.getElementById("pitch-text").style.width = "calc(110/120 * 100%)";
+        document.getElementById("pitch-text").style.paddingLeft = "12.5%";
+        document.getElementById("pitch-text").style.paddingRight = "0%";
+        document.getElementById("pitch-text").style.width = "87.5%";
 
     }
     //Black
@@ -137,9 +137,9 @@ function pitchCheckBox() {
         });
 
         document.getElementById("pitch-text").innerHTML = "Black";
-        document.getElementById("pitch-text").style.paddingLeft = "calc(75/120 * 100%)";
-        document.getElementById("pitch-text").style.paddingRight = "calc(15/120 * 100%)";
-        document.getElementById("pitch-text").style.width = "calc(30/120 * 100%)";
+        document.getElementById("pitch-text").style.paddingLeft = "55%";
+        document.getElementById("pitch-text").style.paddingRight = "15%";
+        document.getElementById("pitch-text").style.width = "30%";
     }
     //Tactical
     if (tacticalSwitch === true) {
@@ -148,9 +148,9 @@ function pitchCheckBox() {
         });
         
         document.getElementById("tactical-text").innerHTML = "On";
-        document.getElementById("tactical-text").style.paddingLeft = "calc(10/120 * 100%)";
-        document.getElementById("tactical-text").style.paddingRight = "0";
-        document.getElementById("tactical-text").style.width = "calc(110/120 * 100%)";
+        document.getElementById("tactical-text").style.paddingLeft = "12.5%";
+        document.getElementById("tactical-text").style.paddingRight = "0%";
+        document.getElementById("tactical-text").style.width = "87.5%";
     }
     //Non-tactical
     else {
@@ -159,9 +159,9 @@ function pitchCheckBox() {
         });
 
         document.getElementById("tactical-text").innerHTML = "Off";
-        document.getElementById("tactical-text").style.paddingLeft = "calc(90/120 * 100%)";
-        document.getElementById("tactical-text").style.paddingRight = "calc(15/120 * 100%)";
-        document.getElementById("tactical-text").style.width = "calc(15/120 * 100%)";
+        document.getElementById("tactical-text").style.paddingLeft = "67.5%";
+        document.getElementById("tactical-text").style.paddingRight = "2.5%";
+        document.getElementById("tactical-text").style.width = "30%";
     }
 }
 
@@ -170,9 +170,9 @@ function oppoCheckBox(switchId) {
     var circles = Array.from(document.getElementsByClassName('oppoCircle'));
     if (currentSwitch.checked === true) {
         document.getElementById("oppo-text").innerHTML = "On";
-        document.getElementById("oppo-text").style.paddingLeft = "calc(10/120 * 100%)";
-        document.getElementById("oppo-text").style.paddingRight = "0";
-        document.getElementById("oppo-text").style.width = "calc(110/120 * 100%)";
+        document.getElementById("oppo-text").style.paddingLeft = "12.5%";
+        document.getElementById("oppo-text").style.paddingRight = "0%";
+        document.getElementById("oppo-text").style.width = "87.5%";
 
         //Show opposition circles
         circles.forEach(function (circle) {
@@ -219,9 +219,9 @@ function oppoCheckBox(switchId) {
     }
     else {
         document.getElementById("oppo-text").innerHTML = "Off";
-        document.getElementById("oppo-text").style.paddingLeft = "calc(90/120 * 100%)";
-        document.getElementById("oppo-text").style.paddingRight = "calc(15/120 * 100%)";
-        document.getElementById("oppo-text").style.width = "calc(15/120 * 100%)";
+        document.getElementById("oppo-text").style.paddingLeft = "67.5%";
+        document.getElementById("oppo-text").style.paddingRight = "2.5%";
+        document.getElementById("oppo-text").style.width = "30%";
         if (checkOppositionName.checked) {
             checkOppositionName.checked = false;
             oppoNameCheckBox("oppo-name-checkbox");
@@ -261,26 +261,28 @@ function oppoCheckBox(switchId) {
 
 function ballCheckBox(switchId) {
     currentSwitch = document.getElementById(switchId);
+    var ball = document.getElementById('ball');
     if (currentSwitch.checked === true) {
-        var ball = document.getElementById('ball');
+        
 
         ball.style.display = 'flex';
-        ball.style.top = '48.5%';
-        ball.style.left = '48.5%';
+        ball.style.top = '49%';
+        ball.style.left = '49%';
         document.getElementById("ball-text").innerHTML = "On";
-        document.getElementById("ball-text").style.paddingLeft = "calc(10/120 * 100%)";
+        document.getElementById("ball-text").style.paddingLeft = "12.5%";
         document.getElementById("ball-text").style.paddingRight = "0";
-        document.getElementById("ball-text").style.width = "calc(110/120 * 100%)";
+        document.getElementById("ball-text").style.width = "87.5%";
 
         ball.addEventListener("touchstart", handleSingleClick);
         ball.addEventListener("mousedown", handleSingleClick);
     }
     else {
         document.getElementById("ball-text").innerHTML = "Off";
-        document.getElementById("ball-text").style.paddingLeft = "calc(90/120 * 100%)";
-        document.getElementById("ball-text").style.paddingRight = "calc(15/120 * 100%)";
-        document.getElementById("ball-text").style.width = "calc(15/120 * 100%)";
-        
+        document.getElementById("ball-text").style.paddingLeft = "67.5%";
+        document.getElementById("ball-text").style.paddingRight = "2.5%";
+        document.getElementById("ball-text").style.width = "30%";
+
+        ball.style.display = 'none';
     }
 }
 
@@ -302,9 +304,9 @@ function labelCheckBox(switchId) {
         });
 
         document.getElementById("label-text").innerHTML = "Box";
-        document.getElementById("label-text").style.paddingLeft = "calc(10/120 * 100%)";
+        document.getElementById("label-text").style.paddingLeft = "12.5%";
         document.getElementById("label-text").style.paddingRight = "0";
-        document.getElementById("label-text").style.width = "calc(110/120 * 100%)";
+        document.getElementById("label-text").style.width = "87.5%";
     }
     else {
         var startingBoxes = document.querySelectorAll('.outputStarting.startingStyleOne');
@@ -321,9 +323,9 @@ function labelCheckBox(switchId) {
             box.classList.add('startingStyleTwo');
         });
         document.getElementById("label-text").innerHTML = "No box";
-        document.getElementById("label-text").style.paddingLeft = "calc(65/120 * 100%)";
-        document.getElementById("label-text").style.paddingRight = "calc(15/120 * 100%)";
-        document.getElementById("label-text").style.width = "calc(40/120 * 100%)";
+        document.getElementById("label-text").style.paddingLeft = "42.5%";
+        document.getElementById("label-text").style.paddingRight = "27.5%";
+        document.getElementById("label-text").style.width = "30%";
     }
 }
 
@@ -335,9 +337,9 @@ function oppoNameCheckBox(switchId) {
     if (currentSwitch.checked === true) {
         secondContainerInputs = [];
         document.getElementById("oppo-name-text").innerText = "Opposition";
-        document.getElementById("oppo-name-text").style.paddingLeft = "calc(10/120 * 100%)";
-        document.getElementById("oppo-name-text").style.paddingRight = "0";
-        document.getElementById("oppo-name-text").style.width = "calc(110/120 * 100%)";
+        document.getElementById("oppo-name-text").style.paddingLeft = "10%";
+        document.getElementById("oppo-name-text").style.paddingRight = "25%";
+        document.getElementById("oppo-name-text").style.width = "65%";
 
         document.getElementById("second-column-title").innerHTML = "Opposition eleven";
         document.querySelector('.second-column').style.background = '#154E32';
@@ -402,9 +404,9 @@ function oppoNameCheckBox(switchId) {
     else {
         oppoContainerInputs = [];
         document.getElementById("oppo-name-text").innerHTML = "Back-up";
-        document.getElementById("oppo-name-text").style.paddingLeft = "calc(65/120 * 100%)";
-        document.getElementById("oppo-name-text").style.paddingRight = "calc(15/120 * 100%)";
-        document.getElementById("oppo-name-text").style.width = "calc(40/120 * 100%)";
+        document.getElementById("oppo-name-text").style.paddingLeft = "55%";
+        document.getElementById("oppo-name-text").style.paddingRight = "12.5%";
+        document.getElementById("oppo-name-text").style.width = "32.5%";
 
         document.getElementById("second-column-title").innerHTML = "Back-up eleven";
         document.querySelector('.second-column').style.background = 'linear-gradient(#32154E, #32154E 98%, #1B1D2C 2%, #1B1D2C)';
