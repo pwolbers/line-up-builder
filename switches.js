@@ -20,6 +20,11 @@ labelCheckFalse.addEventListener("change", changeSwitch);
 var labelCheckTrue = document.getElementById("label-checkbox-true");
 labelCheckTrue.addEventListener("change", changeSwitch);
 
+var drawCheckFalse = document.getElementById("draw-checkbox-false");
+drawCheckFalse.addEventListener("change", changeSwitch);
+var drawCheckTrue = document.getElementById("draw-checkbox-true");
+drawCheckTrue.addEventListener("change", changeSwitch);
+
 var oppoCheckFalse = document.getElementById("oppo-checkbox-false");
 oppoCheckFalse.addEventListener("change", changeSwitch);
 var oppoCheckTrue = document.getElementById("oppo-checkbox-true");
@@ -63,6 +68,9 @@ function changeSwitch(evt) {
     }
     else if (currentSwitch.id == 'label-checkbox-false' || currentSwitch.id == 'label-checkbox-true') {
         labelCheckBox();
+    }
+    else if (currentSwitch.id == 'draw-checkbox-false' || currentSwitch.id == 'draw-checkbox-true') {
+        drawCheckBox();
     }
     else if ((currentSwitch.id == 'arrow-checkbox') || (currentSwitch.id == 'circle-checkbox') || (currentSwitch.id == 'moving-checkbox')) {
         arrowCircleCheckbox(currentSwitch);
@@ -242,6 +250,18 @@ function labelCheckBox() {
     }
 }
 
+function drawCheckBox() {
+    drawSwitch = document.getElementById('draw-checkbox-true');
+    var fillingDraw = drawSwitch.nextElementSibling.nextElementSibling;
+    if (drawSwitch.checked) {
+        fillingDraw.style.transform = 'translateX(100%)';
+        canvasContainer.style.display = 'block';
+    }
+    else{        
+        fillingDraw.style.transform = 'translateX(0%)';
+        canvasContainer.style.display = 'none';
+    }
+}
 function oppoCheckBox() {
     var oppoTrue = document.getElementById('oppo-checkbox-true');
     var oppoFilling = oppoTrue.nextElementSibling.nextElementSibling;

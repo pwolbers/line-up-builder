@@ -60,6 +60,14 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+#drawingCanvas {
+  display: none;
+  position: absolute;
+  background: rgba(255, 0, 0, 0);
+  z-index: 132;
+  border: 2px solid red;
+}
+
 .blackColor {
   background: #202020;
 }
@@ -1230,7 +1238,7 @@ li {
   height: calc(32/900 * 98vh);
   min-width: calc(32/900 * 752px);
   min-height: calc(32/900 * 752px);
-  transition: transform 1.2s ease;
+  transition: transform 1.2s cubic-bezier(0.2, 1, 1, 1);
   /* Same proportions as the image container (730 to 900) */
 }
 
@@ -1661,12 +1669,17 @@ pre {
 .pitchCheckBox,
 .tacticalCheckBox,
 .ballCheckBox,
-.labelCheckBox {
+.labelCheckBox,
+.drawCheckBox {
   display: flex;
   justify-content: space-between;
   margin-right: 0.5vw;
   margin-bottom: 0.5vw;
   width: 100%;
+}
+
+.drawCheckBox{
+  display: none;
 }
 
 #overlay {

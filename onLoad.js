@@ -27,10 +27,11 @@ const outputStartings = document.querySelectorAll(".outputStarting");
 const outputSeconds = document.querySelectorAll(".outputSecond");
 const outputOppos = document.querySelectorAll(".outputOpponent");
 
-const lineupContainer = document.querySelector(".lineup-container");
+const lineupContainer = document.getElementById("lineupContainer");
 const imageContainer = document.getElementById('image-container');
 const imageConHeight = imageContainer.offsetHeight;
 const imageConWidth = imageContainer.offsetWidth;
+const canvasContainer = document.getElementById('drawingCanvas');
 
 const teamNameBox = document.getElementById('teamNameBox');
 const screenshotButton = document.getElementById('screenshotButton');
@@ -628,7 +629,6 @@ function openHelpTab(evt, helpTab) {
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
-    console.log(helpTab);
     document.getElementById(helpTab).style.display = "block";
     evt.currentTarget.className += " active";
 }
@@ -715,7 +715,6 @@ circleButton.addEventListener('mousedown', function () {
 });
 
 arrowButton.addEventListener('mousedown', function () {
-    console.log("CLICKED");
     arrowButton.classList.add('activeArrow');
     arrowButton.parentNode.style.backgroundColor = 'rgba(36, 200, 36, 0.7)';
     setTimeout(function () {
@@ -726,7 +725,6 @@ arrowButton.addEventListener('mousedown', function () {
 });
 
 movingButton.addEventListener('mousedown', function () {
-    console.log("CLICKED");
     var movingCircle = document.getElementById('movingCircle');
     movingCircle.classList.add('activeMovingCircle')
     movingCircle.parentNode.style.backgroundColor = 'rgba(36, 200, 36, 0.7)';

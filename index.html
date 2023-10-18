@@ -47,7 +47,7 @@
             <i class="fas fa-cog gear-icon"></i>
             <div id="settings">
               <div class="pitchCheckBox">
-                <label id="pitchLabel" class="switch-label">Pitch background: </label>
+                <label id="pitchLabel" class="switch-label">Pitch background:</label>
                 <div class="switchContainer">
                   <input id="pitch-checkbox-false" class="toggle" name="togglePitch" value="false" type="radio">
                   <label for="pitch-checkbox-false" class="btn labelLeft">Black</label>
@@ -57,7 +57,7 @@
                 </div>
               </div>
               <div class="tacticalCheckBox">
-                <label id="tacticalLabel" class="switch-label">Tactical overlay: </label>
+                <label id="tacticalLabel" class="switch-label">Tactical overlay:</label>
                 <div class="switchContainer">
                   <input id="tactical-checkbox-false" class="toggle" name="toggleTactical" value="false" type="radio"
                     checked>
@@ -68,7 +68,7 @@
                 </div>
               </div>
               <div class="ballCheckBox">
-                <label id="ballLabel" class="switch-label">Ball: </label>
+                <label id="ballLabel" class="switch-label">Ball:</label>
                 <div class="switchContainer">
                   <input id="ball-checkbox-false" class="toggle" name="toggleBall" value="false" type="radio" checked>
                   <label for="ball-checkbox-false" class="btn labelLeft">Off</label>
@@ -78,7 +78,7 @@
                 </div>
               </div>
               <div class="labelCheckBox">
-                <label id="labelLabel" class="switch-label">Player name style: </label>
+                <label id="labelLabel" class="switch-label">Player name style:</label>
                 <div class="switchContainer">
                   <input id="label-checkbox-false" class="toggle" name="toggleLabel" value="false" type="radio">
                   <label for="label-checkbox-false" class="btn labelLeft">Not boxed</label>
@@ -87,9 +87,18 @@
                   <div class="switchFilling"></div>
                 </div>
               </div>
+              <div class="drawCheckBox">
+                <label id="drawLabel" class="switch-label">Drawing mode:</label>
+                <div class="switchContainer">
+                  <input id="draw-checkbox-false" class="toggle" name="toggleDraw" value="false" type="radio" checked>
+                  <label for="draw-checkbox-false" class="btn labelLeft">Off</label>
+                  <input id="draw-checkbox-true" class="toggle" name="toggleDraw" value="true" type="radio">
+                  <label for="draw-checkbox-true" class="btn labelRight">On</label>
+                  <div class="switchFilling"></div>
+                </div>
+              </div>
             </div>
           </div>
-
         </div>
         <div class="column-container">
           <button id="starting-column" class="column starting-column">
@@ -554,16 +563,30 @@
           <button class="helpTabLinks" onclick="openHelpTab(event, 'contact')" style="border-right: 0">Contact</button>
           <div id="controls" class="helpTabContent">
             <br>
-            <p><b>Use the following buttons to switch between dragging the circle <i>(mobile only!)</i>, drawing a tactical line, and drawing a
-                pressing line:</b></p>
-            <div class="help-image-div"><span><img id="circleButton" src="circle_grab_10.png" alt="Image" class="help-popup-square"></span><li><i>Drag a circle</i></li></div>
-            <div class="help-image-div"><span style="overflow: hidden"><img id="arrowButton" src="arrow.png" alt="Image" class="help-popup-square"></span><li><i>Draw a tactical line</i></li></div>
+            <p><b>Use the following buttons to switch between dragging the circle <i>(mobile only!)</i>, drawing a
+                tactical line, drawing a pressing line, and moving circles based on their pressing lines :</b></p>
+            <div class="help-image-div"><span><img id="circleButton" src="circle_grab_10.png" alt="Image"
+                  class="help-popup-square"></span>
+              <li><i>Drag a circle</i></li>
+            </div>
+            <div class="help-image-div"><span style="overflow: hidden"><img id="arrowButton" src="arrow.png" alt="Image"
+                  class="help-popup-square"></span>
+              <li><i>Draw a tactical line</i></li>
+            </div>
             <div class="help-image-div">
               <span id="movingButton" style="position: relative; overflow: hidden; width: 30px; height: 30px">
                 <img id="blueArrow" src="blue_arrow.png" alt="Image" class="help-popup-square">
                 <img id="movingCircle" src="moving_ball.png" alt="Image" class="help-popup-square">
-              </span><li><i>Draw a pressing line</i></li></div>
-            <div class="help-image-div"><span><img id="playButton" src="playbutton.png" alt="Image" class="help-popup-square help-play"></span><li><i>Animate circles to the endpoint of the pressing line</i></li></div>
+              </span>
+              <li><i>Draw a pressing line</i></li>
+            </div>
+            <div class="help-image-div">
+              <span>
+                <img id="playButton" src="playbutton.png" alt="Image" class="help-popup-square help-play">
+              </span>
+              <li><i>Animate circles to the endpoint of the pressing line (only usable when pressing lines are
+                  drawn)</i></li>
+            </div>
             <br>
             <h4>Computer</h4>
             <li><b>Left click and drag circle:</b> change position of circle on the pitch</li>
@@ -581,7 +604,7 @@
             <li><b>Hold and drag:</b> Draw arrow from the circle</li>
             <li><b>Single tap on circle:</b> Remove oldest arrow from the circle</li>
             <li><b>Double tap on circle:</b> Remove all arrows from the circle</li>
-            
+
           </div>
           <div id="importing-team" class="helpTabContent">
             <br>
@@ -606,7 +629,7 @@
               automatically generated for you. The order of the labels and their corresponding players in the .JSON is
               irrelevant. The
               #7 in the JSON will always match the #7 in the lineup, whether it's the first or last in the JSON.</p>
-              <br>
+            <br>
             <h3>Details</h3>
             <p><b>teamName:</b> Put your team name here</p>
             <p><b>formation: </b> Recognized inputs for formations are:</p>
@@ -664,6 +687,7 @@
         </div>
       </div>
     </div>
+    <canvas id="drawingCanvas"></canvas>
   </div>
   <script type="text/javascript" src="onLoad.js"></script>
   <script type="text/javascript" src="script.js"></script>
@@ -671,6 +695,7 @@
   <script type="text/javascript" src="switches.js"></script>
   <script type="text/javascript" src="buttons.js"></script>
   <script type="text/javascript" src="dragAndClick.js"></script>
+  <script type="text/javascript" src="drawing.js"></script>
 </body>
 
 </html>

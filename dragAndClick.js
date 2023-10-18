@@ -196,7 +196,7 @@ function drawLineFunctionality(e, circle, mobile) {
     else {
         lineStyle = 'dotted';
         if (e.currentTarget.id.indexOf('oppo') > -1) {
-            lineColor = 'red';
+            lineColor = 'purple';
         }
         else {
             lineColor = 'yellow';
