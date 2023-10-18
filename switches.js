@@ -67,7 +67,7 @@ function changeSwitch(evt) {
     else if ((currentSwitch.id == 'arrow-checkbox') || (currentSwitch.id == 'circle-checkbox') || (currentSwitch.id == 'moving-checkbox')) {
         arrowCircleCheckbox(currentSwitch);
     }
-    else if (currentSwitch.id == 'play-checkbox'){
+    else if (currentSwitch.id == 'play-checkbox') {
         moveCircles();
     }
 }
@@ -99,9 +99,11 @@ function arrowCircleCheckbox(switchCheckbox) {
             lines[i].div.style.display = 'none';
         }
 
-        //Show all moving lines
-        for (var x = 0; x < movingLines.length; x++) {
-            movingLines[x].div.style.display = 'block';
+        //Show all moving lines if play button is not checked
+        if (document.querySelector('.play-checkbox').checked == false) {
+            for (var x = 0; x < movingLines.length; x++) {
+                movingLines[x].div.style.display = 'block';
+            }
         }
     }
 

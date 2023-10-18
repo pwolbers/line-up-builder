@@ -415,7 +415,6 @@ function moveCircles() {
         if (arrowLocationArray.length > 0) {
             circleCheck.disabled = true;
             arrowCheck.disabled = true;
-            movingCheck.disabled = true;
             playCheck.disabled = true;
             for (var q = 0; q < arrowLocationArray.length; q++) {
                 var circleTest = document.getElementById(arrowLocationArray[q].id);
@@ -466,7 +465,6 @@ function moveCircles() {
             });
             circleCheck.disabled = false;
             arrowCheck.disabled = false;
-            movingCheck.disabled = false;
             playCheck.disabled = false;
         }, animationDuration);
     }

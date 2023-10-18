@@ -65,7 +65,7 @@ const oppoLineYFive = (465 / 900) * imageConHeight;
 const oppoLineYSix = (545 / 900) * imageConHeight;
 const oppoLineYSeven = (840 / 900) * imageConHeight;
 
-const animationDuration = 1200;
+const animationDuration = 1000;
 
 var arrowLocationArray = [];
 let startX, startY;
@@ -616,14 +616,30 @@ function textToCircle() {
 
 //Tabs for the help pop-up
 document.getElementById("defaultOpen").click();
+document.getElementById("defaultOpen2").click();
 
-function openJSONVariant(evt, jsonVariant) {
+function openHelpTab(evt, helpTab) {
     var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
+    tabcontent = document.getElementsByClassName("helpTabContent");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
-    tablinks = document.getElementsByClassName("tablinks");
+    tablinks = document.getElementsByClassName("helpTabLinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    console.log(helpTab);
+    document.getElementById(helpTab).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+function openJSONVariant(evt, jsonVariant) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabContent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tabLinks");
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
@@ -661,3 +677,62 @@ function getSpecificCirclePositions(inputString) {
     }
     return result;
 }
+
+const playButton = document.getElementById('playButton');
+const circleButton = document.getElementById('circleButton');
+const arrowButton = document.getElementById('arrowButton');
+const movingButton = document.getElementById('movingButton');
+
+playButton.addEventListener('mousedown', function () {
+    console.log("CLICKED");
+    playButton.classList.add('activePlay');
+    playButton.parentNode.style.backgroundColor = 'rgba(36, 200, 36, 0.7)';
+    setTimeout(function () {
+        playButton.classList.remove('activePlay');
+
+        playButton.parentNode.style.backgroundColor = 'rgba(200, 36, 36, 0.7)';
+    }, 1200);
+});
+
+circleButton.addEventListener('mousedown', function () {
+    circleButton.classList.add('activeCircle');
+    circleButton.style.transform = 'translateY(-10%)';
+    setTimeout(function () {
+        circleButton.style.transform = 'translateY(10%) translateX(10%)';
+        setTimeout(function () {
+            circleButton.style.transform = 'translateY(10%) translateX(-10%)';
+            setTimeout(function () {
+                circleButton.style.transform = '';
+            }, 200);
+        }, 200);
+    }, 200);
+    circleButton.parentNode.style.backgroundColor = 'rgba(36, 200, 36, 0.7)';
+    setTimeout(function () {
+        circleButton.style.transform = '';
+        circleButton.classList.remove('activeCircle');
+        circleButton.parentNode.style.backgroundColor = 'rgba(200, 36, 36, 0.7)';
+    }, 1000);
+});
+
+arrowButton.addEventListener('mousedown', function () {
+    console.log("CLICKED");
+    arrowButton.classList.add('activeArrow');
+    arrowButton.parentNode.style.backgroundColor = 'rgba(36, 200, 36, 0.7)';
+    setTimeout(function () {
+        arrowButton.classList.remove('activeArrow');
+
+        arrowButton.parentNode.style.backgroundColor = 'rgba(200, 36, 36, 0.7)';
+    }, 1200);
+});
+
+movingButton.addEventListener('mousedown', function () {
+    console.log("CLICKED");
+    var movingCircle = document.getElementById('movingCircle');
+    movingCircle.classList.add('activeMovingCircle')
+    movingCircle.parentNode.style.backgroundColor = 'rgba(36, 200, 36, 0.7)';
+    setTimeout(function () {
+        movingCircle.classList.remove('activeMovingCircle');
+
+        movingCircle.parentNode.style.backgroundColor = 'rgba(200, 36, 36, 0.7)';
+    }, 1200);
+});

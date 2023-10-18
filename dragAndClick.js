@@ -8,6 +8,8 @@ let offsetY = 0;
 let isEditing = false;
 var lineColor = 'yellow';
 var lineStyle = 'dotted';
+var startTime = 0;
+var startedWithThree = false;
 
 var arrowSwitch = document.getElementById('arrow-checkbox');
 var circleSwitch = document.getElementById('circle-checkbox');
@@ -35,13 +37,12 @@ function handleDoubleClick(e) {
                 input.classList.add('inputBox');
                 input.classList.add('newNumberInputBox');
                 input.style.zIndex = '50';
-                var top = circle.getBoundingClientRect().top;
-                var left = circle.getBoundingClientRect().left;
-                input.style.top = (top - 30) + 'px';
-                input.style.left = (left - 8) + 'px';
+                var top = 1.2 * circle.offsetHeight;
+                var left = 0.25 * circle.offsetWidth;
+                input.style.top = '-' + top + 'px';
+                input.style.left = '-' + left + 'px';
 
-                var mainContainer = document.getElementById('main-container');
-                mainContainer.appendChild(input);
+                circle.appendChild(input);
 
                 input.focus();
 
@@ -166,6 +167,7 @@ function removeLines(circle) {
 }
 
 function drawLineFunctionality(e, circle, mobile) {
+    startTime = new Date().getTime();
     var movingLine = document.getElementById('moving-checkbox').checked;
     e.preventDefault();
     activeCircle = circle;
@@ -213,7 +215,7 @@ function drawLineFunctionality(e, circle, mobile) {
     var normalLineDivs = activeCircle.querySelectorAll('.normalLine');
     var movingLineDiv = activeCircle.querySelector('.movingLine');
 
-    // Maximum amount of lines
+    // Remove old moving line
     if (movingLine) {
         if (movingLineDiv) {
             movingLineDiv.parentNode.removeChild(movingLineDiv);
@@ -222,6 +224,8 @@ function drawLineFunctionality(e, circle, mobile) {
     }
     else {
         if (normalLineDivs.length >= 3) {
+            startedWithThree = true;
+
             const firstLine = normalLineDivs[0];
             firstLine.parentNode.removeChild(firstLine);
 
@@ -409,6 +413,7 @@ function dragLine(e) {
 
 function stopLine(e) {
     var movingLine = document.getElementById('moving-checkbox').checked;
+
     var latestLine;
     if (movingLine) {
         latestLine = movingLines[movingLines.length - 1].div
@@ -423,7 +428,6 @@ function stopLine(e) {
         if (movingLine) {
             movingLines.pop();
             const filteredArray = arrowLocationArray.filter(item => item.id !== circleId);
-          
             arrowLocationArray = filteredArray;
         }
         else {
@@ -437,6 +441,28 @@ function stopLine(e) {
         }
     }
 
+    //If just clicked, also delete the oldest line
+    let endTime = new Date().getTime();
+
+    var difference = endTime - startTime;
+    if (difference < 90) {
+        //Check if the oldest wasn't already removed due to the limit of 3 lines
+        if (!movingLine && !startedWithThree) {
+            var normalLineDivs = activeCircle.querySelectorAll('.normalLine');
+            const firstLine = normalLineDivs[0];
+            firstLine.parentNode.removeChild(firstLine);
+
+            // Find the index of the first occurrence where circle matches the id of the activeCircle
+            const indexToRemove = lines.findIndex(item => item.circle === activeCircle.id);
+
+            // Remove the element at the found index
+            if (indexToRemove !== -1) {
+                lines.splice(indexToRemove, 1);
+            }
+
+        }
+    }
+
     //Reset functionality
     activeCircle = null;
     document.removeEventListener("mousemove", dragLine);
@@ -444,6 +470,7 @@ function stopLine(e) {
     document.removeEventListener("mouseup", stopLine);
     document.removeEventListener("touchend", stopLine);
     isDrawing = false;
+    startedWithThree = false;
 }
 
 function removeInputBox() {
