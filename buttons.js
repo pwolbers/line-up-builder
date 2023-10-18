@@ -411,7 +411,6 @@ function moveCircles() {
     var arrowCheck = document.getElementById("arrow-checkbox");
     var movingCheck = document.getElementById("moving-checkbox");
     var playCheck = document.getElementById("play-checkbox");
-
     if (playCheck.checked) {
         if (arrowLocationArray.length > 0) {
             circleCheck.disabled = true;
@@ -442,6 +441,7 @@ function moveCircles() {
             }
 
             setTimeout(function () {
+                
                 //Set to empty, so that another button press resets the location
                 playCheck.disabled = false;
             }, animationDuration);

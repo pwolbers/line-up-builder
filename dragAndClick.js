@@ -418,9 +418,13 @@ function stopLine(e) {
     }
 
     if (parseInt(latestLine.style.height) < 22 || latestLine.style.height == '') {
+        var circleId = latestLine.parentNode.id;
         latestLine.parentNode.removeChild(latestLine);
         if (movingLine) {
             movingLines.pop();
+            const filteredArray = arrowLocationArray.filter(item => item.id !== circleId);
+          
+            arrowLocationArray = filteredArray;
         }
         else {
             lines.pop();
