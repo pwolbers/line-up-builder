@@ -11,6 +11,7 @@ var lineStyle = 'dotted';
 
 var arrowSwitch = document.getElementById('arrow-checkbox');
 var circleSwitch = document.getElementById('circle-checkbox');
+var animationPlaying = document.getElementById("play-checkbox");
 //Adds drag functionality
 allCircles.forEach((circle, index) => {
     circle.addEventListener("dblclick", handleDoubleClick);
@@ -19,127 +20,129 @@ allCircles.forEach((circle, index) => {
 });
 
 function handleDoubleClick(e) {
-    circle = e.currentTarget;
-    if (e.button == 0 || (e.button == undefined && circleSwitch.checked)) {
-        if (!isEditing) {
+    if (!animationPlaying.checked) {
+        circle = e.currentTarget;
+        if (e.button == 0 || (e.button == undefined && circleSwitch.checked)) {
+            if (!isEditing) {
 
-            isEditing = true;
-            var number = circle.querySelector('.circle-number');
-            const currentValue = number.textContent;
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.value = '';
+                isEditing = true;
+                var number = circle.querySelector('.circle-number');
+                const currentValue = number.textContent;
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = '';
 
-            input.classList.add('inputBox');
-            input.classList.add('newNumberInputBox');
-            input.style.zIndex = '50';
-            var top = circle.getBoundingClientRect().top;
-            var left = circle.getBoundingClientRect().left;
-            input.style.top = (top - 30) + 'px';
-            input.style.left = (left - 8) + 'px';
+                input.classList.add('inputBox');
+                input.classList.add('newNumberInputBox');
+                input.style.zIndex = '50';
+                var top = circle.getBoundingClientRect().top;
+                var left = circle.getBoundingClientRect().left;
+                input.style.top = (top - 30) + 'px';
+                input.style.left = (left - 8) + 'px';
 
-            var mainContainer = document.getElementById('main-container');
-            mainContainer.appendChild(input);
+                var mainContainer = document.getElementById('main-container');
+                mainContainer.appendChild(input);
 
-            input.focus();
+                input.focus();
 
-            // Add an event listener to save the edited value on Enter and cancel on Esc
-            input.addEventListener('keydown', function (event) {
-                console.log(event.key);
-                if (event.key === 'Enter') {
-                    isEditing = false;
-                    changeNumberOnTextbox(circle, input.value);
+                // Add an event listener to save the edited value on Enter and cancel on Esc
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        isEditing = false;
+                        changeNumberOnTextbox(circle, input.value);
+                        removeInputBox();
+                    } else if (event.key === 'Escape') {
+                        number.textContent = currentValue;
+                        isEditing = false;
+                        removeInputBox();
+                    }
+                });
+
+                // Remove the input field and revert to the number when it loses focus
+                input.addEventListener('blur', function () {
+                    if (input.value.length >= 1 && input.value.length <= 4) {
+                        getFontSize(input.value.length, number);
+                        number.textContent = input.value;
+                        isEditing = false;
+                        changeNumberOnTextbox(circle, input.value);
+                    }
+                    else if (input.value.length > 4) {
+                        number.textContent = currentValue;
+                        isEditing = false;
+                        alert("Input length has to be between 1 and 4 characters");
+                    }
+                    else {
+                        number.textContent = currentValue;
+                        isEditing = false;
+                    }
                     removeInputBox();
-                } else if (event.key === 'Escape') {
-                    number.textContent = currentValue;
-                    isEditing = false;
-                    removeInputBox();
-                }
-            });
-
-            // Remove the input field and revert to the number when it loses focus
-            input.addEventListener('blur', function () {
-                if (input.value.length >= 1 && input.value.length <= 4) {
-                    getFontSize(input.value.length, number);
-                    number.textContent = input.value;
-                    isEditing = false;
-                    changeNumberOnTextbox(circle, input.value);
-                }
-                else if (input.value.length > 4) {
-                    number.textContent = currentValue;
-                    isEditing = false;
-                    alert("Input length has to be between 1 and 4 characters");
-                }
-                else {
-                    number.textContent = currentValue;
-                    isEditing = false;
-                }
-                removeInputBox();
-            });
+                });
+            }
         }
-    }
-    else {
-        removeLines(circle);
+        else {
+            removeLines(circle);
+        }
     }
 }
 
 function handleSingleClick(e) {
-
-    //Check if click is on the circle or line
-    var clickedOnLine = (e.target.classList.toString().indexOf('line') > -1 || e.target.classList.toString().indexOf('arrowhead') > -1);
-    //Set up variables for mobile tap and right click
-    //Undefined = mobile tap
-    if (e.button == undefined) {
-        var doubleTap = false;
-        e.preventDefault(); // to disable browser default zoom on double tap
-        let date = new Date();
-        let time = date.getTime();
-        const time_between_taps = 200; // 250ms
-        if (time - lastClick < time_between_taps) {
-            var doubleTap = true;
-            handleDoubleClick(e);
-        }
-        lastClick = time;
-    }
-    //2 = right click
-    if (e.button == 2) {
-        var doubleTap = false;
-        e.preventDefault(); // to disable browser default zoom on double tap
-        let date = new Date();
-        let time = date.getTime();
-        const time_between_taps = 250; // 250ms
-        if (time - lastClick < time_between_taps) {
-            var doubleTap = true;
-            handleDoubleClick(e);
-        }
-        lastClick = time;
-    }
-    //0 == left click
-    if (e.button === 0 || (e.button === undefined && doubleTap == false)) {
-        if (e.button === 0 || (e.button === undefined && circleSwitch.checked)) {
-            e.preventDefault();
-            if (e.type === "mousedown") {
-                activeCircle = this;
-                initialX = e.clientX;
-                initialY = e.clientY;
-            } else if (e.type === "touchstart") {
-                activeCircle = this;
-                initialX = e.touches[0].clientX;
-                initialY = e.touches[0].clientY;
+    if (!animationPlaying.checked) {
+        //Check if click is on the circle or line
+        var clickedOnLine = (e.target.classList.toString().indexOf('line') > -1 || e.target.classList.toString().indexOf('arrowhead') > -1);
+        //Set up variables for mobile tap and right click
+        //Undefined = mobile tap
+        if (e.button == undefined) {
+            var doubleTap = false;
+            e.preventDefault(); // to disable browser default zoom on double tap
+            let date = new Date();
+            let time = date.getTime();
+            const time_between_taps = 200; // 250ms
+            if (time - lastClick < time_between_taps) {
+                var doubleTap = true;
+                handleDoubleClick(e);
             }
-            offsetX = activeCircle.offsetLeft;
-            offsetY = activeCircle.offsetTop;
-            document.addEventListener("mousemove", dragCircle);
-            document.addEventListener("touchmove", dragCircle, { passive: false });
-            document.addEventListener("mouseup", stopDrag);
-            document.addEventListener("touchend", stopDrag);
+            lastClick = time;
         }
-        else if (!clickedOnLine) {
-            drawLineFunctionality(e, this, true);
+        //2 = right click
+        if (e.button == 2) {
+            var doubleTap = false;
+            e.preventDefault(); // to disable browser default zoom on double tap
+            let date = new Date();
+            let time = date.getTime();
+            const time_between_taps = 250; // 250ms
+            if (time - lastClick < time_between_taps) {
+                var doubleTap = true;
+                handleDoubleClick(e);
+            }
+            lastClick = time;
         }
-    }
-    else if (e.button === 2 && doubleTap == false && e.currentTarget.id != 'ball' && !clickedOnLine) {
-        drawLineFunctionality(e, this);
+        //0 == left click
+        if (e.button === 0 || (e.button === undefined && doubleTap == false)) {
+            if (e.button === 0 || (e.button === undefined && circleSwitch.checked)) {
+                e.preventDefault();
+                if (e.type === "mousedown") {
+                    activeCircle = this;
+                    initialX = e.clientX;
+                    initialY = e.clientY;
+                } else if (e.type === "touchstart") {
+                    activeCircle = this;
+                    initialX = e.touches[0].clientX;
+                    initialY = e.touches[0].clientY;
+                }
+                offsetX = activeCircle.offsetLeft;
+                offsetY = activeCircle.offsetTop;
+                document.addEventListener("mousemove", dragCircle);
+                document.addEventListener("touchmove", dragCircle, { passive: false });
+                document.addEventListener("mouseup", stopDrag);
+                document.addEventListener("touchend", stopDrag);
+            }
+            else if (!clickedOnLine) {
+                drawLineFunctionality(e, this, true);
+            }
+        }
+        else if (e.button === 2 && doubleTap == false && e.currentTarget.id != 'ball' && !clickedOnLine) {
+            drawLineFunctionality(e, this, false);
+        }
     }
 }
 
@@ -259,8 +262,25 @@ function dragCircle(e) {
         const deltaX = currentX - initialX;
         const deltaY = currentY - initialY;
 
-        const newX = offsetX + deltaX;
-        const newY = offsetY + deltaY;
+        var newX = offsetX + deltaX;
+        var newY = offsetY + deltaY;
+
+
+        //Blue line height determines how far the circle can go on the pitch
+        var yCoordinate = 0;
+        var xCoordinate = 0;
+        var movingLine = activeCircle.querySelector('.movingLine');
+        if (movingLine) {
+            var height = parseInt(movingLine.style.height); // Height of the line
+            var angleDegrees = movingLine.style.transform.split('(')[1].split('deg')[0];
+
+            const angleInRadians = angleDegrees * Math.PI / 180;
+
+            yCoordinate = height * Math.cos(angleInRadians);
+            xCoordinate = height * Math.sin(angleInRadians);
+
+        }
+
 
         //max changes based on size of the imageContainer
         const maxLeft = (62 / 730) * imageContainer.offsetWidth;
@@ -268,14 +288,18 @@ function dragCircle(e) {
         const maxTop = (45 / 900) * imageContainer.offsetHeight;
         const maxBottom = (822 / 900) * imageContainer.offsetHeight;
 
+        //Check X & Y location with and without Line
+        var newXCheck = newX > maxLeft && newX < maxRight;
+        var newYCheck = newY > maxTop && newY < maxBottom;
+        var newXCheckWithMovingLine = (newX - xCoordinate) > maxLeft && (newX - xCoordinate) < maxRight;
+        var newYCheckWithMovingLine = (newY + yCoordinate) > maxTop && (newY + yCoordinate) < maxBottom;
 
-        if (newX > maxLeft && newX < maxRight) {
+        if (newXCheck && newXCheckWithMovingLine) {
             activeCircle.style.left = newX / imageContainer.offsetWidth * 100 + '%';
         }
-        if (newY > maxTop && newY < maxBottom) {
+        if (newYCheck && newYCheckWithMovingLine) {
             activeCircle.style.top = newY / imageContainer.offsetHeight * 100 + '%';
         }
-
 
         if (activeCircle.id.indexOf('oppo') > -1 && checkOppositionName.checked) {
             setOppoTextBoxOrder();
@@ -317,8 +341,8 @@ function dragLine(e) {
                 currentY = e.clientY || e.touches[0].pageY;
             }
 
-            var lineX = e.clientX - imageContainer.getBoundingClientRect().left;
-            var lineY = e.clientY - imageContainer.getBoundingClientRect().top;
+            var lineX = currentX - imageContainer.getBoundingClientRect().left;
+            var lineY = currentY - imageContainer.getBoundingClientRect().top;
 
             var offsetX = activeCircle.offsetWidth / 2;
             var offsetY = activeCircle.offsetHeight / 2;
@@ -328,6 +352,8 @@ function dragLine(e) {
             const maxRight = ((660 / 730) * imageContainer.offsetWidth) - offsetX;
             const maxTop = ((50 / 900) * imageContainer.offsetHeight) + offsetY;
             const maxBottom = ((850 / 900) * imageContainer.offsetHeight) - offsetY;
+
+
             if (lineX < maxLeft) {
                 currentX = imageContainer.getBoundingClientRect().left + maxLeft;
             }
@@ -341,7 +367,6 @@ function dragLine(e) {
                 currentY = imageContainer.getBoundingClientRect().top + maxBottom;
             }
 
-
             // Calculate the horizontal and vertical differences
             var deltaX = currentX - startX;
             var deltaY = currentY - startY;
@@ -352,8 +377,6 @@ function dragLine(e) {
 
             // Calculate the hypotenuse (line length)
             const hypotenuse = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-
 
             if (hypotenuse > 10) {
                 const arrowheadDiv = line.querySelector(".arrowhead");
@@ -386,18 +409,28 @@ function dragLine(e) {
 
 function stopLine(e) {
     var movingLine = document.getElementById('moving-checkbox').checked;
-
-    var allLineDivs = activeCircle.querySelectorAll('.line');
-    allLineDivs.forEach(function (lineElement) {
-        if (parseInt(lineElement.style.height) < 22) {
-            lineElement.parentNode.removeChild(lineElement);
-        }
-    });
-
+    var latestLine;
     if (movingLine) {
-        //Push data for line to array for movement functionality 
-        const line = movingLines[movingLines.length - 1].div;
-        addLineDataToArray(line, activeCircle);
+        latestLine = movingLines[movingLines.length - 1].div
+    }
+    else {
+        latestLine = lines[lines.length - 1].div
+    }
+
+    if (parseInt(latestLine.style.height) < 22 || latestLine.style.height == '') {
+        latestLine.parentNode.removeChild(latestLine);
+        if (movingLine) {
+            movingLines.pop();
+        }
+        else {
+            lines.pop();
+        }
+    }
+    else {
+        if (movingLine) {
+            //Push data for line to array for movement functionality 
+            addLineDataToArray(latestLine, activeCircle);
+        }
     }
 
     //Reset functionality
@@ -416,24 +449,21 @@ function removeInputBox() {
     });
 }
 
-function addLineDataToArray(line, activeCircle) {
+function addLineDataToArray(newLine, activeCircle) {
     // Given values
-    const height = line.style.height; // Height of the line
-    const angleDegrees = line.style.transform.split('(')[1].split('deg')[0];
-    const angleRadians = (angleDegrees * Math.PI) / 180;
+    var height = newLine.style.height; // Height of the line
+    var angleDegrees = newLine.style.transform.split('(')[1].split('deg')[0];
+    var angleRadians = (angleDegrees * Math.PI) / 180;
 
 
     // Calculate the x and y components
-    const x = height.split('px')[0] * Math.sin(angleRadians);
-    const y = height.split('px')[0] * Math.cos(angleRadians);
+    var x = height.split('px')[0] * Math.sin(angleRadians);
+    var y = height.split('px')[0] * Math.cos(angleRadians);
 
-
-    const arrowheadDiv = line.querySelector(".arrowhead");
     var arrowLocationObj = {
         "id": activeCircle.id,
         "top": y,
         "left": x
     };
     arrowLocationArray.push(arrowLocationObj);
-    liveArrowLocationArray = arrowLocationArray;
 }

@@ -1,22 +1,34 @@
 // Function to toggle background of pitch background and whether or not opponents are visible
 // Also checks for the ball
-var pitchCheck = document.getElementById("pitch-checkbox");
-pitchCheck.addEventListener("change", changeSwitch);
+var pitchCheckFalse = document.getElementById("pitch-checkbox-false");
+pitchCheckFalse.addEventListener("change", changeSwitch);
+var pitchCheckTrue = document.getElementById("pitch-checkbox-true");
+pitchCheckTrue.addEventListener("change", changeSwitch);
 
-var tacticalCheck = document.getElementById("tactical-checkbox");
-tacticalCheck.addEventListener("change", changeSwitch);
+var tacticalCheckFalse = document.getElementById("tactical-checkbox-false");
+tacticalCheckFalse.addEventListener("change", changeSwitch);
+var tacticalCheckTrue = document.getElementById("tactical-checkbox-true");
+tacticalCheckTrue.addEventListener("change", changeSwitch);
 
-var ballCheck = document.getElementById("ball-checkbox");
-ballCheck.addEventListener("change", changeSwitch);
+var ballCheckFalse = document.getElementById("ball-checkbox-false");
+ballCheckFalse.addEventListener("change", changeSwitch);
+var ballCheckTrue = document.getElementById("ball-checkbox-true");
+ballCheckTrue.addEventListener("change", changeSwitch);
 
-var labelCheck = document.getElementById("label-checkbox");
-labelCheck.addEventListener("change", changeSwitch);
+var labelCheckFalse = document.getElementById("label-checkbox-false");
+labelCheckFalse.addEventListener("change", changeSwitch);
+var labelCheckTrue = document.getElementById("label-checkbox-true");
+labelCheckTrue.addEventListener("change", changeSwitch);
 
-var oppoCheck = document.getElementById("oppo-checkbox");
-oppoCheck.addEventListener("change", changeSwitch);
+var oppoCheckFalse = document.getElementById("oppo-checkbox-false");
+oppoCheckFalse.addEventListener("change", changeSwitch);
+var oppoCheckTrue = document.getElementById("oppo-checkbox-true");
+oppoCheckTrue.addEventListener("change", changeSwitch);
 
-var oppoNameCheck = document.getElementById("oppo-name-checkbox");
-oppoNameCheck.addEventListener("change", changeSwitch);
+var oppoNameCheckFalse = document.getElementById("oppo-column-checkbox-false");
+oppoNameCheckFalse.addEventListener("change", changeSwitch);
+var oppoNameCheckTrue = document.getElementById("oppo-column-checkbox-true");
+oppoNameCheckTrue.addEventListener("change", changeSwitch);
 
 var arrowCheck = document.getElementById("arrow-checkbox");
 arrowCheck.addEventListener("change", changeSwitch);
@@ -27,36 +39,42 @@ circleCheck.addEventListener("change", changeSwitch);
 var movingCheck = document.getElementById("moving-checkbox");
 movingCheck.addEventListener("change", changeSwitch);
 
+var playCheck = document.getElementById("play-checkbox");
+playCheck.addEventListener("change", changeSwitch);
+
 var currentSwitch;
 
 function changeSwitch(evt) {
     currentSwitch = evt.currentTarget;
-    if (currentSwitch.id == 'pitch-checkbox') {
+    if (currentSwitch.id == 'oppo-checkbox-false' || currentSwitch.id == 'oppo-checkbox-true') {
+        oppoCheckBox();
+    }
+    else if (currentSwitch.id == 'oppo-column-checkbox-false' || currentSwitch.id == 'oppo-column-checkbox-true') {
+        oppoNameCheckBox();
+    }
+    else if (currentSwitch.id == 'pitch-checkbox-false' || currentSwitch.id == 'pitch-checkbox-true') {
         pitchCheckBox();
     }
-    else if (currentSwitch.id == 'tactical-checkbox') {
+    else if (currentSwitch.id == 'tactical-checkbox-false' || currentSwitch.id == 'tactical-checkbox-true') {
         pitchCheckBox();
     }
-    else if (currentSwitch.id == 'oppo-checkbox') {
-        oppoCheckBox(currentSwitch.id);
+    else if (currentSwitch.id == 'ball-checkbox-false' || currentSwitch.id == 'ball-checkbox-true') {
+        ballCheckBox();
     }
-    else if (currentSwitch.id == 'ball-checkbox') {
-        ballCheckBox(currentSwitch.id);
-    }
-    else if (currentSwitch.id == 'label-checkbox') {
-        labelCheckBox(currentSwitch.id);
-    }
-    else if (currentSwitch.id == 'oppo-name-checkbox') {
-        oppoNameCheckBox(currentSwitch.id);
+    else if (currentSwitch.id == 'label-checkbox-false' || currentSwitch.id == 'label-checkbox-true') {
+        labelCheckBox();
     }
     else if ((currentSwitch.id == 'arrow-checkbox') || (currentSwitch.id == 'circle-checkbox') || (currentSwitch.id == 'moving-checkbox')) {
         arrowCircleCheckbox(currentSwitch);
     }
+    else if (currentSwitch.id == 'play-checkbox'){
+        moveCircles();
+    }
 }
 
 function arrowCircleCheckbox(switchCheckbox) {
+    document.querySelector('.play-checkbox').style.display = 'none';
     if (switchCheckbox.id == 'arrow-checkbox') {
-
         document.getElementById('circle-checkbox').checked = false;
         document.getElementById('moving-checkbox').checked = false;
         //Show all normal lines
@@ -75,7 +93,7 @@ function arrowCircleCheckbox(switchCheckbox) {
     else if (switchCheckbox.id == 'moving-checkbox') {
         document.getElementById('arrow-checkbox').checked = false;
         document.getElementById('circle-checkbox').checked = false;
-
+        document.querySelector('.play-checkbox').style.display = 'block';
         //Hide all normal lines
         for (var i = 0; i < lines.length; i++) {
             lines[i].div.style.display = 'none';
@@ -92,16 +110,20 @@ function arrowCircleCheckbox(switchCheckbox) {
 }
 
 function pitchCheckBox() {
-    var pitchSwitch = document.getElementById('pitch-checkbox').checked;
-    var tacticalSwitch = document.getElementById('tactical-checkbox').checked;
+    var pitchSwitch = document.getElementById('pitch-checkbox-true');
+    var fillingPitch = pitchSwitch.nextElementSibling.nextElementSibling;
+
     var footballPitch = document.querySelector('.football-pitch');
     var penaltyBoxTop = document.querySelector('.penalty-box.top');
     var penaltyBoxBottom = document.querySelector('.penalty-box.bottom');
 
+    var tacticalSwitch = document.getElementById('tactical-checkbox-true');
+    var fillingTactical = tacticalSwitch.nextElementSibling.nextElementSibling;
     var tacticalLines = document.querySelectorAll('.tactical');
 
     //Green
-    if (pitchSwitch === true) {
+    if (pitchSwitch.checked === true) {
+        fillingPitch.style.transform = 'translateX(100%)';
         footballPitch.classList.remove('blackColor');
         penaltyBoxTop.classList.remove('blackColor');
         penaltyBoxBottom.classList.remove('blackColor');
@@ -115,14 +137,11 @@ function pitchCheckBox() {
             greyLine.classList.add('lineColorWhite');
         });
 
-        document.getElementById("pitch-text").innerHTML = "Green";
-        document.getElementById("pitch-text").style.paddingLeft = "12.5%";
-        document.getElementById("pitch-text").style.paddingRight = "0%";
-        document.getElementById("pitch-text").style.width = "87.5%";
-
     }
     //Black
     else {
+        fillingPitch.style.transform = 'translateX(0%)';
+
         footballPitch.classList.remove('greenColor');
         penaltyBoxTop.classList.remove('penaltyBoxGreenTop');
         penaltyBoxBottom.classList.remove('penaltyBoxGreenBottom');
@@ -135,45 +154,98 @@ function pitchCheckBox() {
             whiteLine.classList.remove('lineColorWhite');
             whiteLine.classList.add('lineColorGrey');
         });
-
-        document.getElementById("pitch-text").innerHTML = "Black";
-        document.getElementById("pitch-text").style.paddingLeft = "55%";
-        document.getElementById("pitch-text").style.paddingRight = "15%";
-        document.getElementById("pitch-text").style.width = "30%";
     }
     //Tactical
-    if (tacticalSwitch === true) {
+    if (tacticalSwitch.checked === true) {
+        fillingTactical.style.transform = 'translateX(100%)';
         tacticalLines.forEach((tacticalLine) => {
             tacticalLine.style.display = 'block';
         });
-        
-        document.getElementById("tactical-text").innerHTML = "On";
-        document.getElementById("tactical-text").style.paddingLeft = "12.5%";
-        document.getElementById("tactical-text").style.paddingRight = "0%";
-        document.getElementById("tactical-text").style.width = "87.5%";
+
     }
     //Non-tactical
     else {
+        fillingTactical.style.transform = 'translateX(0%)';
         tacticalLines.forEach((tacticalLine) => {
             tacticalLine.style.display = 'none';
         });
-
-        document.getElementById("tactical-text").innerHTML = "Off";
-        document.getElementById("tactical-text").style.paddingLeft = "67.5%";
-        document.getElementById("tactical-text").style.paddingRight = "2.5%";
-        document.getElementById("tactical-text").style.width = "30%";
     }
 }
 
-function oppoCheckBox(switchId) {
-    currentSwitch = document.getElementById(switchId);
-    var circles = Array.from(document.getElementsByClassName('oppoCircle'));
-    if (currentSwitch.checked === true) {
-        document.getElementById("oppo-text").innerHTML = "On";
-        document.getElementById("oppo-text").style.paddingLeft = "12.5%";
-        document.getElementById("oppo-text").style.paddingRight = "0%";
-        document.getElementById("oppo-text").style.width = "87.5%";
+function ballCheckBox() {
+    ballSwitch = document.getElementById('ball-checkbox-true');
+    var fillingBall = ballSwitch.nextElementSibling.nextElementSibling;
 
+    var ball = document.getElementById('ball');
+    if (ballSwitch.checked === true) {
+        fillingBall.style.transform = 'translateX(100%)';
+        ball.style.display = 'flex';
+        ball.style.top = '49%';
+        ball.style.left = '49%';
+
+        ball.addEventListener("touchstart", handleSingleClick);
+        ball.addEventListener("mousedown", handleSingleClick);
+    }
+    else {
+        fillingBall.style.transform = 'translateX(0%)';
+
+        ball.style.display = 'none';
+    }
+}
+
+function labelCheckBox() {
+    labelSwitch = document.getElementById('label-checkbox-true');
+    var fillingLabel = labelSwitch.nextElementSibling.nextElementSibling;
+    if (labelSwitch.checked) {
+        fillingLabel.style.transform = 'translateX(100%)';
+
+        var startingBoxes = document.querySelectorAll('.outputStarting.startingStyleTwo');
+        startingBoxes.forEach((box) => {
+            box.classList.remove('startingStyleTwo');
+            box.classList.add('startingStyleOne');
+            box.nextElementSibling.classList.remove('secondStyleTwo');
+            box.nextElementSibling.classList.add('secondStyleOne');
+        });
+
+        var oppoBoxes = document.querySelectorAll('.outputOpponent.startingStyleTwo');
+        oppoBoxes.forEach((box) => {
+            box.classList.remove('startingStyleTwo');
+            box.classList.add('startingStyleOne');
+        });
+
+        document.getElementById("label-text").innerHTML = "Box";
+        document.getElementById("label-text").style.paddingLeft = "12.5%";
+        document.getElementById("label-text").style.paddingRight = "0";
+        document.getElementById("label-text").style.width = "87.5%";
+    }
+    else {
+        fillingLabel.style.transform = 'translateX(0%)';
+        var startingBoxes = document.querySelectorAll('.outputStarting.startingStyleOne');
+        startingBoxes.forEach((box) => {
+            box.classList.remove('startingStyleOne');
+            box.classList.add('startingStyleTwo');
+            box.nextElementSibling.classList.remove('secondStyleOne');
+            box.nextElementSibling.classList.add('secondStyleTwo');
+        });
+
+        var oppoBoxes = document.querySelectorAll('.outputOpponent.startingStyleOne');
+        oppoBoxes.forEach((box) => {
+            box.classList.remove('startingStyleOne');
+            box.classList.add('startingStyleTwo');
+        });
+        document.getElementById("label-text").innerHTML = "No box";
+        document.getElementById("label-text").style.paddingLeft = "42.5%";
+        document.getElementById("label-text").style.paddingRight = "27.5%";
+        document.getElementById("label-text").style.width = "30%";
+    }
+}
+
+function oppoCheckBox() {
+    var oppoTrue = document.getElementById('oppo-checkbox-true');
+    var oppoFilling = oppoTrue.nextElementSibling.nextElementSibling;
+    var circles = Array.from(document.getElementsByClassName('oppoCircle'));
+    if (oppoTrue.checked === true) {
+        oppoFilling.style.transform = 'translateX(100%)';
         //Show opposition circles
         circles.forEach(function (circle) {
             circle.style.display = 'flex';
@@ -218,13 +290,10 @@ function oppoCheckBox(switchId) {
 
     }
     else {
-        document.getElementById("oppo-text").innerHTML = "Off";
-        document.getElementById("oppo-text").style.paddingLeft = "67.5%";
-        document.getElementById("oppo-text").style.paddingRight = "2.5%";
-        document.getElementById("oppo-text").style.width = "30%";
+        oppoFilling.style.transform = 'translateX(0%)';
         if (checkOppositionName.checked) {
             checkOppositionName.checked = false;
-            oppoNameCheckBox("oppo-name-checkbox");
+            oppoNameCheckBox();
         }
 
         circles.forEach(function (circle) {
@@ -259,88 +328,16 @@ function oppoCheckBox(switchId) {
     }
 }
 
-function ballCheckBox(switchId) {
-    currentSwitch = document.getElementById(switchId);
-    var ball = document.getElementById('ball');
-    if (currentSwitch.checked === true) {
-        
+function oppoNameCheckBox() {
+    trueSwitch = document.getElementById('oppo-column-checkbox-true');
 
-        ball.style.display = 'flex';
-        ball.style.top = '49%';
-        ball.style.left = '49%';
-        document.getElementById("ball-text").innerHTML = "On";
-        document.getElementById("ball-text").style.paddingLeft = "12.5%";
-        document.getElementById("ball-text").style.paddingRight = "0";
-        document.getElementById("ball-text").style.width = "87.5%";
-
-        ball.addEventListener("touchstart", handleSingleClick);
-        ball.addEventListener("mousedown", handleSingleClick);
-    }
-    else {
-        document.getElementById("ball-text").innerHTML = "Off";
-        document.getElementById("ball-text").style.paddingLeft = "67.5%";
-        document.getElementById("ball-text").style.paddingRight = "2.5%";
-        document.getElementById("ball-text").style.width = "30%";
-
-        ball.style.display = 'none';
-    }
-}
-
-function labelCheckBox(switchId) {
-    currentSwitch = document.getElementById(switchId);
-    if (currentSwitch.checked) {
-        var startingBoxes = document.querySelectorAll('.outputStarting.startingStyleTwo');
-        startingBoxes.forEach((box) => {
-            box.classList.remove('startingStyleTwo');
-            box.classList.add('startingStyleOne');
-            box.nextElementSibling.classList.remove('secondStyleTwo');
-            box.nextElementSibling.classList.add('secondStyleOne');
-        });
-
-        var oppoBoxes = document.querySelectorAll('.outputOpponent.startingStyleTwo');
-        oppoBoxes.forEach((box) => {
-            box.classList.remove('startingStyleTwo');
-            box.classList.add('startingStyleOne');
-        });
-
-        document.getElementById("label-text").innerHTML = "Box";
-        document.getElementById("label-text").style.paddingLeft = "12.5%";
-        document.getElementById("label-text").style.paddingRight = "0";
-        document.getElementById("label-text").style.width = "87.5%";
-    }
-    else {
-        var startingBoxes = document.querySelectorAll('.outputStarting.startingStyleOne');
-        startingBoxes.forEach((box) => {
-            box.classList.remove('startingStyleOne');
-            box.classList.add('startingStyleTwo');
-            box.nextElementSibling.classList.remove('secondStyleOne');
-            box.nextElementSibling.classList.add('secondStyleTwo');
-        });
-
-        var oppoBoxes = document.querySelectorAll('.outputOpponent.startingStyleOne');
-        oppoBoxes.forEach((box) => {
-            box.classList.remove('startingStyleOne');
-            box.classList.add('startingStyleTwo');
-        });
-        document.getElementById("label-text").innerHTML = "No box";
-        document.getElementById("label-text").style.paddingLeft = "42.5%";
-        document.getElementById("label-text").style.paddingRight = "27.5%";
-        document.getElementById("label-text").style.width = "30%";
-    }
-}
-
-function oppoNameCheckBox(switchId) {
-    currentSwitch = document.getElementById(switchId);
+    var oppoNameFilling = trueSwitch.nextElementSibling.nextElementSibling;
     var secondContainers = document.querySelectorAll('.column.second-column .input-container');
     var secondBoxes = document.querySelectorAll('.secondBox');
 
-    if (currentSwitch.checked === true) {
+    if (trueSwitch.checked === true) {
+        oppoNameFilling.style.transform = 'translateX(100%)';
         secondContainerInputs = [];
-        document.getElementById("oppo-name-text").innerText = "Opposition";
-        document.getElementById("oppo-name-text").style.paddingLeft = "10%";
-        document.getElementById("oppo-name-text").style.paddingRight = "25%";
-        document.getElementById("oppo-name-text").style.width = "65%";
-
         document.getElementById("second-column-title").innerHTML = "Opposition eleven";
         document.querySelector('.second-column').style.background = '#154E32';
 
@@ -402,11 +399,8 @@ function oppoNameCheckBox(switchId) {
     }
 
     else {
+        oppoNameFilling.style.transform = 'translateX(0%)';
         oppoContainerInputs = [];
-        document.getElementById("oppo-name-text").innerHTML = "Back-up";
-        document.getElementById("oppo-name-text").style.paddingLeft = "55%";
-        document.getElementById("oppo-name-text").style.paddingRight = "12.5%";
-        document.getElementById("oppo-name-text").style.width = "32.5%";
 
         document.getElementById("second-column-title").innerHTML = "Back-up eleven";
         document.querySelector('.second-column').style.background = 'linear-gradient(#32154E, #32154E 98%, #1B1D2C 2%, #1B1D2C)';

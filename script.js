@@ -105,9 +105,6 @@ function setCirclePositions(formationValue, circleType) {
         const circles = document.querySelectorAll(".oppoCircle");
         circles[0].style.top = '6%'; circles[0].style.left = '47.5%';  //#1
         if (formationValue === '433') {
-            console.log("H: " + imageContainer.offsetHeight);
-            console.log("W: " + imageContainer.offsetWidth);
-
             circles[1].style.top = '22.5%'; circles[1].style.left = '18.5%';    //#2
             circles[2].style.top = '17.5%'; circles[2].style.left = '32.5%';    //#3
             circles[3].style.top = '17.5%'; circles[3].style.left = '62.5%';    //#4

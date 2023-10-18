@@ -407,39 +407,55 @@ function updateUploadButton() {
 }
 
 function moveCircles() {
-    if (liveArrowLocationArray.length > 0) {
-        for (var q = 0; q < liveArrowLocationArray.length; q++) {
-            var circleTest = document.getElementById(liveArrowLocationArray[q].id);
-            var lineElement = circleTest.querySelector('.movingLine');
-            lineElement.style.display = 'none';
+    var circleCheck = document.getElementById("circle-checkbox");
+    var arrowCheck = document.getElementById("arrow-checkbox");
+    var movingCheck = document.getElementById("moving-checkbox");
+    var playCheck = document.getElementById("play-checkbox");
 
-            //Get previous transform X and Y to add to the current position
-            var computedStyle = window.getComputedStyle(circleTest);
-            var transformMatrix = new DOMMatrix(computedStyle.transform);
+    if (playCheck.checked) {
+        if (arrowLocationArray.length > 0) {
+            circleCheck.disabled = true;
+            arrowCheck.disabled = true;
+            movingCheck.disabled = true;
+            playCheck.disabled = true;
+            for (var q = 0; q < arrowLocationArray.length; q++) {
+                var circleTest = document.getElementById(arrowLocationArray[q].id);
+                var lineElement = circleTest.querySelector('.movingLine');
+                lineElement.style.display = 'none';
 
-            var xTranslation = transformMatrix.m41;
-            var yTranslation = transformMatrix.m42;
+                //Get previous transform X and Y to add to the current position
+                var computedStyle = window.getComputedStyle(circleTest);
+                var transformMatrix = new DOMMatrix(computedStyle.transform);
 
-            // Calculate the new position
-            var currentX = circleTest.getBoundingClientRect().left;
-            var currentY = circleTest.getBoundingClientRect().top;
-            var targetX = currentX - liveArrowLocationArray[q].left + xTranslation;
-            var targetY = currentY + liveArrowLocationArray[q].top + yTranslation;
+                var xTranslation = transformMatrix.m41;
+                var yTranslation = transformMatrix.m42;
+
+                // Calculate the new position
+                var currentX = circleTest.getBoundingClientRect().left;
+                var currentY = circleTest.getBoundingClientRect().top;
+                var targetX = currentX - arrowLocationArray[q].left + xTranslation;
+                var targetY = currentY + arrowLocationArray[q].top + yTranslation;
 
 
-            // Apply the new position using a CSS transform
-            circleTest.style.transform = `translate(${targetX - currentX}px, ${targetY - currentY}px)`;
+                // Apply the new position using a CSS transform
+                circleTest.style.transform = `translate(${targetX - currentX}px, ${targetY - currentY}px)`;
+            }
+
+            setTimeout(function () {
+                //Set to empty, so that another button press resets the location
+                playCheck.disabled = false;
+            }, animationDuration);
         }
-        //Set to empty, so that another button press resets the location
-        liveArrowLocationArray = [];
+        else{
+            playCheck.checked = false;
+        }
     }
     else {
+        playCheck.disabled = true;
         allCircles.forEach((circle) => {
             circle.style.transform = '';
 
         });
-        // Define a delay equal to the duration of your animation (in milliseconds)
-        var animationDuration = 1200; // Replace with your animation duration
 
         // Schedule your script to run after the animation duration
         setTimeout(function () {
@@ -448,7 +464,10 @@ function moveCircles() {
             lineElements.forEach((lineElement) => {
                 lineElement.style.display = 'block';
             });
-            liveArrowLocationArray = arrowLocationArray;
+            circleCheck.disabled = false;
+            arrowCheck.disabled = false;
+            movingCheck.disabled = false;
+            playCheck.disabled = false;
         }, animationDuration);
     }
 }

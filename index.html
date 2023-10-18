@@ -6,7 +6,7 @@
   <link rel="stylesheet" type="text/css" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <meta charset="utf8" />
-  <meta name="viewport" content="width=device-width" id="viewportMeta"/>
+  <meta name="viewport" content="width=device-width" id="viewportMeta" />
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://unpkg.com/dom-to-image@2.5.1/dist/dom-to-image.min.js"></script>
@@ -48,31 +48,44 @@
             <div id="settings">
               <div class="pitchCheckBox">
                 <label id="pitchLabel" class="switch-label">Pitch background: </label>
-                <label class="switch">
-                  <input id="pitch-checkbox" type="checkbox" checked>
-                  <span id="pitch-text" class="slider round sliderPitch">Green</span>
-                </label>
+                <div class="switchContainer">
+                  <input id="pitch-checkbox-false" class="toggle" name="togglePitch" value="false" type="radio">
+                  <label for="pitch-checkbox-false" class="btn labelLeft">Black</label>
+                  <input id="pitch-checkbox-true" class="toggle" name="togglePitch" value="true" type="radio" checked>
+                  <label for="pitch-checkbox-true" class="btn labelRight">Green</label>
+                  <div class="switchFilling"></div>
+                </div>
               </div>
-              <div class="tacticalCheckbox">
+              <div class="tacticalCheckBox">
                 <label id="tacticalLabel" class="switch-label">Tactical overlay: </label>
-                <label class="switch">
-                  <input id="tactical-checkbox" type="checkbox">
-                  <span id="tactical-text" class="slider round sliderBall">Off</span>
-                </label>
+                <div class="switchContainer">
+                  <input id="tactical-checkbox-false" class="toggle" name="toggleTactical" value="false" type="radio"
+                    checked>
+                  <label for="tactical-checkbox-false" class="btn labelLeft">Off</label>
+                  <input id="tactical-checkbox-true" class="toggle" name="toggleTactical" value="true" type="radio">
+                  <label for="tactical-checkbox-true" class="btn labelRight">On</label>
+                  <div class="switchFilling"></div>
+                </div>
               </div>
-              <div class="ballCheckbox">
+              <div class="ballCheckBox">
                 <label id="ballLabel" class="switch-label">Ball: </label>
-                <label class="switch">
-                  <input id="ball-checkbox" type="checkbox">
-                  <span id="ball-text" class="slider round sliderBall">Off</span>
-                </label>
+                <div class="switchContainer">
+                  <input id="ball-checkbox-false" class="toggle" name="toggleBall" value="false" type="radio" checked>
+                  <label for="ball-checkbox-false" class="btn labelLeft">Off</label>
+                  <input id="ball-checkbox-true" class="toggle" name="toggleBall" value="true" type="radio">
+                  <label for="ball-checkbox-true" class="btn labelRight">On</label>
+                  <div class="switchFilling"></div>
+                </div>
               </div>
-              <div class="labelCheckbox">
+              <div class="labelCheckBox">
                 <label id="labelLabel" class="switch-label">Player name style: </label>
-                <label class="switch">
-                  <input id="label-checkbox" type="checkbox" checked>
-                  <span id="label-text" class="slider round sliderPitch">Box</span>
-                </label>
+                <div class="switchContainer">
+                  <input id="label-checkbox-false" class="toggle" name="toggleLabel" value="false" type="radio">
+                  <label for="label-checkbox-false" class="btn labelLeft">Not boxed</label>
+                  <input id="label-checkbox-true" class="toggle" name="toggleLabel" value="true" type="radio" checked>
+                  <label for="label-checkbox-true" class="btn labelRight">Boxed</label>
+                  <div class="switchFilling"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -198,97 +211,99 @@
         </div>
         <button id="showLineUpButton">Hide line-up and formation</button>
         <div class="full-settings">
-          <div class="settings-column">
-            <div class="newTeam">
-              <div class="teamName">
-                <div><label for="team-name" class="labelHeader">Name your team:</label><label id="reminderLabel">Don't
-                    forget to name your team!</label></div>
-                <input type="search" id="teamNameBox" class="teamNameBox" placeholder="Team name">
+          <div class="teamName">
+            <label for="team-name" class="labelHeader">Name your team:</label>
+            <label id="reminderLabel">Don't forget to name your team!</label>
+          </div>
+          <input type="search" id="teamNameBox" class="teamNameBox" placeholder="Team name">
+          <div class="color-pickers-container">
+            <div class="color-picker">
+              <label for="colorPicker" class="labelHeader">Main color:</label>
+              <input type="color" id="colorPickerMain" name="color" list="colorOptions" value="#FF0000">
+            </div>
+            <div class="color-picker">
+              <label for="colorPicker" class="labelHeader">Second color:</label>
+              <input type="color" id="colorPickerSecond" name="color" list="colorOptions" value="#FFFFFF">
+            </div>
+            <div class="color-picker">
+              <label for="colorPicker" class="labelHeader">Number color:</label>
+              <input type="color" id="colorPickerNumber" name="color" list="colorOptions" value="#FFFFFF">
+            </div>
+            <datalist id="colorOptions">
+              <option>#FF0000</option>
+              <option>#0000FF</option>
+              <option>#00FF00</option>
+              <option>#FFFF00</option>
+              <option>#000000</option>
+              <option>#FFFFFF</option>
+              <option>#FFA500</option>
+              <option>#800080</option>
+              <option>#808080</option>
+              <option>#000080</option>
+              <option>#FFD700</option>
+              <option>#C0C0C0</option>
+              <option>#800000</option>
+              <option>#FFC0CB</option>
+              <option>#006631</option>
+            </datalist>
+          </div>
+          <div class="button-container">
+            <button id="downloadButton">Download team (.JSON)</button>
+            <button id="screenshotButton">Download image (.png)</button>
+          </div>
 
-              </div>
-            </div>
-            <div class="color-pickers-container">
-              <div class="color-picker">
-                <label for="colorPicker" class="labelHeader">Main color:</label>
-                <input type="color" id="colorPickerMain" name="color" list="colorOptions" value="#FF0000">
-              </div>
-              <div class="color-picker">
-                <label for="colorPicker" class="labelHeader">Second color:</label>
-                <input type="color" id="colorPickerSecond" name="color" list="colorOptions" value="#FFFFFF">
-              </div>
-              <div class="color-picker">
-                <label for="colorPicker" class="labelHeader">Number color:</label>
-                <input type="color" id="colorPickerNumber" name="color" list="colorOptions" value="#FFFFFF">
-              </div>
-              <datalist id="colorOptions">
-                <option>#FF0000</option>
-                <option>#0000FF</option>
-                <option>#00FF00</option>
-                <option>#FFFF00</option>
-                <option>#000000</option>
-                <option>#FFFFFF</option>
-                <option>#FFA500</option>
-                <option>#800080</option>
-                <option>#808080</option>
-                <option>#000080</option>
-                <option>#FFD700</option>
-                <option>#C0C0C0</option>
-                <option>#800000</option>
-                <option>#FFC0CB</option>
-                <option>#006631</option>
-              </datalist>
-            </div>
-            <div class="button-container">
-              <button id="downloadButton">Download team (.JSON)</button>
-              <button id="screenshotButton">Download image (.png)</button>
+          <div class="oppoCheckbox">
+            <label id="pitchLabel" class="oppo-switch-label">Opposition: </label>
+            <div class="switchContainer">
+              <input id="oppo-checkbox-false" class="toggle" name="toggleOppo" value="false" type="radio" checked>
+              <label for="oppo-checkbox-false" class="btn labelLeft">Off</label>
+              <input id="oppo-checkbox-true" class="toggle" name="toggleOppo" value="true" type="radio">
+              <label for="oppo-checkbox-true" class="btn labelRight">On</label>
+              <div class="switchFilling"></div>
             </div>
           </div>
-          <div class="oppo-settings-column">
-            <div class="oppoCheckbox">
-              <label id="pitchLabel" class="oppo-switch-label">Opposition: </label>
-              <label class="switch">
-                <input id="oppo-checkbox" type="checkbox">
-                <span id="oppo-text" class="slider round sliderOppo">Off</span>
-              </label>
-            </div>
-            <div id="oppo-name-switch-container" style="display:none">
-              <label id="oppoNameLabel" class="oppo-name-switch-label">Set to back-up or opposition: </label>
-              <label class="switch longSwitch">
-                <input id="oppo-name-checkbox" type="checkbox">
-                <span id="oppo-name-text" class="slider round longSlider">Back-up</span>
-              </label>
-            </div>
-            <div id="oppo-color-container" class="color-pickers-oppo-container" style="display:none">
-              <div class="color-picker">
-                <label for="colorPicker" class="labelHeader">Main color:</label>
-                <input type="color" id="oppoColorMain" name="color" list="colorOptions" value="#006631">
-              </div>
-              <div class="color-picker">
-                <label for="colorPicker" class="labelHeader">Second color:</label>
-                <input type="color" id="oppoColorSecond" name="color" list="colorOptions" value="#000000">
-              </div>
-              <div class="color-picker">
-                <label for="colorPicker" class="labelHeader">Number color:</label>
-                <input type="color" id="oppoColorNumber" name="color" list="colorOptions" value="#FFFFFF">
-              </div>
-            </div>
-            <div class="oppo-select-box" id="oppo-formation-box">
-              <div style="display: contents; margin-top: 23%"><label for="oppo-formation" class="labelHeader"
-                  id="oppo-formation-label">Opposition
-                  formation:</label></div>
-              <select id="oppo-formation" name="formation" class="teamSelectBox">
-                <option value=""> - </option>
-                <option value="433">4-3-3</option>
-                <option value="442diamond">4-4-2 diamond</option>
-                <option value="442flat">4-4-2 flat</option>
-                <option value="424">4-2-4</option>
-                <option value="451">4-5-1 / 4-2-3-1</option>
-                <option value="532">5-3-2 / 3-5-2</option>
-                <option value="343">3-4-3</option>
-                <option value="3421">3-4-2-1</option>
-              </select>
+          <div id="oppo-name-switch-container" style="display:none">
+            <label id="oppoNameLabel" class="oppo-name-switch-label">Back-up or opposition: </label>
+            <div class="switchContainer">
+              <input id="oppo-column-checkbox-false" class="toggle" name="toggleOppoColumn" value="false" type="radio"
+                checked>
+              <label for="oppo-column-checkbox-false" class="btn btnSmall labelLeft">Back-up</label>
+              <input id="oppo-column-checkbox-true" class="toggle" name="toggleOppoColumn" value="true" type="radio">
+              <label for="oppo-column-checkbox-true" class="btn btnSmall labelRight">Opposition</label>
+              <div class="switchFilling"></div>
             </div>
           </div>
+          <div id="oppo-color-container" class="color-pickers-oppo-container" style="display:none">
+            <div class="color-picker">
+              <label for="colorPicker" class="labelHeader">Main color:</label>
+              <input type="color" id="oppoColorMain" name="color" list="colorOptions" value="#006631">
+            </div>
+            <div class="color-picker">
+              <label for="colorPicker" class="labelHeader">Second color:</label>
+              <input type="color" id="oppoColorSecond" name="color" list="colorOptions" value="#000000">
+            </div>
+            <div class="color-picker">
+              <label for="colorPicker" class="labelHeader">Number color:</label>
+              <input type="color" id="oppoColorNumber" name="color" list="colorOptions" value="#FFFFFF">
+            </div>
+          </div>
+          <div class="oppo-select-box" id="oppo-formation-box">
+            <div style="display: contents; margin-top: 23%"><label for="oppo-formation" class="labelHeader"
+                id="oppo-formation-label">Opposition
+                formation:</label></div>
+            <select id="oppo-formation" name="formation" class="teamSelectBox">
+              <option value=""> - </option>
+              <option value="433">4-3-3</option>
+              <option value="442diamond">4-4-2 diamond</option>
+              <option value="442flat">4-4-2 flat</option>
+              <option value="424">4-2-4</option>
+              <option value="451">4-5-1 / 4-2-3-1</option>
+              <option value="532">5-3-2 / 3-5-2</option>
+              <option value="343">3-4-3</option>
+              <option value="3421">3-4-2-1</option>
+            </select>
+          </div>
+
         </div>
       </div>
     </div>
@@ -345,8 +360,12 @@
             <span class="checkmark"></span>
             <img class="moving-image" src="circle_movement.png" alt="Image">
           </label>
+          <label class="play-checkbox square-checkbox">
+            <input id="play-checkbox" type="checkbox">
+            <span class="checkmark"></span>
+            <img class="play-image" src="playbutton.png" alt="Image">
+          </label>
         </div>
-
         <div id="allCircles">
           <div id="circle1" class="circle pos1">
             <div class="circleColorGK circleStyle"></div>
@@ -533,7 +552,8 @@
           drawn)</li>
         <li style="font-size: 13px"><b>Double right click on circle:</b> Remove arrows from circle</li>
         <h4>Mobile</h4>
-        <p><b>Use the following buttons to switch between dragging the circle, drawing a tactical line, and drawing a pressing line:</b></p>
+        <p><b>Use the following buttons to switch between dragging the circle, drawing a tactical line, and drawing a
+            pressing line:</b></p>
         <li><img src="circle_grab_10.png" alt="Image" class="help-popup-square"><i> Drag a circle</i></li>
         <li><img src="arrow.png" alt="Image" class="help-popup-square"><i> Draw a tactical line</i></li>
         <li><img src="circle_movement.png" alt="Image" class="help-popup-square"><i> Draw a pressing line </i></li>

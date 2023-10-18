@@ -38,8 +38,8 @@ const downloadButton = document.getElementById('downloadButton');
 const selectTeam = document.getElementById("select-team");
 const selectFormation = document.getElementById("select-formation");
 
-const checkOpposition = document.getElementById("oppo-checkbox");
-const checkOppositionName = document.getElementById("oppo-name-checkbox");
+const checkOpposition = document.getElementById("oppo-checkbox-true");
+const checkOppositionName = document.getElementById("oppo-column-checkbox-true");
 const oppoFormation = document.getElementById("oppo-formation");
 
 const lineYOne = (20 / 900) * imageConHeight;
@@ -65,8 +65,9 @@ const oppoLineYFive = (465 / 900) * imageConHeight;
 const oppoLineYSix = (545 / 900) * imageConHeight;
 const oppoLineYSeven = (840 / 900) * imageConHeight;
 
+const animationDuration = 1200;
+
 var arrowLocationArray = [];
-var liveArrowLocationArray;
 let startX, startY;
 
 $(document).ready(function () {
@@ -158,6 +159,7 @@ function toggleDisplay(elements, mobileCheck, type) {
 }
 
 window.addEventListener('resize', resizeFunctionality);
+
 function resizeFunctionality() {
     //Set array for circle movement for the new line data
     arrowLocationArray = [];
@@ -167,10 +169,16 @@ function resizeFunctionality() {
         var hypotenusePct = line.getAttribute("hypotenusePct");
         line.style.height = hypotenusePct * imageContainer.offsetHeight + 'px';
 
-        //Push new line data to array
+        //Push new moving line data to array
         var circle = document.getElementById(line.getAttribute("parentCircleId"));
-        addLineDataToArray(line, circle);
+        if (line.classList.toString().indexOf('moving') > -1) {
+            addLineDataToArray(line, circle);
+        }
     });
+    if (document.getElementById("play-checkbox").checked) {
+        document.getElementById("play-checkbox").checked = false;
+        moveCircles();
+    }
 }
 
 window.onload = () => {
@@ -424,8 +432,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     gearIcon.addEventListener('click', function (event) {
-        //console.log -> This should go to the actual move circles button
-        moveCircles();
         var gearIconLocation = event.currentTarget.getBoundingClientRect();
 
         event.stopPropagation();
