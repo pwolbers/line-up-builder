@@ -20,6 +20,11 @@ labelCheckFalse.addEventListener("change", changeSwitch);
 var labelCheckTrue = document.getElementById("label-checkbox-true");
 labelCheckTrue.addEventListener("change", changeSwitch);
 
+var blueArrowCheckFalse = document.getElementById("blueArrow-checkbox-false");
+blueArrowCheckFalse.addEventListener("change", changeSwitch);
+var blueArrowCheckTrue = document.getElementById("blueArrow-checkbox-true");
+blueArrowCheckTrue.addEventListener("change", changeSwitch);
+
 var drawCheckFalse = document.getElementById("draw-checkbox-false");
 drawCheckFalse.addEventListener("change", changeSwitch);
 var drawCheckTrue = document.getElementById("draw-checkbox-true");
@@ -69,6 +74,9 @@ function changeSwitch(evt) {
     else if (currentSwitch.id == 'label-checkbox-false' || currentSwitch.id == 'label-checkbox-true') {
         labelCheckBox();
     }
+    else if (currentSwitch.id == 'blueArrow-checkbox-false' || currentSwitch.id == 'blueArrow-checkbox-true') {
+        blueArrowCheckBox();
+    }
     else if (currentSwitch.id == 'draw-checkbox-false' || currentSwitch.id == 'draw-checkbox-true') {
         drawCheckBox();
     }
@@ -82,6 +90,7 @@ function changeSwitch(evt) {
 
 function arrowCircleCheckbox(switchCheckbox) {
     document.querySelector('.play-checkbox').style.display = 'none';
+
     if (switchCheckbox.id == 'arrow-checkbox') {
         document.getElementById('circle-checkbox').checked = false;
         document.getElementById('moving-checkbox').checked = false;
@@ -108,11 +117,16 @@ function arrowCircleCheckbox(switchCheckbox) {
         }
 
         //Show all moving lines if play button is not checked
-        if (document.querySelector('.play-checkbox').checked == false) {
+        if (playCheck.checked == false) {
             for (var x = 0; x < movingLines.length; x++) {
                 movingLines[x].div.style.display = 'block';
             }
+            //Set 'Hide pressing line' switch to true and run functionality
+            blueArrowCheckTrue.checked = true;
+            blueArrowCheckBox();
         }
+
+        //Reset 'Hide blue arrow checkbox
     }
 
     //Not possible to uncheck the active checkbox (always needs to be one of the two checked)
@@ -250,18 +264,47 @@ function labelCheckBox() {
     }
 }
 
+function blueArrowCheckBox() {
+    blueArrowSwitch = document.getElementById('blueArrow-checkbox-true');
+    var fillingBlueArrow = blueArrowSwitch.nextElementSibling.nextElementSibling;
+    const allBlueArrows = document.querySelectorAll('.movingLine');
+    if (blueArrowSwitch.checked) {
+        fillingBlueArrow.style.transform = 'translateX(100%)';
+
+        allBlueArrows.forEach((blueArrow) => {
+            if (blueArrow.style.display != 'block') {
+                blueArrow.style.display = 'block';
+            }
+        });
+    }
+    else {
+        fillingBlueArrow.style.transform = 'translateX(0%)';
+        allBlueArrows.forEach((blueArrow) => {
+            if (blueArrow.style.display != 'none') {
+                blueArrow.style.display = 'none';
+            }
+        });
+
+    }
+}
+
 function drawCheckBox() {
-    drawSwitch = document.getElementById('draw-checkbox-true');
+    var drawSwitch = document.getElementById('draw-checkbox-true');
+    var drawingSettings = document.querySelector('.drawing-settings');
     var fillingDraw = drawSwitch.nextElementSibling.nextElementSibling;
     if (drawSwitch.checked) {
         fillingDraw.style.transform = 'translateX(100%)';
         canvasContainer.style.display = 'block';
+        drawingSettings.style.display = 'grid';
+
     }
-    else{        
+    else {
         fillingDraw.style.transform = 'translateX(0%)';
         canvasContainer.style.display = 'none';
+        drawingSettings.style.display = 'none';
     }
 }
+
 function oppoCheckBox() {
     var oppoTrue = document.getElementById('oppo-checkbox-true');
     var oppoFilling = oppoTrue.nextElementSibling.nextElementSibling;
@@ -348,6 +391,12 @@ function oppoCheckBox() {
         document.getElementById('ball').classList.remove('smallBall');
         document.getElementById('ball').classList.add('ball');
     }
+
+    //Reset circle sizing to standard
+    circleSlider.value = 5;
+    outputElement = document.querySelector('.circleSliderOutput');
+    setSliderOutputLabel(circleSlider, outputElement);
+    setCircleAndTextSize();
 }
 
 function oppoNameCheckBox() {

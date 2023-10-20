@@ -5,10 +5,12 @@
   <title>Football Line-Up Builder</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css" />
   <meta charset="utf8" />
   <meta name="viewport" content="width=device-width" id="viewportMeta" />
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
   <script src="https://unpkg.com/dom-to-image@2.5.1/dist/dom-to-image.min.js"></script>
 </head>
 
@@ -41,8 +43,8 @@
           </div>
           <div class="input-group">
             <input type="file" id="jsonFileInput" accept=".json" style="display: none">
-            <label for="jsonFileInput" id="chooseFileButton">Upload your team</label>
-            <button id="importButton">Import Team</button>
+            <label for="jsonFileInput" id="chooseFileButton" class="greenButton">Upload your team</label>
+            <button class="blueButton" id="importButton">Import Team</button>
             <i class="fas fa-question-circle help-icon"></i>
             <i class="fas fa-cog gear-icon"></i>
             <div id="settings">
@@ -61,19 +63,9 @@
                 <div class="switchContainer">
                   <input id="tactical-checkbox-false" class="toggle" name="toggleTactical" value="false" type="radio"
                     checked>
-                  <label for="tactical-checkbox-false" class="btn labelLeft">Off</label>
+                  <label for="tactical-checkbox-false" class="btn labelLeft">Hide</label>
                   <input id="tactical-checkbox-true" class="toggle" name="toggleTactical" value="true" type="radio">
-                  <label for="tactical-checkbox-true" class="btn labelRight">On</label>
-                  <div class="switchFilling"></div>
-                </div>
-              </div>
-              <div class="ballCheckBox">
-                <label id="ballLabel" class="switch-label">Ball:</label>
-                <div class="switchContainer">
-                  <input id="ball-checkbox-false" class="toggle" name="toggleBall" value="false" type="radio" checked>
-                  <label for="ball-checkbox-false" class="btn labelLeft">Off</label>
-                  <input id="ball-checkbox-true" class="toggle" name="toggleBall" value="true" type="radio">
-                  <label for="ball-checkbox-true" class="btn labelRight">On</label>
+                  <label for="tactical-checkbox-true" class="btn labelRight">Show</label>
                   <div class="switchFilling"></div>
                 </div>
               </div>
@@ -87,6 +79,35 @@
                   <div class="switchFilling"></div>
                 </div>
               </div>
+              <div class="ballCheckBox">
+                <label id="ballLabel" class="switch-label">Show ball:</label>
+                <div class="switchContainer">
+                  <input id="ball-checkbox-false" class="toggle" name="toggleBall" value="false" type="radio" checked>
+                  <label for="ball-checkbox-false" class="btn labelLeft">Hide</label>
+                  <input id="ball-checkbox-true" class="toggle" name="toggleBall" value="true" type="radio">
+                  <label for="ball-checkbox-true" class="btn labelRight">Show</label>
+                  <div class="switchFilling"></div>
+                </div>
+              </div>
+              <div class="blueArrowCheckBox">
+                <label id="blueArrowLabel" class="switch-label">Show pressing lines:</label>
+                <div class="switchContainer">
+                  <input id="blueArrow-checkbox-false" class="toggle" name="toggleBlueArrow" value="false" type="radio">
+                  <label for="blueArrow-checkbox-false" class="btn labelLeft">Hide</label>
+                  <input id="blueArrow-checkbox-true" class="toggle" name="toggleBlueArrow" value="true" type="radio"
+                    checked>
+                  <label for="blueArrow-checkbox-true" class="btn labelRight">Show</label>
+                  <div class="switchFilling"></div>
+                </div>
+              </div>
+              <div class="circle-size-container">
+                <div id="circleSizeLabel"><label class="circle-size-label switch-label">Circle size:</label></div>
+                <div class="circle-output-container"><span class="output circleSliderOutput"></span></div>
+                <div class="circle-slider-container">
+                  <input class="slider" id="circleSlider" value="5" min="1" max="9" step="1" type="range">
+                  <div class="circle-range-values"><span style="margin-left: 2px;">1</span><span>9</span></div>
+                </div>
+              </div>
               <div class="drawCheckBox">
                 <label id="drawLabel" class="switch-label">Drawing mode:</label>
                 <div class="switchContainer">
@@ -96,6 +117,19 @@
                   <label for="draw-checkbox-true" class="btn labelRight">On</label>
                   <div class="switchFilling"></div>
                 </div>
+              </div>
+              <div class="drawing-settings">
+                <div class="colorPicker-drawing">
+                  <label id="colorPickerDrawing" class="labelHeader">Main color:</label>
+                  <div class="drawingColorPicker"></div>
+                </div>
+                <div class="slider-output-container"><span class="output drawSliderOutput"></span></div>
+                <div class="slider-range-container">
+                  <input class="slider" id="drawingSlider" value="5" min="1" max="15" step="1" type="range">
+                  <div class="range-values"><span style="margin-left: 2px;">1</span><span>15</span></div>
+                </div>
+                <button id="undoButton" class="undoStrokeButton greenButton">Undo</button>
+                <button id="clearButton" class="clearDrawingButton redButton">Clear</button>
               </div>
             </div>
           </div>
@@ -218,7 +252,7 @@
             </div>
           </button>
         </div>
-        <button id="showLineUpButton">Hide line-up and formation</button>
+        <button id="showLineUpButton" class="redButton">Hide line-up and formation</button>
         <div class="full-settings">
           <div class="teamName">
             <label for="team-name" class="labelHeader">Name your team:</label>
@@ -226,17 +260,17 @@
           </div>
           <input type="search" id="teamNameBox" class="teamNameBox" placeholder="Team name">
           <div class="color-pickers-container">
-            <div class="color-picker">
-              <label for="colorPicker" class="labelHeader">Main color:</label>
-              <input type="color" id="colorPickerMain" name="color" list="colorOptions" value="#FF0000">
+            <div class="colorPicker">
+              <label id="colorPickerMain" for="colorPickerMain" class="labelHeader">Main color:</label>
+              <div class="mainColorPicker"></div>
             </div>
-            <div class="color-picker">
-              <label for="colorPicker" class="labelHeader">Second color:</label>
-              <input type="color" id="colorPickerSecond" name="color" list="colorOptions" value="#FFFFFF">
+            <div class="colorPicker">
+              <label for="colorPickerSecond" class="labelHeader">Second color:</label>
+              <div class="secondColorPicker"></div>
             </div>
-            <div class="color-picker">
-              <label for="colorPicker" class="labelHeader">Number color:</label>
-              <input type="color" id="colorPickerNumber" name="color" list="colorOptions" value="#FFFFFF">
+            <div class="colorPicker">
+              <label for="colorPickerNumber" class="labelHeader">Number color:</label>
+              <div class="numberColorPicker"></div>
             </div>
             <datalist id="colorOptions">
               <option>#FF0000</option>
@@ -257,8 +291,8 @@
             </datalist>
           </div>
           <div class="button-container">
-            <button id="downloadButton">Download team (.JSON)</button>
-            <button id="screenshotButton">Download image (.png)</button>
+            <button id="downloadButton" class="greenButton">Download team (.JSON)</button>
+            <button id="screenshotButton" class="greenButton">Download image (.png)</button>
           </div>
 
           <div class="oppoCheckbox">
@@ -283,17 +317,17 @@
             </div>
           </div>
           <div id="oppo-color-container" class="color-pickers-oppo-container" style="display:none">
-            <div class="color-picker">
-              <label for="colorPicker" class="labelHeader">Main color:</label>
-              <input type="color" id="oppoColorMain" name="color" list="colorOptions" value="#006631">
+            <div class="colorPicker">
+              <label for="oppoColorMain" class="labelHeader">Main color:</label>
+              <div class="mainOppoColorPicker"></div>
             </div>
-            <div class="color-picker">
-              <label for="colorPicker" class="labelHeader">Second color:</label>
-              <input type="color" id="oppoColorSecond" name="color" list="colorOptions" value="#000000">
+            <div class="colorPicker">
+              <label for="oppoColorSecond" class="labelHeader">Second color:</label>
+              <div class="secondOppoColorPicker"></div>
             </div>
-            <div class="color-picker">
-              <label for="colorPicker" class="labelHeader">Number color:</label>
-              <input type="color" id="oppoColorNumber" name="color" list="colorOptions" value="#FFFFFF">
+            <div class="colorPicker">
+              <label for="oppoColorNumber" class="labelHeader">Number color:</label>
+              <div class="numberOppoColorPicker"></div>
             </div>
           </div>
           <div class="oppo-select-box" id="oppo-formation-box">
@@ -316,378 +350,390 @@
         </div>
       </div>
     </div>
-    <div class="lineup-container" id="lineupContainer" oncontextmenu="return false">
-      <div class="image-container" id="image-container">
-        <div class="text-container">
-          <span class="formation-label">Formation: </span>
-          <span class="copyright">© 2023 - pwolbers.github.io/line-up-builder</span>
-        </div>
-        <div id="football-pitch" class="football-pitch greenColor">
-          <div class="field lineColorWhite">
-            <div class="tactical vertical1 lineColorWhite"></div>
-            <div class="tactical vertical2 lineColorWhite"></div>
-            <div class="tactical horizontal1 lineColorWhite"></div>
-            <div class="tactical horizontal2 lineColorWhite"></div>
-            <div class="tactical horizontal3 lineColorWhite"></div>
-            <div class="tactical horizontal4 lineColorWhite"></div>
-            <div class="top-penalty-box">
-              <div class="top-semicircle lineColorWhite"></div>
-              <div class="penalty-box top lineColorWhite penaltyBoxGreenTop"></div>
-              <div class="five-yard-box top lineColorWhite"></div>
-              <div class="penaltyDot top lineColorWhite"></div>
-            </div>
-            <div class="bottom-penalty-box">
-              <div class="bottom-semicircle lineColorWhite"></div>
-              <div class="penalty-box bottom lineColorWhite penaltyBoxGreenBottom"></div>
-              <div class="five-yard-box bottom lineColorWhite"></div>
-              <div class="penaltyDot bottom lineColorWhite"></div>
-            </div>
-            <div class="corner top-left lineColorWhite"></div>
-            <div class="corner top-right lineColorWhite"></div>
-            <div class="corner bottom-right lineColorWhite"></div>
-            <div class="corner bottom-left lineColorWhite"></div>
-            <div class="center-circle lineColorWhite"></div>
-            <div class="middleLine lineColorWhite"></div>
-            <div class="middleDot lineColorWhite"></div>
-          </div>
-          <div class="goal home"></div>
-          <div class="goal away"></div>
-        </div>
-        <div id="button-pitch-container" class="button-pitch-container">
-          <label class="circle-checkbox square-checkbox">
-            <input id="circle-checkbox" type="checkbox">
-            <span class="checkmark">
-              <img class="circle-image" src="circle_grab_10.png" alt="Image">
-            </span>
-          </label>
-          <label class="arrow-checkbox square-checkbox">
-            <input id="arrow-checkbox" type="checkbox">
-            <span class="checkmark">
-              <img class="arrow-image" src="arrow.png" alt="Image">
-            </span>
-          </label>
-          <label class="moving-checkbox square-checkbox">
-            <input id="moving-checkbox" type="checkbox">
-            <span class="checkmark">
-              <img class="blue-arrow" src="blue_arrow.png" alt="Image">
-              <img class="moving-ball" src="moving_ball.png" alt="Image">
-            </span>
-          </label>
-          <label class="play-checkbox square-checkbox">
-            <input id="play-checkbox" type="checkbox">
-            <span class="checkmark">
-              <img class="play-image" src="playbutton.png" alt="Image">
-            </span>
-          </label>
-        </div>
-        <div id="allCircles">
-          <div id="circle1" class="circle pos1">
-            <div class="circleColorGK circleStyle"></div>
-            <span id="1" class="circle-number circle-number-font-large">1</span>
-            <div class="output-container">
-              <span id="startingSpan1" class="outputStarting startingStyleOne"></span>
-              <span id="secondSpan1" class="outputSecond secondStyleOne"></span>
-            </div>
-          </div>
-          <div id="circle2" class="circle pos2">
-            <div class="circleColor circleStyle"></div>
-            <span id="2" class="circle-number circle-number-font-large">2</span>
-            <div class="output-container">
-              <span id="startingSpan2" class="outputStarting startingStyleOne"></span>
-              <span id="secondSpan2" class="outputSecond secondStyleOne"></span>
-            </div>
-          </div>
-          <div id="circle3" class="circle pos3">
-            <div class="circleColor circleStyle"></div>
-            <span id="3" class="circle-number circle-number-font-large">3</span>
-            <div class="output-container">
-              <span id="startingSpan3" class="outputStarting startingStyleOne"></span>
-              <span id="secondSpan3" class="outputSecond secondStyleOne"></span>
-            </div>
-          </div>
-          <div id="circle4" class="circle pos4">
-            <div class="circleColor circleStyle"></div>
-            <span id="4" class="circle-number circle-number-font-large">4</span>
-            <div class="output-container">
-              <span id="startingSpan4" class="outputStarting startingStyleOne"></span>
-              <span id="secondSpan4" class="outputSecond secondStyleOne"></span>
-            </div>
-          </div>
-          <div id="circle5" class="circle pos5">
-            <div class="circleColor circleStyle"></div>
-            <span id="5" class="circle-number circle-number-font-large">5</span>
-            <div class="output-container">
-              <span id="startingSpan5" class="outputStarting startingStyleOne"></span>
-              <span id="secondSpan5" class="outputSecond secondStyleOne"></span>
-            </div>
-          </div>
-          <div id="circle6" class="circle pos6">
-            <div class="circleColor circleStyle"></div>
-            <span id="6" class="circle-number circle-number-font-large">6</span>
-            <div class="output-container">
-              <span id="startingSpan6" class="outputStarting startingStyleOne"></span>
-              <span id="secondSpan6" class="outputSecond secondStyleOne"></span>
-            </div>
-          </div>
-          <div id="circle8" class="circle pos8">
-            <div class="circleColor circleStyle"></div>
-            <span id="8" class="circle-number circle-number-font-large">8</span>
-            <div class="output-container">
-              <span id="startingSpan8" class="outputStarting startingStyleOne"></span>
-              <span id="secondSpan8" class="outputSecond secondStyleOne"></span>
-            </div>
-          </div>
-          <div id="circle10" class="circle pos10">
-            <div class="circleColor circleStyle"></div>
-            <span id="10" class="circle-number circle-number-font-large">10</span>
-            <div class="output-container">
-              <span id="startingSpan10" class="outputStarting startingStyleOne"></span>
-              <span id="secondSpan10" class="outputSecond secondStyleOne"></span>
-            </div>
-          </div>
-          <div id="circle7" class="circle pos7">
-            <div class="circleColor circleStyle"></div>
-            <span id="7" class="circle-number circle-number-font-large">7</span>
-            <div class="output-container">
-              <span id="startingSpan7" class="outputStarting startingStyleOne"></span>
-              <span id="secondSpan7" class="outputSecond secondStyleOne"></span>
-            </div>
-          </div>
-          <div id="circle9" class="circle pos9">
-            <div class="circleColor circleStyle"></div>
-            <span id="9" class="circle-number circle-number-font-large">9</span>
-            <div class="output-container">
-              <span id="startingSpan9" class="outputStarting startingStyleOne"></span>
-              <span id="secondSpan9" class="outputSecond secondStyleOne"></span>
-            </div>
-          </div>
-          <div id="circle11" class="circle pos11">
-            <div class="circleColor circleStyle"></div>
-            <span id="11" class="circle-number circle-number-font-large">11</span>
-            <div class="output-container">
-              <span id="startingSpan11" class="outputStarting startingStyleOne"></span>
-              <span id="secondSpan11" class="outputSecond secondStyleOne"></span>
-            </div>
-          </div>
-          <div id="oppoCircle1" class="oppoCircle oppo1">
-            <div class="oppoCircleColorGK circleStyle"></div>
-            <span id="oppo1" class="circle-number circle-number-font-large">1</span>
-            <div class="oppo-output-container">
-              <span id="oppoSpan1" class="outputOpponent startingStyleOne"></span>
-            </div>
-          </div>
-          <div id="oppoCircle2" class="oppoCircle oppo2">
-            <div class="oppoCircleColor circleStyle"></div>
-            <span id="oppo2" class="circle-number circle-number-font-large">2</span>
-            <div class="oppo-output-container">
-              <span id="oppoSpan2" class="outputOpponent startingStyleOne"></span>
-            </div>
-          </div>
-          <div id="oppoCircle3" class="oppoCircle oppo3">
-            <div class="oppoCircleColor circleStyle"></div>
-            <span id="oppo3" class="circle-number circle-number-font-large">3</span>
-            <div class="oppo-output-container">
-              <span id="oppoSpan3" class="outputOpponent startingStyleOne"></span>
-            </div>
-          </div>
-          <div id="oppoCircle4" class="oppoCircle oppo4">
-            <div class="oppoCircleColor circleStyle"></div>
-            <span id="oppo4" class="circle-number circle-number-font-large">4</span>
-            <div class="oppo-output-container">
-              <span id="oppoSpan4" class="outputOpponent startingStyleOne"></span>
-            </div>
-          </div>
-          <div id="oppoCircle5" class="oppoCircle oppo5">
-            <div class="oppoCircleColor circleStyle"></div>
-            <span id="oppo5" class="circle-number circle-number-font-large">5</span>
-            <div class="oppo-output-container">
-              <span id="oppoSpan5" class="outputOpponent startingStyleOne"></span>
-            </div>
-          </div>
-          <div id="oppoCircle6" class="oppoCircle oppo6">
-            <div class="oppoCircleColor circleStyle"></div>
-            <span id="oppo6" class="circle-number circle-number-font-large">6</span>
-            <div class="oppo-output-container">
-              <span id="oppoSpan6" class="outputOpponent startingStyleOne"></span>
-            </div>
-          </div>
-          <div id="oppoCircle8" class="oppoCircle oppo8">
-            <div class="oppoCircleColor circleStyle"></div>
-            <span id="oppo8" class="circle-number circle-number-font-large">8</span>
-            <div class="oppo-output-container">
-              <span id="oppoSpan8" class="outputOpponent startingStyleOne"></span>
-            </div>
-          </div>
-          <div id="oppoCircle10" class="oppoCircle oppo10">
-            <div class="oppoCircleColor circleStyle"></div>
-            <span id="oppo10" class="circle-number circle-number-font-large">10</span>
-            <div class="oppo-output-container">
-              <span id="oppoSpan10" class="outputOpponent startingStyleOne"></span>
-            </div>
-          </div>
-          <div id="oppoCircle7" class="oppoCircle oppo7">
-            <div class="oppoCircleColor circleStyle"></div>
-            <span id="oppo7" class="circle-number circle-number-font-large">7</span>
-            <div class="oppo-output-container">
-              <span id="oppoSpan7" class="outputOpponent startingStyleOne"></span>
-            </div>
-          </div>
-          <div id="oppoCircle9" class="oppoCircle oppo9">
-            <div class="oppoCircleColor circleStyle"></div>
-            <span id="oppo9" class="circle-number circle-number-font-large">9</span>
-            <div class="oppo-output-container">
-              <span id="oppoSpan9" class="outputOpponent startingStyleOne"></span>
-            </div>
-          </div>
-          <div id="oppoCircle11" class="oppoCircle oppo11">
-            <div class="oppoCircleColor circleStyle"></div>
-            <span id="oppo11" class="circle-number circle-number-font-large">11</span>
-            <div class="oppo-output-container">
-              <span id="oppoSpan11" class="outputOpponent startingStyleOne"></span>
-            </div>
-          </div>
-          <div id="ball" class="ball"></div>
-        </div>
+    <div class="lineup-container" id="lineupContainer" oncontextmenu="return false" >
+    <div class="image-container" id="image-container">
+      <div class="text-container">
+        <span class="formation-label">Formation: </span>
+        <span class="copyright">© 2023 - pwolbers.github.io/line-up-builder</span>
       </div>
+      <div id="football-pitch" class="football-pitch greenColor">
+        <div class="field lineColorWhite">
+          <div class="tactical vertical1 lineColorWhite"></div>
+          <div class="tactical vertical2 lineColorWhite"></div>
+          <div class="tactical horizontal1 lineColorWhite"></div>
+          <div class="tactical horizontal2 lineColorWhite"></div>
+          <div class="tactical horizontal3 lineColorWhite"></div>
+          <div class="tactical horizontal4 lineColorWhite"></div>
+          <div class="top-penalty-box">
+            <div class="top-semicircle lineColorWhite"></div>
+            <div class="penalty-box top lineColorWhite penaltyBoxGreenTop"></div>
+            <div class="five-yard-box top lineColorWhite"></div>
+            <div class="penaltyDot top lineColorWhite"></div>
+          </div>
+          <div class="bottom-penalty-box">
+            <div class="bottom-semicircle lineColorWhite"></div>
+            <div class="penalty-box bottom lineColorWhite penaltyBoxGreenBottom"></div>
+            <div class="five-yard-box bottom lineColorWhite"></div>
+            <div class="penaltyDot bottom lineColorWhite"></div>
+          </div>
+          <div class="corner top-left lineColorWhite"></div>
+          <div class="corner top-right lineColorWhite"></div>
+          <div class="corner bottom-right lineColorWhite"></div>
+          <div class="corner bottom-left lineColorWhite"></div>
+          <div class="center-circle lineColorWhite"></div>
+          <div class="middleLine lineColorWhite"></div>
+          <div class="middleDot lineColorWhite"></div>
+        </div>
+        <div class="goal home"></div>
+        <div class="goal away"></div>
+      </div>
+      <div id="button-pitch-container" class="button-pitch-container">
+        <label class="circle-checkbox square-checkbox">
+          <input id="circle-checkbox" type="checkbox">
+          <span class="checkmark">
+            <img class="circle-image" src="circle_grab_10.png" alt="Image">
+          </span>
+        </label>
+        <label class="arrow-checkbox square-checkbox">
+          <input id="arrow-checkbox" type="checkbox">
+          <span class="checkmark">
+            <img class="arrow-image" src="arrow.png" alt="Image">
+          </span>
+        </label>
+        <label class="moving-checkbox square-checkbox">
+          <input id="moving-checkbox" type="checkbox">
+          <span class="checkmark">
+            <img class="blue-arrow" src="blue_arrow.png" alt="Image">
+            <img class="moving-ball" src="moving_ball.png" alt="Image">
+          </span>
+        </label>
+        <label class="play-checkbox square-checkbox">
+          <input id="play-checkbox" type="checkbox">
+          <span class="checkmark">
+            <img class="play-image" src="playbutton.png" alt="Image">
+          </span>
+        </label>
+      </div>
+      <div id="allCircles">
+        <div id="circle1" class="circle pos1">
+          <div class="circleColorGK circleStyle"></div>
+          <span id="1" class="circle-number circle-number-font-large">1</span>
+          <div class="output-container">
+            <span id="startingSpan1" class="outputStarting startingStyleOne"></span>
+            <span id="secondSpan1" class="outputSecond secondStyleOne"></span>
+          </div>
+        </div>
+        <div id="circle2" class="circle pos2">
+          <div class="circleColor circleStyle"></div>
+          <span id="2" class="circle-number circle-number-font-large">2</span>
+          <div class="output-container">
+            <span id="startingSpan2" class="outputStarting startingStyleOne"></span>
+            <span id="secondSpan2" class="outputSecond secondStyleOne"></span>
+          </div>
+        </div>
+        <div id="circle3" class="circle pos3">
+          <div class="circleColor circleStyle"></div>
+          <span id="3" class="circle-number circle-number-font-large">3</span>
+          <div class="output-container">
+            <span id="startingSpan3" class="outputStarting startingStyleOne"></span>
+            <span id="secondSpan3" class="outputSecond secondStyleOne"></span>
+          </div>
+        </div>
+        <div id="circle4" class="circle pos4">
+          <div class="circleColor circleStyle"></div>
+          <span id="4" class="circle-number circle-number-font-large">4</span>
+          <div class="output-container">
+            <span id="startingSpan4" class="outputStarting startingStyleOne"></span>
+            <span id="secondSpan4" class="outputSecond secondStyleOne"></span>
+          </div>
+        </div>
+        <div id="circle5" class="circle pos5">
+          <div class="circleColor circleStyle"></div>
+          <span id="5" class="circle-number circle-number-font-large">5</span>
+          <div class="output-container">
+            <span id="startingSpan5" class="outputStarting startingStyleOne"></span>
+            <span id="secondSpan5" class="outputSecond secondStyleOne"></span>
+          </div>
+        </div>
+        <div id="circle6" class="circle pos6">
+          <div class="circleColor circleStyle"></div>
+          <span id="6" class="circle-number circle-number-font-large">6</span>
+          <div class="output-container">
+            <span id="startingSpan6" class="outputStarting startingStyleOne"></span>
+            <span id="secondSpan6" class="outputSecond secondStyleOne"></span>
+          </div>
+        </div>
+        <div id="circle8" class="circle pos8">
+          <div class="circleColor circleStyle"></div>
+          <span id="8" class="circle-number circle-number-font-large">8</span>
+          <div class="output-container">
+            <span id="startingSpan8" class="outputStarting startingStyleOne"></span>
+            <span id="secondSpan8" class="outputSecond secondStyleOne"></span>
+          </div>
+        </div>
+        <div id="circle10" class="circle pos10">
+          <div class="circleColor circleStyle"></div>
+          <span id="10" class="circle-number circle-number-font-large">10</span>
+          <div class="output-container">
+            <span id="startingSpan10" class="outputStarting startingStyleOne"></span>
+            <span id="secondSpan10" class="outputSecond secondStyleOne"></span>
+          </div>
+        </div>
+        <div id="circle7" class="circle pos7">
+          <div class="circleColor circleStyle"></div>
+          <span id="7" class="circle-number circle-number-font-large">7</span>
+          <div class="output-container">
+            <span id="startingSpan7" class="outputStarting startingStyleOne"></span>
+            <span id="secondSpan7" class="outputSecond secondStyleOne"></span>
+          </div>
+        </div>
+        <div id="circle9" class="circle pos9">
+          <div class="circleColor circleStyle"></div>
+          <span id="9" class="circle-number circle-number-font-large">9</span>
+          <div class="output-container">
+            <span id="startingSpan9" class="outputStarting startingStyleOne"></span>
+            <span id="secondSpan9" class="outputSecond secondStyleOne"></span>
+          </div>
+        </div>
+        <div id="circle11" class="circle pos11">
+          <div class="circleColor circleStyle"></div>
+          <span id="11" class="circle-number circle-number-font-large">11</span>
+          <div class="output-container">
+            <span id="startingSpan11" class="outputStarting startingStyleOne"></span>
+            <span id="secondSpan11" class="outputSecond secondStyleOne"></span>
+          </div>
+        </div>
+        <div id="oppoCircle1" class="oppoCircle oppo1">
+          <div class="oppoCircleColorGK circleStyle"></div>
+          <span id="oppo1" class="circle-number circle-number-font-large">1</span>
+          <div class="oppo-output-container">
+            <span id="oppoSpan1" class="outputOpponent startingStyleOne"></span>
+          </div>
+        </div>
+        <div id="oppoCircle2" class="oppoCircle oppo2">
+          <div class="oppoCircleColor circleStyle"></div>
+          <span id="oppo2" class="circle-number circle-number-font-large">2</span>
+          <div class="oppo-output-container">
+            <span id="oppoSpan2" class="outputOpponent startingStyleOne"></span>
+          </div>
+        </div>
+        <div id="oppoCircle3" class="oppoCircle oppo3">
+          <div class="oppoCircleColor circleStyle"></div>
+          <span id="oppo3" class="circle-number circle-number-font-large">3</span>
+          <div class="oppo-output-container">
+            <span id="oppoSpan3" class="outputOpponent startingStyleOne"></span>
+          </div>
+        </div>
+        <div id="oppoCircle4" class="oppoCircle oppo4">
+          <div class="oppoCircleColor circleStyle"></div>
+          <span id="oppo4" class="circle-number circle-number-font-large">4</span>
+          <div class="oppo-output-container">
+            <span id="oppoSpan4" class="outputOpponent startingStyleOne"></span>
+          </div>
+        </div>
+        <div id="oppoCircle5" class="oppoCircle oppo5">
+          <div class="oppoCircleColor circleStyle"></div>
+          <span id="oppo5" class="circle-number circle-number-font-large">5</span>
+          <div class="oppo-output-container">
+            <span id="oppoSpan5" class="outputOpponent startingStyleOne"></span>
+          </div>
+        </div>
+        <div id="oppoCircle6" class="oppoCircle oppo6">
+          <div class="oppoCircleColor circleStyle"></div>
+          <span id="oppo6" class="circle-number circle-number-font-large">6</span>
+          <div class="oppo-output-container">
+            <span id="oppoSpan6" class="outputOpponent startingStyleOne"></span>
+          </div>
+        </div>
+        <div id="oppoCircle8" class="oppoCircle oppo8">
+          <div class="oppoCircleColor circleStyle"></div>
+          <span id="oppo8" class="circle-number circle-number-font-large">8</span>
+          <div class="oppo-output-container">
+            <span id="oppoSpan8" class="outputOpponent startingStyleOne"></span>
+          </div>
+        </div>
+        <div id="oppoCircle10" class="oppoCircle oppo10">
+          <div class="oppoCircleColor circleStyle"></div>
+          <span id="oppo10" class="circle-number circle-number-font-large">10</span>
+          <div class="oppo-output-container">
+            <span id="oppoSpan10" class="outputOpponent startingStyleOne"></span>
+          </div>
+        </div>
+        <div id="oppoCircle7" class="oppoCircle oppo7">
+          <div class="oppoCircleColor circleStyle"></div>
+          <span id="oppo7" class="circle-number circle-number-font-large">7</span>
+          <div class="oppo-output-container">
+            <span id="oppoSpan7" class="outputOpponent startingStyleOne"></span>
+          </div>
+        </div>
+        <div id="oppoCircle9" class="oppoCircle oppo9">
+          <div class="oppoCircleColor circleStyle"></div>
+          <span id="oppo9" class="circle-number circle-number-font-large">9</span>
+          <div class="oppo-output-container">
+            <span id="oppoSpan9" class="outputOpponent startingStyleOne"></span>
+          </div>
+        </div>
+        <div id="oppoCircle11" class="oppoCircle oppo11">
+          <div class="oppoCircleColor circleStyle"></div>
+          <span id="oppo11" class="circle-number circle-number-font-large">11</span>
+          <div class="oppo-output-container">
+            <span id="oppoSpan11" class="outputOpponent startingStyleOne"></span>
+          </div>
+        </div>
+        <div id="ball" class="ball"></div>
+      </div>
+      <canvas id="drawingCanvas"></canvas>
     </div>
-    <div class="popup" id="popup">
-      <div class="popup-content">
-        <button class="close-btn" id="closeBtn">
-          <i class="fas fa-times"></i>
-        </button>
-        <h2>Help</h2>
-        <div class="tab">
-          <button class="helpTabLinks" onclick="openHelpTab(event, 'controls')" id="defaultOpen2">Controls</button>
-          <button class="helpTabLinks" onclick="openHelpTab(event, 'importing-team')">Importing team</button>
-          <button class="helpTabLinks" onclick="openHelpTab(event, 'download')">Download</button>
-          <button class="helpTabLinks" onclick="openHelpTab(event, 'contact')" style="border-right: 0">Contact</button>
-          <div id="controls" class="helpTabContent">
-            <br>
-            <p><b>Use the following buttons to switch between dragging the circle <i>(mobile only!)</i>, drawing a
-                tactical line, drawing a pressing line, and moving circles based on their pressing lines :</b></p>
-            <div class="help-image-div"><span><img id="circleButton" src="circle_grab_10.png" alt="Image"
-                  class="help-popup-square"></span>
-              <li><i>Drag a circle</i></li>
-            </div>
-            <div class="help-image-div"><span style="overflow: hidden"><img id="arrowButton" src="arrow.png" alt="Image"
-                  class="help-popup-square"></span>
-              <li><i>Draw a tactical line</i></li>
-            </div>
-            <div class="help-image-div">
-              <span id="movingButton" style="position: relative; overflow: hidden; width: 30px; height: 30px">
-                <img id="blueArrow" src="blue_arrow.png" alt="Image" class="help-popup-square">
-                <img id="movingCircle" src="moving_ball.png" alt="Image" class="help-popup-square">
-              </span>
-              <li><i>Draw a pressing line</i></li>
-            </div>
-            <div class="help-image-div">
-              <span>
-                <img id="playButton" src="playbutton.png" alt="Image" class="help-popup-square help-play">
-              </span>
-              <li><i>Animate circles to the endpoint of the pressing line (only usable when pressing lines are
-                  drawn)</i></li>
-            </div>
-            <br>
-            <h4>Computer</h4>
-            <li><b>Left click and drag circle:</b> change position of circle on the pitch</li>
-            <li><b>Double left click on circle:</b> change number in circle</li>
-            <li><b>Right click and drag from circle:</b> Draw tactical or pressing line from circle</li>
-            <li><b>Right click on circle:</b> Remove oldest line from circle</li>
-            <li><b>Double right click on circle:</b> Remove all lines from circle</li>
-            <br>
-            <h4>Mobile</h4>
-            <p><b>Dragging circle</b></p>
-            <li><b>Hold and drag circle:</b> change position of circle on the pitch</li>
-            <li><b>Double tap on circle:</b> change number in circle</li>
-            <br>
-            <p><b>Drawing tactical or pressing lines</b></p>
-            <li><b>Hold and drag:</b> Draw arrow from the circle</li>
-            <li><b>Single tap on circle:</b> Remove oldest arrow from the circle</li>
-            <li><b>Double tap on circle:</b> Remove all arrows from the circle</li>
+  </div>
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <button class="close-btn" id="closeBtn">
+        <i class="fas fa-times"></i>
+      </button>
+      <h2>Help</h2>
+      <div class="tab">
+        <button class="helpTabLinks" onclick="openHelpTab(event, 'controls')" id="defaultOpen2">Controls</button>
+        <button class="helpTabLinks" onclick="openHelpTab(event, 'drawing-mode')">Drawing mode</button>
+        <button class="helpTabLinks" onclick="openHelpTab(event, 'importing-team')">Importing team</button>
+        <button class="helpTabLinks" onclick="openHelpTab(event, 'download')">Download</button>
+        <button class="helpTabLinks" onclick="openHelpTab(event, 'contact')" style="border-right: 0">Contact</button>
 
+        <div id="controls" class="helpTabContent">
+          <br>
+          <p><b>Use the following buttons to switch between dragging the circle <i>(mobile only!)</i>, drawing a
+              tactical line, drawing a pressing line, and moving circles based on their pressing lines :</b></p>
+          <div class="help-image-div"><span><img id="circleButton" src="circle_grab_10.png" alt="Image"
+                class="help-popup-square"></span>
+            <li><i>Drag a circle</i></li>
           </div>
-          <div id="importing-team" class="helpTabContent">
-            <br>
-            <p>You can directly import a team through a saved .JSON file.</p>
-            <p>JSON files need to be imported in one of the two following formats:</p>
-            <div class="tab">
-              <button class="tabLinks" onclick="openJSONVariant(event, 'Back-up')" id="defaultOpen">Back-up</button>
-              <button class="tabLinks" onclick="openJSONVariant(event, 'Opposition')">Opposition</button>
-              <div id="Back-up" class="tabContent">
-                <pre id="backupJson"></pre>
-              </div>
-              <div id="Opposition" class="tabContent">
-                <pre id="oppositionJson"></pre>
-              </div>
+          <div class="help-image-div"><span id="arrowButton" style="overflow: hidden"><img id="arrowImage"
+                src="arrow.png" alt="Image" class="help-popup-square"></span>
+            <li><i>Draw a tactical line</i></li>
+          </div>
+          <div class="help-image-div">
+            <span id="movingButton" style="position: relative; overflow: hidden; width: 30px; height: 30px">
+              <img id="blueArrow" src="blue_arrow.png" alt="Image" class="help-popup-square">
+              <img id="movingCircle" src="moving_ball.png" alt="Image" class="help-popup-square">
+            </span>
+            <li><i>Draw a pressing line</i></li>
+          </div>
+          <div class="help-image-div">
+            <span>
+              <img id="playButton" src="playbutton.png" alt="Image" class="help-popup-square help-play">
+            </span>
+            <li><i>Animate circles to the endpoint of the pressing line (only usable when pressing lines are
+                drawn)</i></li>
+          </div>
+          <br>
+          <h4>Computer</h4>
+          <li><b>Left click and drag circle:</b> change position of circle on the pitch</li>
+          <li><b>Double left click on circle:</b> change number in circle</li>
+          <li><b>Right click and drag from circle:</b> Draw tactical or pressing line from circle</li>
+          <li><b>Right click on circle:</b> Remove oldest line from circle</li>
+          <li><b>Double right click on circle:</b> Remove all lines from circle</li>
+          <br>
+          <h4>Mobile</h4>
+          <p><b>Dragging circle</b></p>
+          <li><b>Hold and drag circle:</b> change position of circle on the pitch</li>
+          <li><b>Double tap on circle:</b> change number in circle</li>
+          <br>
+          <p><b>Drawing tactical or pressing lines</b></p>
+          <li><b>Hold and drag:</b> Draw arrow from the circle</li>
+          <li><b>Single tap on circle:</b> Remove oldest arrow from the circle</li>
+          <li><b>Double tap on circle:</b> Remove all arrows from the circle</li>
+
+        </div>
+        <div id="drawing-mode" class="helpTabContent">
+          <br>
+          <p>When drawing mode is turned on, all other functionality related to the field (dragging and moving of
+            circles, as well as drawing lines) is disabled.</p>
+          <p>Instead, you can use the setting menu to set the brush color and width and add extra markings to the field.
+            When you're done, you can turn off drawing mode and resume your other activities</p>
+            <p>If you're unsatisfied with your work, you can use the 'Clear' button to remove all drawings from the pitch.</p>
+            <p>If you made a mistake, use the 'Undo' button to remove the last brush.</p>
+        </div>
+        <div id="importing-team" class="helpTabContent">
+          <br>
+          <p>You can directly import a team through a saved .JSON file.</p>
+          <p>JSON files need to be imported in one of the two following formats:</p>
+          <div class="tab">
+            <button class="tabLinks" onclick="openJSONVariant(event, 'Back-up')" id="defaultOpen">Back-up</button>
+            <button class="tabLinks" onclick="openJSONVariant(event, 'Opposition')">Opposition</button>
+            <div id="Back-up" class="tabContent">
+              <pre id="backupJson"></pre>
             </div>
-            <p><b style="color:red">IMPORTANT NOTE:</b> Make sure the labels (or keys) are as shown in the template
-              (i.e. #1, #2, etc. to #11). The
-              tool will not recognize the JSON if they are changed.</p>
-            <p>Be aware that each formation has a predetermined position for each number (for example, the #11 will
-              always be
-              the left striker in a 4-4-2 and a left winger in a 4-3-3). If you download a team, this will be
-              automatically generated for you. The order of the labels and their corresponding players in the .JSON is
-              irrelevant. The
-              #7 in the JSON will always match the #7 in the lineup, whether it's the first or last in the JSON.</p>
-            <br>
-            <h3>Details</h3>
-            <p><b>teamName:</b> Put your team name here</p>
-            <p><b>formation: </b> Recognized inputs for formations are:</p>
-            <li>433</li>
-            <li>442flat</li>
-            <li>442diamond</li>
-            <li>451</li>
-            <li>4231</li>
-            <li>532</li>
-            <li>343</li>
-            <li>3421</li>
-            <p>Dashes and spaces will be ignored (so for example, '4-4-2 diamond' will also work). Other formations
-              will
-              be defaulted to a 4-3-3.</p>
-            <p><b>starting:</b> Put your starting players in the positions linked to that number.</p>
-            <p>For the starters, you can also specify their shirt number (or any other label (for example: RW) you
-              want to be shown in
-              the circle)</p>
-            <p><b>colors: </b></p>
-            <li><i>mainColor:</i> the filling of the circle</li>
-            <li><i>secondColor:</i> the border of the circle</li>
-            <li><i>numberColor:</i> the number/label within the circle</li>
-            <p>Colors can be in words ['red', 'blue'], RGB [rgb(255, 0, 0)] (you can also use percentages) and
-              hexadecimals [#ff0000].</p>
-            <p><b>secondType:</b> Either 'back-up' or 'opposition'. Other inputs will be defaulted to 'back-up'.
-            <p><b>second:</b> Based on the input on secondType, this will contain either the back-up players or the
-              opposition players.
-              For back-up players, you can just add the name to the number as shown in the example.
-              For opposition players you will have to specify the name and number similar to how it's done for the
-              starting players.</p>
-            <p><b>oppoFormation: </b> The formation that will be used for the opposition team. The recognized inputs
-              are
-              the same as specified above.</p>
-            <p><b>oppoColors: </b> Uses the same format as colors for the main team.</p>
-            <p><b><i>Optional:</i></b></p>
-            <p><b>circlePositions: </b> When downloading your team, a string containing the specific position of the
-              circles on the pitch is created. This can be used to load your circles in specific positions as opposed
-              to predetermined positions from formations.</p>
-            <p><b>oppoCirclePositions: </b>The same as circlePositions, but for opposition circles.</p>
+            <div id="Opposition" class="tabContent">
+              <pre id="oppositionJson"></pre>
+            </div>
           </div>
-          <div id="download" class="helpTabContent">
-            <br>
-            <p>You can download your team in two filetypes: .JSON and .PNG. The .JSON will be downloaded in a similar
-              format as above based on your input when downloading.
-              This can be useful if you want to continue working on your team later.</p>
-            <p>The .PNG will take a snapshot of the pitch on the right and can be used for sharing your team with
-              others.</p>
-          </div>
-          <div id="contact" class="helpTabContent">
-            <br>
-            <p>If you have any questions or remarks, you can find me on the following platforms:</p>
-            <p><b>Twitter: </b> @peterwolbers</p>
-            <p><b>BlueSky: </b> @peterwolbers.bsky.social</p>
-          </div>
+          <p><b style="color:red">IMPORTANT NOTE:</b> Make sure the labels (or keys) are as shown in the template
+            (i.e. #1, #2, etc. to #11). The
+            tool will not recognize the JSON if they are changed.</p>
+          <p>Be aware that each formation has a predetermined position for each number (for example, the #11 will
+            always be
+            the left striker in a 4-4-2 and a left winger in a 4-3-3). If you download a team, this will be
+            automatically generated for you. The order of the labels and their corresponding players in the .JSON is
+            irrelevant. The
+            #7 in the JSON will always match the #7 in the lineup, whether it's the first or last in the JSON.</p>
+          <br>
+          <h3>Details</h3>
+          <p><b>teamName:</b> Put your team name here</p>
+          <p><b>formation: </b> Recognized inputs for formations are:</p>
+          <li>433</li>
+          <li>442flat</li>
+          <li>442diamond</li>
+          <li>451</li>
+          <li>4231</li>
+          <li>532</li>
+          <li>343</li>
+          <li>3421</li>
+          <p>Dashes and spaces will be ignored (so for example, '4-4-2 diamond' will also work). Other formations
+            will
+            be defaulted to a 4-3-3.</p>
+          <p><b>starting:</b> Put your starting players in the positions linked to that number.</p>
+          <p>For the starters, you can also specify their shirt number (or any other label (for example: RW) you
+            want to be shown in
+            the circle)</p>
+          <p><b>colors: </b></p>
+          <li><i>mainColor:</i> the filling of the circle</li>
+          <li><i>secondColor:</i> the border of the circle</li>
+          <li><i>numberColor:</i> the number/label within the circle</li>
+          <p>Colors can be in words ['red', 'blue'], RGB [rgb(255, 0, 0)] (you can also use percentages) and
+            hexadecimals [#ff0000].</p>
+          <p><b>secondType:</b> Either 'back-up' or 'opposition'. Other inputs will be defaulted to 'back-up'.
+          <p><b>second:</b> Based on the input on secondType, this will contain either the back-up players or the
+            opposition players.
+            For back-up players, you can just add the name to the number as shown in the example.
+            For opposition players you will have to specify the name and number similar to how it's done for the
+            starting players.</p>
+          <p><b>oppoFormation: </b> The formation that will be used for the opposition team. The recognized inputs
+            are
+            the same as specified above.</p>
+          <p><b>oppoColors: </b> Uses the same format as colors for the main team.</p>
+          <p><b><i>Optional:</i></b></p>
+          <p><b>circlePositions: </b> When downloading your team, a string containing the specific position of the
+            circles on the pitch is created. This can be used to load your circles in specific positions as opposed
+            to predetermined positions from formations.</p>
+          <p><b>oppoCirclePositions: </b>The same as circlePositions, but for opposition circles.</p>
+        </div>
+        <div id="download" class="helpTabContent">
+          <br>
+          <p>You can download your team in two filetypes: .JSON and .PNG. The .JSON will be downloaded in a similar
+            format as above based on your input when downloading.
+            This can be useful if you want to continue working on your team later.</p>
+          <p>The .PNG will take a snapshot of the pitch on the right and can be used for sharing your team with
+            others.</p>
+        </div>
+        <div id="contact" class="helpTabContent">
+          <br>
+          <p>If you have any questions or remarks, you can find me on the following platforms:</p>
+          <p><b>Twitter: </b> @peterwolbers</p>
+          <p><b>BlueSky: </b> @peterwolbers.bsky.social</p>
         </div>
       </div>
     </div>
-    <canvas id="drawingCanvas"></canvas>
+  </div>
+
   </div>
   <script type="text/javascript" src="onLoad.js"></script>
   <script type="text/javascript" src="script.js"></script>

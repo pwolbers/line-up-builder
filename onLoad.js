@@ -12,6 +12,19 @@ var isDrawing = false;
 var secondContainerInputs = [];
 var oppoContainerInputs = [];
 
+var standardSizes = getStandardSizes();
+var standardCircleSize = standardSizes[0];
+var standardBorderSize = standardSizes[1];
+var standardNumberSizeLarge = standardSizes[2];
+var standardNumberSizeMedium = standardSizes[3];
+var standardNumberSizeSmall = standardSizes[4];
+var standardNumberSizeLargeOppo = standardSizes[5];
+var standardNumberSizeMediumOppo = standardSizes[6];
+var standardNumberSizeSmallOppo = standardSizes[7];
+var standardTextBoxOne = standardSizes[8];
+var standardTextBoxTwo = standardSizes[9];
+
+
 const jsonFileInput = document.getElementById('jsonFileInput');
 const chooseFileButton = document.getElementById('chooseFileButton');
 const importButton = document.getElementById('importButton');
@@ -68,8 +81,13 @@ const oppoLineYSeven = (840 / 900) * imageConHeight;
 
 const animationDuration = 1000;
 
+const mainColor = document.getElementById("colorPickerMain");
+
 var arrowLocationArray = [];
 let startX, startY;
+
+
+
 
 $(document).ready(function () {
     $("#starting-column-title").click(function () {
@@ -176,10 +194,25 @@ function resizeFunctionality() {
             addLineDataToArray(line, circle);
         }
     });
+
+    //Reset 'Move circles' button if resized
     if (document.getElementById("play-checkbox").checked) {
         document.getElementById("play-checkbox").checked = false;
         moveCircles();
     }
+
+    //Get new current standard Circle Size
+    standardSizes = getStandardSizes();
+    standardCircleSize = standardSizes[0];
+    standardBorderSize = standardSizes[1];
+    standardNumberSizeLarge = standardSizes[2];
+    standardNumberSizeMedium = standardSizes[3];
+    standardNumberSizeSmall = standardSizes[4];
+    standardNumberSizeLargeOppo = standardSizes[5];
+    standardNumberSizeMediumOppo = standardSizes[6];
+    standardNumberSizeSmallOppo = standardSizes[7];
+    standardTextBoxOne = standardSizes[8];
+    standardTextBoxTwo = standardSizes[9];
 }
 
 window.onload = () => {
@@ -415,6 +448,12 @@ window.addEventListener('DOMContentLoaded', function () {
 
     var showLineUpButton = document.getElementById('showLineUpButton');
     showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
+
+    //Set slider values
+    var outputElementOne = document.querySelector('.circleSliderOutput');
+    var outputElementTwo = document.querySelector('.drawSliderOutput');
+    setSliderOutputLabel(circleSlider, outputElementOne);
+    setSliderOutputLabel(drawingSlider, outputElementTwo);
 });
 
 //Pre loads the JSON files stored locally
@@ -458,10 +497,9 @@ document.addEventListener("DOMContentLoaded", function () {
         //Remove settings menu if clicked outside
         else if (settings.style.display == 'block') {
             var clickedElement = event.target;
-
             // Check if the clicked element or any of its ancestors has id="settings"
             while (clickedElement) {
-                if (clickedElement.id === 'settings') {
+                if (clickedElement.id === 'settings' || clickedElement.id === 'drawingCanvas' || clickedElement.classList.toString().indexOf('pcr-') > -1) {
                     return; // Exit the function early
                 }
                 clickedElement = clickedElement.parentElement;
@@ -684,7 +722,6 @@ const arrowButton = document.getElementById('arrowButton');
 const movingButton = document.getElementById('movingButton');
 
 playButton.addEventListener('mousedown', function () {
-    console.log("CLICKED");
     playButton.classList.add('activePlay');
     playButton.parentNode.style.backgroundColor = 'rgba(36, 200, 36, 0.7)';
     setTimeout(function () {
@@ -715,12 +752,13 @@ circleButton.addEventListener('mousedown', function () {
 });
 
 arrowButton.addEventListener('mousedown', function () {
-    arrowButton.classList.add('activeArrow');
-    arrowButton.parentNode.style.backgroundColor = 'rgba(36, 200, 36, 0.7)';
+    var arrowImage = document.getElementById('arrowImage');
+    arrowImage.classList.add('activeArrow');
+    arrowButton.style.backgroundColor = 'rgba(36, 200, 36, 0.7)';
     setTimeout(function () {
-        arrowButton.classList.remove('activeArrow');
+        arrowImage.classList.remove('activeArrow');
 
-        arrowButton.parentNode.style.backgroundColor = 'rgba(200, 36, 36, 0.7)';
+        arrowButton.style.backgroundColor = 'rgba(200, 36, 36, 0.7)';
     }, 1200);
 });
 
@@ -734,3 +772,217 @@ movingButton.addEventListener('mousedown', function () {
         movingCircle.parentNode.style.backgroundColor = 'rgba(200, 36, 36, 0.7)';
     }, 1200);
 });
+
+const mainPickr = createPickr('.mainColorPicker', '#ff0000');
+const secondPickr = createPickr('.secondColorPicker', '#ffffff');
+const numberPickr = createPickr('.numberColorPicker', '#ffffff');
+const mainOppoPickr = createPickr('.mainOppoColorPicker', '#006631');
+const secondOppoPickr = createPickr('.secondOppoColorPicker', '#000000');
+const numberOppoPickr = createPickr('.numberOppoColorPicker', '#ffffff');
+const drawingPickr = createPickr('.drawingColorPicker', '#ffffff');
+
+function createPickr(elValue, defaultColor) {
+
+    const tempPickr = new Pickr({
+        el: elValue,
+        container: 'body',
+        theme: 'nano',
+        default: defaultColor,
+        comparison: false,
+        adjustableNumbers: true,
+        position: 'top-start',
+
+        swatches: [
+
+            '#800080', // Purple
+            '#7A263A', // Maroon
+            '#FF0000', // Red
+            '#F36C21', // Orange
+            '#F7B7D3', // Pink
+            '#FFD700', // Gold
+            '#006631', // Green
+            '#000080', // Navy blue
+            '#034694', // Chelsea Blue
+            '#87CEEB', // Sky Blue
+            '#FFFFFF', // White
+            '#C0C0C0', // Silver
+            '#808080', // Gray
+            '#000000', // Black
+
+        ],
+
+        components: {
+            palette: true,
+            preview: true,
+            opacity: true,
+            hue: true,
+
+            interaction: {
+                hex: true,
+                rgba: true,
+                input: true
+            },
+        },
+    });
+    return tempPickr;
+}
+
+const drawingSlider = document.getElementById('drawingSlider');
+
+const circleSlider = document.getElementById('circleSlider');
+
+var oldValue = circleSlider.value;
+var newValue;
+var outputElement;
+
+circleSlider.oninput = function () {
+    newValue = this.value;
+    setCircleAndTextSize();
+    oldValue = newValue;
+
+    outputElement = document.querySelector('.circleSliderOutput');
+    setSliderOutputLabel(this, outputElement);
+}
+drawingSlider.oninput = function () {
+    outputElement = document.querySelector('.drawSliderOutput');
+    setSliderOutputLabel(this, outputElement);
+}
+
+function getStandardSizes() {
+    var standardSizes = [];
+    //Circle
+    var vh98 = (window.innerHeight / 100 * 98).toFixed(3);
+    if (vh98 > 752) {
+        standardSizes.push((32 / 900) * vh98 - 0.008);
+    }
+    else {
+        standardSizes.push((32 / 900) * 752 - 0.008);
+    }
+    //Border
+    var vh25 = (window.innerHeight / 100 * .25).toFixed(3);
+    if (vh25 > 2) {
+        standardSizes.push(vh25);
+    }
+    else {
+        standardSizes.push(2);
+    }
+    //Number Large
+    var largeNumberObj = {};
+    largeNumberObj.id = 'circle-number-font-large';
+    var largeNumber = 0.6 * (32 / 900) * vh98;
+    if (largeNumber > 16) {
+        largeNumberObj.size = largeNumber;
+    }
+    else {
+        largeNumberObj.size = 16;
+    }
+    standardSizes.push(largeNumberObj);
+    //Number Medium
+    var mediumNumberObj = {};
+    mediumNumberObj.id = 'circle-number-font-medium';
+    var mediumNumber = 0.5 * (32 / 900) * vh98;
+    if (mediumNumber > 14) {
+        mediumNumberObj.size = mediumNumber;
+    }
+    else {
+        mediumNumberObj.size = 14;
+    }
+    standardSizes.push(mediumNumberObj);
+    //Number Small
+    var smallNumberObj = {};
+    smallNumberObj.id = 'circle-number-font-small';
+    var smallNumber = 0.45 * (32 / 900) * vh98;
+    if (smallNumber > 12) {
+        smallNumberObj.size = smallNumber;
+    }
+    else {
+        smallNumberObj.size = 12;
+    }
+    standardSizes.push(smallNumberObj);
+    //Number Large Oppo
+    var largeOppoNumberObj = {};
+    largeOppoNumberObj.id = 'circle-number-font-large-oppo';
+    var largeNumberOppo = 0.55 * (32 / 900) * vh98;
+    if (largeNumberOppo > 15) {
+        largeOppoNumberObj.size = largeNumberOppo;
+    }
+    else {
+        largeOppoNumberObj.size = 15;
+    }
+    standardSizes.push(largeOppoNumberObj);
+    //Number Medium Oppo
+    var mediumOppoNumberObj = {};
+    mediumOppoNumberObj.id = 'circle-number-font-medium-oppo';
+    var mediumNumberOppo = 0.45 * (32 / 900) * vh98;
+    if (mediumNumberOppo > 12) {
+        mediumOppoNumberObj.size = mediumNumberOppo;
+    }
+    else {
+        mediumOppoNumberObj.size = 12;
+    }
+    standardSizes.push(mediumOppoNumberObj);
+    //Number Small Oppo
+    var smallOppoNumberObj = {};
+    smallOppoNumberObj.id = 'circle-number-font-small-oppo';
+    var smallNumberOppo = 0.4 * (32 / 900) * vh98;
+    if (smallNumberOppo > 11) {
+        smallOppoNumberObj.size = smallNumberOppo;
+    }
+    else {
+        smallOppoNumberObj.size = 11;
+    }
+    standardSizes.push(smallOppoNumberObj);
+
+    //Text style one
+    var textStyleOneObj = {};
+    var vh14 = (window.innerHeight / 100 * 1.4).toFixed(3);
+    if (vh14 > 11.2) {
+        textStyleOneObj.fontSize = vh14;
+    }
+    else {
+        textStyleOneObj.fontSize = 11.2;
+    }
+    var vh25 = (window.innerHeight / 100 * -2.5).toFixed(3);
+    if (vh25 < -20) {
+        textStyleOneObj.bottomStarting = vh25;
+        textStyleOneObj.bottomSecond = vh25 * 2;
+    }
+    else {
+        textStyleOneObj.bottomStarting = -20;
+        textStyleOneObj.bottomSecond = -40;
+    }
+    standardSizes.push(textStyleOneObj);
+
+    //Text style two
+    var textStyleTwoObj = {};
+    var vh15 = (window.innerHeight / 100 * 1.5).toFixed(3);
+    if (vh15 > 13.6) {
+        textStyleTwoObj.fontSize = vh15;
+    }
+    else {
+        textStyleTwoObj.fontSize = 13.6;
+    }
+    var vh21 = (window.innerHeight / 100 * -2.1).toFixed(3);
+    if (vh21 < -20) {
+        textStyleTwoObj.bottomStarting = vh21;
+        textStyleTwoObj.bottomSecond = vh21 * 2;
+    }
+    else {
+        textStyleTwoObj.bottomStarting = -20;
+        textStyleTwoObj.bottomSecond = -40;
+    }
+    standardSizes.push(textStyleTwoObj);
+
+    return standardSizes;
+}
+
+function setSliderOutputLabel(slider, output) {
+    output.innerHTML = slider.value;
+    var leftPercentage = slider.value / slider.getAttribute('max') * 100;
+    output.style.left = leftPercentage + '%';
+    if (slider.id == 'circleSlider') {
+        var middleSlider = (parseInt(slider.max) + parseInt(slider.min)) / 2;
+        var transformPercentage = 75 + (50 / (slider.max - slider.min)) * (middleSlider - slider.value);
+        output.style.transform = 'translate(-' + transformPercentage + '%, 0%)';
+    }
+}

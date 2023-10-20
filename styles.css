@@ -63,15 +63,759 @@ body {
 #drawingCanvas {
   display: none;
   position: absolute;
-  background: rgba(255, 0, 0, 0);
+  background: transparent;
   z-index: 132;
-  border: 2px solid red;
 }
 
-.blackColor {
-  background: #202020;
+/**************
+*   Settings  *
+*    grid     *
+**************/
+
+.full-settings {
+  display: grid;
+  grid-template-rows: 15% 25% 35% 25%;
+  grid-template-columns: 50% 50%;
+
+  gap: 0px;
+  height: 18vh;
+  min-height: 150px;
+  margin-top: 3%;
 }
 
+.teamName {
+  align-self: center;
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+#teamNameBox {
+  align-self: center;
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+.color-pickers-container {
+  align-self: center;
+  grid-area: 3 / 1 / 4 / 2;
+}
+
+.button-container {
+  align-self: center;
+  grid-area: 4 / 1 / 5 / 2;
+}
+
+.oppoCheckbox {
+  align-self: center;
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+#oppo-name-switch-container {
+  align-self: center;
+  grid-area: 2 / 2 / 3 / 3;
+}
+
+#oppo-color-container {
+  align-self: center;
+  grid-area: 3 / 2 / 4 / 3;
+}
+
+.oppo-select-box {
+  align-self: center;
+  grid-area: 4 / 2 / 5 / 3;
+}
+
+/**************************/
+.button-pitch-container {
+  display: block;
+  position: absolute;
+  top: 5%;
+  left: 1.5%;
+  z-index: 2;
+}
+
+/***************
+*    Help      *
+***************/
+
+.help-image-div {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.help-image-div>span {
+  width: 30px;
+  height: 30px;
+  border: 1px #000000 solid;
+  border-radius: 20%;
+  background-color: rgba(200, 36, 36, 0.7);
+}
+
+.help-popup-square {
+  width: 100%;
+  height: 100%;
+}
+
+#arrowImage {
+  position: relative;
+  top: 50%;
+  left: -50%;
+}
+
+#blueArrow,
+#movingCircle {
+  display: flex;
+  position: absolute;
+}
+
+#blueArrow {
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+
+#movingCircle {
+  z-index: 2;
+  top: 50%;
+  left: -50%;
+}
+
+.activePlay {
+  transition: transform 0.7s ease;
+  transform: rotate(180deg);
+}
+
+.activeCircle {
+  transition: transform 0.2s ease;
+}
+
+.activeArrow {
+  transform: translateY(-50%) translateX(50%);
+  transition: transform 0.7s ease;
+}
+
+.activeMovingCircle {
+  transform: translateY(-50%) translateX(50%);
+  transition: transform 0.7s ease;
+}
+
+/* Style the tab */
+.tab {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+}
+
+/* Style the buttons inside the tab */
+.tabLinks,
+.helpTabLinks {
+  background-color: #969696;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 2px 10px;
+  transition: 0.3s;
+  font-size: 12px;
+}
+
+.helpTabLinks {
+  font-size: 16px;
+  border-bottom: 1px solid darkgrey;
+  border-right: 1px solid darkgrey;
+  margin-block-start: 0;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #f5f5f5;
+  border-bottom: 0;
+}
+
+/* Style the tab content */
+.tabContent,
+.helpTabContent {
+  margin-top: 5px;
+  display: none;
+  padding: 12px 6px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+body {
+  display: flex;
+  margin: 0.5%;
+}
+
+.main-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.left-container {
+  width: calc(0.811 * 98vh);
+  min-width: calc(0.811 * 752px);
+  min-height: 752px;
+  margin-right: 15px;
+  border-color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 2.5%;
+}
+
+.textbox-container {
+  padding: 1.5%;
+}
+
+.lineup-container {
+  height: 98vh;
+  min-height: 752px;
+  width: calc(0.811 * 98vh);
+  min-width: calc(0.811 * 752px);
+  max-width: 100%;
+  border-color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 2.5%;
+  overflow: hidden
+}
+
+.image-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.column-container {
+  display: flex;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  height: 60vh;
+  min-height: 460px;
+}
+
+.column {
+  width: 50%;
+  height: 60vh;
+  min-height: 465px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  background: #32154E;
+  border: 2px solid #383B45;
+  overflow: hidden;
+}
+
+#starting-column,
+#second-column {
+  padding: 0.5px;
+}
+
+.column-container>.second-column {
+  margin-left: 1%;
+}
+
+.select-box {
+  margin-bottom: 1%;
+}
+
+.oppo-select-box {
+  display: none;
+}
+
+.oppoCheckbox {
+  display: flex;
+}
+
+.oppoCheckbox,
+#oppo-formation-box,
+#oppo-name-switch-container {
+  margin-right: 0.5vw;
+  justify-content: space-between;
+}
+
+.select-box label,
+.select-box select {
+  margin-top: 0.2vh;
+  font-size: 90%;
+  height: 55%;
+  min-height: 24px;
+}
+
+.select-box select {
+  font-size: 80%;
+}
+
+.input-group {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  height: 6vh;
+  min-height: 50px;
+}
+
+.input-container {
+  display: flex;
+  padding: 0%;
+  height: calc(0.0833333*60vh);
+  min-height: 38.5px;
+  border-radius: 0.5%;
+}
+
+.inputBox,
+.secondBox,
+.teamNameBox {
+  background-color: rgba(200, 200, 200, 0.14);
+  padding: 5px;
+  font-size: max(1.4vh, 90%);
+  transition: background-color 0.3s ease;
+  opacity: 100%;
+  border-radius: 5px;
+  color: white;
+  border-color: rgb(150, 150, 150, 0.5);
+}
+
+.teamNameBox {
+  background-color: rgba(200, 200, 200, 0.28);
+  width: 95%;
+  height: 3.5vh;
+  min-height: 25px;
+  font-size: max(1vh, 80%);
+}
+
+.textbox-container input::placeholder {
+  color: rgb(80, 80, 80);
+}
+
+.labelHeader {
+  color: white;
+}
+
+.teamSelectBox {
+  cursor: pointer;
+  background-color: #004D3E;
+  color: white;
+  font-family: "Exo", sans-serif;
+  transform: skew(-10deg);
+  padding-left: 2%;
+  border: none;
+}
+
+.teamSelectBox:hover {
+  background-color: #005a00;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.teamName label {
+  font-size: 100%;
+  margin-block-start: 0;
+}
+
+p,
+h2,
+h3,
+h4,
+h5,
+li,
+option,
+button,
+input,
+label,
+span,
+.formation-label,
+.copyright {
+  margin-block-start: 0.2em;
+  font-family: "Exo", sans-serif;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+h3,
+h4,
+p {
+  margin-block-end: 0em;
+  margin-block-start: 0em;
+}
+
+label {
+  font-weight: bold;
+  display: inline-flex;
+}
+
+button {
+  font-weight: bold;
+}
+
+.column p {
+  display: flex;
+  height: calc(0.0833333 * 60vh);
+  min-height: 38.5px;
+  justify-content: center;
+  font-size: 18px;
+  color: white;
+  align-items: center;
+  font-weight: bold;
+}
+
+p,
+li {
+  font-size: 13px;
+}
+
+li {
+  margin-left: 5px;
+}
+
+.inputBox,
+.secondBox {
+  flex: 1;
+  width: 60%;
+  margin: 2%;
+}
+
+.label,
+.label-position,
+.oppo-label-position {
+  font-family: "Exo", sans-serif;
+  color: white;
+  margin-top: 3px;
+}
+
+.label {
+  width: 8%;
+  margin: 3% 2% 3% 2.5%;
+  justify-content: center;
+  padding-left: 1%;
+  font-size: max(1.6vh, 95%);
+}
+
+.label-position,
+.oppo-label-position {
+  width: 7%;
+  font-size: max(0.8vw, 80%);
+  justify-content: center;
+  margin: 4.5% 3% 0% 1%;
+}
+
+.oppo-label-position {
+  display: none;
+}
+
+.teams-and-formations {
+  display: flex;
+  width: 100%;
+  height: 6vh;
+  min-height: 50px
+}
+
+/**************
+*  Color-     *
+*  picker     *
+**************/
+.colorPicker {
+  margin-right: 2%;
+}
+
+.color-pickers-container,
+.color-pickers-oppo-container {
+  display: flex;
+  justify-content: space-between;
+  width: 95%
+}
+
+.colorPicker label,
+.colorPicker-drawing label {
+  font-size: max(1.2vh, 75%);
+  margin-bottom: 1%;
+  display: block;
+}
+
+.colorPicker input[type="color"] {
+  padding: 0;
+  width: 2vh;
+  height: 2vh;
+  min-width: 26px;
+  min-height: 26px;
+  border-radius: 20%;
+  border: 2px solid lightgrey;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+}
+
+.colorPicker input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.colorPicker input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 20%;
+}
+
+.colorPicker input[type="color"]::-moz-color-swatch {
+  border: none;
+  border-radius: 20%;
+}
+
+.colorPicker input[type="color"]:hover {
+  transform: scale(1.1);
+}
+
+.pickr .pcr-button {
+  width: 2.2vh !important;
+  height: 2.2vh !important;
+  min-width: 28px;
+  min-height: 28px;
+  border: 1px solid lightgrey;
+  border-radius: 8px !important;
+  overflow: hidden;
+  transition: all .2s !important;
+}
+
+.pickr .pcr-button::before {
+  border-radius: 8px !important;
+}
+
+/* Makes sure the filling is actually filling the corners */
+.pickr .pcr-button::after {
+  top: -2px !important;
+  left: -2px !important;
+  width: 110% !important;
+  height: 110% !important;
+}
+
+.pickr .pcr-button:focus {
+  box-shadow: 0 0 0 0 #ffffff !important;
+  transform: scale(1.1);
+}
+
+.pcr-app[data-theme=nano] {
+  border: 2px solid #45a049;
+  padding: 3px;
+  background: lightgrey !important;
+}
+
+/**************
+*  Switches   *
+**************/
+
+.switch-label,
+.oppo-switch-label,
+.oppo-name-switch-label {
+  margin-top: 2px;
+  display: contents;
+  color: white;
+}
+
+.switch-label {
+  font-size: max(1.5vh, 75%);
+  white-space: nowrap;
+}
+
+.oppo-name-switch-label {
+  font-size: max(1.2vh, 75%);
+  white-space: nowrap;
+}
+
+.oppo-switch-label {
+  font-size: max(1.5vh, 100%);
+}
+
+.switchContainer {
+  border: 2px solid #45a049;
+  height: fit-content;
+  display: flex;
+  width: 45%;
+  transform: skew(-10deg);
+  position: relative;
+  background: lightgrey;
+  border-radius: 2px;
+}
+
+.switchFilling {
+  width: 50%;
+  height: 100%;
+  background: #45a049;
+  position: absolute;
+  z-index: -1;
+  transition: transform 200ms;
+  border: 1px solid #45a049;
+}
+
+#pitch-checkbox-true+label+.switchFilling,
+#label-checkbox-true+label+.switchFilling,
+#blueArrow-checkbox-true+label+.switchFilling {
+  transform: translateX(100%);
+}
+
+.toggle {
+  display: none;
+}
+
+.btn {
+  font-size: max(12px, 1vh);
+  display: inline-block;
+  width: 50%;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  color: black;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.btnSmall {
+  font-size: 10px;
+}
+
+.toggle:checked+.btn {
+  cursor: default;
+  background: none;
+  color: white;
+  transition: color 200ms;
+}
+
+.toggle:not(:checked)+.btn:hover {
+  color: #45a049;
+}
+
+/**************
+*   Sliders   *
+**************/
+
+.drawing-settings {
+  font-family: "Exo", sans-serif;
+  color: white;
+  display: none;
+  grid-template-rows: 35% 65%;
+  grid-template-columns: 20% 60% 20%;
+  gap: 2px;
+  height: 100%;
+}
+
+.colorPicker-drawing {
+  grid-area: 1 / 1 / 3 / 2;
+}
+
+.slider-output-container {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.slider-range-container {
+  grid-area: 2 / 2 / 3 / 3;
+}
+
+.clearDrawingButton {
+  grid-area: 2 / 3 / 3 / 4;
+}
+
+.clearDrawingButton, .undoStrokeButton {
+  width: 3vw;
+  height: 3vh;
+  min-width: 44px;
+  min-height: 24px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: revert !important;
+  top: 25%;
+}
+
+.slider-range-container,
+.drawSliderOutput {
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.range-slider {
+  position: relative;
+  align-items: center;
+  width: 80%;
+  height: 35px;
+  text-align: center;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  left: 0;
+  width: 90%;
+  outline: none;
+  height: 1.5vh;
+  min-height: 13.5px;
+  margin: 0;
+  padding: 0;
+  background: lightgrey;
+  border-radius: 25px;
+  z-index: 5000000;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 2vh;
+  height: 2vh;
+  min-width: 16px;
+  min-height: 16px;
+  background: #45a049;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+.slider::-moz-range-thumb {
+  width: 2vh;
+  height: 2vh;
+  min-width: 16px;
+  min-height: 16px;
+  background: #45a049;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+.slider-output-container {
+  display: flex;
+  position: relative;
+  width: 85%;
+  height: fit-content;
+}
+
+.drawSliderOutput {
+  position: relative;
+  border: 1px solid lightgrey;
+  min-width: 20px;
+  min-height: 20px;
+  text-align: center;
+  border-radius: 4px;
+  display: flex;
+  background: #45a049;
+  transform: translate(-50%, 0);
+  align-items: center;
+  justify-content: center;
+  margin-block-start: 0;
+}
+
+.range-values, .circle-range-values {
+  justify-content: space-between;
+  width: 90%;
+  display: flex;
+}
+
+
+/**************
+*  Pitch      *
+*  and labels *
+**************/
 /* Green background for the pitch */
 .football-pitch.greenColor {
   background: linear-gradient(to bottom,
@@ -116,6 +860,10 @@ body {
       #486c32 95%);
 }
 
+.blackColor {
+  background: #202020;
+}
+
 .football-pitch {
   width: 100%;
   height: 100%;
@@ -130,7 +878,7 @@ body {
 }
 
 .lineColorWhite {
-  border-color: #ffffff;
+  border-color: #dddddd;
 }
 
 .lineColorGrey {
@@ -444,130 +1192,25 @@ body {
   border-bottom-style: dashed;
 }
 
-/**************
-*    Grid     *
-**************/
-
-.full-settings {
-  display: grid;
-  grid-template-rows: 15% 25% 35% 25%;
-  grid-template-columns: 50% 50%;
-
-  gap: 0px;
-  height: 18vh;
-  min-height: 150px;
-  margin-top: 3%;
-}
-
-.teamName {
-  align-self: center;
-  grid-area: 1 / 1 / 2 / 2;
-}
-
-#teamNameBox {
-  align-self: center;
-  grid-area: 2 / 1 / 3 / 2;
-}
-
-.color-pickers-container {
-  align-self: center;
-  grid-area: 3 / 1 / 4 / 2;
-}
-
-.button-container {
-  align-self: center;
-  grid-area: 4 / 1 / 5 / 2;
-}
-
-.oppoCheckbox {
-  align-self: center;
-  grid-area: 1 / 2 / 2 / 3;
-}
-
-#oppo-name-switch-container {
-  align-self: center;
-  grid-area: 2 / 2 / 3 / 3;
-}
-
-#oppo-color-container {
-  align-self: center;
-  grid-area: 3 / 2 / 4 / 3;
-}
-
-.oppo-select-box {
-  align-self: center;
-  grid-area: 4 / 2 / 5 / 3;
-}
-
-/**************************/
-.button-pitch-container {
-  display: block;
-  position: absolute;
-  top: 5%;
-  left: 1.5%;
+.text-container {
+  color: white;
   z-index: 2;
 }
 
-.help-image-div {
-  width: 100%;
-  height: 100%;
-  margin-bottom: 2px;
-  display: flex;
-  align-items: center;
-}
-.help-image-div > span {
-  width: 30px;
-  height: 30px;
-  border: 1px #000000 solid;
-  border-radius: 20%;
-  background-color: rgba(200, 36, 36, 0.7);
-}
-
-.help-popup-square {
-  width: 100%;
-  height: 100%;
-}
-
-#arrowButton {
-  position: relative;
-  top: 50%;
-  left: -50%;
-}
-
-#blueArrow, #movingCircle {
-  display: flex;
+.formation-label {
   position: absolute;
+  left: 8%;
+  top: 2%;
+  width: 100%;
+  font-size: max(1.8vh, 80%);
 }
 
-#blueArrow {
-  z-index: 1;
-  top: 0;
-  left: 0;
-}
-
-#movingCircle {
-  z-index: 2;
-  top: 50%;
-  left: -50%;
-}
-
-.activePlay {
-  transition: transform 0.7s ease;
-  transform: rotate(180deg);
-}
-
-.activeCircle {
-  transition: transform 0.2s ease;
-}
-
-.activeArrow {
-  transform: translateY(-50%) translateX(50%);
-  transition: transform 0.7s ease;
-}
-
-.activeMovingCircle {
-  transform: translateY(-50%) translateX(50%);
-  transition: transform 0.7s ease;
+.copyright {
+  position: absolute;
+  left: 8%;
+  bottom: 2%;
+  width: 100%;
+  font-size: max(1.8vh, 80%);
 }
 
 .square-checkbox {
@@ -593,7 +1236,7 @@ input:active+.checkmark>img {
   pointer-events: none;
   transform: translateY(0px);
   border: 2px solid #3e3e3ecc;
-  cursor: not-allowed;
+  cursor: not-allowed !important;
 }
 
 #circle-checkbox:disabled+.checkmark>img,
@@ -645,25 +1288,14 @@ input:active+.checkmark>img {
 }
 
 .arrow-image {
-  left: -50%;
-  bottom: -50%;
+  left: -35%;
+  bottom: -35%;
 }
-
 
 .moving-ball {
   left: -50%;
   bottom: -50%;
   opacity: 1 !important;
-}
-
-.blue-arrow {
-  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  clip-path: url(#clipping-mask);
-
-}
-
-#clipping-mask {
-  clip-path: circle(50% at 50%);
 }
 
 .play-checkbox {
@@ -691,7 +1323,7 @@ input[id="play-checkbox"]:active+.checkmark {
 }
 
 input:checked+.checkmark>.arrow-image {
-  transform: translateY(-50%) translateX(50%);
+  transform: translateY(-35%) translateX(35%);
   transition: transform 0.7s ease;
 }
 
@@ -746,483 +1378,6 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   transition: transform 0.7s ease;
 }
 
-/* Style the tab */
-.tab {
-  width: 100%;
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f5f5f5;
-}
-
-/* Style the buttons inside the tab */
-.tabLinks,
-.helpTabLinks {
-  background-color: #969696;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 2px 10px;
-  transition: 0.3s;
-  font-size: 12px;
-}
-
-.helpTabLinks {
-  font-size: 16px;
-  border-bottom: 1px solid darkgrey;
-  border-right: 1px solid darkgrey;
-  margin-block-start: 0;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #ddd;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #f5f5f5;
-  border-bottom: 0;
-}
-
-/* Style the tab content */
-.tabContent,
-.helpTabContent {
-  margin-top: 5px;
-  display: none;
-  padding: 12px 6px;
-  border: 1px solid #ccc;
-  border-top: none;
-}
-
-body {
-  display: flex;
-  margin: 0.5%;
-}
-
-.main-container {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.left-container {
-  width: calc(0.811 * 98vh);
-  min-width: calc(0.811 * 752px);
-  min-height: 752px;
-  margin-right: 15px;
-  border-color: white;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 2.5%;
-}
-
-.textbox-container {
-  padding: 1.5%;
-}
-
-.lineup-container {
-  height: 98vh;
-  min-height: 752px;
-  width: calc(0.811 * 98vh);
-  min-width: calc(0.811 * 752px);
-  max-width: 100%;
-  border-color: white;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 2.5%;
-  overflow: hidden
-}
-
-.image-container {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.column-container {
-  display: flex;
-  margin-top: 2%;
-  margin-bottom: 2%;
-  height: 60vh;
-  min-height: 460px;
-}
-
-.column {
-  width: 50%;
-  height: 60vh;
-  min-height: 465px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  background: #32154E;
-  border: 2px solid #383B45;
-  overflow: hidden;
-}
-
-#starting-column,
-#second-column {
-  padding: 0.5px;
-}
-
-.column-container>.second-column {
-  margin-left: 1%;
-}
-
-.select-box {
-  margin-bottom: 1%;
-}
-
-.oppo-select-box {
-  display: none;
-}
-
-.oppoCheckbox {
-  display: flex;
-}
-
-.oppoCheckbox,
-#oppo-formation-box,
-#oppo-name-switch-container {
-  margin-right: 0.5vw;
-  justify-content: space-between;
-}
-
-.select-box label,
-.select-box select {
-  margin-top: 0.2vh;
-  font-size: 90%;
-  height: 55%;
-  min-height: 24px;
-}
-
-.select-box select {
-  font-size: 80%;
-}
-
-.input-group {
-  display: flex;
-  align-items: flex-end;
-  width: 100%;
-  height: 6vh;
-  min-height: 50px;
-}
-
-.input-container {
-  display: flex;
-  padding: 0%;
-  height: calc(0.0833333*60vh);
-  min-height: 38.5px;
-  border-radius: 0.5%;
-}
-
-.inputBox,
-.secondBox,
-.teamNameBox {
-  background-color: rgba(200, 200, 200, 0.14);
-  padding: 5px;
-  font-size: max(1.4vh, 90%);
-  transition: background-color 0.3s ease;
-  opacity: 100%;
-  border-radius: 5px;
-  color: white;
-  border-color: rgb(150, 150, 150, 0.5);
-}
-
-.teamNameBox {
-  background-color: rgba(200, 200, 200, 0.28);
-  width: 95%;
-  height: 3.5vh;
-  min-height: 25px;
-  font-size: max(1vh, 80%);
-}
-
-.textbox-container input::placeholder {
-  color: rgb(80, 80, 80);
-}
-
-.labelHeader {
-  color: white;
-}
-
-.teamSelectBox {
-  cursor: pointer;
-  background-color: #004D3E;
-  color: white;
-  font-family: "Exo", sans-serif;
-  transform: skew(-10deg);
-  padding-left: 2%;
-  border: none;
-}
-
-.teamSelectBox:hover {
-  background-color: #005a00;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.teamName label {
-  font-size: 100%;
-  margin-block-start: 0;
-}
-
-p,
-h2,
-h3,
-h4,
-h5,
-li,
-option,
-button,
-input,
-label,
-.formation-label,
-.copyright {
-  margin-block-start: 0.2em;
-  font-family: "Exo", sans-serif;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-}
-
-h3,
-h4,
-p {
-  margin-block-end: 0em;
-  margin-block-start: 0em;
-}
-
-label {
-  font-weight: bold;
-  display: inline-flex;
-}
-
-button {
-  font-weight: bold;
-}
-
-.column p {
-  display: flex;
-  height: calc(0.0833333 * 60vh);
-  min-height: 38.5px;
-  justify-content: center;
-  font-size: 18px;
-  color: white;
-  align-items: center;
-  font-weight: bold;
-}
-
-p,
-li {
-  font-size: 13px;
-}
-
-li {
-  margin-left: 5px;
-}
-
-.inputBox,
-.secondBox {
-  flex: 1;
-  width: 60%;
-  margin: 2%;
-}
-
-.label,
-.label-position,
-.oppo-label-position {
-  font-family: "Exo", sans-serif;
-  color: white;
-  margin-top: 3px;
-}
-
-.label {
-  width: 8%;
-  margin: 3% 2% 3% 2.5%;
-  justify-content: center;
-  padding-left: 1%;
-  font-size: max(1.6vh, 95%);
-}
-
-.label-position,
-.oppo-label-position {
-  width: 7%;
-  font-size: max(0.8vw, 80%);
-  justify-content: center;
-  margin: 4.5% 3% 0% 1%;
-}
-
-.oppo-label-position {
-  display: none;
-}
-
-.teams-and-formations {
-  display: flex;
-  width: 100%;
-  height: 6vh;
-  min-height: 50px
-}
-
-/**************
-*  Color-     *
-*  picker     *
-**************/
-.color-picker {
-  margin-right: 2%;
-}
-
-.color-pickers-container,
-.color-pickers-oppo-container {
-  display: flex;
-  justify-content: space-between;
-  width: 95%
-}
-
-.color-picker label {
-  font-size: max(1.2vh, 75%);
-  margin-bottom: 1%;
-  display: block;
-}
-
-.color-picker input[type="color"] {
-  padding: 0;
-  width: 2vh;
-  height: 2vh;
-  min-width: 26px;
-  min-height: 26px;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s;
-}
-
-.color-picker input[type="color"]::-webkit-color-swatch-wrapper {
-  padding: 0;
-}
-
-.color-picker input[type="color"]::-webkit-color-swatch {
-  border: none;
-  border-radius: 50%;
-}
-
-.color-picker input[type="color"]::-moz-color-swatch {
-  border: none;
-  border-radius: 50%;
-}
-
-.color-picker input[type="color"]:hover {
-  transform: scale(1.1);
-}
-
-/**************
-*  Switches   *
-**************/
-
-.switch-label,
-.oppo-switch-label,
-.oppo-name-switch-label {
-  margin-top: 2px;
-  display: contents;
-  color: white;
-}
-
-.switch-label {
-  font-size: max(1.5vh, 75%);
-  white-space: nowrap;
-}
-
-.oppo-name-switch-label {
-  font-size: max(1.2vh, 75%);
-  white-space: nowrap;
-}
-
-.oppo-switch-label {
-  font-size: max(1.5vh, 100%);
-}
-
-.switchContainer {
-  border: 2px solid #45a049;
-  width: fit-content;
-  height: fit-content;
-  display: flex;
-  width: 45%;
-  transform: skew(-10deg);
-  position: relative;
-  background: lightgrey;
-}
-
-.switchFilling {
-  width: 50%;
-  height: 100%;
-  background: #45a049;
-  position: absolute;
-  z-index: -1;
-  transition: transform 200ms;
-  border: 1px solid #45a049;
-}
-
-#pitch-checkbox-true+label+.switchFilling,
-#label-checkbox-true+label+.switchFilling {
-  transform: translateX(100%);
-}
-
-.toggle {
-  display: none;
-}
-
-.btn {
-  font-size: max(12px, 1vh);
-  display: inline-block;
-  width: 50%;
-  position: relative;
-  text-align: center;
-  cursor: pointer;
-  color: black;
-  white-space: nowrap;
-  z-index: 1;
-}
-
-.btnSmall {
-  font-size: 10px;
-}
-
-.toggle:checked+.btn {
-  cursor: default;
-  background: none;
-  color: white;
-  transition: color 200ms;
-}
-
-.toggle:not(:checked)+.btn:hover {
-  color: #45a049;
-}
-
-
-/**************
-*  Pitch      *
-*  and labels *
-**************/
-
-.text-container {
-  color: white;
-  z-index: 2;
-}
-
-.formation-label {
-  position: absolute;
-  left: 8%;
-  top: 2%;
-  width: 100%;
-  font-size: max(1.8vh, 80%);
-}
-
-.copyright {
-  position: absolute;
-  left: 8%;
-  bottom: 2%;
-  width: 100%;
-  font-size: max(1.8vh, 80%);
-}
-
 /**************
 *   Circles   *
 *   and text  *
@@ -1234,10 +1389,8 @@ li {
   border-radius: 50%;
   align-items: center;
   justify-content: center;
-  width: calc(32/900 * 98vh);
-  height: calc(32/900 * 98vh);
-  min-width: calc(32/900 * 752px);
-  min-height: calc(32/900 * 752px);
+  width: max(calc(32/900 * 98vh), calc(32/900 * 752px));
+  height: max(calc(32/900 * 98vh), calc(32/900 * 752px));
   transition: transform 1.2s cubic-bezier(0.2, 1, 1, 1);
   /* Same proportions as the image container (730 to 900) */
 }
@@ -1306,6 +1459,7 @@ li {
 }
 
 .circle-number {
+  margin-block-start: 0;
   color: white;
   position: absolute;
   font-weight: bold;
@@ -1368,7 +1522,7 @@ li {
   border: 1px solid #000;
   border-width: max(1px, 0.14vh);
   border-radius: max(5px, 0.7vh);
-  font-size: max(1.4vh, 69%);
+  font-size: max(1.4vh, 70%);
   font-family: "Exo", sans-serif;
   font-weight: bold;
   letter-spacing: max(1px, 0.05vw);
@@ -1383,11 +1537,11 @@ li {
 .startingStyleOne {
   bottom: min(-2.5vh, -20px);
   background-color: #ffffff;
-  z-index: 6;
+  z-index: 7;
 }
 
 .secondStyleOne {
-  bottom: min(-5.1vh, -40px);
+  bottom: min(-5vh, -40px);
   opacity: 0.9;
   background-color: #C8C8C8;
   z-index: 6;
@@ -1406,18 +1560,19 @@ li {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  text-shadow: 0.5px 0.5px 5px black, 0px 0px 3px black;
 }
 
 .startingStyleTwo {
   color: #ffffff;
-  bottom: min(-2.2vh, -20px);
+  bottom: min(-2.1vh, -20px);
   z-index: 1;
 }
 
 .secondStyleTwo {
   color: #cfcfcf;
   font-style: italic;
-  bottom: min(-4vh, -38px);
+  bottom: min(-4.2vh, -40px);
   z-index: 1;
 }
 
@@ -1483,11 +1638,9 @@ li {
   display: flex;
 }
 
-#chooseFileButton,
-#importButton,
-#downloadButton,
-#screenshotButton,
-#showLineUpButton {
+.greenButton,
+.blueButton,
+.redButton {
   margin-top: 1%;
   padding: 1%;
   background-color: #017D3E;
@@ -1496,7 +1649,7 @@ li {
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 85%;
+  font-size: 75%;
   border-radius: 4px;
   -webkit-tap-highlight-color: transparent;
   transition: background-color 0.3s ease;
@@ -1506,7 +1659,6 @@ li {
 #downloadButton,
 #screenshotButton {
   display: inline-block;
-  font-size: 75%;
 }
 
 #chooseFileButton,
@@ -1522,6 +1674,9 @@ li {
 
 #importButton {
   display: none;
+}
+
+.blueButton {
   background-color: blue;
   margin-left: 1.5%;
 }
@@ -1530,17 +1685,8 @@ li {
   margin-right: 2%;
 }
 
-#chooseFileButton:hover,
-#importButton:hover,
-#downloadButton:hover,
-#screenshotButton:hover,
-#showLineUpButton:hover {
+.greenButton:hover {
   background-color: #45a049;
-}
-
-/* Upload button */
-.input-group button {
-  margin-bottom: 10px;
 }
 
 #select-formation-box {
@@ -1552,6 +1698,9 @@ li {
   width: 100%;
   margin: auto;
   display: none;
+}
+
+.redButton {
   background-color: #E85253 !important;
 }
 
@@ -1593,21 +1742,19 @@ li {
 .popup {
   display: none;
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9999;
-  align-items: center;
   justify-content: center;
 }
 
 .popup-content {
+  top: 10%;
   left: 0;
   background-color: white;
   width: 60vw;
-  height: 80vh;
+  max-height: 80vh;
   padding: 20px;
   border-radius: 5px;
   position: relative;
@@ -1636,7 +1783,7 @@ pre {
 
 .popup-content>div>div>p,
 .popup-content>div>div>li,
-.help-image-div > li {
+.help-image-div>li {
   font-size: max(1.5vh, 12px);
   margin-block-start: 0.2em;
   margin-block-end: 0.2em;
@@ -1651,6 +1798,9 @@ pre {
   font-size: max(2.5vh, 20px);
 }
 
+/*****************
+* Settings popup *
+*****************/
 #settings {
   position: absolute;
   width: max(15%, 20vw);
@@ -1668,9 +1818,11 @@ pre {
 
 .pitchCheckBox,
 .tacticalCheckBox,
-.ballCheckBox,
 .labelCheckBox,
-.drawCheckBox {
+.ballCheckBox,
+.blueArrowCheckBox,
+.drawCheckBox,
+.circle-size-container {
   display: flex;
   justify-content: space-between;
   margin-right: 0.5vw;
@@ -1678,8 +1830,17 @@ pre {
   width: 100%;
 }
 
-.drawCheckBox{
-  display: none;
+.labelCheckBox,
+.blueArrowCheckBox,
+.circle-size-container {
+  padding-bottom: 8px;
+  border-bottom: 1px dashed white;
+}
+
+.switchContainer>input:disabled+label {
+  color: #FF2222 !important;
+  
+  cursor: not-allowed !important;
 }
 
 #overlay {
@@ -1698,6 +1859,70 @@ pre {
   display: none;
 }
 
+.circle-size-container {
+  display: grid;
+  color: white;
+
+  grid-template-rows: 35% 65%;
+  grid-template-columns: 40% 60%;
+
+  gap: 5%;
+  height: fit-content;
+  justify-content: space-between;
+}
+
+#circleSizeLabel {
+  grid-area: 1 / 1 / 3 / 2;
+}
+
+.circle-output-container {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.circle-slider-container {
+  grid-area: 2 / 2 / 3 / 3;
+}
+
+#circleSizeLabel {
+  position: relative;
+  top: 35%;
+}
+.circle-slider-container {
+  width: 100%;
+}
+
+.circle-range-values {
+  color: white;
+  font-family: "Exo", sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.circle-output-container {
+  display: flex;
+  position: relative;
+  width: 85%;
+  height: fit-content;
+}
+
+.circleSliderOutput {
+  position: relative;
+  border: 1px solid lightgrey;
+  min-width: 20px;
+  min-height: 20px;
+  text-align: center;
+  border-radius: 4px;
+  display: flex;
+  background: #45a049;
+  transform: translate(-75%, 0);
+  align-items: center;
+  justify-content: center;
+  margin-block-start: 0;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/***** MEDIA *****/
 @media all and (max-width: 1281px) {
   .label {
     margin-right: 4%;
@@ -1808,15 +2033,18 @@ pre {
     min-height: auto;
   }
 
+  .color-pickers-container, .color-pickers-oppo-container {
+    margin-top: 3%;
+  }
   .button-container {
     height: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 3%;
+    margin-bottom: 3%;
   }
 
   #oppo-name-switch-container,
   #oppo-formation-box {
-    margin-top: 1%;
+    margin-top: 3%;
     height: auto;
   }
 
@@ -2007,16 +2235,14 @@ pre {
     border-left-width: 3.5px;
   }
 
-  .popup {
-    margin: 10px;
-  }
 
   .popup-content {
-    position:absolute;
-    width: 100%;
+    position: absolute;
+    width: 90vw;
     min-width: 400px;
-    height: 90%;
-    top: 15%;
+    height: fit-content;
+    top: 10%;
+    margin: 10px;
   }
 
   /*** Buttons ***/

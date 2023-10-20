@@ -222,20 +222,24 @@ function setCircleColor(colors, teamType) {
         var secondColor = getHexCode(colors.secondColor);
         var numberColor = getHexCode(colors.numberColor);
 
-        document.getElementById("colorPickerMain").value = mainColor;
-        document.getElementById("colorPickerSecond").value = secondColor;
-        document.getElementById("colorPickerNumber").value = numberColor;
+        mainPickr.setColor(mainColor);
+        secondPickr.setColor(secondColor);
+        numberPickr.setColor(numberColor);
     }
     else if (teamType == 'oppo') {
         var mainColor = getHexCode(colors.mainColor);
         var secondColor = getHexCode(colors.secondColor);
         var numberColor = getHexCode(colors.numberColor);
 
-        document.getElementById("oppoColorMain").value = mainColor;
-        document.getElementById("oppoColorSecond").value = secondColor;
-        document.getElementById("oppoColorNumber").value = numberColor;
+        mainOppoPickr.setColor(mainColor);
+        secondOppoPickr.setColor(secondColor);
+        numberOppoPickr.setColor(numberColor);
     }
-    updateCircleColors(teamType);
+    var lineupContainer = document.querySelector('.lineup-container');
+    if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
+        lineupContainer.style.display = 'block'; // Show the lineup-container div
+        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
+    }
 }
 
 // Changes the order of the input boxes and labels based on the circle Array order and determines labels
@@ -307,47 +311,53 @@ function addInputContainersInOrder(containers, circleArray, column) {
 }
 
 // Changes the color of the circles when using the color picker (or when loaded from JSON)
-document.getElementById("colorPickerMain").addEventListener("change", function () { updateCircleColors('main'); }, false);
-document.getElementById("colorPickerSecond").addEventListener("change", function () { updateCircleColors('main'); }, false);
-document.getElementById("colorPickerNumber").addEventListener("change", function () { updateCircleColors('main'); }, false);
-document.getElementById("oppoColorMain").addEventListener("change", function () { updateCircleColors('oppo'); }, false);
-document.getElementById("oppoColorSecond").addEventListener("change", function () { updateCircleColors('oppo'); }, false);
-document.getElementById("oppoColorNumber").addEventListener("change", function () { updateCircleColors('oppo'); }, false);
+mainPickr.on('change', (color) => {
+    var hexa = color.toHEXA().toString();
+    var mainColorCircles = document.querySelectorAll('.circleColor');
+    mainColorCircles.forEach((circle) => {
+        circle.style.backgroundColor = hexa;
+    });
+})
 
-function updateCircleColors(teamColor) {
-    var colorPickerMain;
-    var colorPickerSecond;
-    var colorPickerNumber;
-    var circleClassName;
-    var circleColorClass;
-    var circleColorNumber = '.circle-number';
+secondPickr.on('change', (color) => {
+    var hexa = color.toHEXA().toString();
+    var mainColorCircles = document.querySelectorAll('.circleColor');
+    mainColorCircles.forEach((circle) => {
+        circle.style.borderColor = hexa;
+    });
+})
 
-    if (teamColor == 'main') {
-        circleClassName = ".circle";
-        circleColorClass = '.circleColor';
-        colorPickerMain = document.getElementById("colorPickerMain").value;
-        colorPickerSecond = document.getElementById("colorPickerSecond").value;
-        colorPickerNumber = document.getElementById("colorPickerNumber").value;
-    }
-    else if (teamColor == 'oppo') {
-        circleClassName = ".oppoCircle";
-        circleColorClass = '.oppoCircleColor';
-        colorPickerMain = document.getElementById("oppoColorMain").value;
-        colorPickerSecond = document.getElementById("oppoColorSecond").value;
-        colorPickerNumber = document.getElementById("oppoColorNumber").value;
-    }
-    const circleClass = document.querySelectorAll(circleClassName);
-    for (var i = 1; i < circleClass.length; i++) {
-        circleClass[i].querySelector(circleColorClass).style.backgroundColor = colorPickerMain;
-        circleClass[i].querySelector(circleColorClass).style.borderColor = colorPickerSecond;
-        circleClass[i].querySelector(circleColorNumber).style.color = colorPickerNumber;
-    }
-    var lineupContainer = document.querySelector('.lineup-container');
-    if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
-        lineupContainer.style.display = 'block'; // Show the lineup-container div
-        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
-    }
-}
+numberPickr.on('change', (color) => {
+    var hexa = color.toHEXA().toString();
+    var mainColorCircles = document.querySelectorAll('.circleColor');
+    mainColorCircles.forEach((circle) => {
+        circle.nextElementSibling.style.color = hexa;
+    });
+});
+
+mainOppoPickr.on('change', (color) => {
+    var hexa = color.toHEXA().toString();
+    var oppoColorCircles = document.querySelectorAll('.oppoCircleColor');
+    oppoColorCircles.forEach((circle) => {
+        circle.style.backgroundColor = hexa;
+    });
+})
+
+secondOppoPickr.on('change', (color) => {
+    var hexa = color.toHEXA().toString();
+    var oppoColorCircles = document.querySelectorAll('.oppoCircleColor');
+    oppoColorCircles.forEach((circle) => {
+        circle.style.borderColor = hexa;
+    });
+})
+
+numberOppoPickr.on('change', (color) => {
+    var hexa = color.toHEXA().toString();
+    var oppoColorCircles = document.querySelectorAll('.oppoCircleColor');
+    oppoColorCircles.forEach((circle) => {
+        circle.nextElementSibling.style.color = hexa;
+    });
+})
 
 // Determines the order of the circles from bottom to top, from right to left
 function getCurrentCircleOrder() {
@@ -372,7 +382,7 @@ function getCurrentCircleOrder() {
     });
     circleArray.sort((a, b) => {
         //Adds a buffer of 60 (if difference of height is within 60px, it's considered the same y)
-        if (Math.abs(a.y - b.y) < ((60/900) * imageConHeight)){
+        if (Math.abs(a.y - b.y) < ((60 / 900) * imageConHeight)) {
             return a.x > b.x ? -1 : 1
         } else {
             return a.y > b.y ? -1 : 1
@@ -580,8 +590,6 @@ function getHexCode(color) {
     return hexColor;
 }
 
-
-
 // Calculates what formation is currently shown based on # of defenders, midfielders and attackers
 function determineFormation(teamType) {
     const defenseArr = ['RB', 'RCB', 'CB', 'LCB', 'LB', 'RWB', 'LWB'];
@@ -665,11 +673,11 @@ function changeNumberOnTextbox(circle, newInput) {
 
     var circleClass = circle.classList[1];
     var inputType = '';
-    if(circle.id.indexOf('oppo') > -1){
+    if (circle.id.indexOf('oppo') > -1) {
         inputType = '.secondBox';
         circleClass = circleClass.replace('oppo', 'pos');
     }
-    else{
+    else {
         inputType = '.inputBox';
     }
     var query = 'input.' + circleClass + inputType;
@@ -782,4 +790,60 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
         clearOutBoxes('second');
         clearOutBoxes('oppo');
     }
+}
+
+function setCircleAndTextSize() {
+    var stepDifference = ((parseInt(circleSlider.max) + parseInt(circleSlider.min)) / 2) - circleSlider.value;
+    var changePercentage = (1 + Math.abs(stepDifference * 0.08)).toFixed(2);
+    var currentCircleWidth;
+    var percentageChangeLeft;    
+    var percentageChangeTop;
+    allCircles.forEach((circle) => {        
+        //Only have to retrieve this info once
+        if (circle.id == 'circle1') {
+            currentCircleWidth = circle.getBoundingClientRect().width;
+        }
+        circle.style.width = (stepDifference < 0) ? standardCircleSize * changePercentage + 'px' : standardCircleSize / changePercentage + 'px';
+        circle.style.height = (stepDifference < 0) ? standardCircleSize * changePercentage + 'px' : standardCircleSize / changePercentage + 'px';
+
+        //Only have to retrieve this info once
+        if (circle.id == 'circle1') {
+            var widthDifference = (currentCircleWidth - parseFloat(circle.style.width)) / 2;
+            percentageChangeLeft = (widthDifference / imageConWidth) * 100;
+            percentageChangeTop = (widthDifference / imageConHeight) * 100;
+        }
+        circle.style.left = parseFloat(circle.style.left) + percentageChangeLeft + '%';
+        circle.style.top = parseFloat(circle.style.top) + percentageChangeTop + '%';
+        var border = circle.querySelector('.circleColor, .circleColorGK, .oppoCircleColor, .oppoCircleColorGK');
+
+        border.style.borderWidth = (stepDifference < 0) ? standardBorderSize * changePercentage + 'px' : standardBorderSize / changePercentage + 'px';
+
+        var number = circle.querySelector('.circle-number');
+        var standardNumberSize;
+        for (var i = 2; i < 8; i++) {
+            if (standardSizes[i].id == number.classList[1]) {
+                standardNumberSize = standardSizes[i].size;
+            }
+        }
+        number.style.fontSize = (stepDifference < 0) ? standardNumberSize * changePercentage + 'px' : standardNumberSize / changePercentage + 'px';
+
+        var textBoxOne = circle.querySelector('.output-container, .oppo-output-container').querySelector('span');
+        var textBoxOneFontSize = (textBoxOne.classList[1] == 'startingStyleOne') ? standardSizes[8].fontSize : standardSizes[9].fontSize;
+        var textBoxOneBottom = (textBoxOne.classList[1] == 'startingStyleOne') ? standardSizes[8].bottomStarting : standardSizes[9].bottomStarting;
+
+        var textPercentage = (1 + Math.abs(stepDifference * 0.04)).toFixed(2);
+        textBoxOne.style.fontSize = (stepDifference < 0) ? textBoxOneFontSize * textPercentage + 'px' : textBoxOneFontSize / textPercentage + 'px';
+        textBoxOne.style.bottom = (stepDifference < 0) ? textBoxOneBottom * textPercentage + 'px' : textBoxOneBottom / textPercentage + 'px';
+        if (textBoxOne.classList[0] == 'outputStarting') {
+            var textBoxTwo = textBoxOne.nextElementSibling;
+            var textBoxTwoFontSize = (textBoxTwo.classList[1] == 'secondStyleOne') ? standardSizes[8].fontSize : standardSizes[9].fontSize;
+            var textBoxTwoBottom = (textBoxTwo.classList[1] == 'secondStyleOne') ? standardSizes[8].bottomSecond : standardSizes[9].bottomSecond;
+        
+            textBoxTwo.style.fontSize = (stepDifference < 0) ? textBoxTwoFontSize * textPercentage + 'px' : textBoxTwoFontSize / textPercentage + 'px';
+            textBoxTwo.style.bottom = (stepDifference < 0) ? textBoxTwoBottom * textPercentage + 'px' : textBoxTwoBottom / textPercentage + 'px';
+        }
+
+
+        
+    });
 }

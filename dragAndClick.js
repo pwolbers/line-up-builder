@@ -449,17 +449,18 @@ function stopLine(e) {
         //Check if the oldest wasn't already removed due to the limit of 3 lines
         if (!movingLine && !startedWithThree) {
             var normalLineDivs = activeCircle.querySelectorAll('.normalLine');
-            const firstLine = normalLineDivs[0];
-            firstLine.parentNode.removeChild(firstLine);
+            if (normalLineDivs.length > 0) {
+                const firstLine = normalLineDivs[0];
+                firstLine.parentNode.removeChild(firstLine);
 
-            // Find the index of the first occurrence where circle matches the id of the activeCircle
-            const indexToRemove = lines.findIndex(item => item.circle === activeCircle.id);
+                // Find the index of the first occurrence where circle matches the id of the activeCircle
+                const indexToRemove = lines.findIndex(item => item.circle === activeCircle.id);
 
-            // Remove the element at the found index
-            if (indexToRemove !== -1) {
-                lines.splice(indexToRemove, 1);
+                // Remove the element at the found index
+                if (indexToRemove !== -1) {
+                    lines.splice(indexToRemove, 1);
+                }
             }
-
         }
     }
 

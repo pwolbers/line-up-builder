@@ -14,7 +14,6 @@ oppoFormation.addEventListener("change", function () {
     setOppoFormation(this.value);
 });
 
-
 function downloadImage() {
     var lineupContainer = document.getElementById("lineupContainer");
 
@@ -337,8 +336,10 @@ function importJSON() {
                         secondKeyArray.push(key);
                     }
                     if (jsonData.secondType == 'opposition') {
-                        document.getElementById("oppo-checkbox").checked = true;
-                        document.getElementById("oppo-name-checkbox").checked = true;
+                        document.getElementById("oppo-checkbox-true").checked = true;
+                        document.getElementById("oppo-column-checkbox-true").checked = true;
+                        oppoCheckBox();
+                        oppoNameCheckBox();
                     }
 
                     document.getElementById("teamNameBox").value = jsonData.teamName;
@@ -407,15 +408,14 @@ function updateUploadButton() {
 }
 
 function moveCircles() {
-    var circleCheck = document.getElementById("circle-checkbox");
-    var arrowCheck = document.getElementById("arrow-checkbox");
-    var movingCheck = document.getElementById("moving-checkbox");
-    var playCheck = document.getElementById("play-checkbox");
+  
     if (playCheck.checked) {
         if (arrowLocationArray.length > 0) {
             circleCheck.disabled = true;
             arrowCheck.disabled = true;
             playCheck.disabled = true;
+            blueArrowCheckFalse.disabled=true;
+            blueArrowCheckTrue.disabled=true;
             for (var q = 0; q < arrowLocationArray.length; q++) {
                 var circleTest = document.getElementById(arrowLocationArray[q].id);
                 var lineElement = circleTest.querySelector('.movingLine');
@@ -440,12 +440,12 @@ function moveCircles() {
             }
 
             setTimeout(function () {
-                
+
                 //Set to empty, so that another button press resets the location
                 playCheck.disabled = false;
             }, animationDuration);
         }
-        else{
+        else {
             playCheck.checked = false;
         }
     }
@@ -459,14 +459,22 @@ function moveCircles() {
         // Schedule your script to run after the animation duration
         setTimeout(function () {
             // This code block will execute after the animation is expected to have ended
-            var lineElements = document.querySelectorAll('.movingLine');
-            lineElements.forEach((lineElement) => {
-                lineElement.style.display = 'block';
-            });
+            //If 'Show pressing lines' switch is set to 'Hide', don't show the arrows
+            if (blueArrowCheckTrue.checked) {
+                var lineElements = document.querySelectorAll('.movingLine');
+                lineElements.forEach((lineElement) => {
+                    lineElement.style.display = 'block';
+                });
+            }
             circleCheck.disabled = false;
             arrowCheck.disabled = false;
             playCheck.disabled = false;
+            
+            blueArrowCheckFalse.disabled=false;
+            blueArrowCheckTrue.disabled=false;
+
         }, animationDuration);
+
     }
 }
 
