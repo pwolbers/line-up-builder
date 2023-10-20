@@ -236,11 +236,6 @@ function labelCheckBox() {
             box.classList.remove('startingStyleTwo');
             box.classList.add('startingStyleOne');
         });
-
-        document.getElementById("label-text").innerHTML = "Box";
-        document.getElementById("label-text").style.paddingLeft = "12.5%";
-        document.getElementById("label-text").style.paddingRight = "0";
-        document.getElementById("label-text").style.width = "87.5%";
     }
     else {
         fillingLabel.style.transform = 'translateX(0%)';
@@ -257,11 +252,9 @@ function labelCheckBox() {
             box.classList.remove('startingStyleOne');
             box.classList.add('startingStyleTwo');
         });
-        document.getElementById("label-text").innerHTML = "No box";
-        document.getElementById("label-text").style.paddingLeft = "42.5%";
-        document.getElementById("label-text").style.paddingRight = "27.5%";
-        document.getElementById("label-text").style.width = "30%";
     }
+
+    setCircleAndTextSize();
 }
 
 function blueArrowCheckBox() {

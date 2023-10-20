@@ -1117,9 +1117,9 @@ li {
 
 .vertical1,
 .vertical2 {
-  border-left-width: max(2px, 0.3vh);
+  border-left-width: 2px;
   ;
-  border-right-width: max(2px, 0.3vh);
+  border-right-width: 2px;
   ;
   border-left-style: dashed;
   border-right-style: dashed;
@@ -1151,8 +1151,8 @@ li {
 
 .horizontal1,
 .horizontal2 {
-  border-top-width: max(2px, 0.3vh);
-  border-bottom-width: max(2px, 0.3vh);
+  border-top-width: 2px;
+  border-bottom-width: 2px;
   border-top-style: dashed;
   border-bottom-style: dashed;
   width: calc(19.25/82.5 * (0.75 * 88vh));
@@ -1176,7 +1176,7 @@ li {
   /* double size of circle */
   min-height: calc(18/110 * 88/98 * 752px);
   bottom: 0;
-  border-top-width: max(2px, 0.3vh);
+  border-top-width: 2px;
   ;
   border-top-style: dashed;
 }
@@ -1187,7 +1187,7 @@ li {
   /* double size of circle */
   min-height: calc(18/110 * 88/98 * 752px);
   top: 0;
-  border-bottom-width: max(2px, 0.3vh);
+  border-bottom-width: 2px;
   ;
   border-bottom-style: dashed;
 }

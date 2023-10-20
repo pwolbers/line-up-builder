@@ -830,7 +830,7 @@ function setCircleAndTextSize() {
         var textBoxOne = circle.querySelector('.output-container, .oppo-output-container').querySelector('span');
         var textBoxOneFontSize = (textBoxOne.classList[1] == 'startingStyleOne') ? standardSizes[8].fontSize : standardSizes[9].fontSize;
         var textBoxOneBottom = (textBoxOne.classList[1] == 'startingStyleOne') ? standardSizes[8].bottomStarting : standardSizes[9].bottomStarting;
-
+        
         var textPercentage = (1 + Math.abs(stepDifference * 0.04)).toFixed(2);
         textBoxOne.style.fontSize = (stepDifference < 0) ? textBoxOneFontSize * textPercentage + 'px' : textBoxOneFontSize / textPercentage + 'px';
         textBoxOne.style.bottom = (stepDifference < 0) ? textBoxOneBottom * textPercentage + 'px' : textBoxOneBottom / textPercentage + 'px';
