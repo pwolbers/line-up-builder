@@ -4,30 +4,20 @@ var secondArray = [];
 var startKeyArray = [];
 var secondKeyArray = [];
 var secondType;
-var lines = []; // Array to store line elements
-var movingLines = [];
+var lines = []; // Array to store yellow/purple lines
+var movingLines = []; //Array to store blue lines
 var screenWidth;
 var oppoCircleHasBeenDragged = false;
 var isDrawing = false;
 var secondContainerInputs = [];
 var oppoContainerInputs = [];
 
-var standardSizes = getStandardSizes();
-var standardCircleSize = standardSizes[0];
-var standardBorderSize = standardSizes[1];
-var standardNumberSizeLarge = standardSizes[2];
-var standardNumberSizeMedium = standardSizes[3];
-var standardNumberSizeSmall = standardSizes[4];
-var standardNumberSizeLargeOppo = standardSizes[5];
-var standardNumberSizeMediumOppo = standardSizes[6];
-var standardNumberSizeSmallOppo = standardSizes[7];
-var standardTextBoxOne = standardSizes[8];
-var standardTextBoxTwo = standardSizes[9];
-
-
 const jsonFileInput = document.getElementById('jsonFileInput');
 const chooseFileButton = document.getElementById('chooseFileButton');
 const importButton = document.getElementById('importButton');
+const clearNamesButton = document.getElementById('clearNamesButton');
+const clearArrowsButton = document.getElementById('clearArrowsButton');
+const showLineUpButton = document.getElementById('showLineUpButton');
 
 const allCircles = document.querySelectorAll(".circle, .oppoCircle");
 const mainCircles = document.querySelectorAll(".circle");
@@ -40,10 +30,11 @@ const outputStartings = document.querySelectorAll(".outputStarting");
 const outputSeconds = document.querySelectorAll(".outputSecond");
 const outputOppos = document.querySelectorAll(".outputOpponent");
 
+const leftContainer = document.querySelector('.left-container');
 const lineupContainer = document.getElementById("lineupContainer");
 const imageContainer = document.getElementById('image-container');
-const imageConHeight = imageContainer.offsetHeight;
-const imageConWidth = imageContainer.offsetWidth;
+const imageConHeight = imageContainer.offsetHeight || 720; //If offsetHeight is empty, it means we're on mobiel and it is hidden, set to default height
+const imageConWidth = imageContainer.offsetWidth || 584; //Same for offsetWidth
 const canvasContainer = document.getElementById('drawingCanvas');
 
 const teamNameBox = document.getElementById('teamNameBox');
@@ -79,6 +70,18 @@ const oppoLineYFive = (465 / 900) * imageConHeight;
 const oppoLineYSix = (545 / 900) * imageConHeight;
 const oppoLineYSeven = (840 / 900) * imageConHeight;
 
+var standardSizes;
+var standardCircleSize;
+var standardBorderSize;
+var standardNumberSizeLarge;
+var standardNumberSizeMedium;
+var standardNumberSizeSmall;
+var standardNumberSizeLargeOppo;
+var standardNumberSizeMediumOppo;
+var standardNumberSizeSmallOppo;
+var standardTextBoxOne;
+var standardTextBoxTwo;
+
 const animationDuration = 1000;
 
 const mainColor = document.getElementById("colorPickerMain");
@@ -87,18 +90,15 @@ var arrowLocationArray = [];
 let startX, startY;
 
 
-
-
 $(document).ready(function () {
     $("#starting-column-title").click(function () {
         var inputContainers = $(this).siblings(".input-container");
         var showLineUpButton = document.getElementById('showLineUpButton');
         const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
-        if (displayValue == 'block') {
+        if (displayValue == 'inline-block') {
             toggleDisplay(inputContainers, true, 'starting');
         } else {
             toggleDisplay(inputContainers, false, 'starting');
-            parentContainer.style.boxShadow = 'none';
         }
     });
 
@@ -106,15 +106,13 @@ $(document).ready(function () {
         var inputContainers = $(this).siblings(".input-container");
         var showLineUpButton = document.getElementById('showLineUpButton');
         const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
-        if (displayValue == 'block') {
+        if (displayValue == 'inline-block') {
             toggleDisplay(inputContainers, true, 'second');
         } else {
             toggleDisplay(inputContainers, false, 'second');
         }
     });
 });
-
-
 
 
 function toggleDisplay(elements, mobileCheck, type) {
@@ -213,6 +211,37 @@ function resizeFunctionality() {
     standardNumberSizeSmallOppo = standardSizes[7];
     standardTextBoxOne = standardSizes[8];
     standardTextBoxTwo = standardSizes[9];
+    setCircleAndTextSize();
+
+    if (window.innerWidth > 780) {
+        document.getElementById('arrow-checkbox').checked = true;
+
+        leftContainer.style.display = 'block';
+        lineupContainer.style.display = 'block';
+        var startingInputContainers = document.querySelectorAll('.starting-column > .input-container');
+        startingInputContainers.forEach((inputContainer) => {
+            inputContainer.style.display = 'flex';
+        });
+        var secondInputContainers = document.querySelectorAll('.second-column > .input-container');
+        secondInputContainers.forEach((inputContainer) => {
+            inputContainer.style.display = 'flex';
+        });
+    }
+    else {
+        document.getElementById('circle-checkbox').checked = true;
+        if (window.getComputedStyle(leftContainer).getPropertyValue('display') == 'block') {
+            lineupContainer.style.display = 'none';
+            showLineUpButton.textContent = 'Switch to pitch view';
+        }
+        else{
+            leftContainer.style.display = 'none';
+            showLineUpButton.textContent = 'Switch to input view';
+        }
+        var secondInputContainers = document.querySelectorAll('.second-column > .input-container');
+        secondInputContainers.forEach((inputContainer) => {
+            inputContainer.style.display = 'none';
+        });
+    }
 }
 
 window.onload = () => {
@@ -412,48 +441,23 @@ window.onload = () => {
 
     setTextBoxOrders();
     textToCircle();
+
+    standardSizes = getStandardSizes();
+    standardCircleSize = standardSizes[0];
+    standardBorderSize = standardSizes[1];
+    standardNumberSizeLarge = standardSizes[2];
+    standardNumberSizeMedium = standardSizes[3];
+    standardNumberSizeSmall = standardSizes[4];
+    standardNumberSizeLargeOppo = standardSizes[5];
+    standardNumberSizeMediumOppo = standardSizes[6];
+    standardNumberSizeSmallOppo = standardSizes[7];
+    standardTextBoxOne = standardSizes[8];
+    standardTextBoxTwo = standardSizes[9];
 }
 
 window.addEventListener('DOMContentLoaded', function () {
-    var lineupContainer = document.querySelector('.lineup-container');
-
-    var showLineUpButton = document.getElementById('showLineUpButton');
-
-    showLineUpButton.addEventListener('click', function () {
-        if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
-            lineupContainer.style.display = 'block'; // Show the lineup-container div
-            showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
-        } else {
-            lineupContainer.style.display = 'none'; // Hide the lineup-container div
-            showLineUpButton.textContent = 'Show line-up and formation'; // Change button text
-        }
-
-    });
-
-    var mediaQuery = window.matchMedia('(min-width: 825px)'); // Adjust the media query as needed
-
-    handleViewportChange(mediaQuery.matches); // Check initial viewport state
-
-    mediaQuery.addEventListener('change', function (event) {
-        handleViewportChange(event.matches); // Handle changes in viewport state
-    });
-
-    function handleViewportChange(matches) {
-        if (matches) {
-            lineupContainer.style.display = 'block'; // Set display to 'block'
-        } else {
-            lineupContainer.style.display = 'block'; // Set display to 'none'
-        }
-    }
-
-    var showLineUpButton = document.getElementById('showLineUpButton');
-    showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
-
     //Set slider values
-    var outputElementOne = document.querySelector('.circleSliderOutput');
-    var outputElementTwo = document.querySelector('.drawSliderOutput');
-    setSliderOutputLabel(circleSlider, outputElementOne);
-    setSliderOutputLabel(drawingSlider, outputElementTwo);
+
 });
 
 //Pre loads the JSON files stored locally
@@ -477,8 +481,14 @@ document.addEventListener("DOMContentLoaded", function () {
         event.stopPropagation();
         if (settings.style.display != 'block') {
             settings.style.display = 'block';
-            settings.style.top = gearIconLocation.top + 20 + 'px';
-            settings.style.left = gearIconLocation.left + 14 + 'px';
+            if (imageConWidth > 600) {
+                settings.style.left = gearIconLocation.left + 14 + 'px';
+                settings.style.top = gearIconLocation.top + 20 + 'px';
+            }
+            else {
+                settings.style.left = gearIconLocation.left + 'px';
+                settings.style.top = gearIconLocation.top - 10 + 'px';
+            }
         }
         else {
             settings.style.display = 'none';
@@ -559,6 +569,11 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => {
             console.error('Error fetching JSON data:', error);
         });
+
+    var outputElementOne = document.querySelector('.circleSliderOutput');
+    var outputElementTwo = document.querySelector('.drawSliderOutput');
+    setSliderOutputLabel(circleSlider, outputElementOne);
+    setSliderOutputLabel(drawingSlider, outputElementTwo);
 });
 
 
@@ -653,6 +668,7 @@ function textToCircle() {
     }
 }
 
+
 //Tabs for the help pop-up
 document.getElementById("defaultOpen").click();
 document.getElementById("defaultOpen2").click();
@@ -667,7 +683,13 @@ function openHelpTab(evt, helpTab) {
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
-    document.getElementById(helpTab).style.display = "block";
+    if (window.innerWidth > 780) {
+        document.getElementById(helpTab).style.display = "inline-block";
+    }
+    else {
+
+        document.getElementById(helpTab).style.display = "contents";
+    }
     evt.currentTarget.className += " active";
 }
 
@@ -681,7 +703,7 @@ function openJSONVariant(evt, jsonVariant) {
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
-    document.getElementById(jsonVariant).style.display = "block";
+    document.getElementById(jsonVariant).style.display = "contents";
     evt.currentTarget.className += " active";
 }
 
@@ -780,9 +802,51 @@ const mainOppoPickr = createPickr('.mainOppoColorPicker', '#006631');
 const secondOppoPickr = createPickr('.secondOppoColorPicker', '#000000');
 const numberOppoPickr = createPickr('.numberOppoColorPicker', '#ffffff');
 const drawingPickr = createPickr('.drawingColorPicker', '#ffffff');
+const createdPickrs = document.querySelectorAll('.pcr-app');
+
+var leftContainerWidth = document.querySelector('.left-container').getBoundingClientRect().width;
+if (leftContainerWidth < 608) {
+    var drawButton = document.querySelector('.colorPicker-drawing > .pickr > button');
+    drawButton.addEventListener('click', setPickrWindowLocation);
+
+    var allColorPickers = document.querySelectorAll('.color-pickers-container > .colorPicker > .pickr > button, .color-pickers-oppo-container > .colorPicker > .pickr > button');
+
+    for (var x = 0; x < allColorPickers.length; x++) {
+        allColorPickers[x].addEventListener('click', setPickrWindowLocation);
+    }
+
+    function setPickrWindowLocation(evt) {
+        var grandParentPickr = evt.currentTarget.parentNode.parentNode;
+        var currentButton = evt.currentTarget;
+        var value;
+        if (grandParentPickr.id == 'mainColorContainer') {
+            value = 0;
+        }
+        else if (grandParentPickr.id == 'secondColorContainer') {
+            value = 1;
+        }
+        else if (grandParentPickr.id == 'numberColorContainer') {
+            value = 2;
+        }
+        else if (grandParentPickr.id == 'mainOppoColorContainer') {
+            value = 3;
+        }
+        else if (grandParentPickr.id == 'secondOppoColorContainer') {
+            value = 4;
+        }
+        else if (grandParentPickr.id == 'numberOppoColorContainer') {
+            value = 5;
+        }
+        else {
+            value = 6;
+        }
+        var pickrHeight = parseFloat(createdPickrs[value].getBoundingClientRect().height);
+        createdPickrs[value].style.top = parseFloat(currentButton.getBoundingClientRect().top) - pickrHeight + 'px';
+        createdPickrs[value].style.left = parseFloat(currentButton.getBoundingClientRect().left) + 'px';
+    }
+}
 
 function createPickr(elValue, defaultColor) {
-
     const tempPickr = new Pickr({
         el: elValue,
         container: 'body',
@@ -791,6 +855,7 @@ function createPickr(elValue, defaultColor) {
         comparison: false,
         adjustableNumbers: true,
         position: 'top-start',
+        autoReposition: false,
 
         swatches: [
 
@@ -850,127 +915,66 @@ drawingSlider.oninput = function () {
 
 function getStandardSizes() {
     var standardSizes = [];
+    var numberCircle;
+    var invisibleCircle = document.getElementById('invisibleCircle');
+
     //Circle
-    var vh98 = (window.innerHeight / 100 * 98).toFixed(3);
-    if (vh98 > 752) {
-        standardSizes.push((32 / 900) * vh98 - 0.008);
-    }
-    else {
-        standardSizes.push((32 / 900) * 752 - 0.008);
-    }
+    standardSizes.push(parseFloat(invisibleCircle.getBoundingClientRect().width));
     //Border
-    var vh25 = (window.innerHeight / 100 * .25).toFixed(3);
-    if (vh25 > 2) {
-        standardSizes.push(vh25);
-    }
-    else {
-        standardSizes.push(2);
-    }
+    var borderCircle = invisibleCircle.querySelector('.circleStyle');
+    standardSizes.push(parseFloat(window.getComputedStyle(borderCircle).getPropertyValue('border-width')));
     //Number Large
     var largeNumberObj = {};
     largeNumberObj.id = 'circle-number-font-large';
-    var largeNumber = 0.6 * (32 / 900) * vh98;
-    if (largeNumber > 16) {
-        largeNumberObj.size = largeNumber;
-    }
-    else {
-        largeNumberObj.size = 16;
-    }
+    numberCircle = invisibleCircle.querySelector('.circle-number-font-large');
+    largeNumberObj.size = (parseFloat(window.getComputedStyle(numberCircle).getPropertyValue('font-size')));
     standardSizes.push(largeNumberObj);
     //Number Medium
     var mediumNumberObj = {};
     mediumNumberObj.id = 'circle-number-font-medium';
-    var mediumNumber = 0.5 * (32 / 900) * vh98;
-    if (mediumNumber > 14) {
-        mediumNumberObj.size = mediumNumber;
-    }
-    else {
-        mediumNumberObj.size = 14;
-    }
+    numberCircle = invisibleCircle.querySelector('.circle-number-font-medium');
+    mediumNumberObj.size = (parseFloat(window.getComputedStyle(numberCircle).getPropertyValue('font-size')));
     standardSizes.push(mediumNumberObj);
     //Number Small
     var smallNumberObj = {};
     smallNumberObj.id = 'circle-number-font-small';
-    var smallNumber = 0.45 * (32 / 900) * vh98;
-    if (smallNumber > 12) {
-        smallNumberObj.size = smallNumber;
-    }
-    else {
-        smallNumberObj.size = 12;
-    }
+    numberCircle = invisibleCircle.querySelector('.circle-number-font-small');
+    smallNumberObj.size = (parseFloat(window.getComputedStyle(numberCircle).getPropertyValue('font-size')));
     standardSizes.push(smallNumberObj);
     //Number Large Oppo
     var largeOppoNumberObj = {};
     largeOppoNumberObj.id = 'circle-number-font-large-oppo';
-    var largeNumberOppo = 0.55 * (32 / 900) * vh98;
-    if (largeNumberOppo > 15) {
-        largeOppoNumberObj.size = largeNumberOppo;
-    }
-    else {
-        largeOppoNumberObj.size = 15;
-    }
+    numberCircle = invisibleCircle.querySelector('.circle-number-font-large-oppo');
+    largeOppoNumberObj.size = (parseFloat(window.getComputedStyle(numberCircle).getPropertyValue('font-size')));
     standardSizes.push(largeOppoNumberObj);
     //Number Medium Oppo
     var mediumOppoNumberObj = {};
     mediumOppoNumberObj.id = 'circle-number-font-medium-oppo';
-    var mediumNumberOppo = 0.45 * (32 / 900) * vh98;
-    if (mediumNumberOppo > 12) {
-        mediumOppoNumberObj.size = mediumNumberOppo;
-    }
-    else {
-        mediumOppoNumberObj.size = 12;
-    }
+    numberCircle = invisibleCircle.querySelector('.circle-number-font-medium-oppo');
+    mediumOppoNumberObj.size = (parseFloat(window.getComputedStyle(numberCircle).getPropertyValue('font-size')));
     standardSizes.push(mediumOppoNumberObj);
     //Number Small Oppo
     var smallOppoNumberObj = {};
     smallOppoNumberObj.id = 'circle-number-font-small-oppo';
-    var smallNumberOppo = 0.4 * (32 / 900) * vh98;
-    if (smallNumberOppo > 11) {
-        smallOppoNumberObj.size = smallNumberOppo;
-    }
-    else {
-        smallOppoNumberObj.size = 11;
-    }
+    numberCircle = invisibleCircle.querySelector('.circle-number-font-small-oppo');
+    smallOppoNumberObj.size = (parseFloat(window.getComputedStyle(numberCircle).getPropertyValue('font-size')));
     standardSizes.push(smallOppoNumberObj);
-
     //Text style one
     var textStyleOneObj = {};
-    var vh14 = (window.innerHeight / 100 * 1.4).toFixed(3);
-    if (vh14 > 11.2) {
-        textStyleOneObj.fontSize = vh14;
-    }
-    else {
-        textStyleOneObj.fontSize = 11.2;
-    }
-    var vh25 = (window.innerHeight / 100 * -2.5).toFixed(3);
-    if (vh25 < -20) {
-        textStyleOneObj.bottomStarting = vh25;
-        textStyleOneObj.bottomSecond = vh25 * 2;
-    }
-    else {
-        textStyleOneObj.bottomStarting = -20;
-        textStyleOneObj.bottomSecond = -40;
-    }
+    var textStyleOneStarting = invisibleCircle.querySelector('.invisible-container > .startingStyleOne');
+    var textStyleOneSecond = textStyleOneStarting.nextElementSibling;
+    textStyleOneObj.fontSize = (parseFloat(window.getComputedStyle(textStyleOneStarting).getPropertyValue('font-size')));
+    textStyleOneObj.bottomStarting = (parseFloat(window.getComputedStyle(textStyleOneStarting).getPropertyValue('bottom')));
+    textStyleOneObj.bottomSecond = (parseFloat(window.getComputedStyle(textStyleOneSecond).getPropertyValue('bottom')));
     standardSizes.push(textStyleOneObj);
 
     //Text style two
     var textStyleTwoObj = {};
-    var vh15 = (window.innerHeight / 100 * 1.5).toFixed(3);
-    if (vh15 > 13.6) {
-        textStyleTwoObj.fontSize = vh15;
-    }
-    else {
-        textStyleTwoObj.fontSize = 13.6;
-    }
-    var vh21 = (window.innerHeight / 100 * -2.1).toFixed(3);
-    if (vh21 < -20) {
-        textStyleTwoObj.bottomStarting = vh21;
-        textStyleTwoObj.bottomSecond = vh21 * 2;
-    }
-    else {
-        textStyleTwoObj.bottomStarting = -20;
-        textStyleTwoObj.bottomSecond = -40;
-    }
+    var textStyleTwoStarting = invisibleCircle.querySelector('.invisible-container > .startingStyleTwo');
+    var textStyleTwoSecond = textStyleTwoStarting.nextElementSibling;
+    textStyleTwoObj.fontSize = (parseFloat(window.getComputedStyle(textStyleTwoStarting).getPropertyValue('font-size')));
+    textStyleTwoObj.bottomStarting = (parseFloat(window.getComputedStyle(textStyleTwoStarting).getPropertyValue('bottom')));
+    textStyleTwoObj.bottomSecond = (parseFloat(window.getComputedStyle(textStyleTwoSecond).getPropertyValue('bottom')));
     standardSizes.push(textStyleTwoObj);
 
     return standardSizes;

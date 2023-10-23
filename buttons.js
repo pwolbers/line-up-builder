@@ -8,18 +8,30 @@ downloadButton.addEventListener("click", downloadJSON);
 selectFormation.addEventListener("change", loadFormation);
 //Reads the JSON uploaded and stores it in the textboxes
 importButton.addEventListener("click", importJSON);
+//Clears all the names from the input boxes
+clearNamesButton.addEventListener("click", clearNames);
+//Clears all the arrows from the pitch
+clearArrowsButton.addEventListener("click", clearArrows);
 
-//Sets the oppo formation based on formation select box
-oppoFormation.addEventListener("change", function () {
-    setOppoFormation(this.value);
-});
+showLineUpButton.addEventListener('click', switchViews);
 
-function downloadImage() {
-    var lineupContainer = document.getElementById("lineupContainer");
-
+function switchViews() {
+    showLineUpButton.textContent = 'Switch to input view'; // Change button text
     if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
-        lineupContainer.style.display = 'block'; // Show the lineup-container div
-        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
+        lineupContainer.style.display = 'block'; // Hide the lineup-container div
+        leftContainer.style.display = 'none';
+    } else {
+        leftContainer.style.display = 'block';
+        lineupContainer.style.display = 'none'; // Show the lineup-container div
+        showLineUpButton.textContent = 'Switch to pitch view'; // Change button text
+    }
+}
+
+// Function to download a .PNG of the pitch
+function downloadImage() {
+    const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
+    if (displayValue == 'inline-block') {
+        switchViews();
     }
 
     screenshotButton.innerText = "Downloading...";
@@ -89,12 +101,8 @@ function loadTeam() {
     //Reset upload button
     updateUploadButton();
 
-    const selectedValue = this.value;
-    var lineupContainer = document.querySelector('.lineup-container');
-    if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
-        lineupContainer.style.display = 'block'; // Show the lineup-container div
-        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
-    }
+    const selectedValue = selectTeam.value;
+
     if (selectedValue === "clear") {
         startingArray = ['', '', '', '', '', '', '', '', '', '', ''];
         secondArray = ['', '', '', '', '', '', '', '', '', '', ''];
@@ -128,9 +136,12 @@ function loadTeam() {
                 setCircleColor(lineUpsObj[selectedValue].oppoColors, 'oppo');
             }
             if (lineUpsObj[selectedValue].oppoFormation) {
-                setOppoFormation(lineUpsObj[selectedValue].oppoFormation.replaceAll('-', '').replaceAll(" ", ""));
+                var formattedOppoFormation = lineUpsObj[selectedValue].oppoFormation.replaceAll('-', '').replaceAll(" ", "")
+                setOppoFormation(formattedOppoFormation);
+                document.getElementById("oppo-formation").value = formattedOppoFormation;
             }
         }
+        
         setLineUp(startKeyArray, secondKeyArray, secondType);
 
         //If specific position data is available, use it
@@ -156,11 +167,15 @@ function loadTeam() {
         }
         if (secondType == 'opposition') {
             setOppoTextBoxOrder();
-        }
 
+        }
         setTextBoxOrders();
         determineFormation();
 
+        const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
+        if (displayValue == 'inline-block') {
+            switchViews();
+        }
     }
 }
 
@@ -182,14 +197,14 @@ function downloadJSON() {
 
     const startingContainers = document.querySelectorAll('.column.starting-column .input-container');
     startingContainers.forEach((container) => {
-        let squadNumber = container.querySelector('.label-position').textContent.replace("#", '');
+        let squadNumber = container.querySelector('.numberLabel').textContent.replace("#", '');
         const input = container.querySelector('.inputBox').value;
         var startingObj = {
             "name": input,
             "number": squadNumber
         };
         //Get the corresponding ID for this box
-        let textboxId = container.querySelector('.label-position').htmlFor.replace('starting', '#');
+        let textboxId = container.querySelector('.numberLabel').htmlFor.replace('starting', '#');
         jsonData.starting[textboxId] = startingObj;
     });
 
@@ -197,7 +212,7 @@ function downloadJSON() {
     secondContainers.forEach((container) => {
 
         //Get the corresponding ID for this box
-        let textboxId = container.querySelector('.label').htmlFor.replace('second', '#');
+        let textboxId = container.querySelector('.positionLabel').htmlFor.replace('second', '#');
         const input = container.querySelector('.secondBox').value;
         //If opposition naming is true, the JSON format is changed to an Obj containing name and number
         if (checkOppositionName.checked) {
@@ -231,16 +246,16 @@ function downloadJSON() {
 
     jsonData.circlePositions = "" + allCirclePositions;
 
-    jsonData.colors.mainColor = document.getElementById("colorPickerMain").value;
-    jsonData.colors.secondColor = document.getElementById("colorPickerSecond").value;
-    jsonData.colors.numberColor = document.getElementById("colorPickerNumber").value;
+    jsonData.colors.mainColor = mainPickr.getColor().toHEXA().toString();
+    jsonData.colors.secondColor = secondPickr.getColor().toHEXA().toString();
+    jsonData.colors.numberColor = numberPickr.getColor().toHEXA().toString();
 
     if (checkOppositionName.checked) {
         jsonData.secondType = 'opposition';
         jsonData.oppoFormation = determineFormation('oppo').replaceAll('-', '').replaceAll(" ", "");
-        jsonData.oppoColors.mainColor = document.getElementById("oppoColorMain").value;
-        jsonData.oppoColors.secondColor = document.getElementById("oppoColorSecond").value;
-        jsonData.oppoColors.numberColor = document.getElementById("oppoColorNumber").value;
+        jsonData.oppoColors.mainColor = mainOppoPickr.getColor().toHEXA().toString();
+        jsonData.oppoColors.secondColor = secondOppoPickr.getColor().toHEXA().toString();
+        jsonData.oppoColors.numberColor = numberOppoPickr.getColor().toHEXA().toString();
 
         var oppoCirclePositions = "#";
         oppoCircles.forEach((circle) => {
@@ -287,11 +302,11 @@ function downloadJSON() {
 
 // Function to load formation
 function loadFormation() {
-    var lineupContainer = document.querySelector('.lineup-container');
-    if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
-        lineupContainer.style.display = 'block'; // Show the lineup-container div
-        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
+    const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
+    if (displayValue == 'inline-block') {
+        switchViews();
     }
+
     const selectedValue = this.value;
     setCirclePositions(selectedValue, 'main');
     setTextBoxOrders();
@@ -394,6 +409,32 @@ function importJSON() {
     }
 }
 
+//Clears the names from the input boxes
+function clearNames() {
+    var allInputContainers = document.querySelectorAll('.inputBox, .secondBox');
+    allInputContainers.forEach((inputContainer) => {
+        inputContainer.value = '';
+    });
+
+    var allOutputBoxes = document.querySelectorAll('.outputStarting, .outputSecond, .outputOpponent');
+    allOutputBoxes.forEach((outputBox) => {
+        outputBox.innerHTML = '';
+        toggleOutputBoxVisibility(outputBox);
+    });
+    selectTeam.value = 'clear';
+}
+
+//Clears the arrows on the pitch
+function clearArrows() {
+    var allLines = document.querySelectorAll('.normalLine, .movingLine');
+    allLines.forEach((lineElement) => {
+        lineElement.parentNode.removeChild(lineElement);
+    });
+    lines = [];
+    movingLines = [];
+    arrowLocationArray = [];
+}
+
 // Resets the upload button if selectTeam is changed
 function updateUploadButton() {
     var selectBox = document.getElementById("select-team");
@@ -408,14 +449,13 @@ function updateUploadButton() {
 }
 
 function moveCircles() {
-  
     if (playCheck.checked) {
         if (arrowLocationArray.length > 0) {
             circleCheck.disabled = true;
             arrowCheck.disabled = true;
             playCheck.disabled = true;
-            blueArrowCheckFalse.disabled=true;
-            blueArrowCheckTrue.disabled=true;
+            blueArrowCheckFalse.disabled = true;
+            blueArrowCheckTrue.disabled = true;
             for (var q = 0; q < arrowLocationArray.length; q++) {
                 var circleTest = document.getElementById(arrowLocationArray[q].id);
                 var lineElement = circleTest.querySelector('.movingLine');
@@ -469,9 +509,9 @@ function moveCircles() {
             circleCheck.disabled = false;
             arrowCheck.disabled = false;
             playCheck.disabled = false;
-            
-            blueArrowCheckFalse.disabled=false;
-            blueArrowCheckTrue.disabled=false;
+
+            blueArrowCheckFalse.disabled = false;
+            blueArrowCheckTrue.disabled = false;
 
         }, animationDuration);
 

@@ -235,11 +235,6 @@ function setCircleColor(colors, teamType) {
         secondOppoPickr.setColor(secondColor);
         numberOppoPickr.setColor(numberColor);
     }
-    var lineupContainer = document.querySelector('.lineup-container');
-    if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
-        lineupContainer.style.display = 'block'; // Show the lineup-container div
-        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
-    }
 }
 
 // Changes the order of the input boxes and labels based on the circle Array order and determines labels
@@ -401,11 +396,6 @@ function getCurrentCircleOrder() {
 
 // Shows/hides textboxes below circles based on input
 function toggleOutputBoxVisibility(box) {
-    var lineupContainer = document.querySelector('.lineup-container');
-    if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
-        lineupContainer.style.display = 'block'; // Show the lineup-container div
-        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
-    }
     if (box.innerText.trim() !== "") {
         box.style.display = "block";
     } else if (box.style.display != "none") {
@@ -417,7 +407,7 @@ function toggleOutputBoxVisibility(box) {
 function determineLabel(xPos, yPos, index) {
     const inputBoxes = document.querySelectorAll(".inputBox");
     const secondBoxes = document.querySelectorAll(".secondBox");
-    const labels = document.querySelectorAll(".label");
+    const labels = document.querySelectorAll(".positionLabel");
 
     if (xPos >= lineXTwo && xPos <= lineXFive && yPos >= lineYSix && yPos <= lineYSeven) {
         labels[index].innerHTML = "GK";
@@ -608,7 +598,7 @@ function determineFormation(teamType) {
     }
     const lineupArray = [];
     containersToCheck.forEach((container) => {
-        let label = container.querySelector('.label').textContent;
+        let label = container.querySelector('.positionLabel').textContent;
         label = label.replaceAll(":", "");
         lineupArray.push(label);
         if (defenseArr.includes(label)) {
@@ -690,6 +680,23 @@ function changeNumberOnTextbox(circle, newInput) {
     });
 }
 
+function changeNameInTextbox(circle, newInput, outputBox) {
+    var circleClass = circle.classList[1];
+    var inputType = '';
+    if (outputBox.id.indexOf('oppo') > -1 || outputBox.id.indexOf('second') > -1) {
+        inputType = '.secondBox';
+        circleClass = circleClass.replace('oppo', 'pos');
+    }
+    else {
+        inputType = '.inputBox';
+    }
+    var query = inputType + "." + circleClass;
+    const divElement = document.querySelector(query);
+
+    divElement.value = newInput;
+ 
+}
+
 function getFontSize(inputLength, number) {
     number.classList.remove('circle-number-font-large');
     number.classList.remove('circle-number-font-medium');
@@ -731,7 +738,7 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
         startingArray.forEach(function (starter, index) {
             var inputContainers = document.querySelectorAll('.column.starting-column .input-container');
             inputContainers.forEach(function (inputContainer) {
-                var labelElement = inputContainer.querySelector('label.label-position');
+                var labelElement = inputContainer.querySelector('label.numberLabel');
                 if (labelElement.htmlFor.replace('starting', '#') == startKeyArray[index]) {
                     var inputElement = inputContainer.querySelector('input');
                     inputElement.value = starter.name;
@@ -796,18 +803,17 @@ function setCircleAndTextSize() {
     var stepDifference = ((parseInt(circleSlider.max) + parseInt(circleSlider.min)) / 2) - circleSlider.value;
     var changePercentage = (1 + Math.abs(stepDifference * 0.08)).toFixed(2);
     var currentCircleWidth;
-    var percentageChangeLeft;    
+    var percentageChangeLeft;
     var percentageChangeTop;
-    allCircles.forEach((circle) => {        
+    allCircles.forEach((circle) => {
         //Only have to retrieve this info once
-        if (circle.id == 'circle1') {
-            currentCircleWidth = circle.getBoundingClientRect().width;
-        }
+
         circle.style.width = (stepDifference < 0) ? standardCircleSize * changePercentage + 'px' : standardCircleSize / changePercentage + 'px';
         circle.style.height = (stepDifference < 0) ? standardCircleSize * changePercentage + 'px' : standardCircleSize / changePercentage + 'px';
 
         //Only have to retrieve this info once
         if (circle.id == 'circle1') {
+            currentCircleWidth = circle.getBoundingClientRect().width || standardCircleSize;
             var widthDifference = (currentCircleWidth - parseFloat(circle.style.width)) / 2;
             percentageChangeLeft = (widthDifference / imageConWidth) * 100;
             percentageChangeTop = (widthDifference / imageConHeight) * 100;
@@ -830,7 +836,7 @@ function setCircleAndTextSize() {
         var textBoxOne = circle.querySelector('.output-container, .oppo-output-container').querySelector('span');
         var textBoxOneFontSize = (textBoxOne.classList[1] == 'startingStyleOne') ? standardSizes[8].fontSize : standardSizes[9].fontSize;
         var textBoxOneBottom = (textBoxOne.classList[1] == 'startingStyleOne') ? standardSizes[8].bottomStarting : standardSizes[9].bottomStarting;
-        
+
         var textPercentage = (1 + Math.abs(stepDifference * 0.04)).toFixed(2);
         textBoxOne.style.fontSize = (stepDifference < 0) ? textBoxOneFontSize * textPercentage + 'px' : textBoxOneFontSize / textPercentage + 'px';
         textBoxOne.style.bottom = (stepDifference < 0) ? textBoxOneBottom * textPercentage + 'px' : textBoxOneBottom / textPercentage + 'px';
@@ -838,12 +844,9 @@ function setCircleAndTextSize() {
             var textBoxTwo = textBoxOne.nextElementSibling;
             var textBoxTwoFontSize = (textBoxTwo.classList[1] == 'secondStyleOne') ? standardSizes[8].fontSize : standardSizes[9].fontSize;
             var textBoxTwoBottom = (textBoxTwo.classList[1] == 'secondStyleOne') ? standardSizes[8].bottomSecond : standardSizes[9].bottomSecond;
-        
+
             textBoxTwo.style.fontSize = (stepDifference < 0) ? textBoxTwoFontSize * textPercentage + 'px' : textBoxTwoFontSize / textPercentage + 'px';
             textBoxTwo.style.bottom = (stepDifference < 0) ? textBoxTwoBottom * textPercentage + 'px' : textBoxTwoBottom / textPercentage + 'px';
         }
-
-
-        
     });
 }

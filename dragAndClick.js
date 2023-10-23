@@ -21,15 +21,85 @@ allCircles.forEach((circle, index) => {
     circle.addEventListener("touchstart", handleSingleClick);
 });
 
+function changeNumber(circle, input) {
+    var number = circle.querySelector('.circle-number');
+    const currentValue = number.textContent;
+
+    // Add an event listener to save the edited value on Enter and cancel on Esc
+    input.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            isEditing = false;
+            changeNumberOnTextbox(circle, input.value);
+            removeInputBox();
+        } else if (event.key === 'Escape') {
+            number.textContent = currentValue;
+            isEditing = false;
+            removeInputBox();
+        }
+    });
+
+    // Remove the input field and revert to the number when it loses focus
+    input.addEventListener('blur', function () {
+        if (input.value.length >= 1 && input.value.length <= 4) {
+            getFontSize(input.value.length, number);
+            number.textContent = input.value;
+            isEditing = false;
+            changeNumberOnTextbox(circle, input.value);
+        }
+        else if (input.value.length > 4) {
+            number.textContent = currentValue;
+            isEditing = false;
+            alert("Input length has to be between 1 and 4 characters");
+        }
+        else {
+            number.textContent = currentValue;
+            isEditing = false;
+        }
+        removeInputBox();
+    });
+}
+
+function changePlayerName(circle, input, span) {
+    const currentValue = span.innerText;
+    input.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            isEditing = false;
+            changeNameInTextbox(circle, input.value, span);
+            removeInputBox();
+        } else if (event.key === 'Escape') {
+            number.textContent = currentValue;
+            isEditing = false;
+            removeInputBox();
+        }
+    });
+
+    // Remove the input field and revert to the number when it loses focus
+    input.addEventListener('blur', function () {
+        if (input.value.length >= 2) {
+            span.innerText = input.value;
+            isEditing = false;
+            changeNameInTextbox(circle, input.value, span);
+        }
+        else if(input.value.length == 1){
+            span.innerText = currentValue;
+            isEditing = false;
+            alert("Input length has to be more than 1 character");
+        }
+        else{
+            span.innerText = currentValue;
+            isEditing = false;
+        }
+        removeInputBox();
+    });
+}
+
 function handleDoubleClick(e) {
     if (!animationPlaying.checked) {
         circle = e.currentTarget;
         if (e.button == 0 || (e.button == undefined && circleSwitch.checked)) {
             if (!isEditing) {
-
                 isEditing = true;
-                var number = circle.querySelector('.circle-number');
-                const currentValue = number.textContent;
+
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.value = '';
@@ -44,40 +114,19 @@ function handleDoubleClick(e) {
 
                 circle.appendChild(input);
 
-                input.focus();
+               
+                //If names are clicked or other part of the circle
+                if (e.target.id.indexOf('Span') > -1) {
+                    input.style.width = '100px';
+                    input.style.left = '-40px';
+                    input.focus();
+                    changePlayerName(circle, input, e.target);
 
-                // Add an event listener to save the edited value on Enter and cancel on Esc
-                input.addEventListener('keydown', function (event) {
-                    if (event.key === 'Enter') {
-                        isEditing = false;
-                        changeNumberOnTextbox(circle, input.value);
-                        removeInputBox();
-                    } else if (event.key === 'Escape') {
-                        number.textContent = currentValue;
-                        isEditing = false;
-                        removeInputBox();
-                    }
-                });
-
-                // Remove the input field and revert to the number when it loses focus
-                input.addEventListener('blur', function () {
-                    if (input.value.length >= 1 && input.value.length <= 4) {
-                        getFontSize(input.value.length, number);
-                        number.textContent = input.value;
-                        isEditing = false;
-                        changeNumberOnTextbox(circle, input.value);
-                    }
-                    else if (input.value.length > 4) {
-                        number.textContent = currentValue;
-                        isEditing = false;
-                        alert("Input length has to be between 1 and 4 characters");
-                    }
-                    else {
-                        number.textContent = currentValue;
-                        isEditing = false;
-                    }
-                    removeInputBox();
-                });
+                }
+                else {
+                    input.focus();
+                    changeNumber(circle, input);
+                }
             }
         }
         else {
@@ -93,6 +142,7 @@ function handleSingleClick(e) {
         //Set up variables for mobile tap and right click
         //Undefined = mobile tap
         if (e.button == undefined) {
+
             var doubleTap = false;
             e.preventDefault(); // to disable browser default zoom on double tap
             let date = new Date();
@@ -106,6 +156,7 @@ function handleSingleClick(e) {
         }
         //2 = right click
         if (e.button == 2) {
+
             var doubleTap = false;
             e.preventDefault(); // to disable browser default zoom on double tap
             let date = new Date();

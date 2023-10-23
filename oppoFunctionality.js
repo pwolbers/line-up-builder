@@ -1,3 +1,8 @@
+//Sets the oppo formation based on formation select box
+oppoFormation.addEventListener("change", function () {
+    setOppoFormation(this.value);
+});
+
 function setOppoTextBoxOrder() {
     var secondColumn = document.querySelector('.second-column');
     var secondContainers = secondColumn.getElementsByClassName('input-container');
@@ -91,7 +96,7 @@ function getOppoCircleOrder() {
 }
 
 function determineOppoLabel(xPos, yPos, index) {
-    var oppoLabels = document.querySelectorAll(".label");
+    var oppoLabels = document.querySelectorAll(".positionLabel");
     const secondBoxes = document.querySelectorAll(".secondBox");
 
     if (xPos >= lineXTwo && xPos <= lineXFive && yPos >= oppoLineYOne && yPos <= oppoLineYTwo) {
@@ -162,10 +167,9 @@ function determineOppoLabel(xPos, yPos, index) {
 
 //Sets the oppo formation based on formation select box
 function setOppoFormation(selectedValue) {
-    var lineupContainer = document.querySelector('.lineup-container');
-    if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
-        lineupContainer.style.display = 'block'; // Show the lineup-container div
-        showLineUpButton.textContent = 'Hide line-up and formation'; // Change button text
+    const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
+    if (displayValue == 'inline-block') {
+        switchViews();
     }
 
     setCirclePositions(selectedValue, 'oppo');

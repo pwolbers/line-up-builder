@@ -161,6 +161,11 @@ function pitchCheckBox() {
             greyLine.classList.add('lineColorWhite');
         });
 
+        const pitchDots = document.querySelectorAll('.penaltyDot, .middleDot');
+        pitchDots.forEach((dot) => {
+            dot.style.background = 'white';
+        });
+
     }
     //Black
     else {
@@ -177,6 +182,10 @@ function pitchCheckBox() {
         allWhite.forEach((whiteLine) => {
             whiteLine.classList.remove('lineColorWhite');
             whiteLine.classList.add('lineColorGrey');
+        });
+        const pitchDots = document.querySelectorAll('.penaltyDot, .middleDot');
+        pitchDots.forEach((dot) => {
+            dot.style.background = '#808080';
         });
     }
     //Tactical
@@ -289,12 +298,15 @@ function drawCheckBox() {
         fillingDraw.style.transform = 'translateX(100%)';
         canvasContainer.style.display = 'block';
         drawingSettings.style.display = 'grid';
-
+        drawSwitch.parentNode.parentNode.style.paddingBottom = '0px';
+        drawSwitch.parentNode.parentNode.style.borderBottom = '0px dashed white';
     }
     else {
         fillingDraw.style.transform = 'translateX(0%)';
         canvasContainer.style.display = 'none';
         drawingSettings.style.display = 'none';
+        drawSwitch.parentNode.parentNode.style.paddingBottom = '8px';
+        drawSwitch.parentNode.parentNode.style.borderBottom = '1px dashed white';
     }
 }
 
@@ -454,7 +466,7 @@ function oppoNameCheckBox() {
         }
 
         //Display all numbers from the opposition
-        var oppoNumberLabels = document.querySelectorAll('.oppo-label-position');
+        var oppoNumberLabels = document.querySelectorAll('.oppoNumberLabel');
         oppoNumberLabels.forEach((oppoNumberLabel) => {
             oppoNumberLabel.style.display = 'inline-flex';
         });
@@ -517,7 +529,7 @@ function oppoNameCheckBox() {
         }
 
         //Hide all opposition numbers 
-        var oppoNumberLabels = document.querySelectorAll('.oppo-label-position');
+        var oppoNumberLabels = document.querySelectorAll('.oppoNumberLabel');
         oppoNumberLabels.forEach((oppoNumberLabel) => {
             oppoNumberLabel.style.display = 'none';
         });

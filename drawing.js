@@ -1,10 +1,10 @@
 const canvas = document.getElementById('drawingCanvas');
 const ctx = canvas.getContext('2d');
 
-const clearButton = document.getElementById('clearButton');
+const clearButton = document.getElementById('clearDrawingButton');
 clearButton.addEventListener('click', clearCanvas);
 
-const undoButton = document.getElementById('undoButton');
+const undoButton = document.getElementById('undoStrokeButton');
 undoButton.addEventListener('click', undoStroke);
 
 function clearCanvas() {
@@ -16,11 +16,13 @@ let startingX;
 let startingY;
 let undoStack = [canvas.toDataURL()];
 
-var newOffSetX = document.querySelector('.field').offsetLeft;
-var newOffSetY = document.querySelector('.field').offsetTop;
+var newOffSetX = document.querySelector('.field').offsetLeft || 48;
+var newOffSetY = document.querySelector('.field').offsetTop || 35;
 
-canvas.width = document.querySelector('.field').offsetWidth - 8;
-canvas.height = document.querySelector('.field').offsetHeight - 8;
+var offsetWidthField = document.querySelector('.field').offsetWidth || 485;
+var offsetHeightField = document.querySelector('.field').offsetHeight || 647;
+canvas.width = offsetWidthField - 8;
+canvas.height = offsetHeightField - 8;
 canvas.style.left = newOffSetX + 4 + 'px';
 canvas.style.top = newOffSetY + 4 + 'px';
 ctx.strokeStyle = drawingPickr.getColor().toHEXA().toString();
@@ -39,10 +41,11 @@ function undoStroke() {
     }
 }
 
-const draw = (e) => { 
+const draw = (e) => {
     if (!isPainting) {
         return;
     }
+    
     ctx.lineWidth = drawingSlider.value;
     ctx.lineCap = 'round';
     ctx.strokeStyle = drawingPickr.getColor().toHEXA().toString();
