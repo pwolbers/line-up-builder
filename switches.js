@@ -56,6 +56,7 @@ var currentSwitch;
 
 function changeSwitch(evt) {
     currentSwitch = evt.currentTarget;
+    
     if (currentSwitch.id == 'oppo-checkbox-false' || currentSwitch.id == 'oppo-checkbox-true') {
         oppoCheckBox();
     }
@@ -145,6 +146,8 @@ function pitchCheckBox() {
     var fillingTactical = tacticalSwitch.nextElementSibling.nextElementSibling;
     var tacticalLines = document.querySelectorAll('.tactical');
 
+    var pitchDrawingContainer = document.querySelector('.pitchDrawing-container');
+
     //Green
     if (pitchSwitch.checked === true) {
         fillingPitch.style.transform = 'translateX(100%)';
@@ -166,6 +169,8 @@ function pitchCheckBox() {
             dot.style.background = 'white';
         });
 
+        pitchDrawingContainer.classList.remove('containerBlackBackground');
+        pitchDrawingContainer.classList.add('containerGreenBackground');
     }
     //Black
     else {
@@ -187,6 +192,8 @@ function pitchCheckBox() {
         pitchDots.forEach((dot) => {
             dot.style.background = '#808080';
         });
+        pitchDrawingContainer.classList.remove('containerGreenBackground');
+        pitchDrawingContainer.classList.add('containerBlackBackground');
     }
     //Tactical
     if (tacticalSwitch.checked === true) {
@@ -308,6 +315,7 @@ function drawCheckBox() {
         drawSwitch.parentNode.parentNode.style.paddingBottom = '8px';
         drawSwitch.parentNode.parentNode.style.borderBottom = '1px dashed white';
     }
+
 }
 
 function oppoCheckBox() {

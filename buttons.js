@@ -17,13 +17,18 @@ showLineUpButton.addEventListener('click', switchViews);
 
 function switchViews() {
     showLineUpButton.textContent = 'Switch to input view'; // Change button text
+    var pitchDrawingContainer = document.querySelector('.pitchDrawing-container');
     if (lineupContainer.style.display === 'none' || lineupContainer.style.display === '') {
         lineupContainer.style.display = 'block'; // Hide the lineup-container div
         leftContainer.style.display = 'none';
+        if (drawCheckTrue.checked) {
+            pitchDrawingContainer.classList.add('containerDisplay');
+        }
     } else {
         leftContainer.style.display = 'block';
         lineupContainer.style.display = 'none'; // Show the lineup-container div
         showLineUpButton.textContent = 'Switch to pitch view'; // Change button text
+        pitchDrawingContainer.classList.remove('containerDisplay');
     }
 }
 
@@ -141,7 +146,7 @@ function loadTeam() {
                 document.getElementById("oppo-formation").value = formattedOppoFormation;
             }
         }
-        
+
         setLineUp(startKeyArray, secondKeyArray, secondType);
 
         //If specific position data is available, use it
@@ -433,6 +438,10 @@ function clearArrows() {
     lines = [];
     movingLines = [];
     arrowLocationArray = [];
+    var playButton = document.querySelector('.play-checkbox .checkmark');
+    if (playButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
+        playButton.classList.remove('orangeBackgroundButton');
+    }
 }
 
 // Resets the upload button if selectTeam is changed

@@ -7,9 +7,11 @@ clearButton.addEventListener('click', clearCanvas);
 const undoButton = document.getElementById('undoStrokeButton');
 undoButton.addEventListener('click', undoStroke);
 
-function clearCanvas() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
+const pitchClearButton = document.getElementById('pitchClearDrawingButton');
+pitchClearButton.addEventListener('click', clearCanvas);
+
+const pitchUndoButton = document.getElementById('pitchUndoStrokeButton');
+pitchUndoButton.addEventListener('click', undoStroke);
 
 let isPainting = false;
 let startingX;
@@ -29,6 +31,11 @@ ctx.strokeStyle = drawingPickr.getColor().toHEXA().toString();
 const canvasX = canvas.offsetLeft;
 const canvasY = canvas.offsetTop;
 
+function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    undoStack = [canvas.toDataURL()];
+}
+
 function undoStroke() {
     if (undoStack.length > 1) {
         undoStack.pop();
@@ -46,9 +53,9 @@ const draw = (e) => {
         return;
     }
     
-    ctx.lineWidth = drawingSlider.value;
+    ctx.lineWidth = pitchDrawingSlider.value;
     ctx.lineCap = 'round';
-    ctx.strokeStyle = drawingPickr.getColor().toHEXA().toString();
+    ctx.strokeStyle = pitchDrawingPickr.getColor().toHEXA().toString();
     var clientDrawX = e.clientX || e.touches[0].clientX;
     var clientDrawY = e.clientY || e.touches[0].clientY;
     ctx.lineTo(clientDrawX - canvas.offsetLeft - lineupContainer.offsetLeft + window.scrollX, clientDrawY - canvas.offsetTop - lineupContainer.offsetTop + window.scrollY);
@@ -84,4 +91,6 @@ canvas.addEventListener('touchend', () => {
     isPainting = false;
     ctx.stroke();
     ctx.beginPath();
+
+    undoStack.push(canvas.toDataURL()); // Add this line
 });

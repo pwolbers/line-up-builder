@@ -312,7 +312,7 @@ mainPickr.on('change', (color) => {
     mainColorCircles.forEach((circle) => {
         circle.style.backgroundColor = hexa;
     });
-})
+});
 
 secondPickr.on('change', (color) => {
     var hexa = color.toHEXA().toString();
@@ -320,7 +320,7 @@ secondPickr.on('change', (color) => {
     mainColorCircles.forEach((circle) => {
         circle.style.borderColor = hexa;
     });
-})
+});
 
 numberPickr.on('change', (color) => {
     var hexa = color.toHEXA().toString();
@@ -336,7 +336,7 @@ mainOppoPickr.on('change', (color) => {
     oppoColorCircles.forEach((circle) => {
         circle.style.backgroundColor = hexa;
     });
-})
+});
 
 secondOppoPickr.on('change', (color) => {
     var hexa = color.toHEXA().toString();
@@ -344,7 +344,7 @@ secondOppoPickr.on('change', (color) => {
     oppoColorCircles.forEach((circle) => {
         circle.style.borderColor = hexa;
     });
-})
+});
 
 numberOppoPickr.on('change', (color) => {
     var hexa = color.toHEXA().toString();
@@ -352,6 +352,12 @@ numberOppoPickr.on('change', (color) => {
     oppoColorCircles.forEach((circle) => {
         circle.nextElementSibling.style.color = hexa;
     });
+});
+
+//Changes the color of the color picker in the pitch drawing settings to the one set in the main settings window
+drawingPickr.on('change', (color) => {
+    var hexa = color.toHEXA().toString();
+    pitchDrawingPickr.setColor(hexa);
 })
 
 // Determines the order of the circles from bottom to top, from right to left

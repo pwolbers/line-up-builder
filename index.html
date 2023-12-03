@@ -16,7 +16,7 @@
 
 <body onload="displayFormattedJSON()" style="background-color:#212331">
   <div id="main-container" class="main-container">
-      <button id="showLineUpButton" class="redButton">Switch to pitch view</button>
+    <button id="showLineUpButton" class="redButton">Switch to pitch view</button>
     <div class="left-container">
       <div id="textbox-container" class="textbox-container">
         <div class="select-buttons">
@@ -118,8 +118,8 @@
                 <div class="switchFilling"></div>
               </div>
             </div>
-            <div class="drawing-settings">
-              <div class="colorPicker-drawing">
+            <div id="drawingSettings" class="drawing-settings">
+              <div id="colorPickerDrawingContainer" class="colorPicker-drawing">
                 <label id="colorPickerDrawing" class="labelHeader">Brush color:</label>
                 <div class="drawingColorPicker"></div>
               </div>
@@ -570,6 +570,19 @@
         <canvas id="drawingCanvas"></canvas>
       </div>
     </div>
+    <div id="pitchDrawingContainer" class="pitchDrawing-container containerGreenBackground">
+      <div id="pitchColorPickerContainer" class="pitchColorPicker-drawing">
+        <label id="pitchColorPickerDrawing" class="labelHeader">Brush color:</label>
+        <div class="pitchDrawingColorPicker"></div>
+      </div>
+      <div class="slider-output-container"><span class="output pitch-drawSliderOutput"></span></div>
+      <div class="slider-range-container">
+        <input class="slider" id="pitchDrawingSlider" value="5" min="1" max="15" step="1" type="range">
+        <div class="pitch-range-values"><span>1</span><span>Brush size</span><span>15</span></div>
+      </div>
+      <button id="pitchUndoStrokeButton" class="pitchUndoStrokeButton greenButton">Undo</button>
+      <button id="pitchClearDrawingButton" class="pitchClearDrawingButton redButton">Clear</button>
+    </div>
     <div class="popup" id="popup">
       <div class="popup-content">
         <button class="close-btn" id="closeBtn">
@@ -607,8 +620,8 @@
               <span>
                 <img id="playButton" src="playbutton.png" alt="Image" class="help-popup-square help-play">
               </span>
-              <li><i>Animate circles to the endpoint of the pressing line (only usable when pressing lines are
-                  drawn)</i></li>
+              <li><i>Animate circles to the endpoint of the pressing line. Only usable when pressing lines are
+                  drawn (button will have a yellow background)</i></li>
             </div>
             <br>
             <h4>Computer</h4>

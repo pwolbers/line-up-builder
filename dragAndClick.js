@@ -80,12 +80,12 @@ function changePlayerName(circle, input, span) {
             isEditing = false;
             changeNameInTextbox(circle, input.value, span);
         }
-        else if(input.value.length == 1){
+        else if (input.value.length == 1) {
             span.innerText = currentValue;
             isEditing = false;
             alert("Input length has to be more than 1 character");
         }
-        else{
+        else {
             span.innerText = currentValue;
             isEditing = false;
         }
@@ -114,7 +114,7 @@ function handleDoubleClick(e) {
 
                 circle.appendChild(input);
 
-               
+
                 //If names are clicked or other part of the circle
                 if (e.target.id.indexOf('Span') > -1) {
                     input.style.width = '100px';
@@ -202,12 +202,7 @@ function removeLines(circle) {
     //Remove all lines drawn from circle
 
     var movingLine = document.getElementById('moving-checkbox').checked;
-    if (movingLine) {
-        var movingLine = circle.querySelector('.movingLine');
-        movingLine.parentNode.removeChild(movingLine);
-        movingLines = [];
-    }
-    else {
+    if (!movingLine) {
         var normalLineDivs = circle.querySelectorAll('.normalLine');
         normalLineDivs.forEach(function (lineElement) {
             lineElement.parentNode.removeChild(lineElement);
@@ -480,6 +475,12 @@ function stopLine(e) {
             movingLines.pop();
             const filteredArray = arrowLocationArray.filter(item => item.id !== circleId);
             arrowLocationArray = filteredArray;
+            if (arrowLocationArray.length == 0) {
+                var playButton = document.querySelector('.play-checkbox .checkmark');
+                if (playButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
+                    playButton.classList.remove('orangeBackgroundButton');
+                }
+            }
         }
         else {
             lines.pop();
@@ -489,6 +490,12 @@ function stopLine(e) {
         if (movingLine) {
             //Push data for line to array for movement functionality 
             addLineDataToArray(latestLine, activeCircle);
+
+            //Set color of 'play button' to orange to illustrate it is ready to be clicked
+            var playButton = document.querySelector('.play-checkbox .checkmark');
+            if (playButton.classList.toString().indexOf('orangeBackgroundButton') == -1) {
+                playButton.classList.add('orangeBackgroundButton');
+            }
         }
     }
 
@@ -537,7 +544,6 @@ function addLineDataToArray(newLine, activeCircle) {
     var height = newLine.style.height; // Height of the line
     var angleDegrees = newLine.style.transform.split('(')[1].split('deg')[0];
     var angleRadians = (angleDegrees * Math.PI) / 180;
-
 
     // Calculate the x and y components
     var x = height.split('px')[0] * Math.sin(angleRadians);

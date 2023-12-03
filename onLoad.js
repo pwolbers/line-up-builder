@@ -26,6 +26,10 @@ const oppoCircles = document.querySelectorAll(".oppoCircle");
 const inputBoxes = document.querySelectorAll(".inputBox");
 const secondBoxes = document.querySelectorAll(".secondBox");
 
+const drawingSlider = document.getElementById('drawingSlider');
+const circleSlider = document.getElementById('circleSlider');
+const pitchDrawingSlider = document.getElementById('pitchDrawingSlider');
+
 const outputStartings = document.querySelectorAll(".outputStarting");
 const outputSeconds = document.querySelectorAll(".outputSecond");
 const outputOppos = document.querySelectorAll(".outputOpponent");
@@ -46,6 +50,16 @@ const selectFormation = document.getElementById("select-formation");
 const checkOpposition = document.getElementById("oppo-checkbox-true");
 const checkOppositionName = document.getElementById("oppo-column-checkbox-true");
 const oppoFormation = document.getElementById("oppo-formation");
+
+const mainPickr = createPickr('.mainColorPicker', '#ff0000');
+const secondPickr = createPickr('.secondColorPicker', '#ffffff');
+const numberPickr = createPickr('.numberColorPicker', '#ffffff');
+const mainOppoPickr = createPickr('.mainOppoColorPicker', '#006631');
+const secondOppoPickr = createPickr('.secondOppoColorPicker', '#000000');
+const numberOppoPickr = createPickr('.numberOppoColorPicker', '#ffffff');
+const drawingPickr = createPickr('.drawingColorPicker', '#ffffff');
+const pitchDrawingPickr = createPickr('.pitchDrawingColorPicker', '#ffffff');
+const createdPickrs = document.querySelectorAll('.pcr-app');
 
 const lineYOne = (20 / 900) * imageConHeight;
 const lineYTwo = (270 / 900) * imageConHeight;
@@ -69,6 +83,9 @@ const oppoLineYFour = (355 / 900) * imageConHeight;
 const oppoLineYFive = (465 / 900) * imageConHeight;
 const oppoLineYSix = (545 / 900) * imageConHeight;
 const oppoLineYSeven = (840 / 900) * imageConHeight;
+
+let previousWindowHeight = window.innerHeight;
+let previousWindowWidth = window.innerWidth;
 
 var standardSizes;
 var standardCircleSize;
@@ -177,70 +194,80 @@ function toggleDisplay(elements, mobileCheck, type) {
 
 window.addEventListener('resize', resizeFunctionality);
 
-function resizeFunctionality() {
-    //Set array for circle movement for the new line data
-    arrowLocationArray = [];
+function resizeFunctionality(e) {
+    const currentWindowHeight = window.innerHeight;
+    const currentWindowWidth = window.innerWidth;
+    //Some stupid bug on phone makes it so it seems there is a resize even though the width and height stay the same
+    //To prevent resize functionality to occur (which resets some things) when there is no resize, I build in this if statement
+    if (currentWindowHeight != previousWindowHeight || currentWindowWidth != previousWindowWidth) {
+        //Set array for circle movement for the new line data
+        arrowLocationArray = [];
 
-    var allLines = document.querySelectorAll('.line');
-    allLines.forEach((line) => {
-        var hypotenusePct = line.getAttribute("hypotenusePct");
-        line.style.height = hypotenusePct * imageContainer.offsetHeight + 'px';
+        var allLines = document.querySelectorAll('.line');
+        allLines.forEach((line) => {
+            var hypotenusePct = line.getAttribute("hypotenusePct");
+            line.style.height = hypotenusePct * imageContainer.offsetHeight + 'px';
 
-        //Push new moving line data to array
-        var circle = document.getElementById(line.getAttribute("parentCircleId"));
-        if (line.classList.toString().indexOf('moving') > -1) {
-            addLineDataToArray(line, circle);
-        }
-    });
-
-    //Reset 'Move circles' button if resized
-    if (document.getElementById("play-checkbox").checked) {
-        document.getElementById("play-checkbox").checked = false;
-        moveCircles();
-    }
-
-    //Get new current standard Circle Size
-    standardSizes = getStandardSizes();
-    standardCircleSize = standardSizes[0];
-    standardBorderSize = standardSizes[1];
-    standardNumberSizeLarge = standardSizes[2];
-    standardNumberSizeMedium = standardSizes[3];
-    standardNumberSizeSmall = standardSizes[4];
-    standardNumberSizeLargeOppo = standardSizes[5];
-    standardNumberSizeMediumOppo = standardSizes[6];
-    standardNumberSizeSmallOppo = standardSizes[7];
-    standardTextBoxOne = standardSizes[8];
-    standardTextBoxTwo = standardSizes[9];
-    setCircleAndTextSize();
-
-    if (window.innerWidth > 780) {
-        document.getElementById('arrow-checkbox').checked = true;
-
-        leftContainer.style.display = 'block';
-        lineupContainer.style.display = 'block';
-        var startingInputContainers = document.querySelectorAll('.starting-column > .input-container');
-        startingInputContainers.forEach((inputContainer) => {
-            inputContainer.style.display = 'flex';
+            //Push new moving line data to array
+            var circle = document.getElementById(line.getAttribute("parentCircleId"));
+            if (line.classList.toString().indexOf('moving') > -1) {
+                addLineDataToArray(line, circle);
+            }
         });
-        var secondInputContainers = document.querySelectorAll('.second-column > .input-container');
-        secondInputContainers.forEach((inputContainer) => {
-            inputContainer.style.display = 'flex';
-        });
-    }
-    else {
-        document.getElementById('circle-checkbox').checked = true;
-        if (window.getComputedStyle(leftContainer).getPropertyValue('display') == 'block') {
-            lineupContainer.style.display = 'none';
-            showLineUpButton.textContent = 'Switch to pitch view';
+
+        //Reset 'Move circles' button if resized
+        if (document.getElementById("play-checkbox").checked) {
+            document.getElementById("play-checkbox").checked = false;
+            moveCircles();
         }
-        else{
-            leftContainer.style.display = 'none';
-            showLineUpButton.textContent = 'Switch to input view';
+
+        //Get new current standard Circle Size
+        standardSizes = getStandardSizes();
+        standardCircleSize = standardSizes[0];
+        standardBorderSize = standardSizes[1];
+        standardNumberSizeLarge = standardSizes[2];
+        standardNumberSizeMedium = standardSizes[3];
+        standardNumberSizeSmall = standardSizes[4];
+        standardNumberSizeLargeOppo = standardSizes[5];
+        standardNumberSizeMediumOppo = standardSizes[6];
+        standardNumberSizeSmallOppo = standardSizes[7];
+        standardTextBoxOne = standardSizes[8];
+        standardTextBoxTwo = standardSizes[9];
+        setCircleAndTextSize();
+
+        if (window.innerWidth > 780) {
+            document.getElementById('arrow-checkbox').checked = true;
+
+            leftContainer.style.display = 'block';
+            lineupContainer.style.display = 'block';
+            var startingInputContainers = document.querySelectorAll('.starting-column > .input-container');
+            startingInputContainers.forEach((inputContainer) => {
+                inputContainer.style.display = 'flex';
+            });
+            var secondInputContainers = document.querySelectorAll('.second-column > .input-container');
+            secondInputContainers.forEach((inputContainer) => {
+                inputContainer.style.display = 'flex';
+            });
         }
-        var secondInputContainers = document.querySelectorAll('.second-column > .input-container');
-        secondInputContainers.forEach((inputContainer) => {
-            inputContainer.style.display = 'none';
-        });
+        else {
+            document.getElementById('circle-checkbox').checked = true;
+            if (window.getComputedStyle(leftContainer).getPropertyValue('display') == 'block') {
+                lineupContainer.style.display = 'none';
+                showLineUpButton.textContent = 'Switch to pitch view';
+            }
+            else {
+                leftContainer.style.display = 'none';
+                showLineUpButton.textContent = 'Switch to input view';
+            }
+
+            var secondInputContainers = document.querySelectorAll('.second-column > .input-container');
+            secondInputContainers.forEach((inputContainer) => {
+                inputContainer.style.display = 'none';
+            });
+
+        }
+        previousWindowHeight = currentWindowHeight;
+        previousWindowWidth = currentWindowWidth;
     }
 }
 
@@ -572,8 +599,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var outputElementOne = document.querySelector('.circleSliderOutput');
     var outputElementTwo = document.querySelector('.drawSliderOutput');
+    var outputElementThree = document.querySelector('.pitch-drawSliderOutput');
     setSliderOutputLabel(circleSlider, outputElementOne);
     setSliderOutputLabel(drawingSlider, outputElementTwo);
+    setSliderOutputLabel(pitchDrawingSlider, outputElementThree);
 });
 
 
@@ -795,21 +824,10 @@ movingButton.addEventListener('mousedown', function () {
     }, 1200);
 });
 
-const mainPickr = createPickr('.mainColorPicker', '#ff0000');
-const secondPickr = createPickr('.secondColorPicker', '#ffffff');
-const numberPickr = createPickr('.numberColorPicker', '#ffffff');
-const mainOppoPickr = createPickr('.mainOppoColorPicker', '#006631');
-const secondOppoPickr = createPickr('.secondOppoColorPicker', '#000000');
-const numberOppoPickr = createPickr('.numberOppoColorPicker', '#ffffff');
-const drawingPickr = createPickr('.drawingColorPicker', '#ffffff');
-const createdPickrs = document.querySelectorAll('.pcr-app');
-
 var leftContainerWidth = document.querySelector('.left-container').getBoundingClientRect().width;
 if (leftContainerWidth < 608) {
-    var drawButton = document.querySelector('.colorPicker-drawing > .pickr > button');
-    drawButton.addEventListener('click', setPickrWindowLocation);
 
-    var allColorPickers = document.querySelectorAll('.color-pickers-container > .colorPicker > .pickr > button, .color-pickers-oppo-container > .colorPicker > .pickr > button');
+    var allColorPickers = document.querySelectorAll('.pickr > button');
 
     for (var x = 0; x < allColorPickers.length; x++) {
         allColorPickers[x].addEventListener('click', setPickrWindowLocation);
@@ -837,8 +855,11 @@ if (leftContainerWidth < 608) {
         else if (grandParentPickr.id == 'numberOppoColorContainer') {
             value = 5;
         }
-        else {
+        else if (grandParentPickr.id == 'colorPickerDrawingContainer') {
             value = 6;
+        }
+        else if (grandParentPickr.id == 'pitchColorPickerContainer') {
+            value = 7;
         }
         var pickrHeight = parseFloat(createdPickrs[value].getBoundingClientRect().height);
         createdPickrs[value].style.top = parseFloat(currentButton.getBoundingClientRect().top) - pickrHeight + 'px';
@@ -892,25 +913,50 @@ function createPickr(elValue, defaultColor) {
     return tempPickr;
 }
 
-const drawingSlider = document.getElementById('drawingSlider');
 
-const circleSlider = document.getElementById('circleSlider');
 
 var oldValue = circleSlider.value;
 var newValue;
-var outputElement;
 
 circleSlider.oninput = function () {
     newValue = this.value;
     setCircleAndTextSize();
     oldValue = newValue;
 
-    outputElement = document.querySelector('.circleSliderOutput');
+    var outputElement = document.querySelector('.circleSliderOutput');
     setSliderOutputLabel(this, outputElement);
 }
+
 drawingSlider.oninput = function () {
-    outputElement = document.querySelector('.drawSliderOutput');
+    var outputElement = document.querySelector('.drawSliderOutput');
     setSliderOutputLabel(this, outputElement);
+    updateOtherDrawingSliderValue(pitchDrawingSlider, this.value, '.pitch-drawSliderOutput');
+}
+pitchDrawingSlider.oninput = function () {
+    var outputElement = document.querySelector('.pitch-drawSliderOutput');
+    setSliderOutputLabel(this, outputElement);
+    updateOtherDrawingSliderValue(drawingSlider, this.value, '.drawSliderOutput');
+}
+
+function updateOtherDrawingSliderValue(otherSlider, newBrushSize, otherElement) {
+    otherSlider.value = newBrushSize;
+    var outputElement = document.querySelector(otherElement);
+    setSliderOutputLabel(otherSlider, outputElement);
+}
+
+function setSliderOutputLabel(slider, output) {
+    output.innerHTML = slider.value;
+    var leftPercentage = slider.value / slider.getAttribute('max') * 100;
+    output.style.left = leftPercentage + '%';
+    if (slider.id == 'circleSlider') {
+        var middleSlider = (parseInt(slider.max) + parseInt(slider.min)) / 2;
+        var transformPercentage = 75 + (50 / (slider.max - slider.min)) * (middleSlider - slider.value);
+        output.style.transform = 'translate(-' + transformPercentage + '%, 0%)';
+    }
+    else if (slider.id == 'pitchDrawingSlider') {
+        var pitchLeftPercentage = (slider.value - 1) / (slider.max - 1) * 100;
+        output.style.left = pitchLeftPercentage + '%';
+    }
 }
 
 function getStandardSizes() {
@@ -978,15 +1024,4 @@ function getStandardSizes() {
     standardSizes.push(textStyleTwoObj);
 
     return standardSizes;
-}
-
-function setSliderOutputLabel(slider, output) {
-    output.innerHTML = slider.value;
-    var leftPercentage = slider.value / slider.getAttribute('max') * 100;
-    output.style.left = leftPercentage + '%';
-    if (slider.id == 'circleSlider') {
-        var middleSlider = (parseInt(slider.max) + parseInt(slider.min)) / 2;
-        var transformPercentage = 75 + (50 / (slider.max - slider.min)) * (middleSlider - slider.value);
-        output.style.transform = 'translate(-' + transformPercentage + '%, 0%)';
-    }
 }

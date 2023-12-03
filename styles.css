@@ -147,6 +147,8 @@ body {
 .help-image-div>span {
   width: 30px;
   height: 30px;
+  min-width: 30px;
+  min-height: 30px;
   border: 1px #000000 solid;
   border-radius: 20%;
   background-color: rgba(200, 36, 36, 0.7);
@@ -501,7 +503,7 @@ li {
   align-items: center;
   padding-left: 1%;
   font-size: max(1.6vh, 95%);
-  
+
   margin-right: 2%;
   margin-left: 2%;
 }
@@ -509,7 +511,7 @@ li {
 .numberLabel,
 .oppoNumberLabel {
   width: 7%;
-  font-size: max(0.8vw, 80%);
+  font-size: max(1.2vh, 80%);
   justify-content: center;
   margin: 4.5% 3% 0% 1%;
 }
@@ -735,7 +737,8 @@ li {
 }
 
 .slider-range-container,
-.drawSliderOutput {
+.drawSliderOutput,
+.pitch-drawSliderOutput {
   font-weight: 700;
   font-size: 12px;
 }
@@ -767,8 +770,8 @@ li {
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 2vh;
-  height: 2vh;
+  width: 2.2vh;
+  height: 2.2vh;
   min-width: 16px;
   min-height: 16px;
   background: #45a049;
@@ -777,8 +780,8 @@ li {
 }
 
 .slider::-moz-range-thumb {
-  width: 2vh;
-  height: 2vh;
+  width: 2.2vh;
+  height: 2.2vh;
   min-width: 16px;
   min-height: 16px;
   background: #45a049;
@@ -793,7 +796,12 @@ li {
   height: fit-content;
 }
 
-.drawSliderOutput {
+#pitchDrawingContainer > .slider-output-container {
+  width: 90%;
+}
+
+.drawSliderOutput,
+.pitch-drawSliderOutput {
   position: relative;
   border: 1px solid lightgrey;
   min-width: 20px;
@@ -808,11 +816,25 @@ li {
   margin-block-start: 0;
 }
 
+.pitch-drawSliderOutput {
+  top: 5px;
+  height: 30px;
+  width: 30px;
+  font-size: 14px;
+}
+
 .range-values,
-.circle-range-values {
+.circle-range-values,
+.pitch-range-values {
   justify-content: space-between;
   width: 90%;
   display: flex;
+}
+
+.pitch-range-values span {
+  font-size: 18px;
+  top: -4px;
+  position: relative
 }
 
 
@@ -1278,27 +1300,21 @@ input:active+.checkmark>img {
   opacity: 1 !important;
 }
 
-.play-checkbox {
-  margin-top: 35%;
+.play-checkbox .checkmark {
+  margin-top: 45%;
+}
+
+.orangeBackgroundButton {
+  background-color: rgba(200, 164, 36, 0.7) !important;
 }
 
 input:checked+.checkmark {
-  background-color: rgba(36, 200, 36, 0.7);
+  background-color: rgba(36, 200, 36, 0.7) !important;
   transform: translateY(0px);
 }
 
-input:active+.checkmark {
-  background-color: rgba(36, 200, 36, 0.7);
-  transform: translateY(3px);
-}
-
-input[id="play-checkbox"]:checked+.checkmark {
-  background-color: rgba(36, 200, 36, 0.7);
-  transform: translateY(0px);
-}
-
-input[id="play-checkbox"]:active+.checkmark {
-  background-color: rgba(36, 200, 36, 0.7);
+input:not(:disabled):active+.checkmark {
+  background-color: rgba(36, 200, 36, 0.7) !important;
   transform: translateY(3px);
 }
 
@@ -1357,6 +1373,69 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   transform: rotate(0deg);
   transition: transform 0.7s ease;
 }
+
+.pitchDrawing-container {
+  padding: 10px 25px 10px 0px;
+
+  font-family: "Exo", sans-serif;
+  color: white;
+  display: none;
+  grid-template-rows: 35% 65%;
+  grid-template-columns: 25% 50% 25%;
+  gap: 5px;
+  height: 104.8px;
+  padding-bottom: 10px;
+  padding-right: 25px;
+}
+
+.containerDisplay {
+  display: none;
+}
+
+.containerGreenBackground {
+  background: linear-gradient(to bottom,
+      #4c8527,
+      #4c8527 50%,
+      #486c32 50%);
+}
+
+.containerBlackBackground {
+  background: #202020;
+}
+
+.pitchColorPicker-drawing {
+  grid-area: 1 / 1 / 3 / 2;
+  left: -5%;
+  top: 5%;
+  position: relative;
+  text-align: center;
+}
+
+.pitchColorPicker-drawing label {
+  font-size: max(1.2vh, 80%);
+  margin-bottom: 1%;
+  display: block;
+}
+
+.pitchUndoStrokeButton {
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.pitchClearDrawingButton {
+  grid-area: 2 / 3 / 3 / 4;
+}
+
+.pitchUndoStrokeButton,
+.pitchClearDrawingButton {
+  justify-content: center;
+  position: relative;
+  display: flex;
+  text-align: center;
+  height: 30px;
+  align-items: center;
+  padding-right: 10px;
+}
+
 
 /**************
 *   Circles   *
@@ -1520,12 +1599,16 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   font-family: "Exo", sans-serif;
   font-weight: bold;
   letter-spacing: max(1px, 0.05vw);
-  text-transform: capitalize;
   text-align: center;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+}
+
+.startingStyleOne::first-letter,
+.secondStyleOne::first-letter {
+  text-transform: uppercase;
 }
 
 .startingStyleOne {
@@ -1698,6 +1781,10 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   display: none;
   font-size: 110%;
   text-transform: uppercase;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .redButton {
@@ -2073,7 +2160,9 @@ pre {
     gap: 3%;
   }
 
-  .oppoCheckbox, #oppo-formation-box, #oppo-name-switch-container {
+  .oppoCheckbox,
+  #oppo-formation-box,
+  #oppo-name-switch-container {
     margin-right: 25px;
   }
 
@@ -2084,6 +2173,7 @@ pre {
   #oppo-formation {
     width: 80px;
   }
+
   .lineup-container {
     background: grey;
     align-items: center;
@@ -2092,9 +2182,8 @@ pre {
     height: 720px;
     min-width: 584px;
     min-height: 720px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border:0;
+    border-radius: 0;
+    border: 0;
   }
 
   .football-pitch {
@@ -2209,8 +2298,6 @@ pre {
     font-size: min(2.5vh, 95%);
   }
 
-
-
   /***** CIRCLES *****/
   .circle,
   .oppoCircle,
@@ -2273,6 +2360,11 @@ pre {
   .newNumberInputBox {
     font-size: 12px !important;
     color: black;
+  }
+
+  .containerDisplay {
+    display: grid !important;
+    font-size: 25px;
   }
 
   .popup {
