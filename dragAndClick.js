@@ -209,11 +209,24 @@ function removeLines(circle) {
         });
         const filteredData = lines.filter(item => item.circle !== circle.id);
         lines = filteredData;
+
+        //Get all current drawn lines
+        var allLines = document.getElementsByClassName('normalLine');
+
+        var lineInfo = '#';
+        for (var i = 0; i < allLines.length; i++) {
+            var parentCircleId = allLines[i].getAttribute('parentcircleid');
+            var height = allLines[i].getAttribute('height');
+            var angleDeg = allLines[i].getAttribute('angledeg');
+            lineInfo += parentCircleId + 'H' + height + 'D' + angleDeg + "#";
+        }
+        localStorage.setItem('lineInfo', lineInfo);
     }
 }
 
 function drawLineFunctionality(e, circle, mobile) {
     startTime = new Date().getTime();
+
     var movingLine = document.getElementById('moving-checkbox').checked;
     e.preventDefault();
     activeCircle = circle;
@@ -362,12 +375,17 @@ function dragCircle(e) {
 }
 
 function stopDrag() {
+    if (activeCircle.id.indexOf('oppo') > -1) {
+        localStorage.setItem('oppoCirclePositions', getCirclePositions(oppoCircles));
+    }
+    else {
+        localStorage.setItem('mainCirclePositions', getCirclePositions(mainCircles));
+    }
     activeCircle = null;
     document.removeEventListener("mousemove", dragCircle);
     document.removeEventListener("touchmove", dragCircle);
     document.removeEventListener("mouseup", stopDrag);
     document.removeEventListener("touchend", stopDrag);
-
     if (document.getElementById("select-formation").value != '') {
         document.getElementById("select-formation").value = '';
     }
@@ -450,8 +468,11 @@ function dragLine(e) {
                 line.style.zindex = '1';
 
                 var hypotenusePct = (hypotenuse / imageConHeight).toFixed(5);
-                line.setAttribute("hypotenusePct", hypotenusePct);
+                line.setAttribute('hypotenusePct', hypotenusePct);
+                line.setAttribute('height', hypotenuse.toFixed(3));
+                line.setAttribute('angleDeg', angleDeg.toFixed(3));
                 line.setAttribute('parentCircleId', activeCircle.id);
+
             }
         }
     }
@@ -461,6 +482,7 @@ function stopLine(e) {
     var movingLine = document.getElementById('moving-checkbox').checked;
 
     var latestLine;
+    //Get last line added to the array
     if (movingLine) {
         latestLine = movingLines[movingLines.length - 1].div
     }
@@ -468,10 +490,12 @@ function stopLine(e) {
         latestLine = lines[lines.length - 1].div
     }
 
+    //If line is too short, dont keep it
     if (parseInt(latestLine.style.height) < 22 || latestLine.style.height == '') {
         var circleId = latestLine.parentNode.id;
         latestLine.parentNode.removeChild(latestLine);
         if (movingLine) {
+            //Remove last line added to the array
             movingLines.pop();
             const filteredArray = arrowLocationArray.filter(item => item.id !== circleId);
             arrowLocationArray = filteredArray;
@@ -483,9 +507,11 @@ function stopLine(e) {
             }
         }
         else {
+            //Remove last line added to the array
             lines.pop();
         }
     }
+    //If long enough, keep it and add it to the information
     else {
         if (movingLine) {
             //Push data for line to array for movement functionality 
@@ -499,12 +525,13 @@ function stopLine(e) {
         }
     }
 
-    //If just clicked, also delete the oldest line
+    //If double clicked, delete all lines
     let endTime = new Date().getTime();
+    //HoldTime = time between start of click and release of click
+    var holdTime = endTime - startTime;
 
-    var difference = endTime - startTime;
-    if (difference < 90) {
-        //Check if the oldest wasn't already removed due to the limit of 3 lines
+    if (holdTime < 90) {
+        //Check if the oldest line wasn't already removed due to the limit of 3 lines
         if (!movingLine && !startedWithThree) {
             var normalLineDivs = activeCircle.querySelectorAll('.normalLine');
             if (normalLineDivs.length > 0) {
@@ -522,6 +549,17 @@ function stopLine(e) {
         }
     }
 
+    //Get all current drawn lines
+    var allLines = document.getElementsByClassName('normalLine');
+
+    var lineInfo = '#';
+    for (var i = 0; i < allLines.length; i++) {
+        var parentCircleId = allLines[i].getAttribute('parentcircleid');
+        var height = allLines[i].getAttribute('height');
+        var angleDeg = allLines[i].getAttribute('angledeg');
+        lineInfo += parentCircleId + 'H' + height + 'D' + angleDeg + "#";
+    }
+    localStorage.setItem('lineInfo', lineInfo);
     //Reset functionality
     activeCircle = null;
     document.removeEventListener("mousemove", dragLine);

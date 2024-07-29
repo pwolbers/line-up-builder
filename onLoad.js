@@ -463,7 +463,9 @@ window.onload = () => {
     else {
         document.getElementById('circle-checkbox').checked = true;
     }
-    setCirclePositions('433', 'main');
+    if (localStorage.getItem('mainCirclePositions') == null) {
+        setCirclePositions('433', 'main');
+    }
     determineFormation();
 
     setTextBoxOrders();
@@ -482,10 +484,6 @@ window.onload = () => {
     standardTextBoxTwo = standardSizes[9];
 }
 
-window.addEventListener('DOMContentLoaded', function () {
-    //Set slider values
-
-});
 
 //Pre loads the JSON files stored locally
 //Also enables help icon functionality
@@ -682,16 +680,27 @@ function textToCircle() {
         inputBoxes[i].addEventListener("input", function () {
             outputStarting.innerText = this.value;
             toggleOutputBoxVisibility(outputStarting);
+            
+            //Sets the local storage item named 'starting#'
+            localStorage.setItem(this.id, this.value);
         });
 
         secondBoxes[i].addEventListener("input", function () {
             if (checkOppositionName.checked == false) {
                 outputSecond.innerText = this.value;
                 toggleOutputBoxVisibility(outputSecond);
+
+                //Sets the local storage item named 'backupsecond#'
+                var localStorageName = "backup" + this.id;
+                localStorage.setItem(localStorageName, this.value);
             }
             else {
                 outputOppo.innerText = this.value;
                 toggleOutputBoxVisibility(outputOppo);
+
+                 //Sets the local storage item named 'opposecond#'
+                var localStorageName = "oppo" + this.id;
+                localStorage.setItem(localStorageName, this.value);
             }
         });
     }
@@ -737,6 +746,7 @@ function openJSONVariant(evt, jsonVariant) {
 }
 
 function getSpecificCirclePositions(inputString) {
+
     const result = {
         arrayId: [],
         arrayTop: [],
@@ -958,7 +968,7 @@ function setSliderOutputLabel(slider, output) {
         output.style.left = pitchLeftPercentage + '%';
     }
 }
-
+var standardSizes = getStandardSizes();
 function getStandardSizes() {
     var standardSizes = [];
     var numberCircle;

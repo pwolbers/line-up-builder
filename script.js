@@ -100,6 +100,7 @@ function setCirclePositions(formationValue, circleType) {
             circles[9].style.top = '22.5%'; circles[9].style.left = '47.5%';    //#9
             circles[10].style.top = '34.5%'; circles[10].style.left = '27.5%';  //#11
         }
+        localStorage.setItem('mainCirclePositions', getCirclePositions(circles));
     }
     else if (circleType == 'oppo') {
         const circles = document.querySelectorAll(".oppoCircle");
@@ -212,6 +213,7 @@ function setCirclePositions(formationValue, circleType) {
             circles[9].style.top = '65.5%'; circles[9].style.left = '47.5%';    //#9
             circles[10].style.top = '60.5%'; circles[10].style.left = '76.5%';  //#11
         }
+        localStorage.setItem('oppoCirclePositions', getCirclePositions(circles));
     }
 }
 
@@ -312,6 +314,7 @@ mainPickr.on('change', (color) => {
     mainColorCircles.forEach((circle) => {
         circle.style.backgroundColor = hexa;
     });
+    localStorage.setItem('mainColor', hexa);
 });
 
 secondPickr.on('change', (color) => {
@@ -320,6 +323,7 @@ secondPickr.on('change', (color) => {
     mainColorCircles.forEach((circle) => {
         circle.style.borderColor = hexa;
     });
+    localStorage.setItem('secondColor', hexa);
 });
 
 numberPickr.on('change', (color) => {
@@ -328,6 +332,7 @@ numberPickr.on('change', (color) => {
     mainColorCircles.forEach((circle) => {
         circle.nextElementSibling.style.color = hexa;
     });
+    localStorage.setItem('numberColor', hexa);
 });
 
 mainOppoPickr.on('change', (color) => {
@@ -336,6 +341,7 @@ mainOppoPickr.on('change', (color) => {
     oppoColorCircles.forEach((circle) => {
         circle.style.backgroundColor = hexa;
     });
+    localStorage.setItem('oppoMainColor', hexa);
 });
 
 secondOppoPickr.on('change', (color) => {
@@ -344,6 +350,7 @@ secondOppoPickr.on('change', (color) => {
     oppoColorCircles.forEach((circle) => {
         circle.style.borderColor = hexa;
     });
+    localStorage.setItem('oppoSecondColor', hexa);
 });
 
 numberOppoPickr.on('change', (color) => {
@@ -352,6 +359,7 @@ numberOppoPickr.on('change', (color) => {
     oppoColorCircles.forEach((circle) => {
         circle.nextElementSibling.style.color = hexa;
     });
+    localStorage.setItem('oppoNumberColor', hexa);
 });
 
 //Changes the color of the color picker in the pitch drawing settings to the one set in the main settings window
@@ -700,7 +708,7 @@ function changeNameInTextbox(circle, newInput, outputBox) {
     const divElement = document.querySelector(query);
 
     divElement.value = newInput;
- 
+
 }
 
 function getFontSize(inputLength, number) {
@@ -725,6 +733,7 @@ function getFontSize(inputLength, number) {
 }
 
 // Adds the names of the players added in the left columns to the circles on the right
+// Used when loading (predetermined) JSON 
 function setLineUp(startKeyArray, secondKeyArray, secondType) {
     const outputContainer = document.querySelectorAll(".output-container");
     const oppoOutputContainer = document.querySelectorAll(".oppo-output-container");
@@ -748,12 +757,14 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
                 if (labelElement.htmlFor.replace('starting', '#') == startKeyArray[index]) {
                     var inputElement = inputContainer.querySelector('input');
                     inputElement.value = starter.name;
+                    localStorage.setItem(inputElement.id, starter.name);
 
                     outputContainer.forEach(function (outputStarter) {
                         if (outputStarter.previousElementSibling.id == startKeyArray[index].replace("#", "")) {
                             var outputElement = outputStarter.querySelector('.outputStarting');
                             outputElement.innerText = starter.name;
                             outputStarter.previousElementSibling.innerText = starter.number;
+                        
                             toggleOutputBoxVisibility(outputElement);
                             changeNumberOnTextbox(outputElement.parentNode.parentNode, starter.number);
                         }
@@ -770,6 +781,8 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
                     //Second type is opposition
                     if (secondType == 'opposition') {
                         inputElement.value = second.name;
+                        var localStorageName = 'oppo' + inputElement.id;
+                        localStorage.setItem(localStorageName, second.name);
                         oppoOutputContainer.forEach(function (outputOppo) {
                             if (outputOppo.parentElement.id.replace('oppoCircle', '') == secondKeyArray[index].replace("#", "")) {
                                 var outputElement = outputOppo.querySelector('.outputOpponent');
@@ -784,6 +797,8 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
                     //Second type is back-up
                     else {
                         inputElement.value = second;
+                        var localStorageName = 'backup' + inputElement.id;
+                        localStorage.setItem(localStorageName, second);
                         outputContainer.forEach(function (outputSecond) {
                             if (outputSecond.previousElementSibling.id == secondKeyArray[index].replace("#", "")) {
                                 var outputElement = outputSecond.querySelector('.outputSecond');
@@ -811,6 +826,7 @@ function setCircleAndTextSize() {
     var currentCircleWidth;
     var percentageChangeLeft;
     var percentageChangeTop;
+
     allCircles.forEach((circle) => {
         //Only have to retrieve this info once
 
@@ -855,4 +871,23 @@ function setCircleAndTextSize() {
             textBoxTwo.style.bottom = (stepDifference < 0) ? textBoxTwoBottom * textPercentage + 'px' : textBoxTwoBottom / textPercentage + 'px';
         }
     });
+}
+
+function getCirclePositions(circles) {
+    var circlePositions = "#";
+    circles.forEach((circle) => {
+        var circleStyleTop = circle.style.top;
+        var circleStyleLeft = circle.style.left;
+        if (circle.style.top.indexOf('px') > -1) {
+            circleStyleTop = circle.style.top.replace('px', '') / document.querySelector(".image-container").offsetHeight;
+            circleStyleTop = (circleStyleTop * 100).toFixed(2) + '%';
+        }
+        if (circle.style.left.indexOf('px') > -1) {
+            circleStyleLeft = circle.style.left.replace('px', '') / document.querySelector(".image-container").offsetWidth;
+            circleStyleLeft = (circleStyleLeft * 100).toFixed(2) + '%';
+        }
+        circlePositions += circle.id + "T" + circleStyleTop + "L" + circleStyleLeft + "#";
+
+    });
+    return circlePositions;
 }

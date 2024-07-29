@@ -188,7 +188,7 @@ function loadTeam() {
 function downloadJSON() {
     // Create JSON data
     const jsonData = { "teamName": "", "formation": "", "starting": {}, "colors": {}, "secondType": "", "second": {} };
-    if (checkOppositionName.checked) {
+    if (checkOpposition.checked) {
         jsonData.oppoFormation = "";
         jsonData.oppoColors = {};
     }
@@ -221,6 +221,7 @@ function downloadJSON() {
         const input = container.querySelector('.secondBox').value;
         //If opposition naming is true, the JSON format is changed to an Obj containing name and number
         if (checkOppositionName.checked) {
+            jsonData.secondType = 'opposition';
             var oppoNumberId = "oppo" + textboxId.replace("#", "");
             var oppoObj = {
                 "name": input,
@@ -229,25 +230,13 @@ function downloadJSON() {
             jsonData.second[textboxId] = oppoObj;
         }
         else {
+            jsonData.secondType = 'back-up';
             jsonData.second[textboxId] = input;
         }
 
     });
 
-    var allCirclePositions = "#";
-    mainCircles.forEach((circle) => {
-        var circleStyleTop = circle.style.top;
-        var circleStyleLeft = circle.style.left;
-        if (circle.style.top.indexOf('px') > -1) {
-            circleStyleTop = circle.style.top.replace('px', '') / document.querySelector(".image-container").offsetHeight;
-            circleStyleTop = (circleStyleTop * 100).toFixed(2) + '%';
-        }
-        if (circle.style.left.indexOf('px') > -1) {
-            circleStyleLeft = circle.style.left.replace('px', '') / document.querySelector(".image-container").offsetWidth;
-            circleStyleLeft = (circleStyleLeft * 100).toFixed(2) + '%';
-        }
-        allCirclePositions += circle.id + "T" + circleStyleTop + "L" + circleStyleLeft + "#";
-    });
+    var allCirclePositions = getCirclePositions(mainCircles);
 
     jsonData.circlePositions = "" + allCirclePositions;
 
@@ -255,22 +244,14 @@ function downloadJSON() {
     jsonData.colors.secondColor = secondPickr.getColor().toHEXA().toString();
     jsonData.colors.numberColor = numberPickr.getColor().toHEXA().toString();
 
-    if (checkOppositionName.checked) {
-        jsonData.secondType = 'opposition';
+    if (checkOpposition.checked) {
         jsonData.oppoFormation = determineFormation('oppo').replaceAll('-', '').replaceAll(" ", "");
         jsonData.oppoColors.mainColor = mainOppoPickr.getColor().toHEXA().toString();
         jsonData.oppoColors.secondColor = secondOppoPickr.getColor().toHEXA().toString();
         jsonData.oppoColors.numberColor = numberOppoPickr.getColor().toHEXA().toString();
 
-        var oppoCirclePositions = "#";
-        oppoCircles.forEach((circle) => {
-            oppoCirclePositions += circle.id + "T" + circle.style.top + "L" + circle.style.left + "#";
-        });
-
+        var oppoCirclePositions = getCirclePositions(oppoCircles);
         jsonData.oppoCirclePositions = "" + oppoCirclePositions;
-    }
-    else {
-        jsonData.secondType = 'back-up';
     }
 
 
@@ -419,6 +400,18 @@ function clearNames() {
     var allInputContainers = document.querySelectorAll('.inputBox, .secondBox');
     allInputContainers.forEach((inputContainer) => {
         inputContainer.value = '';
+        
+        //Reset local storage items for starting input
+        if (inputContainer.id.indexOf('starting') > -1) {
+            localStorage.setItem(inputContainer.id, '');
+        }
+        //Reset local storage items for oppo and backup input
+        else if (inputContainer.id.toString().indexOf('second') > -1) {
+            var backupStorageName = 'backup' + inputContainer.id;
+            var oppoStorageName = 'oppo' + inputContainer.id;
+            localStorage.setItem(backupStorageName, '');
+            localStorage.setItem(oppoStorageName, '');
+        }
     });
 
     var allOutputBoxes = document.querySelectorAll('.outputStarting, .outputSecond, .outputOpponent');
@@ -442,6 +435,7 @@ function clearArrows() {
     if (playButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
         playButton.classList.remove('orangeBackgroundButton');
     }
+    localStorage.removeItem('lineInfo');
 }
 
 // Resets the upload button if selectTeam is changed

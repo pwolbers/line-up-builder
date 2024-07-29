@@ -1,44 +1,44 @@
 // Function to toggle background of pitch background and whether or not opponents are visible
 // Also checks for the ball
-var pitchCheckFalse = document.getElementById("pitch-checkbox-false");
-pitchCheckFalse.addEventListener("change", changeSwitch);
 var pitchCheckTrue = document.getElementById("pitch-checkbox-true");
 pitchCheckTrue.addEventListener("change", changeSwitch);
+var pitchCheckFalse = document.getElementById("pitch-checkbox-false");
+pitchCheckFalse.addEventListener("change", changeSwitch);
 
-var tacticalCheckFalse = document.getElementById("tactical-checkbox-false");
-tacticalCheckFalse.addEventListener("change", changeSwitch);
 var tacticalCheckTrue = document.getElementById("tactical-checkbox-true");
 tacticalCheckTrue.addEventListener("change", changeSwitch);
+var tacticalCheckFalse = document.getElementById("tactical-checkbox-false");
+tacticalCheckFalse.addEventListener("change", changeSwitch);
 
-var ballCheckFalse = document.getElementById("ball-checkbox-false");
-ballCheckFalse.addEventListener("change", changeSwitch);
 var ballCheckTrue = document.getElementById("ball-checkbox-true");
 ballCheckTrue.addEventListener("change", changeSwitch);
+var ballCheckFalse = document.getElementById("ball-checkbox-false");
+ballCheckFalse.addEventListener("change", changeSwitch);
 
-var labelCheckFalse = document.getElementById("label-checkbox-false");
-labelCheckFalse.addEventListener("change", changeSwitch);
 var labelCheckTrue = document.getElementById("label-checkbox-true");
 labelCheckTrue.addEventListener("change", changeSwitch);
+var labelCheckFalse = document.getElementById("label-checkbox-false");
+labelCheckFalse.addEventListener("change", changeSwitch);
 
-var blueArrowCheckFalse = document.getElementById("blueArrow-checkbox-false");
-blueArrowCheckFalse.addEventListener("change", changeSwitch);
 var blueArrowCheckTrue = document.getElementById("blueArrow-checkbox-true");
 blueArrowCheckTrue.addEventListener("change", changeSwitch);
+var blueArrowCheckFalse = document.getElementById("blueArrow-checkbox-false");
+blueArrowCheckFalse.addEventListener("change", changeSwitch);
 
-var drawCheckFalse = document.getElementById("draw-checkbox-false");
-drawCheckFalse.addEventListener("change", changeSwitch);
 var drawCheckTrue = document.getElementById("draw-checkbox-true");
 drawCheckTrue.addEventListener("change", changeSwitch);
+var drawCheckFalse = document.getElementById("draw-checkbox-false");
+drawCheckFalse.addEventListener("change", changeSwitch);
 
-var oppoCheckFalse = document.getElementById("oppo-checkbox-false");
-oppoCheckFalse.addEventListener("change", changeSwitch);
 var oppoCheckTrue = document.getElementById("oppo-checkbox-true");
 oppoCheckTrue.addEventListener("change", changeSwitch);
+var oppoCheckFalse = document.getElementById("oppo-checkbox-false");
+oppoCheckFalse.addEventListener("change", changeSwitch);
 
-var oppoNameCheckFalse = document.getElementById("oppo-column-checkbox-false");
-oppoNameCheckFalse.addEventListener("change", changeSwitch);
 var oppoNameCheckTrue = document.getElementById("oppo-column-checkbox-true");
 oppoNameCheckTrue.addEventListener("change", changeSwitch);
+var oppoNameCheckFalse = document.getElementById("oppo-column-checkbox-false");
+oppoNameCheckFalse.addEventListener("change", changeSwitch);
 
 var arrowCheck = document.getElementById("arrow-checkbox");
 arrowCheck.addEventListener("change", changeSwitch);
@@ -56,7 +56,7 @@ var currentSwitch;
 
 function changeSwitch(evt) {
     currentSwitch = evt.currentTarget;
-    
+
     if (currentSwitch.id == 'oppo-checkbox-false' || currentSwitch.id == 'oppo-checkbox-true') {
         oppoCheckBox();
     }
@@ -150,6 +150,7 @@ function pitchCheckBox() {
 
     //Green
     if (pitchSwitch.checked === true) {
+        localStorage.setItem('pitchColor', 'green');
         fillingPitch.style.transform = 'translateX(100%)';
         footballPitch.classList.remove('blackColor');
         penaltyBoxTop.classList.remove('blackColor');
@@ -174,8 +175,8 @@ function pitchCheckBox() {
     }
     //Black
     else {
+        localStorage.setItem('pitchColor', 'black');
         fillingPitch.style.transform = 'translateX(0%)';
-
         footballPitch.classList.remove('greenColor');
         penaltyBoxTop.classList.remove('penaltyBoxGreenTop');
         penaltyBoxBottom.classList.remove('penaltyBoxGreenBottom');
@@ -197,6 +198,7 @@ function pitchCheckBox() {
     }
     //Tactical
     if (tacticalSwitch.checked === true) {
+        localStorage.setItem('pitchTactics', 'on');
         fillingTactical.style.transform = 'translateX(100%)';
         tacticalLines.forEach((tacticalLine) => {
             tacticalLine.style.display = 'block';
@@ -205,6 +207,7 @@ function pitchCheckBox() {
     }
     //Non-tactical
     else {
+        localStorage.setItem('pitchTactics', 'off');
         fillingTactical.style.transform = 'translateX(0%)';
         tacticalLines.forEach((tacticalLine) => {
             tacticalLine.style.display = 'none';
@@ -218,6 +221,7 @@ function ballCheckBox() {
 
     var ball = document.getElementById('ball');
     if (ballSwitch.checked === true) {
+        localStorage.setItem('ballSwitch', 'on');
         fillingBall.style.transform = 'translateX(100%)';
         ball.style.display = 'flex';
         ball.style.top = '49%';
@@ -227,6 +231,7 @@ function ballCheckBox() {
         ball.addEventListener("mousedown", handleSingleClick);
     }
     else {
+        localStorage.setItem('ballSwitch', 'off');
         fillingBall.style.transform = 'translateX(0%)';
 
         ball.style.display = 'none';
@@ -237,6 +242,7 @@ function labelCheckBox() {
     labelSwitch = document.getElementById('label-checkbox-true');
     var fillingLabel = labelSwitch.nextElementSibling.nextElementSibling;
     if (labelSwitch.checked) {
+        localStorage.setItem('labelStyle', 'boxed');
         fillingLabel.style.transform = 'translateX(100%)';
 
         var startingBoxes = document.querySelectorAll('.outputStarting.startingStyleTwo');
@@ -254,6 +260,7 @@ function labelCheckBox() {
         });
     }
     else {
+        localStorage.setItem('labelStyle', 'notBoxed');
         fillingLabel.style.transform = 'translateX(0%)';
         var startingBoxes = document.querySelectorAll('.outputStarting.startingStyleOne');
         startingBoxes.forEach((box) => {
@@ -278,6 +285,7 @@ function blueArrowCheckBox() {
     var fillingBlueArrow = blueArrowSwitch.nextElementSibling.nextElementSibling;
     const allBlueArrows = document.querySelectorAll('.movingLine');
     if (blueArrowSwitch.checked) {
+        localStorage.setItem('blueArrow', 'on');
         fillingBlueArrow.style.transform = 'translateX(100%)';
 
         allBlueArrows.forEach((blueArrow) => {
@@ -287,6 +295,7 @@ function blueArrowCheckBox() {
         });
     }
     else {
+        localStorage.setItem('blueArrow', 'off');
         fillingBlueArrow.style.transform = 'translateX(0%)';
         allBlueArrows.forEach((blueArrow) => {
             if (blueArrow.style.display != 'none') {
@@ -302,6 +311,7 @@ function drawCheckBox() {
     var drawingSettings = document.querySelector('.drawing-settings');
     var fillingDraw = drawSwitch.nextElementSibling.nextElementSibling;
     if (drawSwitch.checked) {
+        localStorage.setItem('drawing', 'on');
         fillingDraw.style.transform = 'translateX(100%)';
         canvasContainer.style.display = 'block';
         drawingSettings.style.display = 'grid';
@@ -309,6 +319,7 @@ function drawCheckBox() {
         drawSwitch.parentNode.parentNode.style.borderBottom = '0px dashed white';
     }
     else {
+        localStorage.setItem('drawing', 'off');
         fillingDraw.style.transform = 'translateX(0%)';
         canvasContainer.style.display = 'none';
         drawingSettings.style.display = 'none';
@@ -323,6 +334,7 @@ function oppoCheckBox() {
     var oppoFilling = oppoTrue.nextElementSibling.nextElementSibling;
     var circles = Array.from(document.getElementsByClassName('oppoCircle'));
     if (oppoTrue.checked === true) {
+        localStorage.setItem('opposition', 'on');
         oppoFilling.style.transform = 'translateX(100%)';
         //Show opposition circles
         circles.forEach(function (circle) {
@@ -335,7 +347,7 @@ function oppoCheckBox() {
             }
         });
 
-        if (!oppoCircleHasBeenDragged) {
+        if (!oppoCircleHasBeenDragged && localStorage.getItem('oppoCirclePositions') == null) {
             setCirclePositions('433', 'oppo');
             oppoCircleHasBeenDragged = true;
         }
@@ -368,6 +380,7 @@ function oppoCheckBox() {
 
     }
     else {
+        localStorage.setItem('opposition', 'off');
         oppoFilling.style.transform = 'translateX(0%)';
         if (checkOppositionName.checked) {
             checkOppositionName.checked = false;
@@ -420,6 +433,7 @@ function oppoNameCheckBox() {
     var secondBoxes = document.querySelectorAll('.secondBox');
 
     if (trueSwitch.checked === true) {
+        localStorage.setItem('oppositionNaming', 'on');
         oppoNameFilling.style.transform = 'translateX(100%)';
         secondContainerInputs = [];
         document.getElementById("second-column-title").innerHTML = "Opposition eleven";
@@ -435,43 +449,24 @@ function oppoNameCheckBox() {
             }
         });
 
-        //Loop through all the outputSeconds and empty it
+        //Loop through all the outputSeconds (i.e. the text below the circles) and empty and hide it
         outputSeconds.forEach((outputSecond) => {
             outputSecond.innerText = '';
             toggleOutputBoxVisibility(outputSecond);
         });
 
-        //Get current values from second column and store it in array secondContainerInputs
-        secondBoxes.forEach((secondBox) => {
-            var namePosObj = {
-                "name": secondBox.value,
-                "pos": secondBox.id
-            };
-            secondContainerInputs.push(namePosObj);
-
-            //Clear secondBox value
-            secondBox.value = '';
-
-            //Change background of actual text box
-            secondBox.style.backgroundColor = 'rgba(20, 20, 20, 0.14)';
+        secondBoxes.forEach((element) => {
+            var localStorageName = "oppo" + element.id;
+            element.value = localStorage.getItem(localStorageName);
+            element.style.backgroundColor = 'rgba(20, 20, 20, 0.14)';
         });
 
-        //Add value from oppoContainerInputs to the second boxes and output boxes
-        for (var i = 0; i < oppoContainerInputs.length; i++) {
-            for (var x = 0; x < secondBoxes.length; x++) {
-                if (secondBoxes[x].id == oppoContainerInputs[i].pos) {
-                    secondBoxes[x].value = oppoContainerInputs[i].name;
-                    x = secondBoxes.length;
-                }
-            }
-            for (var y = 0; y < outputOppos.length; y++) {
-                if (outputOppos[y].id.replace("oppoSpan", "") == oppoContainerInputs[i].pos.replace("second", "")) {
-                    outputOppos[y].innerText = oppoContainerInputs[i].name;
-                    toggleOutputBoxVisibility(outputOppos[y]);
-                    y = outputOppos.length;
-                }
-            }
-        }
+        //Show the circles for oppo
+        outputOppos.forEach((outputOppo) => {
+            var localStorageName = outputOppo.id.replace('oppoSpan', 'opposecond');
+            outputOppo.innerText = localStorage.getItem(localStorageName);
+            toggleOutputBoxVisibility(outputOppo);
+        });
 
         //Display all numbers from the opposition
         var oppoNumberLabels = document.querySelectorAll('.oppoNumberLabel');
@@ -483,6 +478,7 @@ function oppoNameCheckBox() {
     }
 
     else {
+        localStorage.setItem('oppositionNaming', 'off');
         oppoNameFilling.style.transform = 'translateX(0%)';
         oppoContainerInputs = [];
 
@@ -505,36 +501,17 @@ function oppoNameCheckBox() {
             toggleOutputBoxVisibility(outputOppo);
         });
 
-        //Get current values from second column and store it in array oppoContainerInputs
-        secondBoxes.forEach((secondBox) => {
-            var namePosObj = {
-                "name": secondBox.value,
-                "pos": secondBox.id
-            };
-            oppoContainerInputs.push(namePosObj);
-
-            //Clear secondBox value
-            secondBox.value = '';
-            //Change background of actual text box
-            secondBox.style.backgroundColor = 'rgba(200, 200, 200, 0.14)';
+        secondBoxes.forEach((element) => {
+            var localStorageName = "backup" + element.id;
+            element.value = localStorage.getItem(localStorageName);
+            element.style.backgroundColor = 'rgba(200, 200, 200, 0.14)';
         });
 
-        //Add value from secondContainerInputs to the second boxes and output boxes
-        for (var i = 0; i < secondContainerInputs.length; i++) {
-            for (var x = 0; x < secondBoxes.length; x++) {
-                if (secondBoxes[x].id == secondContainerInputs[i].pos) {
-                    secondBoxes[x].value = secondContainerInputs[i].name;
-                    x = secondBoxes.length;
-                }
-            }
-            for (var y = 0; y < outputSeconds.length; y++) {
-                if (outputSeconds[y].id.replace("secondSpan", "") == secondContainerInputs[i].pos.replace("second", "")) {
-                    outputSeconds[y].innerText = secondContainerInputs[i].name;
-                    toggleOutputBoxVisibility(outputSeconds[y]);
-                    y = outputSeconds.length;
-                }
-            }
-        }
+        outputSeconds.forEach((outputSecond) => {
+            var localStorageName = outputSecond.id.replace('secondSpan', 'backupsecond');
+            outputSecond.innerText = localStorage.getItem(localStorageName);
+            toggleOutputBoxVisibility(outputSecond);
+        });
 
         //Hide all opposition numbers 
         var oppoNumberLabels = document.querySelectorAll('.oppoNumberLabel');
