@@ -1,6 +1,6 @@
 loadLocalStorage();
 function loadLocalStorage() {
-
+    var startLoadingLocalStorage = true;
     var tacticalSwitchTrue = document.getElementById('tactical-checkbox-true');
     var tacticalSwitchFalse = document.getElementById('tactical-checkbox-false');
 
@@ -136,60 +136,95 @@ function loadLocalStorage() {
     drawCheckBox();
     oppoCheckBox();
     oppoNameCheckBox();
-    var loadedLine = loadLines();
-    drawLines(loadedLine);
+    lines = [];
+    movingLines = [];
+    var loadedMainLines = loadLines('main');
+    var loadedOppoLines = loadLines('oppo');
+    var loadedMovingLines = loadLines('moving')
+    drawLines(loadedMainLines, 'main');
+    drawLines(loadedOppoLines, 'oppo');
+    drawLines(loadedMovingLines, 'moving');
 
-    function drawLines(loadedLine) {
-        for (var x = 0; x < loadedLine.arrayId.length; x++) {
+    startLoadingLocalStorage = false;
+}
+function drawLines(loadedLines, team) {
+    if (loadedLines != null) {
+        for (var x = 0; x < loadedLines.arrayId.length; x++) {
             const line = document.createElement("div");
             line.classList.add("line");
-            var movingLine = false;
-            if (movingLine) {
+            if (team == 'moving') {
                 line.classList.add("movingLine");
             }
             else {
                 line.classList.add("normalLine");
             }
 
+            var lineColor = (team == 'main') ? 'yellow' : (team == 'oppo') ? 'purple' : 'blue';
+
             // Create arrowheads
             const arrowhead1 = document.createElement("div");
             arrowhead1.classList.add("arrowhead");
-            arrowhead1.style.borderBottom = '10px solid yellow';
+            arrowhead1.style.borderBottom = '10px solid ' + lineColor;
             arrowhead1.style.transform = `rotate(180deg)`;
             arrowhead1.style.display = 'flex';
 
-            var angleDeg = loadedLine.arrayAD[x];
+            var angleDeg = loadedLines.arrayAD[x];
             // Append arrowheads to the line
             line.appendChild(arrowhead1);
             line.style.position = 'absolute';
-            line.style.height = loadedLine.arrayHP[x] + 'px';
+            line.style.height = loadedLines.arrayHP[x] + 'px';
             line.style.backgroundColor = 'transparent';
             line.style.borderLeftStyle = 'dotted';
-            line.style.borderLeftColor = 'yellow';
+            line.style.borderLeftColor = lineColor;
             line.style.transformOrigin = 'left top';
             line.style.transform = `rotate(${angleDeg}deg)`;
             line.style.zindex = '1';
-
-            var hypotenusePct = (loadedLine.arrayHP[x] / imageConHeight).toFixed(5);
+            var hypotenusePct = (loadedLines.arrayHP[x] / imageConHeight).toFixed(5);
             line.setAttribute("hypotenusePct", hypotenusePct);
-            line.setAttribute('height', loadedLine.arrayHP[x]);
+            line.setAttribute('height', loadedLines.arrayHP[x]);
             line.setAttribute('angleDeg', angleDeg);
-            line.setAttribute('parentCircleId', loadedLine.arrayId[x].replace('#', ''));
-            var activeCircle = document.getElementById(loadedLine.arrayId[x].replace('#', ''));
+            line.setAttribute('parentCircleId', loadedLines.arrayId[x].replace('#', ''));
+            var activeCircle = document.getElementById(loadedLines.arrayId[x].replace('#', ''));
             activeCircle.append(line);
+
+            var lineObj = {
+                "circle": activeCircle.id,
+                "div": line
+            }
+            if (team == 'moving') {
+                movingLines.push(lineObj);
+                addLineDataToArray(line, activeCircle);
+            }
+            else {
+                lines.push(lineObj);
+            }
+
         }
     }
+    //Hide all moving lines since on load we first show the normal arrows
+    for (var i = 0; i < movingLines.length; i++) {
+        movingLines[i].div.style.display = 'none';
+    }
+}
 
-    function loadLines() {
-        var inputString = localStorage.getItem('lineInfo');
-        const result = {
-            arrayId: [],
-            arrayAD: [],
-            arrayHP: []
-        };
-
-        let currentIndex = 0;
-
+function loadLines(team) {
+    var inputString;
+    if (team == 'main') {
+        inputString = localStorage.getItem('mainLineInfo');
+    }
+    else if (team == 'oppo') {
+        inputString = localStorage.getItem('oppoLineInfo');
+    }
+    else if (team == 'moving') {
+        inputString = localStorage.getItem('movingLineInfo');;
+    }
+    const result = {
+        arrayId: [],
+        arrayAD: [],
+        arrayHP: []
+    };
+    let currentIndex = 0;
+    if (inputString != null) {
         while (currentIndex < inputString.length) {
             var hashIndex = inputString.indexOf('#', currentIndex);
             var hIndex = inputString.indexOf('H', hashIndex);
@@ -207,8 +242,7 @@ function loadLocalStorage() {
             result.arrayHP.push(value2);
             result.arrayAD.push(value3);
             currentIndex = dIndex + 1; // Move the current index to the next '#'
-
         }
-        return result;
     }
+    return result;
 }

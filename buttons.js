@@ -1,6 +1,12 @@
+const animationDuration = 1000; // Duration of the animation in milliseconds
+
+
 // Attach click event listener to the download image button
-screenshotButton.addEventListener("click", downloadImage);
-//Sets the line up based on the JSON content retrieved from GitHub/locally
+screenshotButton.addEventListener("click", createImage);
+// Attach click event listener to the copy image button
+copyImageButton.addEventListener("click", createImage);
+// Attach click event listener to the gif button
+
 selectTeam.addEventListener("change", loadTeam);
 //Creates a JSON based on the line up made by the user
 downloadButton.addEventListener("click", downloadJSON);
@@ -14,6 +20,8 @@ clearNamesButton.addEventListener("click", clearNames);
 clearArrowsButton.addEventListener("click", clearArrows);
 
 showLineUpButton.addEventListener('click', switchViews);
+
+resetButton.addEventListener('click', resetAll);
 
 function switchViews() {
     showLineUpButton.textContent = 'Switch to input view'; // Change button text
@@ -33,19 +41,32 @@ function switchViews() {
 }
 
 // Function to download a .PNG of the pitch
-function downloadImage() {
+function createImage(e) {
+    var buttonDimensions = e.target.getBoundingClientRect();
+    var buttonHeight = buttonDimensions.height;
+    var buttonWidth = buttonDimensions.width * 1.235; //Somehow computed width is different from the set width by a factor 1.235. This fixes that
+
     const displayValue = window.getComputedStyle(showLineUpButton).getPropertyValue('display');
     if (displayValue == 'inline-block') {
         switchViews();
     }
 
-    screenshotButton.innerText = "Downloading...";
+    if (e.target.id == 'screenshotButton') {
+        screenshotButton.innerText = "Downloading...";
+        screenshotButton.style.height = buttonHeight.toFixed(3) + 'px';
+        screenshotButton.style.width = buttonWidth.toFixed(3) + 'px';
+    }
+    else if (e.target.id == 'copyImageButton') {
+        copyImageButton.innerText = 'Copying...'
+        copyImageButton.style.height = buttonHeight.toFixed(3) + 'px';
+        copyImageButton.style.width = buttonWidth.toFixed(3) + 'px';
+    }
+
     var buttonContainer = document.getElementById('button-pitch-container');
     buttonContainer.style.display = 'none';
 
     // Get a reference to the element that you want to capture.
     const domNode = document.getElementById('image-container');
-
 
     // Capture the DOM node as a Blob
     var scale = 2;
@@ -63,41 +84,89 @@ function downloadImage() {
         image.src = URL.createObjectURL(originalBlob);
 
         image.onload = () => {
-            // Always download the same size image
-            const newWidth = 1095; // Adjust to your desired width
-            const newHeight = 1350;
-
-            // Create a canvas for resizing
+            // Create a canvas for resizing or cropping
             const canvas = document.createElement('canvas');
-            canvas.width = newWidth;
-            canvas.height = newHeight;
             const ctx = canvas.getContext('2d');
 
-            // Draw the original image on the canvas with the new dimensions
-            ctx.drawImage(image, 0, 0, newWidth, newHeight);
+            let sourceX = 0, sourceY = 0, sourceWidth = image.width, sourceHeight = image.height;
 
-            // Convert the canvas content back to a Blob
-            canvas.toBlob((resizedBlob) => {
-                // Create a download link for the resized Blob
-                const downloadLink = document.createElement('a');
-                downloadLink.href = URL.createObjectURL(resizedBlob);
+            if (e.target.id == 'copyImageButton') {
+                // Crop 5% from each side and 2% from top and bottom
+                const cropPercentWidth = 0.05;
+                const cropPercentHeight = 0.02;
+                const cropWidth = image.width * cropPercentWidth;
+                const cropHeight = image.height * cropPercentHeight;
+                sourceX = cropWidth;
+                sourceY = cropHeight;
+                sourceWidth = image.width - 2 * cropWidth;
+                sourceHeight = image.height - 2 * cropHeight;
+            }
 
-                var teamFileName = document.querySelector('#teamNameBox').value;
-                if (teamFileName == '') {
-                    teamFileName = 'team_lineup_screenshot';
-                }
-                teamFileName = teamFileName.replaceAll(' ', '_');
-                teamFileName = teamFileName.replaceAll('/', '_');
-                downloadLink.download = teamFileName; // Set the filename for the download
-                downloadLink.style.display = 'none';
+            // Calculate the aspect ratio
+            const aspectRatio = sourceWidth / sourceHeight;
 
-                downloadLink.click();
-            }, 'image/png');
+            // Adjust canvas dimensions to maintain aspect ratio
+            const newWidth = 1095;
+            const newHeight = newWidth / aspectRatio;
+
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+
+            // Draw the cropped image onto the canvas
+            ctx.drawImage(
+                image,
+                sourceX, // Source X
+                sourceY, // Source Y
+                sourceWidth, // Source width
+                sourceHeight, // Source height
+                0, // Destination X
+                0, // Destination Y
+                newWidth, // Destination width
+                newHeight // Destination height
+            );
+
+            if (e.target.id == 'screenshotButton') {
+                // Convert the canvas content back to a Blob
+                canvas.toBlob((resizedBlob) => {
+                    // Create a download link for the resized Blob
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = URL.createObjectURL(resizedBlob);
+
+                    var teamFileName = document.querySelector('#teamNameBox').value;
+                    if (teamFileName == '') {
+                        teamFileName = 'team_lineup_screenshot';
+                    }
+                    teamFileName = teamFileName.replaceAll(' ', '_');
+                    teamFileName = teamFileName.replaceAll('/', '_');
+
+                    screenshotButton.innerText = "Download image (.png)";
+
+                    downloadLink.download = teamFileName; // Set the filename for the download
+                    downloadLink.style.display = 'none';
+
+                    downloadLink.click();
+                }, 'image/png');
+            }
+            else if (e.target.id == 'copyImageButton') {
+                canvas.toBlob(async (resizedBlob) => {
+                    try {
+                        // Create a ClipboardItem with the resized Blob
+                        const clipboardItem = new ClipboardItem({ 'image/png': resizedBlob });
+                        // Write the ClipboardItem to the clipboard
+                        await navigator.clipboard.write([clipboardItem]);
+                    } catch (error) {
+                        console.error('Error copying image to clipboard:', error);
+                    } finally {
+                        copyImageButton.innerText = "Copy image to clipboard";
+                    }
+                });
+            }
         }
-
         var buttonContainer = document.getElementById('button-pitch-container');
         buttonContainer.style.display = 'block';
-        screenshotButton.innerText = "Download image (.png)";
+
+        e.target.style.width = '';
+        e.target.style.height = '';
     });
 }
 
@@ -400,7 +469,7 @@ function clearNames() {
     var allInputContainers = document.querySelectorAll('.inputBox, .secondBox');
     allInputContainers.forEach((inputContainer) => {
         inputContainer.value = '';
-        
+
         //Reset local storage items for starting input
         if (inputContainer.id.indexOf('starting') > -1) {
             localStorage.setItem(inputContainer.id, '');
@@ -435,7 +504,13 @@ function clearArrows() {
     if (playButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
         playButton.classList.remove('orangeBackgroundButton');
     }
-    localStorage.removeItem('lineInfo');
+    var recordButton = document.querySelector('.gif-checkbox .checkmark');
+    if (recordButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
+        recordButton.classList.remove('orangeBackgroundButton');
+    }
+    localStorage.removeItem('mainLineInfo');
+    localStorage.removeItem('oppoLineInfo');
+    localStorage.removeItem('movingLineInfo');
 }
 
 // Resets the upload button if selectTeam is changed
@@ -456,7 +531,9 @@ function moveCircles() {
         if (arrowLocationArray.length > 0) {
             circleCheck.disabled = true;
             arrowCheck.disabled = true;
+            movingCheck.disabled = true;
             playCheck.disabled = true;
+            recordCheck.disabled = true;
             blueArrowCheckFalse.disabled = true;
             blueArrowCheckTrue.disabled = true;
             for (var q = 0; q < arrowLocationArray.length; q++) {
@@ -511,7 +588,9 @@ function moveCircles() {
             }
             circleCheck.disabled = false;
             arrowCheck.disabled = false;
+            movingCheck.disabled = false;
             playCheck.disabled = false;
+            recordCheck.disabled = false;
 
             blueArrowCheckFalse.disabled = false;
             blueArrowCheckTrue.disabled = false;
@@ -521,3 +600,61 @@ function moveCircles() {
     }
 }
 
+
+function resetAll() {
+    document.getElementById('resetPopup').style.display = 'flex';
+
+    var closeBtn = document.getElementById('closeBtnReset');
+    closeBtn.addEventListener('click', function () {
+        document.getElementById('resetPopup').style.display = 'none';
+    });
+
+    var noButton = document.getElementById('optionNo');
+    noButton.addEventListener('click', function () {
+        document.getElementById('resetPopup').style.display = 'none';
+    });
+
+    var yesButton = document.getElementById('optionYes');
+    yesButton.addEventListener('click', function () {
+
+        localStorage.clear();
+        clearNames();
+        clearArrows();
+
+        //Switch back to opposition not showing
+        var oppoTrue = document.getElementById('oppo-checkbox-true');
+        oppoTrue.checked = false;
+        oppoCheckBox();
+
+        //Set formations
+        setCirclePositions('433', 'main');
+        setCirclePositions('433', 'oppo');
+
+        //Numbering back to basics
+        var numberArray = ['1', '2', '3', '4', '5', '6', '8', '10', '7', '9', '11'];
+
+
+        mainCircles.forEach((circle, i) => {
+            var circleSpan = circle.querySelector('span');
+            circleSpan.innerText = numberArray[i];
+            changeNumberOnTextbox(circle, numberArray[i]);
+        });
+
+        oppoCircles.forEach((circle, i) => {
+            var circleSpan = circle.querySelector('span');
+            circleSpan.innerText = numberArray[i];
+            changeNumberOnTextbox(circle, numberArray[i]);
+        });
+        setTextBoxOrders();
+
+        mainPickr.setColor('#FF0000');
+        secondPickr.setColor('#FFFFFF');
+        numberPickr.setColor('#FFFFFF');
+        mainOppoPickr.setColor('#006631');
+        secondOppoPickr.setColor('#000000');
+        numberOppoPickr.setColor('#FFFFFF');
+
+        document.getElementById('teamNameBox').value = '';
+        document.getElementById('resetPopup').style.display = 'none';
+    });
+}

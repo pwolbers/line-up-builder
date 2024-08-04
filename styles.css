@@ -67,6 +67,35 @@ body {
   z-index: 132;
 }
 
+.reset-popup-container {
+  top: 10%;
+  left: 0;
+  background-color: white;
+  width: 20vw;
+  height: fit-content;
+  padding: 30px 10px 10px;
+  border-radius: 5px;
+  position: relative;
+  overflow: auto;
+  font-size: 24px;
+}
+
+.resetQuestions {
+  margin: 10px 50px;
+  text-align: center;
+  
+}
+.resetbuttonq {
+  margin: 10px;
+  padding: 2% 3% !important;
+}
+
+.resetQuestion {
+  margin-top: 5%;
+  text-align: center;
+  font-size: 16px;
+}
+
 /**************
 *   Settings  *
 *    grid     *
@@ -1109,7 +1138,6 @@ li {
 }
 
 .middleDot {
-  left: 50%;
   position: absolute;
 }
 
@@ -1232,26 +1260,28 @@ input:active+.checkmark>img {
 
 #circle-checkbox:disabled+.checkmark,
 #arrow-checkbox:disabled+.checkmark,
-#moving-checkbox:disabled+.checkmark {
+#moving-checkbox:disabled+.checkmark,
+#play-checkbox:disabled+.checkmark,
+#gif-checkbox:disabled+.checkmark {
   background-color: #3e3e3ecc;
   box-shadow: 0px 0px 0px #000000, inset 0px 0px 0px #000000, inset 0px 0px 0px #000000;
   pointer-events: none;
   transform: translateY(0px);
-  border: 2px solid #3e3e3ecc;
   cursor: not-allowed !important;
 }
 
 #circle-checkbox:disabled+.checkmark>img,
 #arrow-checkbox:disabled+.checkmark>img,
-#moving-checkbox:disabled+.checkmark>img {
+#moving-checkbox:disabled+.checkmark>img,
+#play-checkbox:disabled+.checkmark>img,
+#gif-checkbox:disabled+.checkmark>img {
   opacity: 0.15;
   cursor: not-allowed;
   pointer-events: none;
   transform: translateY(0px);
 }
 
-.circle-checkbox,
-.play-checkbox {
+.circle-checkbox {
   display: none;
 }
 
@@ -1298,10 +1328,6 @@ input:active+.checkmark>img {
   left: -50%;
   bottom: -50%;
   opacity: 1 !important;
-}
-
-.play-checkbox .checkmark {
-  margin-top: 45%;
 }
 
 .orangeBackgroundButton {
@@ -1359,6 +1385,22 @@ input:checked+.checkmark>.moving-ball {
   transition: transform 0.7s ease;
 }
 
+input:checked+.checkmark>.gif-image {
+  display: none;
+}
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+input:not(:checked)+.checkmark>.record-image {
+  display: none;
+}
+input:checked+.checkmark>.record-image {
+  display: block;
+  animation: blink 1s infinite;
+}
+
 input:not(:checked)+.checkmark>img {
   transform: '';
   transition: transform 0.7s ease;
@@ -1373,6 +1415,8 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   transform: rotate(0deg);
   transition: transform 0.7s ease;
 }
+
+
 
 .pitchDrawing-container {
   padding: 10px 25px 10px 0px;
@@ -1735,18 +1779,22 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
 
 #chooseFileButton,
 #downloadButton,
-#screenshotButton {
+#screenshotButton,
+#copyImageButton {
+  box-sizing: border-box !important;
   display: inline-block;
 }
 
 #chooseFileButton,
-#importButton {
+#importButton,
+#resetButton {
   min-height: 16px;
   margin-bottom: 10px;
 }
 
 #downloadButton,
-#screenshotButton {
+#screenshotButton,
+#copyImageButton {
   min-height: 4vh;
 }
 
@@ -1759,7 +1807,12 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   margin-left: 1.5%;
 }
 
-#downloadButton {
+#resetButton {
+  margin-left: 1.5%;
+}
+
+#downloadButton,
+#screenshotButton {
   margin-right: 2%;
 }
 
@@ -1873,7 +1926,7 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   color: black;
 }
 
-pre {
+.tabContent > pre {
   background-color: #f5f5f5;
   margin: 1em 1px 0 1px;
 }
@@ -2383,6 +2436,12 @@ pre {
     scrollbar-gutter: stable;
   }
 
+  .reset-popup-container {
+    width: fit-content;
+    max-width: 50%;
+    height: fit-content;
+  }
+
   .tab {
     display: grid;
   }
@@ -2398,7 +2457,8 @@ pre {
   /*** Buttons ***/
   #chooseFileButton,
   #downloadButton,
-  #screenshotButton {
+  #screenshotButton,
+  #copyImageButton {
     min-height: 20px;
     font-size: 80%;
   }

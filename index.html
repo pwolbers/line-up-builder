@@ -9,9 +9,14 @@
   <meta charset="utf8" />
   <meta name="viewport" content="width=device-width" id="viewportMeta" />
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@latest"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
   <script src="https://unpkg.com/dom-to-image@2.5.1/dist/dom-to-image.min.js"></script>
+  <script type="text/javascript" src="LZWEncoder.js"></script>
+  <script type="text/javascript" src="NeuQuant.js"></script>
+  <script type="text/javascript" src="GIFEncoder.js"></script>
+
 </head>
 
 <body onload="displayFormattedJSON()" style="background-color:#212331">
@@ -92,10 +97,9 @@
             <div class="blueArrowCheckBox">
               <label id="blueArrowLabel" class="switch-label">Show pressing lines:</label>
               <div class="switchContainer">
-                <input id="blueArrow-checkbox-false" class="toggle" name="toggleBlueArrow" value="false" type="radio">
+                <input id="blueArrow-checkbox-false" class="toggle" name="toggleBlueArrow" value="false" type="radio" checked>
                 <label for="blueArrow-checkbox-false" class="btn labelLeft">Hide</label>
-                <input id="blueArrow-checkbox-true" class="toggle" name="toggleBlueArrow" value="true" type="radio"
-                  checked>
+                <input id="blueArrow-checkbox-true" class="toggle" name="toggleBlueArrow" value="true" type="radio">
                 <label for="blueArrow-checkbox-true" class="btn labelRight">Show</label>
                 <div class="switchFilling"></div>
               </div>
@@ -137,6 +141,7 @@
               <button id="clearArrowsButton" class="clearButton redButton">Clear arrows</button>
             </div>
           </div>
+          <button class="redButton" id="resetButton">Reset all</button>
         </div>
       </div>
       <div class="column-container">
@@ -280,6 +285,7 @@
         <div class="button-container">
           <button id="downloadButton" class="greenButton">Download team (.JSON)</button>
           <button id="screenshotButton" class="greenButton">Download image (.png)</button>
+          <button id="copyImageButton" class="greenButton">Copy image to clipboard</button>
         </div>
 
         <div class="oppoCheckbox">
@@ -337,9 +343,10 @@
     </div>
     <div class="lineup-container" id="lineupContainer" oncontextmenu="return false">
       <div class="image-container" id="image-container">
+        
         <div class="text-container">
           <span class="formation-label">Formation: </span>
-          <span class="copyright">© 2023 - pwolbers.github.io/line-up-builder</span>
+          <span class="copyright">© 2024 - pwolbers.github.io/line-up-builder</span>
         </div>
         <div id="football-pitch" class="football-pitch greenColor">
           <div class="field lineColorWhite">
@@ -393,11 +400,19 @@
             </span>
           </label>
           <label class="play-checkbox square-checkbox">
-            <input id="play-checkbox" type="checkbox">
+            <input id="play-checkbox" type="checkbox" disabled>
             <span class="checkmark">
               <img class="play-image" src="playbutton.png" alt="Image">
             </span>
           </label>
+          <label class="gif-checkbox square-checkbox">
+            <input id="gif-checkbox" type="checkbox" disabled>
+            <span class="checkmark">
+              <img class="gif-image" src="gifbutton.png" alt="Image">
+              <img class="record-image" src="recordbutton.png" alt="Image">
+            </span>
+          </label>
+
         </div>
         <div id="allCircles">
           <div id="circle1" class="circle pos1">
@@ -568,6 +583,7 @@
           <div id="ball" class="ball"></div>
         </div>
         <canvas id="drawingCanvas"></canvas>
+        <div id='coverimage'></div>
       </div>
     </div>
     <div id="pitchDrawingContainer" class="pitchDrawing-container containerGreenBackground">
@@ -749,6 +765,19 @@
         <span id="secondSpan99" class="secondStyleOne"></span>
         <span id="startingSpan99" class="startingStyleTwo"></span>
         <span id="secondSpan99" class="secondStyleTwo"></span>
+      </div>
+    </div>
+    <div class="popup" id="resetPopup">
+      <div class="reset-popup-container">
+        <button class="close-btn" id="closeBtnReset">
+          <i class="fas fa-times"></i>
+        </button>
+        <p class="resetQuestion">This will reset all your input and clear any arrows and names you have created. </p>
+        <p class="resetQuestion">Are you sure?</p>
+        <div class="resetQuestions">
+          <button class="resetbuttonq greenButton" id="optionYes">Yes</button>
+          <button class="resetbuttonq redButton" id="optionNo">No</button>
+        </div>
       </div>
     </div>
   </div>

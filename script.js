@@ -28,193 +28,213 @@ teamNameBox.addEventListener('input', function () {
 function setCirclePositions(formationValue, circleType) {
     if (circleType == 'main') {
         const circles = document.querySelectorAll(".circle");
-        circles[0].style.top = '84%'; circles[0].style.left = '47.5%';  //#1
+
+        var circleWidth = circles[0].getBoundingClientRect().width || standardCircleSize;
+        circleWidth = circleWidth / 2;
+        percentageChangeLeft = (circleWidth / imageConWidth) * 100;
+
+        circles[0].style.top = '84%'; circles[0].style.left = '50%';  //#1
+        
         //4 at the back
         if (formationValue.charAt(0) === '4') {
-            circles[1].style.top = '66.5%'; circles[1].style.left = '76.5%';    //#2
-            circles[2].style.top = '71.5%'; circles[2].style.left = '62.5%';    //#3
-            circles[3].style.top = '71.5%'; circles[3].style.left = '32.5%';    //#4
-            circles[4].style.top = '66.5%'; circles[4].style.left = '18.5%';    //#5
+            circles[1].style.top = '66.5%'; circles[1].style.left = '81%';    //#2
+            circles[2].style.top = '71.5%'; circles[2].style.left = '65%';    //#3
+            circles[3].style.top = '71.5%'; circles[3].style.left = '35%';    //#4
+            circles[4].style.top = '66.5%'; circles[4].style.left = '19%';    //#5
         }
         //3 at the back
         else if (formationValue.charAt(0) === '3' || formationValue.charAt(0) === '5') {
-            circles[1].style.top = '73.5%'; circles[1].style.left = '67.5%';    //#2
-            circles[2].style.top = '73.5%'; circles[2].style.left = '47.5%';  //#3
-            circles[3].style.top = '73.5%'; circles[3].style.left = '27.5%';    //#4
+            circles[1].style.top = '73.5%'; circles[1].style.left = '70%';    //#2
+            circles[2].style.top = '73.5%'; circles[2].style.left = '50%';  //#3
+            circles[3].style.top = '73.5%'; circles[3].style.left = '30%';    //#4
             if (formationValue.charAt(0) === '5' || formationValue == '352' || formationValue == '3421') {
-                circles[4].style.top = '48.5%'; circles[4].style.left = '18.5%';    //#5
-                circles[8].style.top = '48.5%'; circles[8].style.left = '76.5%';    //#7
+                circles[4].style.top = '48.5%'; circles[4].style.left = '19%';    //#5
+                circles[8].style.top = '48.5%'; circles[8].style.left = '81%';    //#7
             }
         }
         //3 up front
         if (formationValue.charAt(2) === '3' && formationValue != '4231') {
-            circles[8].style.top = '28.5%'; circles[8].style.left = '76.5%';    //#7
-            circles[9].style.top = '22.5%'; circles[9].style.left = '47.5%';    //#9
-            circles[10].style.top = '28.5%'; circles[10].style.left = '18.5%';  //#11
+            circles[8].style.top = '28.5%'; circles[8].style.left = '81%';    //#7
+            circles[9].style.top = '22.5%'; circles[9].style.left = '50%';    //#9
+            circles[10].style.top = '28.5%'; circles[10].style.left = '19%';  //#11
         }
         //2 up front (with 0 or 2 wingers)
         else if (formationValue.charAt(2) === '2' || formationValue.charAt(2) === '4') {
-            circles[9].style.top = '22.5%'; circles[9].style.left = '62.5%';    //#9
-            circles[10].style.top = '22.5%'; circles[10].style.left = '32.5%';  //#11
+            circles[9].style.top = '22.5%'; circles[9].style.left = '65%';    //#9
+            circles[10].style.top = '22.5%'; circles[10].style.left = '35%';  //#11
         }
         if (formationValue === '433') {
-            circles[5].style.top = '58.5%'; circles[5].style.left = '47.5%';  //#6
-            circles[6].style.top = '41.5%'; circles[6].style.left = '59.5%';    //#8
-            circles[7].style.top = '41.5%'; circles[7].style.left = '35.5%';    //#10  
+            circles[5].style.top = '58.5%'; circles[5].style.left = '50%';  //#6
+            circles[6].style.top = '41.5%'; circles[6].style.left = '62%';    //#8
+            circles[7].style.top = '41.5%'; circles[7].style.left = '38%';    //#10  
         } else if (formationValue === '442diamond') {
-            circles[5].style.top = '58.5%'; circles[5].style.left = '47.5%';  //#6
-            circles[6].style.top = '47.5%'; circles[6].style.left = '29.5%';    //#8
-            circles[7].style.top = '36.5%'; circles[7].style.left = '47.5%';  //#10
-            circles[8].style.top = '47.5%'; circles[8].style.left = '65.5%';    //#7
+            circles[5].style.top = '58.5%'; circles[5].style.left = '50%';  //#6
+            circles[6].style.top = '47.5%'; circles[6].style.left = '32%';    //#8
+            circles[7].style.top = '36.5%'; circles[7].style.left = '50%';  //#10
+            circles[8].style.top = '47.5%'; circles[8].style.left = '68%';    //#7
         } else if (formationValue === '442flat' || formationValue === '424') {
-            circles[5].style.top = '49.5%'; circles[5].style.left = '59.5%';    //#6
-            circles[6].style.top = '49.5%'; circles[6].style.left = '35.5%';    //#8
+            circles[5].style.top = '49.5%'; circles[5].style.left = '62%';    //#6
+            circles[6].style.top = '49.5%'; circles[6].style.left = '38%';    //#8
             if (formationValue === '442flat') {
-                circles[7].style.top = '41.5%'; circles[7].style.left = '18.5%';    //#10
-                circles[8].style.top = '41.5%'; circles[8].style.left = '76.5%';    //#7
+                circles[7].style.top = '41.5%'; circles[7].style.left = '19%';    //#10
+                circles[8].style.top = '41.5%'; circles[8].style.left = '81%';    //#7
             }
             else {
-                circles[7].style.top = '33.5%'; circles[7].style.left = '18.5%';    //#10
-                circles[8].style.top = '33.5%'; circles[8].style.left = '76.5%';    //#7
+                circles[7].style.top = '33.5%'; circles[7].style.left = '19%';    //#10
+                circles[8].style.top = '33.5%'; circles[8].style.left = '81%';    //#7
             }
         } else if (formationValue == '343') {
-            circles[4].style.top = '58.5%'; circles[4].style.left = '47.5%';    //#5
-            circles[5].style.top = '47.5%'; circles[5].style.left = '65.5%';    //#6
-            circles[6].style.top = '47.5%'; circles[6].style.left = '29.5%';    //#8
-            circles[7].style.top = '36.5%'; circles[7].style.left = '47.5%';  //#10
+            circles[4].style.top = '58.5%'; circles[4].style.left = '50%';    //#5
+            circles[5].style.top = '47.5%'; circles[5].style.left = '68%';    //#6
+            circles[6].style.top = '47.5%'; circles[6].style.left = '32%';    //#8
+            circles[7].style.top = '36.5%'; circles[7].style.left = '50%';  //#10
         } else if (formationValue === "451" || formationValue === "4231") {
-            circles[5].style.top = '56.5%'; circles[5].style.left = '59.5%';    //#6
-            circles[6].style.top = '56.5%'; circles[6].style.left = '35.5%';    //#8
-            circles[7].style.top = '36.5%'; circles[7].style.left = '47.5%';  //#10
-            circles[8].style.top = '34.5%'; circles[8].style.left = '76.5%';    //#7
-            circles[9].style.top = '22.5%'; circles[9].style.left = '47.5%';    //#9
-            circles[10].style.top = '34.5%'; circles[10].style.left = '18.5%';  //#11
+            circles[5].style.top = '56.5%'; circles[5].style.left = '62%';    //#6
+            circles[6].style.top = '56.5%'; circles[6].style.left = '38%';    //#8
+            circles[7].style.top = '36.5%'; circles[7].style.left = '50%';  //#10
+            circles[8].style.top = '34.5%'; circles[8].style.left = '81%';    //#7
+            circles[9].style.top = '22.5%'; circles[9].style.left = '50%';    //#9
+            circles[10].style.top = '34.5%'; circles[10].style.left = '19%';  //#11
         } else if (formationValue === "532" || formationValue === "352") {
-            circles[5].style.top = '54.5%'; circles[5].style.left = '59.5%';    //#6
-            circles[6].style.top = '54.5%'; circles[6].style.left = '35.5%';    //#8
-            circles[7].style.top = '34.5%'; circles[7].style.left = '47.5%';  //#10
+            circles[5].style.top = '54.5%'; circles[5].style.left = '62%';    //#6
+            circles[6].style.top = '54.5%'; circles[6].style.left = '38%';    //#8
+            circles[7].style.top = '34.5%'; circles[7].style.left = '50%';  //#10
         } else if (formationValue === "3421") {
-            circles[5].style.top = '54.5%'; circles[5].style.left = '59.5%';    //#6
-            circles[6].style.top = '54.5%'; circles[6].style.left = '35.5%';    //#8
-            circles[7].style.top = '34.5%'; circles[7].style.left = '67.5%';  //#10
-            circles[9].style.top = '22.5%'; circles[9].style.left = '47.5%';    //#9
-            circles[10].style.top = '34.5%'; circles[10].style.left = '27.5%';  //#11
+            circles[5].style.top = '54.5%'; circles[5].style.left = '62%';    //#6
+            circles[6].style.top = '54.5%'; circles[6].style.left = '38%';    //#8
+            circles[7].style.top = '34.5%'; circles[7].style.left = '70%';  //#10
+            circles[9].style.top = '22.5%'; circles[9].style.left = '50%';    //#9
+            circles[10].style.top = '34.5%'; circles[10].style.left = '30%';  //#11
         }
+        circles.forEach((circle) => {
+            circle.style.left = parseFloat(circle.style.left) - percentageChangeLeft + '%';
+        });
+
         localStorage.setItem('mainCirclePositions', getCirclePositions(circles));
     }
     else if (circleType == 'oppo') {
         const circles = document.querySelectorAll(".oppoCircle");
-        circles[0].style.top = '6%'; circles[0].style.left = '47.5%';  //#1
+
+        var circleWidth = circles[0].getBoundingClientRect().width || standardCircleSize;
+        circleWidth = circleWidth / 2;
+        percentageChangeLeft = (circleWidth / imageConWidth) * 100;
+
+        circles[0].style.top = '6%'; circles[0].style.left = '50%';  //#1
         if (formationValue === '433') {
-            circles[1].style.top = '22.5%'; circles[1].style.left = '18.5%';    //#2
-            circles[2].style.top = '17.5%'; circles[2].style.left = '32.5%';    //#3
-            circles[3].style.top = '17.5%'; circles[3].style.left = '62.5%';    //#4
-            circles[4].style.top = '22.5%'; circles[4].style.left = '76.5%';    //#5
-            circles[5].style.top = '30.5%'; circles[5].style.left = '47.5%';    //#6
-            circles[6].style.top = '47.5%'; circles[6].style.left = '35.5%';    //#8
-            circles[7].style.top = '47.5%'; circles[7].style.left = '59.5%';    //#10
-            circles[8].style.top = '60.5%'; circles[8].style.left = '18.5%';    //#7
-            circles[9].style.top = '66.5%'; circles[9].style.left = '47.5%';    //#9
-            circles[10].style.top = '60.5%'; circles[10].style.left = '76.5%';  //#11
+            circles[1].style.top = '22.5%'; circles[1].style.left = '19%';    //#2
+            circles[2].style.top = '17.5%'; circles[2].style.left = '35%';    //#3
+            circles[3].style.top = '17.5%'; circles[3].style.left = '65%';    //#4
+            circles[4].style.top = '22.5%'; circles[4].style.left = '81%';    //#5
+            circles[5].style.top = '30.5%'; circles[5].style.left = '50%';    //#6
+            circles[6].style.top = '47.5%'; circles[6].style.left = '38%';    //#8
+            circles[7].style.top = '47.5%'; circles[7].style.left = '62%';    //#10
+            circles[8].style.top = '60.5%'; circles[8].style.left = '19%';    //#7
+            circles[9].style.top = '66.5%'; circles[9].style.left = '50%';    //#9
+            circles[10].style.top = '60.5%'; circles[10].style.left = '81%';  //#11
         }
         else if (formationValue === "442diamond") {
-            circles[1].style.top = '22.5%'; circles[1].style.left = '18.5%';    //#2
-            circles[2].style.top = '17.5%'; circles[2].style.left = '32.5%';    //#3
-            circles[3].style.top = '17.5%'; circles[3].style.left = '62.5%';    //#4
-            circles[4].style.top = '22.5%'; circles[4].style.left = '76.5%';    //#5
-            circles[5].style.top = '30.5%'; circles[5].style.left = '47.5%';    //#6
-            circles[6].style.top = '41.5%'; circles[6].style.left = '65.5%';    //#8
-            circles[7].style.top = '52.5%'; circles[7].style.left = '47.5%';    //#10
-            circles[8].style.top = '41.5%'; circles[8].style.left = '29.5%';    //#7
-            circles[9].style.top = '66.5%'; circles[9].style.left = '32.5%';    //#9
-            circles[10].style.top = '66.5%'; circles[10].style.left = '62.5%';  //#11
+            circles[1].style.top = '22.5%'; circles[1].style.left = '19%';    //#2
+            circles[2].style.top = '17.5%'; circles[2].style.left = '35%';    //#3
+            circles[3].style.top = '17.5%'; circles[3].style.left = '65%';    //#4
+            circles[4].style.top = '22.5%'; circles[4].style.left = '81%';    //#5
+            circles[5].style.top = '30.5%'; circles[5].style.left = '50%';    //#6
+            circles[6].style.top = '41.5%'; circles[6].style.left = '68%';    //#8
+            circles[7].style.top = '52.5%'; circles[7].style.left = '50%';    //#10
+            circles[8].style.top = '41.5%'; circles[8].style.left = '32%';    //#7
+            circles[9].style.top = '66.5%'; circles[9].style.left = '35%';    //#9
+            circles[10].style.top = '66.5%'; circles[10].style.left = '65%';  //#11
         }
         else if (formationValue === "442flat") {
-            circles[1].style.top = '22.5%'; circles[1].style.left = '18.5%';    //#2
-            circles[2].style.top = '17.5%'; circles[2].style.left = '32.5%';    //#3
-            circles[3].style.top = '17.5%'; circles[3].style.left = '62.5%';    //#4
-            circles[4].style.top = '22.5%'; circles[4].style.left = '76.5%';    //#5
-            circles[5].style.top = '44.5%'; circles[5].style.left = '35.5%';    //#6
-            circles[6].style.top = '44.5%'; circles[6].style.left = '59.5%';    //#8
-            circles[7].style.top = '49.5%'; circles[7].style.left = '76.5%';    //#10
-            circles[8].style.top = '49.5%'; circles[8].style.left = '18.5%';    //#7
-            circles[9].style.top = '66.5%'; circles[9].style.left = '32.5%';    //#9
-            circles[10].style.top = '66.5%'; circles[10].style.left = '62.5%';  //#11
+            circles[1].style.top = '22.5%'; circles[1].style.left = '19%';    //#2
+            circles[2].style.top = '17.5%'; circles[2].style.left = '35%';    //#3
+            circles[3].style.top = '17.5%'; circles[3].style.left = '65%';    //#4
+            circles[4].style.top = '22.5%'; circles[4].style.left = '81%';    //#5
+            circles[5].style.top = '44.5%'; circles[5].style.left = '38%';    //#6
+            circles[6].style.top = '44.5%'; circles[6].style.left = '62%';    //#8
+            circles[7].style.top = '49.5%'; circles[7].style.left = '81%';    //#10
+            circles[8].style.top = '49.5%'; circles[8].style.left = '19%';    //#7
+            circles[9].style.top = '66.5%'; circles[9].style.left = '35%';    //#9
+            circles[10].style.top = '66.5%'; circles[10].style.left = '65%';  //#11
         }
         else if (formationValue === "424") {
-            circles[1].style.top = '22.5%'; circles[1].style.left = '18.5%';    //#2
-            circles[2].style.top = '17.5%'; circles[2].style.left = '34.5%';  //#3
-            circles[3].style.top = '17.5%'; circles[3].style.left = '62.5%';    //#4
-            circles[4].style.top = '22.5%'; circles[4].style.left = '76.5%';    //#5
-            circles[5].style.top = '44.5%'; circles[5].style.left = '35.5%';    //#6
-            circles[6].style.top = '44.5%'; circles[6].style.left = '59.5%';    //#8
-            circles[7].style.top = '56.5%'; circles[7].style.left = '76.5%';    //#10
-            circles[8].style.top = '56.5%'; circles[8].style.left = '18.5%';    //#7
-            circles[9].style.top = '66.5%'; circles[9].style.left = '32.5%';    //#9
-            circles[10].style.top = '66.5%'; circles[10].style.left = '62.5%';  //#11
+            circles[1].style.top = '22.5%'; circles[1].style.left = '19%';    //#2
+            circles[2].style.top = '17.5%'; circles[2].style.left = '35%';    //#3
+            circles[3].style.top = '17.5%'; circles[3].style.left = '65%';    //#4
+            circles[4].style.top = '22.5%'; circles[4].style.left = '81%';    //#5
+            circles[5].style.top = '44.5%'; circles[5].style.left = '38%';    //#6
+            circles[6].style.top = '44.5%'; circles[6].style.left = '62%';    //#8
+            circles[7].style.top = '56.5%'; circles[7].style.left = '81%';    //#10
+            circles[8].style.top = '56.5%'; circles[8].style.left = '19%';    //#7
+            circles[9].style.top = '66.5%'; circles[9].style.left = '35%';    //#9
+            circles[10].style.top = '66.5%'; circles[10].style.left = '65%';  //#11
         }
         else if (formationValue === "451" || formationValue === '4231') {
-            circles[1].style.top = '22.5%'; circles[1].style.left = '18.5%';    //#2
-            circles[2].style.top = '17.5%'; circles[2].style.left = '32.5%';    //#3
-            circles[3].style.top = '17.5%'; circles[3].style.left = '62.5%';    //#4
-            circles[4].style.top = '22.5%'; circles[4].style.left = '76.5%';    //#5
-            circles[5].style.top = '32.5%'; circles[5].style.left = '35.5%';    //#6
-            circles[6].style.top = '32.5%'; circles[6].style.left = '59.5%';    //#8
-            circles[7].style.top = '52.5%'; circles[7].style.left = '47.5%';    //#10
-            circles[8].style.top = '54.5%'; circles[8].style.left = '18.5%';    //#7
-            circles[9].style.top = '66.5%'; circles[9].style.left = '47.5%';    //#9
-            circles[10].style.top = '54.5%'; circles[10].style.left = '76.5%';  //#11
+            circles[1].style.top = '22.5%'; circles[1].style.left = '19%';    //#2
+            circles[2].style.top = '17.5%'; circles[2].style.left = '35%';    //#3
+            circles[3].style.top = '17.5%'; circles[3].style.left = '65%';    //#4
+            circles[4].style.top = '22.5%'; circles[4].style.left = '81%';    //#5
+            circles[5].style.top = '32.5%'; circles[5].style.left = '38%';    //#6
+            circles[6].style.top = '32.5%'; circles[6].style.left = '62%';    //#8
+            circles[7].style.top = '52.5%'; circles[7].style.left = '50%';    //#10
+            circles[8].style.top = '54.5%'; circles[8].style.left = '19%';    //#7
+            circles[9].style.top = '66.5%'; circles[9].style.left = '50%';    //#9
+            circles[10].style.top = '54.5%'; circles[10].style.left = '81%';  //#11
         }
         else if (formationValue === "532" || formationValue === "352") {
-            circles[1].style.top = '15.5%'; circles[1].style.left = '27.5%';    //#2
-            circles[2].style.top = '15.5%'; circles[2].style.left = '47.5%';    //#3
-            circles[3].style.top = '15.5%'; circles[3].style.left = '67.5%';    //#4
-            circles[4].style.top = '35.5%'; circles[4].style.left = '76.5%';    //#5
-            circles[5].style.top = '29.5%'; circles[5].style.left = '35.5%';    //#6
-            circles[6].style.top = '29.5%'; circles[6].style.left = '59.5%';    //#8
-            circles[7].style.top = '52.5%'; circles[7].style.left = '47.5%';    //#10
-            circles[8].style.top = '35.5%'; circles[8].style.left = '18.5%';    //#7
-            circles[9].style.top = '66.5%'; circles[9].style.left = '32.5%';    //#9
-            circles[10].style.top = '66.5%'; circles[10].style.left = '62.5%';  //#11
+            circles[1].style.top = '15.5%'; circles[1].style.left = '30%';    //#2
+            circles[2].style.top = '15.5%'; circles[2].style.left = '50%';    //#3
+            circles[3].style.top = '15.5%'; circles[3].style.left = '70%';    //#4
+            circles[4].style.top = '35.5%'; circles[4].style.left = '81%';    //#5
+            circles[5].style.top = '29.5%'; circles[5].style.left = '38%';    //#6
+            circles[6].style.top = '29.5%'; circles[6].style.left = '62%';    //#8
+            circles[7].style.top = '52.5%'; circles[7].style.left = '50%';    //#10
+            circles[8].style.top = '35.5%'; circles[8].style.left = '19%';    //#7
+            circles[9].style.top = '66.5%'; circles[9].style.left = '35%';    //#9
+            circles[10].style.top = '66.5%'; circles[10].style.left = '65%';  //#11
         }
         else if (formationValue === "343") {
-            circles[1].style.top = '15.5%'; circles[1].style.left = '27.5%';    //#2
-            circles[2].style.top = '15.5%'; circles[2].style.left = '47.5%';    //#3
-            circles[3].style.top = '15.5%'; circles[3].style.left = '67.5%';    //#4
-            circles[4].style.top = '30.5%'; circles[4].style.left = '47.5%';    //#5
-            circles[5].style.top = '44.5%'; circles[5].style.left = '29.5%';    //#6
-            circles[6].style.top = '44.5%'; circles[6].style.left = '65.5%';    //#8
-            circles[7].style.top = '52.5%'; circles[7].style.left = '47.5%';    //#10
-            circles[8].style.top = '60.5%'; circles[8].style.left = '18.5%';    //#7
-            circles[9].style.top = '66.5%'; circles[9].style.left = '47.5%';    //#9
-            circles[10].style.top = '60.5%'; circles[10].style.left = '76.5%';  //#11
+            circles[1].style.top = '15.5%'; circles[1].style.left = '30%';    //#2
+            circles[2].style.top = '15.5%'; circles[2].style.left = '50%';    //#3
+            circles[3].style.top = '15.5%'; circles[3].style.left = '70%';    //#4
+            circles[4].style.top = '30.5%'; circles[4].style.left = '50%';    //#5
+            circles[5].style.top = '44.5%'; circles[5].style.left = '32%';    //#6
+            circles[6].style.top = '44.5%'; circles[6].style.left = '68%';    //#8
+            circles[7].style.top = '52.5%'; circles[7].style.left = '50%';    //#10
+            circles[8].style.top = '60.5%'; circles[8].style.left = '19%';    //#7
+            circles[9].style.top = '66.5%'; circles[9].style.left = '50%';    //#9
+            circles[10].style.top = '60.5%'; circles[10].style.left = '81%';  //#11
         }
         else if (formationValue === "3421") {
-            circles[1].style.top = '15.5%'; circles[1].style.left = '27.5%';    //#2
-            circles[2].style.top = '15.5%'; circles[2].style.left = '47.5%';    //#3
-            circles[3].style.top = '15.5%'; circles[3].style.left = '67.5%';    //#4
-            circles[4].style.top = '35.5%'; circles[4].style.left = '76.5%';    //#5
-            circles[5].style.top = '29.5%'; circles[5].style.left = '35.5%';    //#6
-            circles[6].style.top = '29.5%'; circles[6].style.left = '59.5%';    //#8
-            circles[7].style.top = '56.5%'; circles[7].style.left = '27.5%';    //#10
-            circles[8].style.top = '35.5%'; circles[8].style.left = '18.5%';    //#7
-            circles[9].style.top = '66.5%'; circles[9].style.left = '47.5%';    //#9
-            circles[10].style.top = '56.5%'; circles[10].style.left = '67.5%';  //#11
+            circles[1].style.top = '15.5%'; circles[1].style.left = '30%';    //#2
+            circles[2].style.top = '15.5%'; circles[2].style.left = '50%';    //#3
+            circles[3].style.top = '15.5%'; circles[3].style.left = '70%';    //#4
+            circles[4].style.top = '35.5%'; circles[4].style.left = '81%';    //#5
+            circles[5].style.top = '29.5%'; circles[5].style.left = '38%';    //#6
+            circles[6].style.top = '29.5%'; circles[6].style.left = '62%';    //#8
+            circles[7].style.top = '56.5%'; circles[7].style.left = '30%';    //#10
+            circles[8].style.top = '35.5%'; circles[8].style.left = '19%';    //#7
+            circles[9].style.top = '66.5%'; circles[9].style.left = '50%';    //#9
+            circles[10].style.top = '56.5%'; circles[10].style.left = '70%';  //#11
         }
         else {
-            circles[1].style.top = '22.5%'; circles[1].style.left = '18.5%';    //#2
-            circles[2].style.top = '17.5%'; circles[2].style.left = '34.5%';  //#3
-            circles[3].style.top = '17.5%'; circles[3].style.left = '62.5%';    //#4
-            circles[4].style.top = '22.5%'; circles[4].style.left = '76.5%';    //#5
-            circles[5].style.top = '33.5%'; circles[5].style.left = '47.5%';    //#6
-            circles[6].style.top = '44.5%'; circles[6].style.left = '59.5%';    //#8
-            circles[7].style.top = '49.5%'; circles[7].style.left = '35.5%';    //#10
-            circles[8].style.top = '60.5%'; circles[8].style.left = '18.5%';    //#7
-            circles[9].style.top = '65.5%'; circles[9].style.left = '47.5%';    //#9
-            circles[10].style.top = '60.5%'; circles[10].style.left = '76.5%';  //#11
+            circles[1].style.top = '22.5%'; circles[1].style.left = '19%';    //#2
+            circles[2].style.top = '17.5%'; circles[2].style.left = '37%';  //#3
+            circles[3].style.top = '17.5%'; circles[3].style.left = '65%';    //#4
+            circles[4].style.top = '22.5%'; circles[4].style.left = '81%';    //#5
+            circles[5].style.top = '33.5%'; circles[5].style.left = '50%';    //#6
+            circles[6].style.top = '44.5%'; circles[6].style.left = '62%';    //#8
+            circles[7].style.top = '49.5%'; circles[7].style.left = '38%';    //#10
+            circles[8].style.top = '60.5%'; circles[8].style.left = '19%';    //#7
+            circles[9].style.top = '65.5%'; circles[9].style.left = '50%';    //#9
+            circles[10].style.top = '60.5%'; circles[10].style.left = '81%';  //#11
         }
+        circles.forEach((circle) => {
+            circle.style.left = parseFloat(circle.style.left) - percentageChangeLeft + '%';
+        });
         localStorage.setItem('oppoCirclePositions', getCirclePositions(circles));
+
     }
+
 }
 
 // Sets the color of the color pickers and the circles
@@ -764,7 +784,7 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
                             var outputElement = outputStarter.querySelector('.outputStarting');
                             outputElement.innerText = starter.name;
                             outputStarter.previousElementSibling.innerText = starter.number;
-                        
+
                             toggleOutputBoxVisibility(outputElement);
                             changeNumberOnTextbox(outputElement.parentNode.parentNode, starter.number);
                         }
@@ -823,20 +843,19 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
 function setCircleAndTextSize() {
     var stepDifference = ((parseInt(circleSlider.max) + parseInt(circleSlider.min)) / 2) - circleSlider.value;
     var changePercentage = (1 + Math.abs(stepDifference * 0.08)).toFixed(2);
-    var currentCircleWidth;
     var percentageChangeLeft;
     var percentageChangeTop;
 
     allCircles.forEach((circle) => {
-        //Only have to retrieve this info once
+        var circleWidthBefore = circle.getBoundingClientRect().width || standardCircleSize;
 
+        //If stepDifference is negative (meaning size increases), we increase circle size by multiplying. Otherwise, we decrease by dividing
         circle.style.width = (stepDifference < 0) ? standardCircleSize * changePercentage + 'px' : standardCircleSize / changePercentage + 'px';
         circle.style.height = (stepDifference < 0) ? standardCircleSize * changePercentage + 'px' : standardCircleSize / changePercentage + 'px';
 
-        //Only have to retrieve this info once
+        //Only have to retrieve this info once, since this is applicable for each circle
         if (circle.id == 'circle1') {
-            currentCircleWidth = circle.getBoundingClientRect().width || standardCircleSize;
-            var widthDifference = (currentCircleWidth - parseFloat(circle.style.width)) / 2;
+            var widthDifference = (circleWidthBefore - parseFloat(circle.style.width)) / 2;
             percentageChangeLeft = (widthDifference / imageConWidth) * 100;
             percentageChangeTop = (widthDifference / imageConHeight) * 100;
         }
@@ -870,6 +889,8 @@ function setCircleAndTextSize() {
             textBoxTwo.style.fontSize = (stepDifference < 0) ? textBoxTwoFontSize * textPercentage + 'px' : textBoxTwoFontSize / textPercentage + 'px';
             textBoxTwo.style.bottom = (stepDifference < 0) ? textBoxTwoBottom * textPercentage + 'px' : textBoxTwoBottom / textPercentage + 'px';
         }
+
+
     });
 }
 

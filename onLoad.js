@@ -1,4 +1,5 @@
 const lineUpsObj = {};
+
 var startingArray = [];
 var secondArray = [];
 var startKeyArray = [];
@@ -18,6 +19,7 @@ const importButton = document.getElementById('importButton');
 const clearNamesButton = document.getElementById('clearNamesButton');
 const clearArrowsButton = document.getElementById('clearArrowsButton');
 const showLineUpButton = document.getElementById('showLineUpButton');
+const resetButton = document.getElementById('resetButton');
 
 const allCircles = document.querySelectorAll(".circle, .oppoCircle");
 const mainCircles = document.querySelectorAll(".circle");
@@ -42,8 +44,10 @@ const imageConWidth = imageContainer.offsetWidth || 584; //Same for offsetWidth
 const canvasContainer = document.getElementById('drawingCanvas');
 
 const teamNameBox = document.getElementById('teamNameBox');
-const screenshotButton = document.getElementById('screenshotButton');
 const downloadButton = document.getElementById('downloadButton');
+const screenshotButton = document.getElementById('screenshotButton');
+const copyImageButton = document.getElementById('copyImageButton');
+const recordButton = document.getElementById('recordButton');
 const selectTeam = document.getElementById("select-team");
 const selectFormation = document.getElementById("select-formation");
 
@@ -99,7 +103,6 @@ var standardNumberSizeSmallOppo;
 var standardTextBoxOne;
 var standardTextBoxTwo;
 
-const animationDuration = 1000;
 
 const mainColor = document.getElementById("colorPickerMain");
 
@@ -272,6 +275,7 @@ function resizeFunctionality(e) {
 }
 
 window.onload = () => {
+    
     var buJson = {
         "teamName": "Argentina WC 2022",
         "formation": "4-3-3",
@@ -466,6 +470,10 @@ window.onload = () => {
     if (localStorage.getItem('mainCirclePositions') == null) {
         setCirclePositions('433', 'main');
     }
+    if (localStorage.getItem('oppoCirclePositions') == null) {
+        setCirclePositions('433', 'oppo');
+    }
+    
     determineFormation();
 
     setTextBoxOrders();
@@ -678,16 +686,17 @@ function textToCircle() {
         const outputOppo = outputOppos[i];
 
         inputBoxes[i].addEventListener("input", function () {
-            outputStarting.innerText = this.value;
+            console.log("TYPING");
+            outputStarting.textContent = this.value;
             toggleOutputBoxVisibility(outputStarting);
-            
+
             //Sets the local storage item named 'starting#'
             localStorage.setItem(this.id, this.value);
         });
 
         secondBoxes[i].addEventListener("input", function () {
             if (checkOppositionName.checked == false) {
-                outputSecond.innerText = this.value;
+                outputSecond.textContent = this.value;
                 toggleOutputBoxVisibility(outputSecond);
 
                 //Sets the local storage item named 'backupsecond#'
@@ -695,10 +704,10 @@ function textToCircle() {
                 localStorage.setItem(localStorageName, this.value);
             }
             else {
-                outputOppo.innerText = this.value;
+                outputOppo.textContent = this.value;
                 toggleOutputBoxVisibility(outputOppo);
 
-                 //Sets the local storage item named 'opposecond#'
+                //Sets the local storage item named 'opposecond#'
                 var localStorageName = "oppo" + this.id;
                 localStorage.setItem(localStorageName, this.value);
             }

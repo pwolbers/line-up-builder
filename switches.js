@@ -52,6 +52,9 @@ movingCheck.addEventListener("change", changeSwitch);
 var playCheck = document.getElementById("play-checkbox");
 playCheck.addEventListener("change", changeSwitch);
 
+var recordCheck = document.getElementById("gif-checkbox");
+recordCheck.addEventListener("change", changeSwitch);
+//Sets the line up based on the JSON content retrieved from GitHub/locally
 var currentSwitch;
 
 function changeSwitch(evt) {
@@ -87,14 +90,18 @@ function changeSwitch(evt) {
     else if (currentSwitch.id == 'play-checkbox') {
         moveCircles();
     }
+    else if (currentSwitch.id == 'gif-checkbox') {
+        startRecording();
+    }
 }
 
 function arrowCircleCheckbox(switchCheckbox) {
-    document.querySelector('.play-checkbox').style.display = 'none';
-
+    playCheck.style.display = 'none';
+    playCheck.disabled = true;
+    recordCheck.disabled = true;
     if (switchCheckbox.id == 'arrow-checkbox') {
-        document.getElementById('circle-checkbox').checked = false;
-        document.getElementById('moving-checkbox').checked = false;
+        circleCheck.checked = false;
+        movingCheck.checked = false;
         //Show all normal lines
         for (var i = 0; i < lines.length; i++) {
             lines[i].div.style.display = 'block';
@@ -103,16 +110,44 @@ function arrowCircleCheckbox(switchCheckbox) {
         for (var x = 0; x < movingLines.length; x++) {
             movingLines[x].div.style.display = 'none';
         }
+        //Set 'Hide pressing line' switch to true and run functionality
+        blueArrowCheckTrue.checked = false;
+        blueArrowCheckFalse.checked = true;
+        blueArrowCheckBox();
+        
+        var playButton = document.querySelector('.play-checkbox .checkmark');
+        if (playButton.classList.toString().indexOf('orangeBackgroundButton') > -1 || movingLines.length == 0) {
+            playButton.classList.remove('orangeBackgroundButton');
+        }
+        var recordButton = document.querySelector('.gif-checkbox .checkmark');
+        if (recordButton.classList.toString().indexOf('orangeBackgroundButton') > -1 || movingLines.length == 0) {
+            recordButton.classList.remove('orangeBackgroundButton');
+        }
     }
     else if (switchCheckbox.id == 'circle-checkbox') {
-        document.getElementById('arrow-checkbox').checked = false;
-        document.getElementById('moving-checkbox').checked = false;
+        arrowCheck.checked = false;
+        movingCheck.checked = false;
+        //Set 'Hide pressing line' switch to true and run functionality
+        blueArrowCheckTrue.checked = false;
+        blueArrowCheckFalse.checked = true;
+        blueArrowCheckBox();
+
+        var playButton = document.querySelector('.play-checkbox .checkmark');
+        if (playButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
+            playButton.classList.remove('orangeBackgroundButton');
+        }
+        var recordButton = document.querySelector('.gif-checkbox .checkmark');
+        if (recordButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
+            recordButton.classList.remove('orangeBackgroundButton');
+        }
     }
     else if (switchCheckbox.id == 'moving-checkbox') {
-        document.getElementById('arrow-checkbox').checked = false;
-        document.getElementById('circle-checkbox').checked = false;
+        arrowCheck.checked = false;
+        circleCheck.checked = false;
         document.querySelector('.play-checkbox').style.display = 'block';
-        //Hide all normal lines
+        playCheck.disabled = false;
+        recordCheck.disabled = false;
+
         for (var i = 0; i < lines.length; i++) {
             lines[i].div.style.display = 'none';
         }
@@ -125,6 +160,15 @@ function arrowCircleCheckbox(switchCheckbox) {
             //Set 'Hide pressing line' switch to true and run functionality
             blueArrowCheckTrue.checked = true;
             blueArrowCheckBox();
+            var playButton = document.querySelector('.play-checkbox .checkmark');
+            if (playButton.classList.toString().indexOf('orangeBackgroundButton') == -1 && movingLines.length > 0) {
+                playButton.classList.add('orangeBackgroundButton');
+            }
+            
+            var recordButton = document.querySelector('.gif-checkbox .checkmark');
+            if (recordButton.classList.toString().indexOf('orangeBackgroundButton') == -1 && movingLines.length > 0) {
+                recordButton.classList.add('orangeBackgroundButton');
+            }
         }
 
         //Reset 'Hide blue arrow checkbox
@@ -281,10 +325,10 @@ function labelCheckBox() {
 }
 
 function blueArrowCheckBox() {
-    blueArrowSwitch = document.getElementById('blueArrow-checkbox-true');
-    var fillingBlueArrow = blueArrowSwitch.nextElementSibling.nextElementSibling;
+    var fillingBlueArrow = blueArrowCheckTrue.nextElementSibling.nextElementSibling;
     const allBlueArrows = document.querySelectorAll('.movingLine');
-    if (blueArrowSwitch.checked) {
+
+    if (blueArrowCheckTrue.checked) {
         localStorage.setItem('blueArrow', 'on');
         fillingBlueArrow.style.transform = 'translateX(100%)';
 
@@ -293,16 +337,18 @@ function blueArrowCheckBox() {
                 blueArrow.style.display = 'block';
             }
         });
+        
     }
     else {
         localStorage.setItem('blueArrow', 'off');
         fillingBlueArrow.style.transform = 'translateX(0%)';
+
         allBlueArrows.forEach((blueArrow) => {
             if (blueArrow.style.display != 'none') {
                 blueArrow.style.display = 'none';
             }
         });
-
+        
     }
 }
 
@@ -551,4 +597,168 @@ function clearOutBoxes(boxType) {
             outputOppos[index].innerText = secondBoxes[index].value;
         }
     });
+}
+
+async function captureFrame(encoder, imageContainer, context, delay, scale) {
+    // Capture the content of the image container with scaling
+    const capturedCanvas = await html2canvas(imageContainer, {
+        scale: scale,
+        backgroundColor: null // Preserve the original background
+    });
+
+    const containerRect = imageContainer.getBoundingClientRect();
+    const cropWidth = containerRect.width * 0.05 * scale; // 5% of the width on each side
+    const cropHeight = containerRect.height * scale;
+
+    const cropX = cropWidth;
+    const cropY = 0;
+
+    const cropCanvas = document.createElement('canvas');
+    const cropContext = cropCanvas.getContext("2d", { willReadFrequently: true });
+
+    cropCanvas.width = capturedCanvas.width - 2 * cropWidth;
+    cropCanvas.height = cropHeight;
+
+    cropContext.drawImage(
+        capturedCanvas,
+        cropX, cropY,
+        cropCanvas.width, cropCanvas.height,
+        0, 0,
+        cropCanvas.width, cropCanvas.height
+    );
+
+    context.canvas.width = cropCanvas.width;
+    context.canvas.height = cropCanvas.height;
+    context.drawImage(cropCanvas, 0, 0);
+
+    encoder.setDelay(delay);
+    encoder.addFrame(context);
+}
+
+function calculateTranslation(height, angle) {
+    const radians = -angle * (Math.PI / 180); // Angle adjustment
+    const dx = height * Math.sin(radians);
+    const dy = height * Math.cos(radians);
+    return { dx, dy };
+}
+
+async function startRecording() {
+    if (movingLines.length > 0) {
+        var buttonContainer = document.getElementById('button-pitch-container');
+        buttonContainer.style.display = 'none';
+
+        const encoder = new GIFEncoder();
+        encoder.setRepeat(0);
+        encoder.start();
+
+        const canvas = document.createElement('canvas');
+        const context =canvas.getContext("2d", { willReadFrequently: true });
+        const imageContainer = document.getElementById('image-container');
+
+        const scale = 1.2; // Adjust this value as needed for higher/lower resolution
+
+        // Query all movingLine elements and their parent circles
+        const movingLines = Array.from(document.querySelectorAll('.movingLine'));
+
+        // Store initial positions of circles
+        const initialPositions = new Map();
+        movingLines.forEach(movingLine => {
+            const circle = movingLine.parentElement;
+            initialPositions.set(circle, {
+                top: circle.style.top,
+                left: circle.style.left
+            });
+        });
+
+        // Pre-calculate values for each circle
+        const calculations = movingLines.map(movingLine => {
+            movingLine.style.display = 'none';
+            const circle = movingLine.parentElement;
+            const height = parseFloat(movingLine.getAttribute('height'));
+            const angle = parseFloat(movingLine.getAttribute('angledeg'));
+
+            const { dx, dy } = calculateTranslation(height, angle);
+
+            const containerRect = imageContainer.getBoundingClientRect();
+            const containerWidth = containerRect.width;
+            const containerHeight = containerRect.height;
+
+            const dxPercent = (dx / containerWidth) * 100;
+            const dyPercent = (dy / containerHeight) * 100;
+
+            const initialPos = initialPositions.get(circle);
+            const initialTop = parseFloat(initialPos.top);
+            const initialLeft = parseFloat(initialPos.left);
+
+            const finalTop = initialTop + dyPercent;
+            const finalLeft = initialLeft + dxPercent;
+
+            const firstStepsTop = (finalTop - initialTop) / 8;
+            const firstStepsLeft = (finalLeft - initialLeft) / 8;
+
+            const finalStepsTop = (finalTop - initialTop) / 24;
+            const finalStepsLeft = (finalLeft - initialLeft) / 24;
+
+            return {
+                circle,
+                initialTop,
+                initialLeft,
+                firstStepsTop,
+                firstStepsLeft,
+                finalStepsTop,
+                finalStepsLeft,
+                finalTop,
+                finalLeft
+            };
+        });
+
+        const actions = [];
+
+        for (let i = 0; i < 10; i++) {
+            actions.push(() => {
+                calculations.forEach(calc => {
+                    const { circle, initialTop, initialLeft, firstStepsTop, firstStepsLeft, finalStepsTop, finalStepsLeft } = calc;
+
+                    let currentTop, currentLeft;
+                    if (i > 7) {
+                        currentTop = initialTop + (firstStepsTop * 7) + (finalStepsTop * (i - 7));
+                        currentLeft = initialLeft + (firstStepsLeft * 7) + (finalStepsLeft * (i - 7));
+                    } else {
+                        currentTop = initialTop + (firstStepsTop * i);
+                        currentLeft = initialLeft + (firstStepsLeft * i);
+                    }
+
+                    circle.style.top = `${currentTop}%`;
+                    circle.style.left = `${currentLeft}%`;
+                });
+            });
+        }
+
+        async function captureAndMove(index) {
+            if (index < actions.length) {
+                actions[index]();
+                const delay = (index === 0 || index === (actions.length - 1)) ? 1000 : 100;
+                await captureFrame(encoder, imageContainer, context, delay, scale);
+                await captureAndMove(index + 1);
+            } else {
+                // Reset the positions of all circles to their initial positions
+                movingLines.forEach(movingLine => {
+                    movingLine.style.display = 'block';
+                    const circle = movingLine.parentElement;
+                    const initialPos = initialPositions.get(circle);
+                    circle.style.top = initialPos.top;
+                    circle.style.left = initialPos.left;
+                });
+
+                encoder.finish();
+                encoder.download("download.gif");
+            }
+        }
+        recordCheck.checked = false;
+        await captureAndMove(0); // Start capturing frames
+        buttonContainer.style.display = 'block';
+    }
+    else{
+        recordCheck.checked = false;
+    }
 }

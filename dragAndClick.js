@@ -200,9 +200,9 @@ function handleSingleClick(e) {
 
 function removeLines(circle) {
     //Remove all lines drawn from circle
-
-    var movingLine = document.getElementById('moving-checkbox').checked;
-    if (!movingLine) {
+    var playingArrows = document.getElementById('play-checkbox').checked;
+    //If not currently moving
+    if (!playingArrows) {
         var normalLineDivs = circle.querySelectorAll('.normalLine');
         normalLineDivs.forEach(function (lineElement) {
             lineElement.parentNode.removeChild(lineElement);
@@ -210,17 +210,32 @@ function removeLines(circle) {
         const filteredData = lines.filter(item => item.circle !== circle.id);
         lines = filteredData;
 
-        //Get all current drawn lines
-        var allLines = document.getElementsByClassName('normalLine');
-
-        var lineInfo = '#';
-        for (var i = 0; i < allLines.length; i++) {
-            var parentCircleId = allLines[i].getAttribute('parentcircleid');
-            var height = allLines[i].getAttribute('height');
-            var angleDeg = allLines[i].getAttribute('angledeg');
-            lineInfo += parentCircleId + 'H' + height + 'D' + angleDeg + "#";
+        //After the lines from 1 circle are removed, we neet to set all the remaining lines to the local storage
+        var allNormalLines = document.getElementsByClassName('normalLine');
+        var allMovingLines = document.getElementsByClassName('movingLine');
+        var mainLineInfo = '#';
+        var oppoLineInfo = '#';
+        var movingLineInfo = '#';
+        for (var i = 0; i < allNormalLines.length; i++) {
+            var parentCircleId = allNormalLines[i].getAttribute('parentcircleid');
+            var height = allNormalLines[i].getAttribute('height');
+            var angleDeg = allNormalLines[i].getAttribute('angledeg');
+            if (parentCircleId.indexOf('oppo') == -1) {
+                mainLineInfo += parentCircleId + 'H' + height + 'D' + angleDeg + "#";
+            }
+            else {
+                oppoLineInfo += parentCircleId + 'H' + height + 'D' + angleDeg + "#";
+            }
         }
-        localStorage.setItem('lineInfo', lineInfo);
+        for (var j = 0; j < allMovingLines.length; j++) {
+            var parentCircleId = allMovingLines[j].getAttribute('parentcircleid');
+            var height = allMovingLines[j].getAttribute('height');
+            var angleDeg = allMovingLines[j].getAttribute('angledeg');
+            movingLineInfo += parentCircleId + 'H' + height + 'D' + angleDeg + "#";
+        }
+        localStorage.setItem('mainlineInfo', mainLineInfo);
+        localStorage.setItem('oppoLineInfo', oppoLineInfo);
+        localStorage.setItem('movingLineInfo', movingLineInfo);
     }
 }
 
@@ -472,15 +487,15 @@ function dragLine(e) {
                 line.setAttribute('height', hypotenuse.toFixed(3));
                 line.setAttribute('angleDeg', angleDeg.toFixed(3));
                 line.setAttribute('parentCircleId', activeCircle.id);
-
             }
         }
     }
+
+
 }
 
 function stopLine(e) {
     var movingLine = document.getElementById('moving-checkbox').checked;
-
     var latestLine;
     //Get last line added to the array
     if (movingLine) {
@@ -495,14 +510,19 @@ function stopLine(e) {
         var circleId = latestLine.parentNode.id;
         latestLine.parentNode.removeChild(latestLine);
         if (movingLine) {
-            //Remove last line added to the array
+            //If blue arrow is short, it should get removed from the movingLines array as well as the arrowLocationArray
             movingLines.pop();
             const filteredArray = arrowLocationArray.filter(item => item.id !== circleId);
+
             arrowLocationArray = filteredArray;
             if (arrowLocationArray.length == 0) {
                 var playButton = document.querySelector('.play-checkbox .checkmark');
                 if (playButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
                     playButton.classList.remove('orangeBackgroundButton');
+                }
+                var recordButton = document.querySelector('.gif-checkbox .checkmark');
+                if (recordButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
+                    recordButton.classList.remove('orangeBackgroundButton');
                 }
             }
         }
@@ -521,6 +541,10 @@ function stopLine(e) {
             var playButton = document.querySelector('.play-checkbox .checkmark');
             if (playButton.classList.toString().indexOf('orangeBackgroundButton') == -1) {
                 playButton.classList.add('orangeBackgroundButton');
+            }
+            var recordButton = document.querySelector('.gif-checkbox .checkmark');
+            if (recordButton.classList.toString().indexOf('orangeBackgroundButton') == -1)  {
+                recordButton.classList.add('orangeBackgroundButton');
             }
         }
     }
@@ -550,16 +574,33 @@ function stopLine(e) {
     }
 
     //Get all current drawn lines
-    var allLines = document.getElementsByClassName('normalLine');
-
-    var lineInfo = '#';
-    for (var i = 0; i < allLines.length; i++) {
-        var parentCircleId = allLines[i].getAttribute('parentcircleid');
-        var height = allLines[i].getAttribute('height');
-        var angleDeg = allLines[i].getAttribute('angledeg');
-        lineInfo += parentCircleId + 'H' + height + 'D' + angleDeg + "#";
+    var allNormalLines = document.getElementsByClassName('normalLine');
+    var allMovingLines = document.getElementsByClassName('movingLine');
+    var mainLineInfo = '#';
+    var oppoLineInfo = '#';
+    var movingLineInfo = '#';
+    for (var i = 0; i < allNormalLines.length; i++) {
+        var parentCircleId = allNormalLines[i].getAttribute('parentcircleid');
+        var height = allNormalLines[i].getAttribute('height');
+        var angleDeg = allNormalLines[i].getAttribute('angledeg');
+        if (parentCircleId.indexOf('oppo') == -1) {
+            mainLineInfo += parentCircleId + 'H' + height + 'D' + angleDeg + "#";
+        }
+        else {
+            oppoLineInfo += parentCircleId + 'H' + height + 'D' + angleDeg + "#";
+        }
     }
-    localStorage.setItem('lineInfo', lineInfo);
+    for (var j = 0; j < allMovingLines.length; j++) {
+
+        var parentCircleId = allMovingLines[j].getAttribute('parentcircleid');
+        var height = allMovingLines[j].getAttribute('height');
+        var angleDeg = allMovingLines[j].getAttribute('angledeg');
+        movingLineInfo += parentCircleId + 'H' + height + 'D' + angleDeg + "#";
+    }
+
+    localStorage.setItem('mainLineInfo', mainLineInfo);
+    localStorage.setItem('oppoLineInfo', oppoLineInfo);
+    localStorage.setItem('movingLineInfo', movingLineInfo);
     //Reset functionality
     activeCircle = null;
     document.removeEventListener("mousemove", dragLine);
