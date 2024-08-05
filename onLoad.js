@@ -698,8 +698,9 @@ function textToCircle() {
         secondBoxes[i].addEventListener("input", function () {
             if (checkOppositionName.checked == false) {
                 if(outputSecond.id = 'secondspan1'){
-                    outputSecond.textContent = 'test\ntest'
-                    outputSecond.style.margin = '-36px';
+                    /*outputSecond.textContent = 'test\ntest'
+                    outputSecond.style.margin = '-36px';*/
+                    outputSecond.textContent = this.value;
                 }
                 else{
 
