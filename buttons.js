@@ -68,6 +68,7 @@ function createImage(e) {
     // Get a reference to the element that you want to capture.
     const domNode = document.getElementById('image-container');
 
+    console.log("HELLOOOO");
     // Capture the DOM node as a Blob
     var scale = 2;
     domtoimage.toBlob(domNode, {
@@ -425,6 +426,19 @@ function importJSON() {
                         if (jsonData.oppoFormation) {
                             setOppoFormation(jsonData.oppoFormation.replaceAll('-', '').replaceAll(" ", ""));
                         }
+                        //Reset the backup storage if JSON WITH opposition gets imported
+                        secondBoxes.forEach((element) => {
+                            var localStorageName = "backup" + element.id;
+                            localStorage.removeItem(localStorageName);
+                        });
+
+                    }
+                    else{
+                        //Reset the oppo storage if JSON WITHOUT opposition gets imported
+                        secondBoxes.forEach((element) => {
+                            var localStorageName = "oppo" + element.id;
+                            localStorage.removeItem(localStorageName);
+                        });
                     }
 
                     if (jsonData.circlePositions) {
@@ -504,7 +518,7 @@ function clearArrows() {
     if (playButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
         playButton.classList.remove('orangeBackgroundButton');
     }
-    var recordButton = document.querySelector('.gif-checkbox .checkmark');
+    var recordButton = document.querySelector('.record-checkbox .checkmark');
     if (recordButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
         recordButton.classList.remove('orangeBackgroundButton');
     }
@@ -529,6 +543,7 @@ function updateUploadButton() {
 function moveCircles() {
     if (playCheck.checked) {
         if (arrowLocationArray.length > 0) {
+            blockAllInputs(true);
             circleCheck.disabled = true;
             arrowCheck.disabled = true;
             movingCheck.disabled = true;
@@ -573,7 +588,6 @@ function moveCircles() {
         playCheck.disabled = true;
         allCircles.forEach((circle) => {
             circle.style.transform = '';
-
         });
 
         // Schedule your script to run after the animation duration
@@ -596,7 +610,7 @@ function moveCircles() {
             blueArrowCheckTrue.disabled = false;
 
         }, animationDuration);
-
+        blockAllInputs(false);
     }
 }
 
@@ -620,11 +634,34 @@ function resetAll() {
         localStorage.clear();
         clearNames();
         clearArrows();
+        selectFormation.value = '';
+        clearCanvas();
 
         //Switch back to opposition not showing
         var oppoTrue = document.getElementById('oppo-checkbox-true');
         oppoTrue.checked = false;
         oppoCheckBox();
+
+        //Switch settings button back to the following
+        // Black pitch, show tactical, not boxed names, hide ball, hide pressing lines, drawing mode off
+
+        var tacticalSwitchTrue = document.getElementById('tactical-checkbox-true');
+        var pitchSwitchBlack = document.getElementById('pitch-checkbox-black');
+        var ballCheckFalse = document.getElementById("ball-checkbox-false");
+        var labelCheckUnboxed = document.getElementById("label-checkbox-unboxed");
+        var blueArrowCheckFalse = document.getElementById("blueArrow-checkbox-false");
+        var drawCheckFalse = document.getElementById("draw-checkbox-false");
+        tacticalSwitchTrue.checked = true;
+        pitchSwitchBlack.checked = true;
+        ballCheckFalse.checked = true;
+        labelCheckUnboxed.checked = true;
+        blueArrowCheckFalse.checked = true;
+        drawCheckFalse.checked = true;
+        pitchCheckBox();
+        ballCheckBox();
+        labelCheckBox();
+        blueArrowCheckBox();
+        drawCheckBox();
 
         //Set formations
         setCirclePositions('433', 'main');

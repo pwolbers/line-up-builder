@@ -1,5 +1,4 @@
 const lineUpsObj = {};
-
 var startingArray = [];
 var secondArray = [];
 var startKeyArray = [];
@@ -275,7 +274,7 @@ function resizeFunctionality(e) {
 }
 
 window.onload = () => {
-    
+    //Needed for the help window
     var buJson = {
         "teamName": "Argentina WC 2022",
         "formation": "4-3-3",
@@ -349,6 +348,7 @@ window.onload = () => {
     var backupJson = JSON.stringify(buJson, null, 2);
     document.getElementById("backupJson").innerText = backupJson;
 
+    //Needed for the help window
     var oppoJson = {
         "teamName": "Barcelona vs Man Utd - 2009 CL Final",
         "formation": "4-3-3",
@@ -473,7 +473,7 @@ window.onload = () => {
     if (localStorage.getItem('oppoCirclePositions') == null) {
         setCirclePositions('433', 'oppo');
     }
-    
+
     determineFormation();
 
     setTextBoxOrders();
@@ -490,6 +490,8 @@ window.onload = () => {
     standardNumberSizeSmallOppo = standardSizes[7];
     standardTextBoxOne = standardSizes[8];
     standardTextBoxTwo = standardSizes[9];
+
+    localStorage.setItem('allowClickAndDrag', true);
 }
 
 
@@ -686,7 +688,6 @@ function textToCircle() {
         const outputOppo = outputOppos[i];
 
         inputBoxes[i].addEventListener("input", function () {
-            console.log("TYPING");
             outputStarting.textContent = this.value;
             toggleOutputBoxVisibility(outputStarting);
 
@@ -696,7 +697,14 @@ function textToCircle() {
 
         secondBoxes[i].addEventListener("input", function () {
             if (checkOppositionName.checked == false) {
-                outputSecond.textContent = this.value;
+                if(outputSecond.id = 'secondspan1'){
+                    outputSecond.textContent = 'test\ntest'
+                    outputSecond.style.margin = '-36px';
+                }
+                else{
+
+                    outputSecond.textContent = this.value;
+                }
                 toggleOutputBoxVisibility(outputSecond);
 
                 //Sets the local storage item named 'backupsecond#'
@@ -978,6 +986,7 @@ function setSliderOutputLabel(slider, output) {
     }
 }
 var standardSizes = getStandardSizes();
+
 function getStandardSizes() {
     var standardSizes = [];
     var numberCircle;

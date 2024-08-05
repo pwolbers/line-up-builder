@@ -34,7 +34,7 @@ function setCirclePositions(formationValue, circleType) {
         percentageChangeLeft = (circleWidth / imageConWidth) * 100;
 
         circles[0].style.top = '84%'; circles[0].style.left = '50%';  //#1
-        
+
         //4 at the back
         if (formationValue.charAt(0) === '4') {
             circles[1].style.top = '66.5%'; circles[1].style.left = '81%';    //#2
@@ -840,6 +840,7 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
     }
 }
 
+window.setCircleAndTextSize = setCircleAndTextSize;
 function setCircleAndTextSize() {
     var stepDifference = ((parseInt(circleSlider.max) + parseInt(circleSlider.min)) / 2) - circleSlider.value;
     var changePercentage = (1 + Math.abs(stepDifference * 0.08)).toFixed(2);
@@ -894,21 +895,63 @@ function setCircleAndTextSize() {
     });
 }
 
-function getCirclePositions(circles) {
-    var circlePositions = "#";
-    circles.forEach((circle) => {
-        var circleStyleTop = circle.style.top;
-        var circleStyleLeft = circle.style.left;
-        if (circle.style.top.indexOf('px') > -1) {
-            circleStyleTop = circle.style.top.replace('px', '') / document.querySelector(".image-container").offsetHeight;
-            circleStyleTop = (circleStyleTop * 100).toFixed(2) + '%';
-        }
-        if (circle.style.left.indexOf('px') > -1) {
-            circleStyleLeft = circle.style.left.replace('px', '') / document.querySelector(".image-container").offsetWidth;
-            circleStyleLeft = (circleStyleLeft * 100).toFixed(2) + '%';
-        }
-        circlePositions += circle.id + "T" + circleStyleTop + "L" + circleStyleLeft + "#";
+function getCirclePositions(objects) {
 
-    });
-    return circlePositions;
+    if (objects.id == 'ball') {
+        var ball = objects;
+        var ballPosition = '#';
+        var ballStyleTop = ball.style.top;
+        var ballStyleLeft = ball.style.left;
+        if (ball.style.top.indexOf('px') > -1) {
+            ballStyleTop = ball.style.top.replace('px', '') / document.querySelector(".image-container").offsetHeight;
+            ballStyleTop = (ballStyleTop * 100).toFixed(2) + '%';
+        }
+        if (ball.style.left.indexOf('px') > -1) {
+            ballStyleLeft = ball.style.left.replace('px', '') / document.querySelector(".image-container").offsetWidth;
+            ballStyleLeft = (ballStyleLeft * 100).toFixed(2) + '%';
+        }
+        ballPosition += ball.id + "T" + ballStyleTop + "L" + ballStyleLeft + "#";
+        return ballPosition;
+    }
+    else {
+        var circlePositions = "#";
+        objects.forEach((circle) => {
+            var circleStyleTop = circle.style.top;
+            var circleStyleLeft = circle.style.left;
+            if (circle.style.top.indexOf('px') > -1) {
+                circleStyleTop = circle.style.top.replace('px', '') / document.querySelector(".image-container").offsetHeight;
+                circleStyleTop = (circleStyleTop * 100).toFixed(2) + '%';
+            }
+            if (circle.style.left.indexOf('px') > -1) {
+                circleStyleLeft = circle.style.left.replace('px', '') / document.querySelector(".image-container").offsetWidth;
+                circleStyleLeft = (circleStyleLeft * 100).toFixed(2) + '%';
+            }
+            circlePositions += circle.id + "T" + circleStyleTop + "L" + circleStyleLeft + "#";
+
+        });
+
+        return circlePositions;
+    }
+}
+
+
+
+function blockAllInputs(onOffButton) {
+    if (onOffButton) {
+        var leftContainer = document.getElementById('leftContainer');
+        var inputs = leftContainer.querySelectorAll('input, select, textarea, button');
+        inputs.forEach(input => {
+            input.disabled = true;
+        });
+        localStorage.setItem('allowClickAndDrag', false);
+    }
+    else {
+        var leftContainer = document.getElementById('leftContainer');
+        var inputs = leftContainer.querySelectorAll('input, select, textarea, button');
+        inputs.forEach(input => {
+            input.disabled = false;
+        });
+
+        localStorage.setItem('allowClickAndDrag', true);
+    }
 }

@@ -22,7 +22,7 @@
 <body onload="displayFormattedJSON()" style="background-color:#212331">
   <div id="main-container" class="main-container">
     <button id="showLineUpButton" class="redButton">Switch to pitch view</button>
-    <div class="left-container">
+    <div id="leftContainer" class="left-container">
       <div id="textbox-container" class="textbox-container">
         <div class="select-buttons">
           <div class="select-box" id="select-team-box">
@@ -56,10 +56,10 @@
             <div class="pitchCheckBox">
               <label id="pitchLabel" class="switch-label">Pitch background:</label>
               <div class="switchContainer">
-                <input id="pitch-checkbox-false" class="toggle" name="togglePitch" value="false" type="radio">
-                <label for="pitch-checkbox-false" class="btn labelLeft">Black</label>
-                <input id="pitch-checkbox-true" class="toggle" name="togglePitch" value="true" type="radio" checked>
-                <label for="pitch-checkbox-true" class="btn labelRight">Green</label>
+                <input id="pitch-checkbox-black" class="toggle" name="togglePitch" value="false" type="radio" checked>
+                <label for="pitch-checkbox-black" class="btn labelLeft">Black</label>
+                <input id="pitch-checkbox-green" class="toggle" name="togglePitch" value="true" type="radio">
+                <label for="pitch-checkbox-green" class="btn labelRight">Green</label>
                 <div class="switchFilling"></div>
               </div>
             </div>
@@ -77,10 +77,10 @@
             <div class="labelCheckBox">
               <label id="labelLabel" class="switch-label">Player name style:</label>
               <div class="switchContainer">
-                <input id="label-checkbox-false" class="toggle" name="toggleLabel" value="false" type="radio">
-                <label for="label-checkbox-false" class="btn labelLeft">Not boxed</label>
-                <input id="label-checkbox-true" class="toggle" name="toggleLabel" value="true" type="radio" checked>
-                <label for="label-checkbox-true" class="btn labelRight">Boxed</label>
+                <input id="label-checkbox-unboxed" class="toggle" name="toggleLabel" value="false" type="radio">
+                <label for="label-checkbox-unboxed" class="btn labelLeft">Not boxed</label>
+                <input id="label-checkbox-boxed" class="toggle" name="toggleLabel" value="true" type="radio" checked>
+                <label for="label-checkbox-boxed" class="btn labelRight">Boxed</label>
                 <div class="switchFilling"></div>
               </div>
             </div>
@@ -97,10 +97,21 @@
             <div class="blueArrowCheckBox">
               <label id="blueArrowLabel" class="switch-label">Show pressing lines:</label>
               <div class="switchContainer">
-                <input id="blueArrow-checkbox-false" class="toggle" name="toggleBlueArrow" value="false" type="radio" checked>
+                <input id="blueArrow-checkbox-false" class="toggle" name="toggleBlueArrow" value="false" type="radio"
+                  checked>
                 <label for="blueArrow-checkbox-false" class="btn labelLeft">Hide</label>
                 <input id="blueArrow-checkbox-true" class="toggle" name="toggleBlueArrow" value="true" type="radio">
                 <label for="blueArrow-checkbox-true" class="btn labelRight">Show</label>
+                <div class="switchFilling"></div>
+              </div>
+            </div>
+            <div class="numberCheckBox">
+              <label id="numberLabel" class="switch-label">Show squad numbers:</label>
+              <div class="switchContainer">
+                <input id="number-checkbox-false" class="toggle" name="toggleNumber" value="false" type="radio">
+                <label for="number-checkbox-false" class="btn labelLeft">Hide</label>
+                <input id="number-checkbox-true" class="toggle" name="toggleNumber" value="true" type="radio" checked>
+                <label for="number-checkbox-true" class="btn labelRight">Show</label>
                 <div class="switchFilling"></div>
               </div>
             </div>
@@ -343,11 +354,6 @@
     </div>
     <div class="lineup-container" id="lineupContainer" oncontextmenu="return false">
       <div class="image-container" id="image-container">
-        
-        <div class="text-container">
-          <span class="formation-label">Formation: </span>
-          <span class="copyright">© 2024 - pwolbers.github.io/line-up-builder</span>
-        </div>
         <div id="football-pitch" class="football-pitch greenColor">
           <div class="field lineColorWhite">
             <div class="tactical vertical1 lineColorWhite"></div>
@@ -395,7 +401,7 @@
           <label class="moving-checkbox square-checkbox">
             <input id="moving-checkbox" type="checkbox">
             <span class="checkmark">
-              <img class="blue-arrow" src="blue_arrow.png" alt="Image">
+              <img class="blue-arrow" src="blue_arrow_v2.png" alt="Image">
               <img class="moving-ball" src="moving_ball.png" alt="Image">
             </span>
           </label>
@@ -405,8 +411,8 @@
               <img class="play-image" src="playbutton.png" alt="Image">
             </span>
           </label>
-          <label class="gif-checkbox square-checkbox">
-            <input id="gif-checkbox" type="checkbox" disabled>
+          <label class="record-checkbox square-checkbox">
+            <input id="record-checkbox" type="checkbox" disabled>
             <span class="checkmark">
               <img class="gif-image" src="gifbutton.png" alt="Image">
               <img class="record-image" src="recordbutton.png" alt="Image">
@@ -415,12 +421,16 @@
 
         </div>
         <div id="allCircles">
+          <!-- Only because the text doesnt show up in the created gif -->
+          <span id="copyrightTextGIF" class="copyright" style="z-index: 9999; color: white; display: none;">© 2024 -
+            pwolbers.github.io/line-up-builder</span>
+
           <div id="circle1" class="circle pos1">
             <div class="circleColorGK circleStyle"></div>
             <span id="1" class="circle-number circle-number-font-large">1</span>
             <div class="output-container">
               <span id="startingSpan1" class="outputStarting startingStyleOne"></span>
-              <span id="secondSpan1" class="outputSecond secondStyleOne"></span>
+              <pre id="secondSpan1" class="outputSecond secondStyleOne"></pre>
             </div>
           </div>
           <div id="circle2" class="circle pos2">
@@ -580,10 +590,13 @@
               <span id="oppoSpan11" class="outputOpponent startingStyleOne"></span>
             </div>
           </div>
-          <div id="ball" class="ball"></div>
+          <div id="ball"><div class="ballImage"></div></div>
         </div>
         <canvas id="drawingCanvas"></canvas>
-        <div id='coverimage'></div>
+        <div class="text-container">
+          <p class="formation-label">Formation: </p>
+          <p class="copyright">© 2024 - pwolbers.github.io/line-up-builder</p>
+        </div>
       </div>
     </div>
     <div id="pitchDrawingContainer" class="pitchDrawing-container containerGreenBackground">

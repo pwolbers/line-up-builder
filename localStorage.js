@@ -1,20 +1,22 @@
 loadLocalStorage();
 function loadLocalStorage() {
-    var startLoadingLocalStorage = true;
     var tacticalSwitchTrue = document.getElementById('tactical-checkbox-true');
     var tacticalSwitchFalse = document.getElementById('tactical-checkbox-false');
 
-    var pitchSwitchTrue = document.getElementById('pitch-checkbox-true');
-    var pitchSwitchFalse = document.getElementById('pitch-checkbox-false');
+    var pitchSwitchGreen = document.getElementById('pitch-checkbox-green');
+    var pitchSwitchBlack = document.getElementById('pitch-checkbox-black');
 
     var ballCheckTrue = document.getElementById("ball-checkbox-true");
     var ballCheckFalse = document.getElementById("ball-checkbox-false");
 
-    var labelCheckTrue = document.getElementById("label-checkbox-true");
-    var labelCheckFalse = document.getElementById("label-checkbox-false");
+    var labelCheckBoxed = document.getElementById("label-checkbox-boxed");
+    var labelCheckUnboxed = document.getElementById("label-checkbox-unboxed");
 
     var blueArrowCheckTrue = document.getElementById("blueArrow-checkbox-true");
     var blueArrowCheckFalse = document.getElementById("blueArrow-checkbox-false");
+
+    var numberCheckTrue = document.getElementById("number-checkbox-true");
+    var numberCheckFalse = document.getElementById("number-checkbox-false");
 
     var drawCheckTrue = document.getElementById("draw-checkbox-true");
     var drawCheckFalse = document.getElementById("draw-checkbox-false");
@@ -25,48 +27,69 @@ function loadLocalStorage() {
     var oppoNameCheckTrue = document.getElementById("oppo-column-checkbox-true");
     var oppoNameCheckFalse = document.getElementById("oppo-column-checkbox-false");
 
-    var arrowCheck = document.getElementById("arrow-checkbox");
 
-    var circleCheck = document.getElementById("circle-checkbox");
-
-    var movingCheck = document.getElementById("moving-checkbox");
-
-    var playCheck = document.getElementById("play-checkbox");
     //check Settings
     //PitchColor
-    var pitchSwitch = (localStorage.getItem('pitchColor') == 'green') || false;
-    pitchSwitchTrue.checked = pitchSwitch;
-    pitchSwitchFalse.checked = !pitchSwitch;
+    const pitchColor = localStorage.getItem('pitchColor');
+    const isBlack = pitchColor === 'black' || pitchColor === null;
+
+    pitchSwitchGreen.checked = !isBlack;
+    pitchSwitchBlack.checked = isBlack;
 
     //Tactics
-    var tacticalSwitch = (localStorage.getItem('pitchTactics') == 'on') || true;
-    tacticalSwitchTrue.checked = tacticalSwitch;
-    tacticalSwitchFalse.checked = !tacticalSwitch;
+    const tacticsSwitch = localStorage.getItem('pitchTactics');
+    const tacticsOn = tacticsSwitch === 'on' || tacticsSwitch === null;
 
+    tacticalSwitchTrue.checked = tacticsOn;
+    tacticalSwitchFalse.checked = !tacticsOn;
+
+    //Player name style switch
+    const labelStyle = localStorage.getItem('labelStyle');
+    const labelBoxed = labelStyle === 'notBoxed' || labelStyle === null;
+    labelCheckBoxed.checked = !labelBoxed;
+    labelCheckUnboxed.checked = labelBoxed;
+    
     //Ball switch
-    var ballSwitch = (localStorage.getItem('ballSwitch') == 'on') || false;
-    ballCheckTrue.checked = ballSwitch;
-    ballCheckFalse.checked = !ballSwitch;
+    const ballSwitch = localStorage.getItem('ballSwitch');
+    const ballVisible = ballSwitch === 'off' || ballSwitch === null;
 
-    var labelSwitch = (localStorage.getItem('labelStyle') == 'boxed') || false;
-    labelCheckTrue.checked = labelSwitch;
-    labelCheckFalse.checked = !labelSwitch;
+    ballCheckTrue.checked = !ballVisible;
+    ballCheckFalse.checked = ballVisible;
 
-    var blueArrowSwitch = (localStorage.getItem('blueArrow') == 'on') || false;
-    blueArrowCheckTrue.checked = blueArrowSwitch;
-    blueArrowCheckFalse.checked = !blueArrowSwitch;
+    //Pressing line switch
+    const blueArrowSwitch = localStorage.getItem('blueArrow');
+    const blueArrowVisible = blueArrowSwitch === 'off' || blueArrowSwitch === null;
 
-    var drawSwitch = (localStorage.getItem('drawing') == 'on') || false;
-    drawCheckTrue.checked = drawSwitch;
-    drawCheckFalse.checked = !drawSwitch;
+    blueArrowCheckTrue.checked = !blueArrowVisible;
+    blueArrowCheckFalse.checked = blueArrowVisible;
 
-    var oppoSwitch = (localStorage.getItem('opposition') == 'on') || false;
-    oppoCheckTrue.checked = oppoSwitch;
-    oppoCheckFalse.checked = !oppoSwitch;
+    //Number switch
+    const numberSwitch = localStorage.getItem('showNumbers');
+    const numberVisible = numberSwitch === 'true' || numberSwitch === null;
 
-    var oppoNameSwitch = (localStorage.getItem('oppositionNaming') == 'on') || false;
-    oppoNameCheckTrue.checked = oppoNameSwitch;
-    oppoNameCheckFalse.checked = !oppoNameSwitch;
+    numberCheckTrue.checked = numberVisible;
+    numberCheckFalse.checked = !numberVisible;
+
+    //Drawing switch
+    const drawingSwitch = localStorage.getItem('drawing');
+    const drawingVisible = drawingSwitch === 'off' || numberSwitch === null;
+
+    drawCheckTrue.checked = !drawingVisible;
+    drawCheckFalse.checked = drawingVisible;
+
+    //Opposition switch
+    const oppoSwitch = localStorage.getItem('opposition');
+    const oppositionVisible = oppoSwitch === 'off' || oppoSwitch === null;
+
+    oppoCheckTrue.checked = !oppositionVisible;
+    oppoCheckFalse.checked = oppositionVisible;
+
+    //Opposition or backup
+    const oppoInputSwitch = localStorage.getItem('oppositionNaming');
+    const oppoInputVisible = oppoInputSwitch === 'off' || oppoInputSwitch === null;
+
+    oppoNameCheckTrue.checked = !oppoInputVisible;
+    oppoNameCheckFalse.checked = oppoInputVisible;
 
     mainPickr.setColor(localStorage.getItem('mainColor') || '#FF0000');
     secondPickr.setColor(localStorage.getItem('secondColor') || '#FFFFFF');
@@ -123,21 +146,32 @@ function loadLocalStorage() {
             circle.style.left = result.arrayLeft[q];
         }
     }
+
+    if (localStorage.getItem('ballPosition') != null) {
+        var ballPositionString = localStorage.getItem('ballPosition');
+        var result = getSpecificCirclePositions(ballPositionString);
+        var ball = document.getElementById('ball');
+        ball.style.top = result.arrayTop[0];
+        ball.style.left = result.arrayLeft[0];
+    }
     //Names back ups
     //Names opponent
     //Teamname
-
-
+    
     //Call these functions once to set the switches in the settings pop up correct and then execute the settings
     pitchCheckBox();
     ballCheckBox();
     labelCheckBox();
     blueArrowCheckBox();
+    numberCheckBox();
     drawCheckBox();
     oppoCheckBox();
     oppoNameCheckBox();
+
+    //Lines
     lines = [];
     movingLines = [];
+    
     var loadedMainLines = loadLines('main');
     var loadedOppoLines = loadLines('oppo');
     var loadedMovingLines = loadLines('moving')
@@ -145,68 +179,8 @@ function loadLocalStorage() {
     drawLines(loadedOppoLines, 'oppo');
     drawLines(loadedMovingLines, 'moving');
 
-    startLoadingLocalStorage = false;
+
 }
-function drawLines(loadedLines, team) {
-    if (loadedLines != null) {
-        for (var x = 0; x < loadedLines.arrayId.length; x++) {
-            const line = document.createElement("div");
-            line.classList.add("line");
-            if (team == 'moving') {
-                line.classList.add("movingLine");
-            }
-            else {
-                line.classList.add("normalLine");
-            }
-
-            var lineColor = (team == 'main') ? 'yellow' : (team == 'oppo') ? 'purple' : 'blue';
-
-            // Create arrowheads
-            const arrowhead1 = document.createElement("div");
-            arrowhead1.classList.add("arrowhead");
-            arrowhead1.style.borderBottom = '10px solid ' + lineColor;
-            arrowhead1.style.transform = `rotate(180deg)`;
-            arrowhead1.style.display = 'flex';
-
-            var angleDeg = loadedLines.arrayAD[x];
-            // Append arrowheads to the line
-            line.appendChild(arrowhead1);
-            line.style.position = 'absolute';
-            line.style.height = loadedLines.arrayHP[x] + 'px';
-            line.style.backgroundColor = 'transparent';
-            line.style.borderLeftStyle = 'dotted';
-            line.style.borderLeftColor = lineColor;
-            line.style.transformOrigin = 'left top';
-            line.style.transform = `rotate(${angleDeg}deg)`;
-            line.style.zindex = '1';
-            var hypotenusePct = (loadedLines.arrayHP[x] / imageConHeight).toFixed(5);
-            line.setAttribute("hypotenusePct", hypotenusePct);
-            line.setAttribute('height', loadedLines.arrayHP[x]);
-            line.setAttribute('angleDeg', angleDeg);
-            line.setAttribute('parentCircleId', loadedLines.arrayId[x].replace('#', ''));
-            var activeCircle = document.getElementById(loadedLines.arrayId[x].replace('#', ''));
-            activeCircle.append(line);
-
-            var lineObj = {
-                "circle": activeCircle.id,
-                "div": line
-            }
-            if (team == 'moving') {
-                movingLines.push(lineObj);
-                addLineDataToArray(line, activeCircle);
-            }
-            else {
-                lines.push(lineObj);
-            }
-
-        }
-    }
-    //Hide all moving lines since on load we first show the normal arrows
-    for (var i = 0; i < movingLines.length; i++) {
-        movingLines[i].div.style.display = 'none';
-    }
-}
-
 function loadLines(team) {
     var inputString;
     if (team == 'main') {
@@ -246,3 +220,72 @@ function loadLines(team) {
     }
     return result;
 }
+
+function drawLines(loadedLines, team) {
+    if (loadedLines != null) {
+        if (team == 'main') {
+        }
+        for (var x = 0; x < loadedLines.arrayId.length; x++) {
+            const line = document.createElement("div");
+            line.classList.add("line");
+            if (team == 'moving') {
+                line.classList.add("movingLine");
+            }
+            else {
+                line.classList.add("normalLine");
+            }
+
+
+            var lineColor = (team == 'main') ? 'yellow' : (team == 'oppo') ? 'purple' : '#4696ff';
+            var lineStyle = (team == 'main' || team == 'oppo') ? 'dotted' : 'dashed';
+            if (loadedLines.arrayId[x] == 'ball') {
+                lineColor = 'white';
+            }
+
+
+            // Create arrowheads
+            const arrowhead1 = document.createElement("div");
+            arrowhead1.classList.add("arrowhead");
+            arrowhead1.style.borderBottom = '9px solid ' + lineColor;
+            arrowhead1.style.transform = `rotate(180deg)`;
+            arrowhead1.style.display = 'flex';
+
+            var angleDeg = loadedLines.arrayAD[x];
+            // Append arrowheads to the line
+            line.appendChild(arrowhead1);
+            line.style.position = 'absolute';
+            line.style.height = loadedLines.arrayHP[x] + 'px';
+            line.style.backgroundColor = 'transparent';
+            line.style.borderLeftStyle = lineStyle;
+            line.style.borderLeftColor = lineColor;
+            line.style.transformOrigin = 'left top';
+            line.style.transform = `rotate(${angleDeg}deg)`;
+            line.style.zindex = '1';
+            var hypotenusePct = (loadedLines.arrayHP[x] / imageConHeight).toFixed(5);
+            line.setAttribute("hypotenusePct", hypotenusePct);
+            line.setAttribute('height', loadedLines.arrayHP[x]);
+            line.setAttribute('angleDeg', angleDeg);
+            line.setAttribute('parentCircleId', loadedLines.arrayId[x].replace('#', ''));
+            var activeCircle = document.getElementById(loadedLines.arrayId[x].replace('#', ''));
+            activeCircle.append(line);
+
+            var lineObj = {
+                "circle": activeCircle.id,
+                "div": line
+            }
+            if (team == 'moving') {
+                movingLines.push(lineObj);
+                addLineDataToArray(line, activeCircle);
+            }
+            else {
+                lines.push(lineObj);
+            }
+
+        }
+    }
+    //Hide all moving lines since on load we first show the normal arrows
+    for (var i = 0; i < movingLines.length; i++) {
+        movingLines[i].div.style.display = 'none';
+    }
+}
+

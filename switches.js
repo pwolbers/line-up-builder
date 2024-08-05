@@ -1,9 +1,9 @@
 // Function to toggle background of pitch background and whether or not opponents are visible
 // Also checks for the ball
-var pitchCheckTrue = document.getElementById("pitch-checkbox-true");
-pitchCheckTrue.addEventListener("change", changeSwitch);
-var pitchCheckFalse = document.getElementById("pitch-checkbox-false");
-pitchCheckFalse.addEventListener("change", changeSwitch);
+var pitchSwitchGreen = document.getElementById("pitch-checkbox-green");
+pitchSwitchGreen.addEventListener("change", changeSwitch);
+var pitchSwitchBlack = document.getElementById("pitch-checkbox-black");
+pitchSwitchBlack.addEventListener("change", changeSwitch);
 
 var tacticalCheckTrue = document.getElementById("tactical-checkbox-true");
 tacticalCheckTrue.addEventListener("change", changeSwitch);
@@ -15,15 +15,20 @@ ballCheckTrue.addEventListener("change", changeSwitch);
 var ballCheckFalse = document.getElementById("ball-checkbox-false");
 ballCheckFalse.addEventListener("change", changeSwitch);
 
-var labelCheckTrue = document.getElementById("label-checkbox-true");
-labelCheckTrue.addEventListener("change", changeSwitch);
-var labelCheckFalse = document.getElementById("label-checkbox-false");
-labelCheckFalse.addEventListener("change", changeSwitch);
+var labelCheckBoxed = document.getElementById("label-checkbox-boxed");
+labelCheckBoxed.addEventListener("change", changeSwitch);
+var labelCheckUnboxed = document.getElementById("label-checkbox-unboxed");
+labelCheckUnboxed.addEventListener("change", changeSwitch);
 
 var blueArrowCheckTrue = document.getElementById("blueArrow-checkbox-true");
 blueArrowCheckTrue.addEventListener("change", changeSwitch);
 var blueArrowCheckFalse = document.getElementById("blueArrow-checkbox-false");
 blueArrowCheckFalse.addEventListener("change", changeSwitch);
+
+var numberCheckTrue = document.getElementById("number-checkbox-true");
+numberCheckTrue.addEventListener("change", changeSwitch);
+var numberCheckFalse = document.getElementById("number-checkbox-false");
+numberCheckFalse.addEventListener("change", changeSwitch);
 
 var drawCheckTrue = document.getElementById("draw-checkbox-true");
 drawCheckTrue.addEventListener("change", changeSwitch);
@@ -52,7 +57,7 @@ movingCheck.addEventListener("change", changeSwitch);
 var playCheck = document.getElementById("play-checkbox");
 playCheck.addEventListener("change", changeSwitch);
 
-var recordCheck = document.getElementById("gif-checkbox");
+var recordCheck = document.getElementById("record-checkbox");
 recordCheck.addEventListener("change", changeSwitch);
 //Sets the line up based on the JSON content retrieved from GitHub/locally
 var currentSwitch;
@@ -66,7 +71,7 @@ function changeSwitch(evt) {
     else if (currentSwitch.id == 'oppo-column-checkbox-false' || currentSwitch.id == 'oppo-column-checkbox-true') {
         oppoNameCheckBox();
     }
-    else if (currentSwitch.id == 'pitch-checkbox-false' || currentSwitch.id == 'pitch-checkbox-true') {
+    else if (currentSwitch.id == 'pitch-checkbox-black' || currentSwitch.id == 'pitch-checkbox-green') {
         pitchCheckBox();
     }
     else if (currentSwitch.id == 'tactical-checkbox-false' || currentSwitch.id == 'tactical-checkbox-true') {
@@ -75,11 +80,14 @@ function changeSwitch(evt) {
     else if (currentSwitch.id == 'ball-checkbox-false' || currentSwitch.id == 'ball-checkbox-true') {
         ballCheckBox();
     }
-    else if (currentSwitch.id == 'label-checkbox-false' || currentSwitch.id == 'label-checkbox-true') {
+    else if (currentSwitch.id == 'label-checkbox-unboxed' || currentSwitch.id == 'label-checkbox-boxed') {
         labelCheckBox();
     }
     else if (currentSwitch.id == 'blueArrow-checkbox-false' || currentSwitch.id == 'blueArrow-checkbox-true') {
         blueArrowCheckBox();
+    }
+    else if (currentSwitch.id == 'number-checkbox-false' || currentSwitch.id == 'number-checkbox-true') {
+        numberCheckBox();
     }
     else if (currentSwitch.id == 'draw-checkbox-false' || currentSwitch.id == 'draw-checkbox-true') {
         drawCheckBox();
@@ -90,8 +98,31 @@ function changeSwitch(evt) {
     else if (currentSwitch.id == 'play-checkbox') {
         moveCircles();
     }
-    else if (currentSwitch.id == 'gif-checkbox') {
+    else if (currentSwitch.id == 'record-checkbox') {
         startRecording();
+    }
+}
+
+function numberCheckBox() {
+    var numberSwitch = document.getElementById('number-checkbox-true');
+    var allNumbers = document.querySelectorAll('.circle-number');
+    var fillingNumber = numberSwitch.nextElementSibling.nextElementSibling;
+    if (numberSwitch.checked === true) {
+        localStorage.setItem('showNumbers', 'true');
+        fillingNumber.style.transform = 'translateX(100%)';
+        //Show all numbers
+        allNumbers.forEach(number => {
+            number.style.display = 'block';
+        });
+    }
+    else {
+        localStorage.setItem('showNumbers', 'false');
+        fillingNumber.style.transform = 'translateX(0%)';
+
+        //Hide all numbers
+        allNumbers.forEach(number => {
+            number.style.display = 'none';
+        });
     }
 }
 
@@ -114,12 +145,12 @@ function arrowCircleCheckbox(switchCheckbox) {
         blueArrowCheckTrue.checked = false;
         blueArrowCheckFalse.checked = true;
         blueArrowCheckBox();
-        
+
         var playButton = document.querySelector('.play-checkbox .checkmark');
         if (playButton.classList.toString().indexOf('orangeBackgroundButton') > -1 || movingLines.length == 0) {
             playButton.classList.remove('orangeBackgroundButton');
         }
-        var recordButton = document.querySelector('.gif-checkbox .checkmark');
+        var recordButton = document.querySelector('.record-checkbox .checkmark');
         if (recordButton.classList.toString().indexOf('orangeBackgroundButton') > -1 || movingLines.length == 0) {
             recordButton.classList.remove('orangeBackgroundButton');
         }
@@ -136,7 +167,7 @@ function arrowCircleCheckbox(switchCheckbox) {
         if (playButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
             playButton.classList.remove('orangeBackgroundButton');
         }
-        var recordButton = document.querySelector('.gif-checkbox .checkmark');
+        var recordButton = document.querySelector('.record-checkbox .checkmark');
         if (recordButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
             recordButton.classList.remove('orangeBackgroundButton');
         }
@@ -164,8 +195,8 @@ function arrowCircleCheckbox(switchCheckbox) {
             if (playButton.classList.toString().indexOf('orangeBackgroundButton') == -1 && movingLines.length > 0) {
                 playButton.classList.add('orangeBackgroundButton');
             }
-            
-            var recordButton = document.querySelector('.gif-checkbox .checkmark');
+
+            var recordButton = document.querySelector('.record-checkbox .checkmark');
             if (recordButton.classList.toString().indexOf('orangeBackgroundButton') == -1 && movingLines.length > 0) {
                 recordButton.classList.add('orangeBackgroundButton');
             }
@@ -179,7 +210,7 @@ function arrowCircleCheckbox(switchCheckbox) {
 }
 
 function pitchCheckBox() {
-    var pitchSwitch = document.getElementById('pitch-checkbox-true');
+    var pitchSwitch = document.getElementById('pitch-checkbox-green');
     var fillingPitch = pitchSwitch.nextElementSibling.nextElementSibling;
 
     var footballPitch = document.querySelector('.football-pitch');
@@ -268,8 +299,20 @@ function ballCheckBox() {
         localStorage.setItem('ballSwitch', 'on');
         fillingBall.style.transform = 'translateX(100%)';
         ball.style.display = 'flex';
-        ball.style.top = '49%';
-        ball.style.left = '49%';
+        if (localStorage.getItem('ballPosition') == null) {
+            var smallBallCheck = document.getElementById('oppo-checkbox-true').checked;
+            var standardBallWidth;
+            standardBallWidth = smallBallCheck ? ((1.7 / 100) * window.innerHeight) : ((2.2 / 100) * window.innerHeight);
+            var ballWidth = ball.getBoundingClientRect().width || standardBallWidth;
+            ballWidth = ballWidth / 2;
+            var percentageChangeLeft = (ballWidth / imageConWidth) * 100;
+            console.log(standardCircleSize);
+            console.log(ballWidth);
+            console.log(ball.getBoundingClientRect().width);
+            console.log(percentageChangeLeft);
+            ball.style.left = (50 - percentageChangeLeft) + '%';
+            ball.style.top = (50 - percentageChangeLeft) + '%';
+        }
 
         ball.addEventListener("touchstart", handleSingleClick);
         ball.addEventListener("mousedown", handleSingleClick);
@@ -283,7 +326,7 @@ function ballCheckBox() {
 }
 
 function labelCheckBox() {
-    labelSwitch = document.getElementById('label-checkbox-true');
+    labelSwitch = document.getElementById('label-checkbox-boxed');
     var fillingLabel = labelSwitch.nextElementSibling.nextElementSibling;
     if (labelSwitch.checked) {
         localStorage.setItem('labelStyle', 'boxed');
@@ -337,7 +380,7 @@ function blueArrowCheckBox() {
                 blueArrow.style.display = 'block';
             }
         });
-        
+
     }
     else {
         localStorage.setItem('blueArrow', 'off');
@@ -348,7 +391,7 @@ function blueArrowCheckBox() {
                 blueArrow.style.display = 'none';
             }
         });
-        
+
     }
 }
 
@@ -644,15 +687,19 @@ function calculateTranslation(height, angle) {
 
 async function startRecording() {
     if (movingLines.length > 0) {
+        //Block input
+        blockAllInputs(true);
         var buttonContainer = document.getElementById('button-pitch-container');
         buttonContainer.style.display = 'none';
 
+        var copyrightTextGIF = document.getElementById('copyrightTextGIF');
+        copyrightTextGIF.style.display = 'block';
         const encoder = new GIFEncoder();
         encoder.setRepeat(0);
         encoder.start();
 
         const canvas = document.createElement('canvas');
-        const context =canvas.getContext("2d", { willReadFrequently: true });
+        const context = canvas.getContext("2d", { willReadFrequently: true });
         const imageContainer = document.getElementById('image-container');
 
         const scale = 1.2; // Adjust this value as needed for higher/lower resolution
@@ -672,7 +719,6 @@ async function startRecording() {
 
         // Pre-calculate values for each circle
         const calculations = movingLines.map(movingLine => {
-            movingLine.style.display = 'none';
             const circle = movingLine.parentElement;
             const height = parseFloat(movingLine.getAttribute('height'));
             const angle = parseFloat(movingLine.getAttribute('angledeg'));
@@ -736,8 +782,13 @@ async function startRecording() {
 
         async function captureAndMove(index) {
             if (index < actions.length) {
+                if (index > 0) {
+                    movingLines.forEach(movingLine => {
+                        movingLine.style.display = 'none';
+                    });
+                }
                 actions[index]();
-                const delay = (index === 0 || index === (actions.length - 1)) ? 1000 : 100;
+                const delay = (index === 0) ? 2000 : (index === (actions.length - 1)) ? 1500 : 100;
                 await captureFrame(encoder, imageContainer, context, delay, scale);
                 await captureAndMove(index + 1);
             } else {
@@ -756,9 +807,13 @@ async function startRecording() {
         }
         recordCheck.checked = false;
         await captureAndMove(0); // Start capturing frames
+        blockAllInputs(false);
         buttonContainer.style.display = 'block';
+        copyrightTextGIF.style.display = 'none';
     }
-    else{
+    else {
         recordCheck.checked = false;
     }
+
+
 }

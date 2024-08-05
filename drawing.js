@@ -31,6 +31,9 @@ ctx.strokeStyle = drawingPickr.getColor().toHEXA().toString();
 const canvasX = canvas.offsetLeft;
 const canvasY = canvas.offsetTop;
 
+//So it's callable by other script files too, such as the reset button in buttons.js
+window.clearCanvas = clearCanvas;
+
 function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     undoStack = [canvas.toDataURL()];
