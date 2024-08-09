@@ -202,13 +202,16 @@ function resizeFunctionality(e) {
     //Some stupid bug on phone makes it so it seems there is a resize even though the width and height stay the same
     //To prevent resize functionality to occur (which resets some things) when there is no resize, I build in this if statement
     if (currentWindowHeight != previousWindowHeight || currentWindowWidth != previousWindowWidth) {
-        //Set array for circle movement for the new line data
+        //Set array for circle movement empty for the new line data
         arrowLocationArray = [];
 
+        //Resize arrows
         var allLines = document.querySelectorAll('.line');
         allLines.forEach((line) => {
             var hypotenusePct = line.getAttribute("hypotenusePct");
             line.style.height = hypotenusePct * imageContainer.offsetHeight + 'px';
+            line.setAttribute('height', (hypotenusePct * imageContainer.offsetHeight).toFixed(3));
+            // 3 / 880 is the standard border width and standard imageContainer height
 
             //Push new moving line data to array
             var circle = document.getElementById(line.getAttribute("parentCircleId"));
@@ -216,6 +219,7 @@ function resizeFunctionality(e) {
                 addLineDataToArray(line, circle);
             }
         });
+        setLocalStorageForLines();
 
         //Reset 'Move circles' button if resized
         if (document.getElementById("play-checkbox").checked) {
@@ -268,8 +272,49 @@ function resizeFunctionality(e) {
             });
 
         }
+
+        //Resize margin on output boxes for multiple lines
+        outputSeconds.forEach((outputSecond) => {
+            var localStorageName = outputSecond.id.replace('secondSpan', 'backupsecond');
+            if (localStorage.getItem(localStorageName) != null) {
+                setOutputSecond(outputSecond, localStorage.getItem(localStorageName));
+            }
+        });
+
+        if (localStorage.getItem('mainCirclePositions') != null) {
+            var circlePositionString = localStorage.getItem('mainCirclePositions');
+            var result = getSpecificCirclePositions(circlePositionString);
+
+            for (var q = 0; q < 11; q++) {
+                var circle = document.getElementById(result.arrayId[q]);
+                circle.style.top = result.arrayTop[q];
+                circle.style.left = result.arrayLeft[q];
+            }
+        }
+
+        if (localStorage.getItem('oppoCirclePositions') != null) {
+            var circlePositionString = localStorage.getItem('oppoCirclePositions');
+            var result = getSpecificCirclePositions(circlePositionString);
+            for (var q = 0; q < 11; q++) {
+                var circle = document.getElementById(result.arrayId[q]);
+                circle.style.top = result.arrayTop[q];
+                circle.style.left = result.arrayLeft[q];
+            }
+        }
+
         previousWindowHeight = currentWindowHeight;
         previousWindowWidth = currentWindowWidth;
+
+        //Set settings popup location
+
+        var gearIcon = document.querySelector('.gear-icon');
+        var settings = document.querySelector('#settings');
+        var gearIconLocation = gearIcon.getBoundingClientRect();
+
+        console.log(settings);
+        settings.style.left = gearIconLocation.left + (0.015 * imageContainer.offsetHeight) + 'px';
+        settings.style.top = gearIconLocation.top + (0.02 * imageContainer.offsetHeight) + 'px';
+
     }
 }
 
@@ -469,9 +514,14 @@ window.onload = () => {
     }
     if (localStorage.getItem('mainCirclePositions') == null) {
         setCirclePositions('433', 'main');
+
+        var mainCircles = document.querySelectorAll(".circle");
+        localStorage.setItem('mainCirclePositions', getCirclePositions(mainCircles));
     }
     if (localStorage.getItem('oppoCirclePositions') == null) {
         setCirclePositions('433', 'oppo');
+        var oppoCircles = document.querySelectorAll(".oppoCircle");
+        localStorage.setItem('oppoCirclePositions', getCirclePositions(oppoCircles));
     }
 
     determineFormation();
@@ -517,12 +567,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (settings.style.display != 'block') {
             settings.style.display = 'block';
             if (imageConWidth > 600) {
-                settings.style.left = gearIconLocation.left + 14 + 'px';
-                settings.style.top = gearIconLocation.top + 20 + 'px';
+                settings.style.left = gearIconLocation.left + (0.015 * imageContainer.offsetHeight) + 'px';
+                settings.style.top = gearIconLocation.top + (0.02 * imageContainer.offsetHeight) + 'px';
             }
             else {
                 settings.style.left = gearIconLocation.left + 'px';
-                settings.style.top = gearIconLocation.top - 10 + 'px';
+                settings.style.top = gearIconLocation.top - (0.01 * imageContainer.offsetHeight) + 'px';
             }
         }
         else {
@@ -621,7 +671,7 @@ function getJsonFiles() {
 
         if (isFileServer) {
             // Fetch JSON files locally
-            const jsonFileNames = ['Ajax CL 18-19.json', 'Ajax Possible 23-24.json', 'Argentina WC 2022.json', 'Man Utd CL 1999.json', 'Barcelona vs Man Utd 2009 CL Final.json']; // Replace with actual file names
+            const jsonFileNames = ['Ajax CL 18-19.json', 'Ajax Possible 24-25.json', 'Argentina WC 2022.json', 'Man Utd CL 1999.json', 'Barcelona vs Man Utd 2009 CL Final.json'];
 
             const jsonFilePromises = jsonFileNames.map(fileName => {
                 return fetch(fileName)
@@ -697,16 +747,7 @@ function textToCircle() {
 
         secondBoxes[i].addEventListener("input", function () {
             if (checkOppositionName.checked == false) {
-                if(outputSecond.id = 'secondspan1'){
-                    /*outputSecond.textContent = 'test\ntest'
-                    outputSecond.style.margin = '-36px';*/
-                    outputSecond.textContent = this.value;
-                }
-                else{
-
-                    outputSecond.textContent = this.value;
-                }
-                toggleOutputBoxVisibility(outputSecond);
+                setOutputSecond(outputSecond, this.value);
 
                 //Sets the local storage item named 'backupsecond#'
                 var localStorageName = "backup" + this.id;
@@ -948,7 +989,7 @@ var newValue;
 
 circleSlider.oninput = function () {
     newValue = this.value;
-    setCircleAndTextSize();
+    console.log("HELLO");
     oldValue = newValue;
 
     var outputElement = document.querySelector('.circleSliderOutput');
@@ -1041,6 +1082,7 @@ function getStandardSizes() {
     textStyleOneObj.fontSize = (parseFloat(window.getComputedStyle(textStyleOneStarting).getPropertyValue('font-size')));
     textStyleOneObj.bottomStarting = (parseFloat(window.getComputedStyle(textStyleOneStarting).getPropertyValue('bottom')));
     textStyleOneObj.bottomSecond = (parseFloat(window.getComputedStyle(textStyleOneSecond).getPropertyValue('bottom')));
+    textStyleOneObj.height = (parseFloat(window.getComputedStyle(textStyleOneSecond).getPropertyValue('height')));
     standardSizes.push(textStyleOneObj);
 
     //Text style two
@@ -1050,6 +1092,7 @@ function getStandardSizes() {
     textStyleTwoObj.fontSize = (parseFloat(window.getComputedStyle(textStyleTwoStarting).getPropertyValue('font-size')));
     textStyleTwoObj.bottomStarting = (parseFloat(window.getComputedStyle(textStyleTwoStarting).getPropertyValue('bottom')));
     textStyleTwoObj.bottomSecond = (parseFloat(window.getComputedStyle(textStyleTwoSecond).getPropertyValue('bottom')));
+    textStyleTwoObj.height = (parseFloat(window.getComputedStyle(textStyleTwoSecond).getPropertyValue('height')));
     standardSizes.push(textStyleTwoObj);
 
     return standardSizes;

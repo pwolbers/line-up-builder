@@ -95,7 +95,6 @@ function changePlayerName(circle, input, span) {
 
 function handleDoubleClick(e) {
     //this localstorage is set to false during GIF creation and the pressing animation
-    console.log("CONSIDERED DOUBLE CLICK");
     if (localStorage.getItem('allowClickAndDrag') != 'false' && !animationPlaying.checked) {
         circle = e.currentTarget;
         if (e.button == 0 || (e.button == undefined && circleSwitch.checked)) {
@@ -139,7 +138,6 @@ function handleDoubleClick(e) {
 }
 
 function handleSingleClick(e) {
-    console.log("CONSIDERED SINGLE CLICK");
     //this localstorage is set to false during GIF creation and the pressing animation
     if (localStorage.getItem('allowClickAndDrag') != 'false' && !animationPlaying.checked) {
         //Check if click is on the circle or line
@@ -199,11 +197,9 @@ function handleSingleClick(e) {
         }
         else if (e.button === 2 && doubleTap == false) {
             if (clickedOnLine) {
-                console.log("CONSIDERED A CLICK ON THE LINE");
                 removeSpecificLine(e.target);
             }
             else {
-                console.log("CONSIDERED A CLICK ON THE CIRCLE");
                 drawLineFunctionality(e, this, false);
             }
         }
@@ -320,7 +316,7 @@ function drawLineFunctionality(e, circle, mobile) {
     // Create arrowheads
     const arrowhead1 = document.createElement("div");
     arrowhead1.classList.add("arrowhead");
-    arrowhead1.style.borderBottom = '9px solid ' + lineColor;
+    arrowhead1.style.borderBottomColor = lineColor;
     arrowhead1.style.transform = `rotate(180deg)`;
     arrowhead1.style.display = 'none';
 
@@ -519,6 +515,7 @@ function dragLine(e) {
                 //Circle size depends on opposition or not, so that means so does line position
                 line.style.position = 'absolute';
                 line.style.height = hypotenuse + 'px';
+
                 line.style.backgroundColor = 'transparent';
                 line.style.borderLeftStyle = lineStyle;
                 line.style.borderLeftColor = lineColor;

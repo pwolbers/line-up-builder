@@ -363,7 +363,13 @@ function labelCheckBox() {
             box.classList.add('startingStyleTwo');
         });
     }
-
+    //Set margins for the backup outputboxes
+    outputSeconds.forEach((outputSecond) => {
+        var localStorageName = outputSecond.id.replace('secondSpan', 'backupsecond');
+        if (localStorage.getItem(localStorageName) != null) {
+            setOutputSecond(outputSecond, localStorage.getItem(localStorageName));
+        }
+    });
     setCircleAndTextSize();
 }
 
@@ -453,7 +459,7 @@ function oppoCheckBox() {
 
             //Change number size
             var circleNumber = circle.querySelector('.circle-number');
-            getFontSize(circleNumber.innerText.length, circleNumber);
+            getFontSize(circleNumber.textContent.length, circleNumber);
         });
 
         //Change starting position of drawn lines
@@ -492,7 +498,7 @@ function oppoCheckBox() {
 
             //Change number size
             var circleNumber = circle.querySelector('.circle-number');
-            getFontSize(circleNumber.innerText.length, circleNumber);
+            getFontSize(circleNumber.textContent.length, circleNumber);
         });
 
         //Change starting position of drawn lines
@@ -540,7 +546,7 @@ function oppoNameCheckBox() {
 
         //Loop through all the outputSeconds (i.e. the text below the circles) and empty and hide it
         outputSeconds.forEach((outputSecond) => {
-            outputSecond.innerText = '';
+            outputSecond.textContent = '';
             toggleOutputBoxVisibility(outputSecond);
         });
 
@@ -553,7 +559,7 @@ function oppoNameCheckBox() {
         //Show the circles for oppo
         outputOppos.forEach((outputOppo) => {
             var localStorageName = outputOppo.id.replace('oppoSpan', 'opposecond');
-            outputOppo.innerText = localStorage.getItem(localStorageName);
+            outputOppo.textContent = localStorage.getItem(localStorageName);
             toggleOutputBoxVisibility(outputOppo);
         });
 
@@ -586,20 +592,23 @@ function oppoNameCheckBox() {
 
         //Loop through all the outputOppos and empty it
         outputOppos.forEach((outputOppo) => {
-            outputOppo.innerText = '';
+            outputOppo.textContent = '';
             toggleOutputBoxVisibility(outputOppo);
         });
 
+        //Set input boxes value
         secondBoxes.forEach((element) => {
             var localStorageName = "backup" + element.id;
             element.value = localStorage.getItem(localStorageName);
             element.style.backgroundColor = 'rgba(200, 200, 200, 0.14)';
         });
 
+        //Set output boxes and margins
         outputSeconds.forEach((outputSecond) => {
             var localStorageName = outputSecond.id.replace('secondSpan', 'backupsecond');
-            outputSecond.innerText = localStorage.getItem(localStorageName);
-            toggleOutputBoxVisibility(outputSecond);
+            if (localStorage.getItem(localStorageName) != null) {
+                setOutputSecond(outputSecond, localStorage.getItem(localStorageName));
+            }
         });
 
         //Hide all opposition numbers 
@@ -618,7 +627,7 @@ function clearOutBoxes(boxType) {
         //Get the squad number (starting1 means 1)
         const clearSquadNumber = inputBox.nextElementSibling.htmlFor.replace('starting', '');
         //Change number next to textbox
-        inputBox.nextElementSibling.innerText = '#' + clearSquadNumber;
+        inputBox.nextElementSibling.textContent = '#' + clearSquadNumber;
 
         //Change number within circle to the default number
         var spanElement = document.getElementById(clearSquadNumber);
@@ -627,17 +636,17 @@ function clearOutBoxes(boxType) {
         if (boxType == 'starting') {
             inputBox.value = "";
             toggleOutputBoxVisibility(outputStartings[index]);
-            outputStartings[index].innerText = inputBox.value;
+            outputStartings[index].textContent = inputBox.value;
         }
         if (boxType == 'second') {
             secondBoxes[index].value = "";
             toggleOutputBoxVisibility(outputSeconds[index]);
-            outputSeconds[index].innerText = secondBoxes[index].value;
+            outputSeconds[index].textContent = secondBoxes[index].value;
         }
         if (boxType == 'oppo') {
             secondBoxes[index].value = "";
             toggleOutputBoxVisibility(outputOppos[index]);
-            outputOppos[index].innerText = secondBoxes[index].value;
+            outputOppos[index].textContent = secondBoxes[index].value;
         }
     });
 }
@@ -816,4 +825,40 @@ async function startRecording() {
     }
 
 
+}
+window.setOutputSecond = setOutputSecond;
+
+function setOutputSecond(outputSecond, stringValue) {
+    //Sets multiple lines on the output if needed
+    if (stringValue.indexOf(' % ') > -1) {
+        var regex = /\s+%\s+(?=\S)/g;
+        var matches = stringValue.match(regex);
+        // Calculate the number of matches
+        var calculateMargin = matches ? matches.length : 0;
+
+        // Update the value with new line replacements
+        stringValue = stringValue.replaceAll(/\s+%\s+(?=\S)/g, '\n');
+        outputSecond.textContent = stringValue;
+        //NON MOBILE
+       
+        //Determine the margin of second output element below starting output element
+        var marginStep = (labelCheckBoxed.checked) ? getElementHeight('secondSpan98') : getElementHeight('secondSpan99');
+        // Apply margin only if there is a non-space character after '%'
+
+        outputSecond.style.marginBottom = '-' + calculateMargin * marginStep + 'px';
+    }
+    else {
+        outputSecond.style.marginBottom = '0px';
+        outputSecond.textContent = stringValue;
+    }
+    toggleOutputBoxVisibility(outputSecond);
+
+    function getElementHeight(elementID){
+        var secondElement = document.getElementById(elementID);
+        secondElement.style.display = 'block';
+        var singleBoxedHeight = (parseFloat(window.getComputedStyle(secondElement).height));
+        secondElement.style.display = 'none';
+
+        return singleBoxedHeight;
+    }
 }

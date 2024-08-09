@@ -48,7 +48,7 @@ function loadLocalStorage() {
     const labelBoxed = labelStyle === 'notBoxed' || labelStyle === null;
     labelCheckBoxed.checked = !labelBoxed;
     labelCheckUnboxed.checked = labelBoxed;
-    
+
     //Ball switch
     const ballSwitch = localStorage.getItem('ballSwitch');
     const ballVisible = ballSwitch === 'off' || ballSwitch === null;
@@ -106,28 +106,33 @@ function loadLocalStorage() {
         element.value = localStorageValue;
     });
 
-    //Show the circles for oppo
     outputStartings.forEach((outputStarting) => {
         outputStarting.innerText = localStorage.getItem(outputStarting.id.replace('startingSpan', 'starting'));
         toggleOutputBoxVisibility(outputStarting);
+
+        //set number on circle (localStorage name should be startingNumber#)
+        var circleNumber = localStorage.getItem(outputStarting.id.replace('Span', 'Number'));
+        if (circleNumber != null) {
+            outputStarting.parentElement.previousElementSibling.innerText = circleNumber;
+            changeNumberOnTextbox(outputStarting.parentNode.parentNode, circleNumber);
+        }
     });
 
+    //set number on circle (localStorage name should be oppoNumber#)
     if (oppoNameCheckTrue.checked) {
-        secondBoxes.forEach((element) => {
-            var localStorageName = "oppo" + element.id;
-            element.value = localStorage.getItem(localStorageName);
+        outputOppos.forEach((outputOppo) => {
+            var circleNumber = localStorage.getItem(outputOppo.id.replace('Span', 'Number'));
+            if (circleNumber != null) {
+                outputOppo.parentElement.previousElementSibling.innerText = circleNumber;
+                changeNumberOnTextbox(outputOppo.parentNode.parentNode, circleNumber);
+            }
         });
     }
-    else {
-        secondBoxes.forEach((element) => {
-            var localStorageName = "backup" + element.id;
-            element.value = localStorage.getItem(localStorageName);
-        });
-    }
+
+    //Backup and oppo visiblity and output boxes are done through oppoNameCheckBox()
 
     if (localStorage.getItem('mainCirclePositions') != null) {
         var circlePositionString = localStorage.getItem('mainCirclePositions');
-
         var result = getSpecificCirclePositions(circlePositionString);
 
         for (var q = 0; q < 11; q++) {
@@ -157,7 +162,8 @@ function loadLocalStorage() {
     //Names back ups
     //Names opponent
     //Teamname
-    
+
+
     //Call these functions once to set the switches in the settings pop up correct and then execute the settings
     pitchCheckBox();
     ballCheckBox();
@@ -171,16 +177,17 @@ function loadLocalStorage() {
     //Lines
     lines = [];
     movingLines = [];
-    
+
     var loadedMainLines = loadLines('main');
     var loadedOppoLines = loadLines('oppo');
     var loadedMovingLines = loadLines('moving')
     drawLines(loadedMainLines, 'main');
     drawLines(loadedOppoLines, 'oppo');
     drawLines(loadedMovingLines, 'moving');
-
-
 }
+
+window.loadLines = loadLines;
+window.drawLines = drawLines;
 function loadLines(team) {
     var inputString;
     if (team == 'main') {
@@ -246,7 +253,7 @@ function drawLines(loadedLines, team) {
             // Create arrowheads
             const arrowhead1 = document.createElement("div");
             arrowhead1.classList.add("arrowhead");
-            arrowhead1.style.borderBottom = '9px solid ' + lineColor;
+            arrowhead1.style.borderBottomColor = lineColor;
             arrowhead1.style.transform = `rotate(180deg)`;
             arrowhead1.style.display = 'flex';
 

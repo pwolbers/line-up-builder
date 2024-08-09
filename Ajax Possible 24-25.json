@@ -1,0 +1,69 @@
+{
+  "teamName": "Ajax possible 24/25",
+  "formation": "4-3-3",
+  "starting": {
+    "#1": {
+      "name": "Pasveer",
+      "number": "22"
+    },
+    "#2": {
+      "name": "Rensch",
+      "number": "2"
+    },
+    "#3": {
+      "name": "Sutalo",
+      "number": "37"
+    },
+    "#4": {
+      "name": "Baas",
+      "number": "15"
+    },
+    "#5": {
+      "name": "Hato",
+      "number": "4"
+    },
+    "#6": {
+      "name": "Henderson",
+      "number": "6"
+    },
+    "#8": {
+      "name": "Berghuis",
+      "number": "23"
+    },
+    "#10": {
+      "name": "Taylor",
+      "number": "8"
+    },
+    "#7": {
+      "name": "Traoré",
+      "number": "20"
+    },
+    "#11": {
+      "name": "Forbs",
+      "number": "11"
+    },
+    "#9": {
+      "name": "Brobbey",
+      "number": "9"
+    }
+  },
+  "colors": {
+    "mainColor": "#ff0000",
+    "secondColor": "#ffffff",
+    "numberColor": "#ffffff"
+  },
+  "secondType": "back-up",
+  "second": {
+    "#1": "Ramaj % Gorter",
+    "#2": "Gaaei",
+    "#3": "Medic",
+    "#4": "Kaplan % Janse",
+    "#5": "Baas",
+    "#6": "Mannsverk",
+    "#8": "Hlynsson % Van den Boomen",
+    "#10": "Fitz-Jim",
+    "#7": "",
+    "#11": "Godts",
+    "#9": "Akpom % Rijkhoff"
+  }
+}

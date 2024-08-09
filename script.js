@@ -647,7 +647,7 @@ function determineFormation(teamType) {
     });
     let formation = "" + defenseNr + "-" + midfieldNr + "-" + attackNr;
     if (formation == '4-3-3') {
-        if (lineupArray.includes('DMCR') && lineupArray.includes('DMCL') && lineupArray.includes('AMC')) {
+        if (lineupArray.includes('DMCR') && lineupArray.includes('DMCL') && lsetCircleAndTextSizeineupArray.includes('AMC')) {
             formation = '4231 / 451';
         }
     }
@@ -661,7 +661,6 @@ function determineFormation(teamType) {
     }
 
     var formationLabel = document.querySelector('.formation-label');
-
     formation = formatFormationString(formation);
     formationLabel.textContent = 'Formation: ' + formation;
 
@@ -761,16 +760,14 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
         if (secondType == 'opposition') {
             checkOpposition.checked = true;
             checkOppositionName.checked = true;
-
         }
         else {
             checkOpposition.checked = false;
             checkOppositionName.checked = false;
         }
-        oppoCheckBox("oppo-checkbox");
-        oppoNameCheckBox("oppo-name-checkbox");
 
         startingArray.forEach(function (starter, index) {
+
             var inputContainers = document.querySelectorAll('.column.starting-column .input-container');
             inputContainers.forEach(function (inputContainer) {
                 var labelElement = inputContainer.querySelector('label.numberLabel');
@@ -778,21 +775,21 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
                     var inputElement = inputContainer.querySelector('input');
                     inputElement.value = starter.name;
                     localStorage.setItem(inputElement.id, starter.name);
-
                     outputContainer.forEach(function (outputStarter) {
                         if (outputStarter.previousElementSibling.id == startKeyArray[index].replace("#", "")) {
                             var outputElement = outputStarter.querySelector('.outputStarting');
                             outputElement.innerText = starter.name;
                             outputStarter.previousElementSibling.innerText = starter.number;
-
                             toggleOutputBoxVisibility(outputElement);
                             changeNumberOnTextbox(outputElement.parentNode.parentNode, starter.number);
+
+                            //localStorage item is called startingNumber#
+                            localStorage.setItem(inputElement.id.replace('starting', 'startingNumber'), starter.number);
                         }
                     });
                 }
             });
         });
-
         secondArray.forEach(function (second, index) {
             var inputContainers = document.querySelectorAll('.column.second-column .input-container');
             inputContainers.forEach(function (inputContainer) {
@@ -810,6 +807,9 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
                                 outputOppo.previousElementSibling.innerText = second.number;
                                 toggleOutputBoxVisibility(outputElement);
                                 changeNumberOnTextbox(outputElement.parentNode.parentNode, second.number);
+
+                                //localStorage item is called oppoNumber#
+                                localStorage.setItem(inputElement.id.replace('second', 'oppoNumber'), second.number);
                             }
                         });
                         secondContainerInputs = [];
@@ -819,19 +819,17 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
                         inputElement.value = second;
                         var localStorageName = 'backup' + inputElement.id;
                         localStorage.setItem(localStorageName, second);
-                        outputContainer.forEach(function (outputSecond) {
-                            if (outputSecond.previousElementSibling.id == secondKeyArray[index].replace("#", "")) {
-                                var outputElement = outputSecond.querySelector('.outputSecond');
-                                outputElement.innerText = second;
-                                toggleOutputBoxVisibility(outputElement);
-                            }
-                        });
+                        var outputSecond = document.getElementById(inputElement.id.replace('second', 'secondSpan'))
+                        setOutputSecond(outputSecond, localStorage.getItem(localStorageName));
                         oppoContainerInputs = [];
                     }
                 }
             });
 
         });
+
+        oppoCheckBox("oppo-checkbox");
+        oppoNameCheckBox("oppo-name-checkbox");
     }
     else {
         clearOutBoxes('starting');
@@ -849,7 +847,6 @@ function setCircleAndTextSize() {
 
     allCircles.forEach((circle) => {
         var circleWidthBefore = circle.getBoundingClientRect().width || standardCircleSize;
-
         //If stepDifference is negative (meaning size increases), we increase circle size by multiplying. Otherwise, we decrease by dividing
         circle.style.width = (stepDifference < 0) ? standardCircleSize * changePercentage + 'px' : standardCircleSize / changePercentage + 'px';
         circle.style.height = (stepDifference < 0) ? standardCircleSize * changePercentage + 'px' : standardCircleSize / changePercentage + 'px';

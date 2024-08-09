@@ -175,7 +175,6 @@ function createImage(e) {
 function loadTeam() {
     //Reset upload button
     updateUploadButton();
-
     const selectedValue = selectTeam.value;
 
     if (selectedValue === "clear") {
@@ -199,7 +198,7 @@ function loadTeam() {
         secondArray = lineUpsObj[selectedValue].second;
         secondType = lineUpsObj[selectedValue].secondType;
         startKeyArray = lineUpsObj[selectedValue].keysArray;
-        secondKeyArray = lineUpsObj[selectedValue].oppoKeysArray || lineUpsObj[selectedValue].keysArray;;
+        secondKeyArray = lineUpsObj[selectedValue].oppoKeysArray || lineUpsObj[selectedValue].keysArray;
         var formattedFormation = lineUpsObj[selectedValue].formation.replaceAll('-', '').replaceAll(" ", "");
 
         document.getElementById("select-formation").value = formattedFormation;
@@ -215,6 +214,33 @@ function loadTeam() {
                 setOppoFormation(formattedOppoFormation);
                 document.getElementById("oppo-formation").value = formattedOppoFormation;
             }
+            secondBoxes.forEach((element) => {
+                var localStorageName = "backup" + element.id;
+                localStorage.removeItem(localStorageName);
+            });
+        }
+        else {
+            //Reset the oppo storage if JSON WITHOUT opposition gets imported
+            secondBoxes.forEach((element) => {
+                var localStorageName = "oppo" + element.id;
+                localStorage.removeItem(localStorageName);
+
+
+                //Reset numbers
+                var localStorageNumber = "oppo" + element.id.replace('second', 'Number');
+                localStorage.removeItem(localStorageNumber);
+                element.nextElementSibling.innerText = '#' + element.id.replace('second', '');
+                var oppoCircleElement = document.getElementById(element.id.replace('second', 'oppo'));
+                oppoCircleElement.innerText = element.id.replace('second', '');
+
+                //Reset oppo numbers
+                localStorage.removeItem('oppoMainColor');
+                localStorage.removeItem('oppoSecondColor');
+                localStorage.removeItem('oppoNumberColor');
+                mainOppoPickr.setColor('#006631');
+                secondOppoPickr.setColor('#000000');
+                numberOppoPickr.setColor('#FFFFFF');
+            });
         }
 
         setLineUp(startKeyArray, secondKeyArray, secondType);
@@ -222,6 +248,8 @@ function loadTeam() {
         //If specific position data is available, use it
         if (lineUpsObj[selectedValue].circlePositions) {
             var circlePositionString = lineUpsObj[selectedValue].circlePositions;
+            
+            localStorage.setItem('mainCirclePositions', circlePositionString);
             const result = getSpecificCirclePositions(circlePositionString);
             for (var q = 0; q < 11; q++) {
                 var circle = document.getElementById(result.arrayId[q]);
@@ -232,6 +260,8 @@ function loadTeam() {
 
         if (lineUpsObj[selectedValue].oppoCirclePositions) {
             var circlePositionString = lineUpsObj[selectedValue].oppoCirclePositions;
+            
+            localStorage.setItem('oppoCirclePositions', circlePositionString);
             const result = getSpecificCirclePositions(circlePositionString);
             for (var q = 0; q < 11; q++) {
 
@@ -384,6 +414,7 @@ function importJSON() {
                     startingArray = [];
                     secondArray = [];
                     startKeyArray = [];
+                    secondKeyArray = [];
                     secondType = jsonData.secondType;
                     for (const [key, value] of Object.entries(jsonData.starting)) {
                         var valueObj = {
@@ -415,10 +446,10 @@ function importJSON() {
 
                     document.getElementById("teamNameBox").value = jsonData.teamName;
                     setCircleColor(jsonData.colors, 'main');
+                    console.log(jsonData.formation.replaceAll('-', '').replaceAll(' ', ''));
                     setCirclePositions(jsonData.formation.replaceAll('-', '').replaceAll(' ', ''), 'main');
-                    setTextBoxOrders();
                     setLineUp(startKeyArray, secondKeyArray, secondType);
-                    determineFormation();
+                    
                     if (secondType == 'opposition') {
                         if (jsonData.oppoColors) {
                             setCircleColor(jsonData.oppoColors, 'oppo');
@@ -433,26 +464,44 @@ function importJSON() {
                         });
 
                     }
-                    else{
+                    else {
                         //Reset the oppo storage if JSON WITHOUT opposition gets imported
                         secondBoxes.forEach((element) => {
                             var localStorageName = "oppo" + element.id;
                             localStorage.removeItem(localStorageName);
+
+                            //Reset numbers
+                            var localStorageNumber = "oppo" + element.id.replace('second', 'Number');
+                            localStorage.removeItem(localStorageNumber);
+                            element.nextElementSibling.innerText = '#' + element.id.replace('second', '');
+                            var oppoCircleElement = document.getElementById(element.id.replace('second', 'oppo'));
+                            oppoCircleElement.innerText = element.id.replace('second', '');
+
+                            //Reset oppo colors
+                            localStorage.removeItem('oppoMainColor');
+                            localStorage.removeItem('oppoSecondColor');
+                            localStorage.removeItem('oppoNumberColor');
+                            mainOppoPickr.setColor('#006631');
+                            secondOppoPickr.setColor('#000000');
+                            numberOppoPickr.setColor('#FFFFFF');
                         });
                     }
 
                     if (jsonData.circlePositions) {
                         var circlePositionString = jsonData.circlePositions;
+                        localStorage.setItem('mainCirclePositions', circlePositionString);
                         const result = getSpecificCirclePositions(circlePositionString);
                         for (var q = 0; q < 11; q++) {
                             var circle = document.getElementById(result.arrayId[q]);
                             circle.style.top = result.arrayTop[q];
                             circle.style.left = result.arrayLeft[q];
                         }
+                        
                     }
 
                     if (jsonData.oppoCirclePositions) {
                         var circlePositionString = jsonData.oppoCirclePositions;
+                        localStorage.setItem('oppoCirclePositions', circlePositionString);
                         const result = getSpecificCirclePositions(circlePositionString);
                         for (var q = 0; q < 11; q++) {
                             var circle = document.getElementById(result.arrayId[q]);
@@ -460,6 +509,8 @@ function importJSON() {
                             circle.style.left = result.arrayLeft[q];
                         }
                     }
+                    setTextBoxOrders();
+                    determineFormation();
                 }
                 else {
                     throw Error("Uploaded JSON not valid. Please check the help button for the correct JSON format.");
@@ -467,8 +518,12 @@ function importJSON() {
 
             };
             reader.readAsText(file);
+            console.log("HELLO");
+            console.log(document.getElementById("select-formation").value);
             chooseFileButton.innerHTML = "Upload your team";
             importButton.style.display = 'none';
+            selectTeam.value = 'clear';
+            jsonFileInput.value = "";
 
         }
     }
@@ -504,7 +559,7 @@ function clearNames() {
     });
     selectTeam.value = 'clear';
 }
-
+window.clearArrows = clearArrows;
 //Clears the arrows on the pitch
 function clearArrows() {
     var allLines = document.querySelectorAll('.normalLine, .movingLine');

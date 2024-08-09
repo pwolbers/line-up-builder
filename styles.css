@@ -83,8 +83,9 @@ body {
 .resetQuestions {
   margin: 10px 50px;
   text-align: center;
-  
+
 }
+
 .resetbuttonq {
   margin: 10px;
   padding: 2% 3% !important;
@@ -303,7 +304,7 @@ body {
   width: calc(0.811 * 98vh);
   min-width: calc(0.811 * 752px);
   min-height: 752px;
-  margin-right: 15px;
+  margin-right: max(15px, 0.9vw);
   border-color: white;
   border-style: solid;
   border-width: 1px;
@@ -379,22 +380,24 @@ body {
 }
 
 .select-box label,
-.select-box select {
+.select-box select,
+.oppo-select-box label {
   margin-top: 0.2vh;
-  font-size: 90%;
+  font-size: max(90%, 0.85vw);
   height: 55%;
   min-height: 24px;
 }
 
-.select-box select {
-  font-size: 80%;
+.select-box select,
+.oppo-select-box select {
+  font-size: max(80%, 0.75vw);
 }
 
 .input-group {
   display: flex;
   align-items: flex-end;
   width: 100%;
-  height: 6vh;
+  height: max(50px, 6vh);
   min-height: 50px;
 }
 
@@ -410,7 +413,7 @@ body {
 .secondBox,
 .teamNameBox {
   background-color: rgba(200, 200, 200, 0.14);
-  padding: 5px;
+  padding: max(5px, 0.25vw);
   font-size: max(1.4vh, 90%);
   transition: background-color 0.3s ease;
   opacity: 100%;
@@ -424,7 +427,7 @@ body {
   width: 95%;
   height: 3.5vh;
   min-height: 25px;
-  font-size: max(1vh, 80%);
+  font-size: max(1.3vh, 80%);
 }
 
 .textbox-container input::placeholder {
@@ -451,7 +454,7 @@ body {
 }
 
 .teamName label {
-  font-size: 100%;
+  font-size: max(100%, 1.8vh);
   margin-block-start: 0;
 }
 
@@ -497,7 +500,7 @@ button {
   height: calc(0.0833333 * 60vh);
   min-height: 38.5px;
   justify-content: center;
-  font-size: 18px;
+  font-size: max(1.1rem, 2vh);
   color: white;
   align-items: center;
   font-weight: bold;
@@ -654,12 +657,12 @@ li {
 }
 
 .oppo-name-switch-label {
-  font-size: max(1.2vh, 75%);
+  font-size: max(1.4vh, 75%);
   white-space: nowrap;
 }
 
 .oppo-switch-label {
-  font-size: max(1.5vh, 100%);
+  font-size: max(100%, 1.8vh);
 }
 
 .switchContainer {
@@ -689,7 +692,7 @@ li {
 }
 
 .btn {
-  font-size: max(12px, 1vh);
+  font-size: max(12px, 1.3vh);
   display: inline-block;
   width: 50%;
   position: relative;
@@ -701,7 +704,7 @@ li {
 }
 
 .btnSmall {
-  font-size: 10px;
+  font-size: max(10px, 1.1vh);
 }
 
 .toggle:checked+.btn {
@@ -820,7 +823,7 @@ li {
   height: fit-content;
 }
 
-#pitchDrawingContainer > .slider-output-container {
+#pitchDrawingContainer>.slider-output-container {
   width: 90%;
 }
 
@@ -919,7 +922,7 @@ li {
 .center-circle,
 .top-semicircle,
 .bottom-semicircle {
-  border-width: max(2px, 0.3vh);
+  border-width: max(2px, 0.25vh);
 }
 
 .field {
@@ -987,9 +990,9 @@ li {
   /* 0.4 = 44/18/110 */
   min-height: calc(18/110 * 88/98 * 752px);
   /* 0.144 = 18/110 */
-  border-left-width: max(2px, 0.3vh);
+  border-left-width: max(2px, 0.25vh);
   ;
-  border-right-width: max(2px, 0.3vh);
+  border-right-width: max(2px, 0.25vh);
   ;
   border-left-style: solid;
   border-right-style: solid;
@@ -1003,9 +1006,9 @@ li {
   /* 22/40 = proportion of width to width of penalty box, 0.1405 = 13.77vh/98vh, 2.5 = 34.425vh/13.77vh */
   min-height: calc(6/18 * 0.1405 * 752px);
   /* 6/18 = proportion of height to height of penalty box */
-  border-left-width: max(2px, 0.3vh);
+  border-left-width: max(2px, 0.25vh);
   ;
-  border-right-width: max(2px, 0.3vh);
+  border-right-width: max(2px, 0.25vh);
   ;
   border-left-style: solid;
   border-right-style: solid;
@@ -1028,19 +1031,19 @@ li {
 
 .penalty-box.top,
 .five-yard-box.top {
-  border-bottom-width: max(2px, 0.3vh);
+  border-bottom-width: max(2px, 0.25vh);
   border-bottom-style: solid;
   border-top-width: 0;
-  top: 0.5px;
+  top: 0px;
 }
 
 .penalty-box.bottom,
 .five-yard-box.bottom {
-  border-top-width: max(2px, 0.3vh);
+  border-top-width: max(2px, 0.25vh);
   ;
   border-top-style: solid;
   border-bottom-width: 0;
-  bottom: 0.5px;
+  bottom: 0px;
 }
 
 .corner {
@@ -1055,9 +1058,9 @@ li {
 .corner.bottom-right {
   bottom: 0;
   right: 0;
-  border-top-width: max(2px, 0.3vh);
+  border-top-width: max(2px, 0.25vh);
   ;
-  border-left-width: max(2px, 0.3vh);
+  border-left-width: max(2px, 0.25vh);
   ;
   border-bottom-width: 0px;
   border-right-width: 0px;
@@ -1068,11 +1071,11 @@ li {
 .corner.bottom-left {
   bottom: 0;
   left: 0;
-  border-top-width: max(2px, 0.3vh);
+  border-top-width: max(2px, 0.25vh);
   ;
   border-left-width: 0px;
   border-bottom-width: 0px;
-  border-right-width: max(2px, 0.3vh);
+  border-right-width: max(2px, 0.25vh);
   ;
   border-top-right-radius: 100%;
   border-top-left-radius: 0 0;
@@ -1082,9 +1085,9 @@ li {
   top: 0;
   right: 0;
   border-top-width: 0px;
-  border-left-width: max(2px, 0.3vh);
+  border-left-width: max(2px, 0.25vh);
   ;
-  border-bottom-width: max(2px, 0.3vh);
+  border-bottom-width: max(2px, 0.25vh);
   ;
   border-right-width: 0px;
   border-bottom-left-radius: 100%;
@@ -1096,17 +1099,17 @@ li {
   left: 0;
   border-top-width: 0px;
   border-left-width: 0px;
-  border-bottom-width: max(2px, 0.3vh);
+  border-bottom-width: max(2px, 0.25vh);
   ;
-  border-right-width: max(2px, 0.3vh);
+  border-right-width: max(2px, 0.25vh);
   ;
   border-bottom-right-radius: 100%;
   border-top-right-radius: 0 0;
 }
 
 .middleLine {
-  border-top-width: 1px;
-  border-bottom-width: 1px;
+  border-top-width: max(1.25px, 0.1vh);
+  border-bottom-width: max(1.25px, 0.1vh);
   width: 100%;
   border-style: solid;
 }
@@ -1142,10 +1145,8 @@ li {
 
 .vertical1,
 .vertical2 {
-  border-left-width: 2px;
-  ;
-  border-right-width: 2px;
-  ;
+  border-left-width: max(2px, 0.25vh);
+  border-right-width: max(2px, 0.25vh);
   border-left-style: dashed;
   border-right-style: dashed;
   position: absolute;
@@ -1176,8 +1177,8 @@ li {
 
 .horizontal1,
 .horizontal2 {
-  border-top-width: 2px;
-  border-bottom-width: 2px;
+  border-top-width: max(2px, 0.25vh);
+  border-bottom-width: max(2px, 0.25vh);
   border-top-style: dashed;
   border-bottom-style: dashed;
   width: calc(19.25/82.5 * (0.75 * 88vh));
@@ -1201,8 +1202,7 @@ li {
   /* double size of circle */
   min-height: calc(18/110 * 88/98 * 752px);
   bottom: 0;
-  border-top-width: 2px;
-  ;
+  border-top-width: max(2px, 0.25vh);
   border-top-style: dashed;
 }
 
@@ -1212,7 +1212,7 @@ li {
   /* double size of circle */
   min-height: calc(18/110 * 88/98 * 752px);
   top: 0;
-  border-bottom-width: 2px;
+  border-bottom-width: max(2px, 0.25vh);
   ;
   border-bottom-style: dashed;
 }
@@ -1384,14 +1384,25 @@ input:checked+.checkmark>.moving-ball {
 input:checked+.checkmark>.gif-image {
   display: none;
 }
+
 @keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
+
 input:not(:checked)+.checkmark>.record-image {
   display: none;
 }
+
 input:checked+.checkmark>.record-image {
   display: block;
   animation: blink 1s infinite;
@@ -1662,6 +1673,7 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   opacity: 0.9;
   background-color: #C8C8C8;
   z-index: 6;
+  margin-bottom: 0px;
 }
 
 .startingStyleTwo,
@@ -1691,9 +1703,11 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   font-style: italic;
   bottom: min(-4.2vh, -36px);
   z-index: 1;
+  margin-bottom: 0px;
 }
 
-.ball, .smallBall {
+.ball,
+.smallBall {
   width: 2.3vh;
   height: 2.3vh;
   position: absolute;
@@ -1725,7 +1739,8 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   top: 50%;
   left: 50%;
   z-index: 1;
-  border-left-width: 3px;
+  /* 0.3409vh = 3 px on 100% zoom (880px high image container) */
+  border-left-width: 0.3409vh;
 }
 
 .movingLine {
@@ -1736,9 +1751,12 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   position: absolute;
   width: 0;
   height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  left: -9.5px;
+  /* 0.9vh = 8 px on 100% zoom (880px high image container) */
+  border-left: 0.9vh solid transparent;
+  border-right: 0.9vh solid transparent;
+  /* -1.07vh = -9.5px on 100% zoom */
+  left: -1.07vh;
+  border-bottom: 1.022vh solid;
   top: 100%;
 }
 
@@ -1767,7 +1785,7 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 75%;
+  font-size: max(75%, 0.70vw);
   border-radius: 4px;
   -webkit-tap-highlight-color: transparent;
   transition: background-color 0.3s ease;
@@ -1817,7 +1835,7 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
 }
 
 #select-formation-box {
-  margin-left: 15px;
+  margin-left: max(15px, 1vw);
 }
 
 #showLineUpButton {
@@ -1868,9 +1886,9 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
 .help-icon,
 .gear-icon {
   position: relative;
-  font-size: 150%;
+  font-size: max(150%, 2.7vh);
   color: white;
-  margin-left: 5px;
+  margin-left: 1%;
   margin-bottom: 1%;
   cursor: pointer;
   border: #212331 6px solid;
@@ -1922,7 +1940,7 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   color: black;
 }
 
-.tabContent > pre {
+.tabContent>pre {
   background-color: #f5f5f5;
   margin: 1em 1px 0 1px;
 }
@@ -1956,7 +1974,7 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   background-color: rgba(33, 35, 49, 1);
   border: 1px solid #ccc;
   border-radius: 20px;
-  padding: 10px;
+  padding: max(10px, 1.1vh);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 1);
   z-index: 100;
   display: none;
@@ -2063,14 +2081,16 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   display: flex;
   position: relative;
   width: 85%;
+  margin-bottom: 1vh;
   height: fit-content;
 }
 
 .circleSliderOutput {
   position: relative;
   border: 1px solid lightgrey;
-  min-width: 20px;
-  min-height: 20px;
+  width: fit-content;
+  height: fit-content;
+  padding: max(0.3vh, 3px) max(0.6vh, 6px);
   text-align: center;
   border-radius: 4px;
   display: flex;
@@ -2080,9 +2100,12 @@ input[id="play-checkbox"]:not(:checked)+.checkmark>img {
   justify-content: center;
   margin-block-start: 0;
   font-weight: 700;
-  font-size: 12px;
+  font-size: max(12px, 1.1vh);
 }
 
+.invisible-container {
+  visibility: hidden
+}
 /***** MEDIA *****/
 @media all and (max-width:780px) {
   .main-container {
