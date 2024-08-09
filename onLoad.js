@@ -243,7 +243,7 @@ function resizeFunctionality(e) {
 
         if (window.innerWidth > 780) {
             document.getElementById('arrow-checkbox').checked = true;
-
+            arrowCircleCheckbox(document.getElementById('arrow-checkbox'));
             leftContainer.style.display = 'block';
             lineupContainer.style.display = 'block';
             var startingInputContainers = document.querySelectorAll('.starting-column > .input-container');
@@ -311,7 +311,6 @@ function resizeFunctionality(e) {
         var settings = document.querySelector('#settings');
         var gearIconLocation = gearIcon.getBoundingClientRect();
 
-        console.log(settings);
         settings.style.left = gearIconLocation.left + (0.015 * imageContainer.offsetHeight) + 'px';
         settings.style.top = gearIconLocation.top + (0.02 * imageContainer.offsetHeight) + 'px';
 
@@ -989,7 +988,6 @@ var newValue;
 
 circleSlider.oninput = function () {
     newValue = this.value;
-    console.log("HELLO");
     oldValue = newValue;
 
     var outputElement = document.querySelector('.circleSliderOutput');
