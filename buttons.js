@@ -68,7 +68,6 @@ function createImage(e) {
     // Get a reference to the element that you want to capture.
     const domNode = document.getElementById('image-container');
 
-    console.log("HELLOOOO");
     // Capture the DOM node as a Blob
     var scale = 2;
     domtoimage.toBlob(domNode, {
@@ -446,7 +445,6 @@ function importJSON() {
 
                     document.getElementById("teamNameBox").value = jsonData.teamName;
                     setCircleColor(jsonData.colors, 'main');
-                    console.log(jsonData.formation.replaceAll('-', '').replaceAll(' ', ''));
                     setCirclePositions(jsonData.formation.replaceAll('-', '').replaceAll(' ', ''), 'main');
                     setLineUp(startKeyArray, secondKeyArray, secondType);
                     
@@ -518,8 +516,6 @@ function importJSON() {
 
             };
             reader.readAsText(file);
-            console.log("HELLO");
-            console.log(document.getElementById("select-formation").value);
             chooseFileButton.innerHTML = "Upload your team";
             importButton.style.display = 'none';
             selectTeam.value = 'clear';
@@ -729,13 +725,13 @@ function resetAll() {
         mainCircles.forEach((circle, i) => {
             var circleSpan = circle.querySelector('span');
             circleSpan.innerText = numberArray[i];
-            changeNumberOnTextbox(circle, numberArray[i]);
+            changeNumberOnTextboxOrCircle(circle, numberArray[i]);
         });
 
         oppoCircles.forEach((circle, i) => {
             var circleSpan = circle.querySelector('span');
             circleSpan.innerText = numberArray[i];
-            changeNumberOnTextbox(circle, numberArray[i]);
+            changeNumberOnTextboxOrCircle(circle, numberArray[i]);
         });
         setTextBoxOrders();
 

@@ -16,6 +16,53 @@ jsonFileInput.addEventListener('change', function (event) {
     }
 });
 
+squadNumbers.forEach(squadNumber => {
+    squadNumber.addEventListener('dblclick', function () {
+        const currentValue = squadNumber.textContent;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = '';
+
+        input.classList.add('newNumberInputBox');
+        input.style.top = squadNumber.getBoundingClientRect().top + 'px'; //Top + margin set in the newNumberInputBox class gives correct location
+        input.style.height = (0.8 * squadNumber.offsetHeight) + 'px'; //Inputbox height slightly smaller than the squadnumber box
+        squadNumber.appendChild(input);
+        input.focus();
+
+        // Add an event listener to save the edited value on Enter and cancel on Esc
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                var newInput = input.value.toUpperCase();
+
+                changeNumberOnTextboxOrCircle(squadNumber, newInput);
+                removeInputBox();
+            } else if (event.key === 'Escape') {
+                squadNumber.textContent = currentValue;
+                removeInputBox();
+            }
+        });
+
+        // Remove the input field and revert to the number when it loses focus
+        input.addEventListener('blur', function () {
+            if (input.value.length >= 1 && input.value.length <= 4) {
+                var newInput = input.value.toUpperCase();
+
+                squadNumber.textContent = newInput;
+                changeNumberOnTextboxOrCircle(squadNumber, newInput);
+            }
+            else if (input.value.length > 4) {
+                squadNumber.textContent = currentValue;
+                alert("Input length has to be between 1 and 4 characters");
+            }
+            else {
+                squadNumber.textContent = currentValue;
+            }
+            removeInputBox();
+           
+        });
+    });
+});
+
 //Removes reminder label if teamname box value changes
 teamNameBox.addEventListener('input', function () {
     const reminder = document.getElementById('reminderLabel');
@@ -687,30 +734,51 @@ function formatFormationString(value) {
     return formattedValue;
 }
 
-function changeNumberOnTextbox(circle, newInput) {
-    const regex = /[^0-9]/;
-    //anything else than digits?
-    if (!regex.test(newInput)) {
-        newInput = '#' + newInput;
-    }
+function changeNumberOnTextboxOrCircle(element, newInput) {
+    newInput = newInput.toUpperCase();
+    var originalInput = newInput;
+    var localStorageName = '';
+    //Change input box numbering
+    if (element.classList.toString().indexOf('circle') > -1 || element.classList.toString().indexOf('oppoCircle') > -1) {
+        var circleClass = element.classList[1];
+        var inputType = '';
 
-    var circleClass = circle.classList[1];
-    var inputType = '';
-    if (circle.id.indexOf('oppo') > -1) {
-        inputType = '.secondBox';
-        circleClass = circleClass.replace('oppo', 'pos');
-    }
-    else {
-        inputType = '.inputBox';
-    }
-    var query = 'input.' + circleClass + inputType;
-    const divElements = document.querySelectorAll(query);
-
-    divElements.forEach((div) => {
-        if (div.id.indexOf('starting') > -1 || div.id.indexOf('second') > -1) {
-            div.nextElementSibling.innerText = newInput;
+        if (element.id.indexOf('oppo') > -1) {
+            inputType = '.secondBox';
+            circleClass = circleClass.replace('oppo', 'pos');
+            localStorageName = circleClass.replace('pos', 'oppoNumber');
         }
-    });
+        else {
+            inputType = '.inputBox';
+            localStorageName = circleClass.replace('pos', 'startingNumber');
+        }
+        var query = 'input.' + circleClass + inputType;
+        const divElement = document.querySelector(query);
+        divElement.nextElementSibling.innerText = newInput;
+
+    }
+
+    //Change circle numbering
+    else {
+        var elementId = element.getAttribute('for');
+        var circleElementId;
+        //starting8 or oppo8
+        if (elementId.indexOf('oppo') > -1) {
+            //oppoCircle8
+            circleElementId = elementId.replace('oppo', 'oppoCircle');
+            localStorageName = elementId.replace('oppo', 'oppoNumber');
+        }
+        else {
+            //circle8            
+            circleElementId = elementId.replace('starting', 'circle');
+            localStorageName = elementId.replace('starting', 'startingNumber');
+        }
+        var circleElement = document.getElementById(circleElementId);
+        var spanElement = circleElement.querySelector('span');
+        spanElement.innerText = newInput;
+        getFontSize(newInput.length, spanElement);
+    }
+    localStorage.setItem(localStorageName, originalInput);
 }
 
 function changeNameInTextbox(circle, newInput, outputBox) {
@@ -737,6 +805,7 @@ function getFontSize(inputLength, number) {
     number.classList.remove('circle-number-font-large-oppo');
     number.classList.remove('circle-number-font-medium-oppo');
     number.classList.remove('circle-number-font-small-oppo');
+    number.style.fontSize = '';
     //Length = 4
     if (inputLength == 4) {
         checkOpposition.checked ? number.classList.add('circle-number-font-small-oppo') : number.classList.add('circle-number-font-small');
@@ -781,7 +850,7 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
                             outputElement.innerText = starter.name;
                             outputStarter.previousElementSibling.innerText = starter.number;
                             toggleOutputBoxVisibility(outputElement);
-                            changeNumberOnTextbox(outputElement.parentNode.parentNode, starter.number);
+                            changeNumberOnTextboxOrCircle(outputElement.parentNode.parentNode, starter.number);
 
                             //localStorage item is called startingNumber#
                             localStorage.setItem(inputElement.id.replace('starting', 'startingNumber'), starter.number);
@@ -806,7 +875,7 @@ function setLineUp(startKeyArray, secondKeyArray, secondType) {
                                 outputElement.innerText = second.name;
                                 outputOppo.previousElementSibling.innerText = second.number;
                                 toggleOutputBoxVisibility(outputElement);
-                                changeNumberOnTextbox(outputElement.parentNode.parentNode, second.number);
+                                changeNumberOnTextboxOrCircle(outputElement.parentNode.parentNode, second.number);
 
                                 //localStorage item is called oppoNumber#
                                 localStorage.setItem(inputElement.id.replace('second', 'oppoNumber'), second.number);

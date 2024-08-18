@@ -29,7 +29,7 @@ function changeNumber(circle, input) {
     input.addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
             isEditing = false;
-            changeNumberOnTextbox(circle, input.value);
+            changeNumberOnTextboxOrCircle(circle, input.value);
             removeInputBox();
         } else if (event.key === 'Escape') {
             number.textContent = currentValue;
@@ -44,7 +44,7 @@ function changeNumber(circle, input) {
             getFontSize(input.value.length, number);
             number.textContent = input.value;
             isEditing = false;
-            changeNumberOnTextbox(circle, input.value);
+            changeNumberOnTextboxOrCircle(circle, input.value);
         }
         else if (input.value.length > 4) {
             number.textContent = currentValue;
@@ -107,11 +107,12 @@ function handleDoubleClick(e) {
 
                 input.classList.add('inputBox');
                 input.classList.add('newNumberInputBox');
-                input.style.zIndex = '50';
+
                 var top = 1.2 * circle.offsetHeight;
                 var left = 0.25 * circle.offsetWidth;
                 input.style.top = '-' + top + 'px';
                 input.style.left = '-' + left + 'px';
+                input.style.width = '100%';
 
                 circle.appendChild(input);
 
@@ -145,17 +146,21 @@ function handleSingleClick(e) {
         //Set up variables for mobile tap and right click
         //Undefined = mobile tap
         if (e.button == undefined) {
-
-            var doubleTap = false;
-            e.preventDefault(); // to disable browser default zoom on double tap
-            let date = new Date();
-            let time = date.getTime();
-            const time_between_taps = 200; // 250ms
-            if (time - lastClick < time_between_taps) {
-                var doubleTap = true;
-                handleDoubleClick(e);
+            if (clickedOnLine) {
+                removeSpecificLine(e.target);
             }
-            lastClick = time;
+            else {
+                var doubleTap = false;
+                e.preventDefault(); // to disable browser default zoom on double tap
+                let date = new Date();
+                let time = date.getTime();
+                const time_between_taps = 200; // 250ms
+                if (time - lastClick < time_between_taps) {
+                    var doubleTap = true;
+                    handleDoubleClick(e);
+                }
+                lastClick = time;
+            }
         }
         //2 = right click
         if (e.button == 2) {
@@ -208,17 +213,32 @@ function handleSingleClick(e) {
 
 function removeSpecificLine(line) {
     //add arrowhead functionality
-    if (line.classList.value.indexOf('normalLine')) {
-
-
+    if (line.classList.value.indexOf('normalLine') > -1) {
         // Use the filter method to create a new array without the elements that match the condition
         lines = lines.filter(function (normalLine) {
             return normalLine.div !== line;
         });
+    }
+    else if (line.classList.value.indexOf('movingLine') > -1) {
+        // Use the filter method to create a new array without the elements that match the condition
+        movingLines = movingLines.filter(function (movingLine) {
+            return movingLine.div !== line;
+        });
+    }
 
-
+    arrowLocationArray = arrowLocationArray.filter(item => item.id !== line.getAttribute('parentCircleId'));
+    if (arrowLocationArray.length == 0) {
+        var playButton = document.querySelector('.play-checkbox .checkmark');
+        if (playButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
+            playButton.classList.remove('orangeBackgroundButton');
+        }
+        var recordButton = document.querySelector('.record-checkbox .checkmark');
+        if (recordButton.classList.toString().indexOf('orangeBackgroundButton') > -1) {
+            recordButton.classList.remove('orangeBackgroundButton');
+        }
     }
     line.remove();
+    //arrowLocationArray = filteredArray;
     setLocalStorageForLines();
 }
 
@@ -264,7 +284,7 @@ function setLocalStorageForLines() {
     localStorage.setItem('mainLineInfo', mainLineInfo);
     localStorage.setItem('oppoLineInfo', oppoLineInfo);
     localStorage.setItem('movingLineInfo', movingLineInfo);
-    
+
 }
 
 
@@ -531,8 +551,6 @@ function dragLine(e) {
             }
         }
     }
-
-
 }
 
 function stopLine(e) {
@@ -625,6 +643,7 @@ function stopLine(e) {
     startedWithThree = false;
 }
 
+window.removeInputBox = removeInputBox;
 function removeInputBox() {
     var inputBoxes = document.querySelectorAll('.newNumberInputBox');
     inputBoxes.forEach(function (inputBox) {

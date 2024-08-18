@@ -114,7 +114,7 @@ function loadLocalStorage() {
         var circleNumber = localStorage.getItem(outputStarting.id.replace('Span', 'Number'));
         if (circleNumber != null) {
             outputStarting.parentElement.previousElementSibling.innerText = circleNumber;
-            changeNumberOnTextbox(outputStarting.parentNode.parentNode, circleNumber);
+            changeNumberOnTextboxOrCircle(outputStarting.parentNode.parentNode, circleNumber);
         }
     });
 
@@ -124,7 +124,7 @@ function loadLocalStorage() {
             var circleNumber = localStorage.getItem(outputOppo.id.replace('Span', 'Number'));
             if (circleNumber != null) {
                 outputOppo.parentElement.previousElementSibling.innerText = circleNumber;
-                changeNumberOnTextbox(outputOppo.parentNode.parentNode, circleNumber);
+                changeNumberOnTextboxOrCircle(outputOppo.parentNode.parentNode, circleNumber);
             }
         });
     }
@@ -159,20 +159,6 @@ function loadLocalStorage() {
         ball.style.top = result.arrayTop[0];
         ball.style.left = result.arrayLeft[0];
     }
-    //Names back ups
-    //Names opponent
-    //Teamname
-
-
-    //Call these functions once to set the switches in the settings pop up correct and then execute the settings
-    pitchCheckBox();
-    ballCheckBox();
-    labelCheckBox();
-    blueArrowCheckBox();
-    numberCheckBox();
-    drawCheckBox();
-    oppoCheckBox();
-    oppoNameCheckBox();
 
     //Lines
     lines = [];
@@ -184,6 +170,18 @@ function loadLocalStorage() {
     drawLines(loadedMainLines, 'main');
     drawLines(loadedOppoLines, 'oppo');
     drawLines(loadedMovingLines, 'moving');
+
+    //Call these functions once to set the switches in the settings pop up correct and then execute the settings
+    pitchCheckBox();
+    ballCheckBox();
+    labelCheckBox();
+    blueArrowCheckBox();
+    var switchCheckBox = document.getElementById(localStorage.getItem('switchCheckBox'));
+    arrowCircleCheckbox(switchCheckBox);
+    numberCheckBox();
+    drawCheckBox();
+    oppoCheckBox();
+    oppoNameCheckBox();
 }
 
 window.loadLines = loadLines;
@@ -295,4 +293,3 @@ function drawLines(loadedLines, team) {
         movingLines[i].div.style.display = 'none';
     }
 }
-

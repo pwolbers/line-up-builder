@@ -127,24 +127,40 @@ function numberCheckBox() {
 }
 
 function arrowCircleCheckbox(switchCheckbox) {
-    playCheck.style.display = 'none';
     playCheck.disabled = true;
     recordCheck.disabled = true;
     if (switchCheckbox.id == 'arrow-checkbox') {
+        //Is this on load or a switch to arrow checkbox?
+        //If on load, you want to check if moving lines are shown
+        //If switch, moving lines are automatically made invisible
+        var loadCheck = true;
+        if (circleCheck.checked || movingCheck.checked) {
+            loadCheck = false;
+        }
         circleCheck.checked = false;
         movingCheck.checked = false;
         //Show all normal lines
         for (var i = 0; i < lines.length; i++) {
             lines[i].div.style.display = 'block';
         }
-        //Hide all moving lines
-        for (var x = 0; x < movingLines.length; x++) {
-            movingLines[x].div.style.display = 'none';
+        //If on load, check if we should show moving lines
+        if (loadCheck && localStorage.getItem('blueArrow') == 'on') {
+            blueArrowCheckTrue.checked = true;
+            blueArrowCheckFalse.checked = false;
         }
-        //Set 'Hide pressing line' switch to true and run functionality
-        blueArrowCheckTrue.checked = false;
-        blueArrowCheckFalse.checked = true;
+        else {
+            //Hide moving lines
+            for (var x = 0; x < movingLines.length; x++) {
+                movingLines[x].div.style.display = 'none';
+            }
+
+            //Set 'Hide pressing line' switch to true and run functionality
+            blueArrowCheckTrue.checked = false;
+            blueArrowCheckFalse.checked = true;
+        }
+
         blueArrowCheckBox();
+
 
         var playButton = document.querySelector('.play-checkbox .checkmark');
         if (playButton.classList.toString().indexOf('orangeBackgroundButton') > -1 || movingLines.length == 0) {
@@ -201,10 +217,9 @@ function arrowCircleCheckbox(switchCheckbox) {
                 recordButton.classList.add('orangeBackgroundButton');
             }
         }
-
         //Reset 'Hide blue arrow checkbox
     }
-
+    localStorage.setItem('switchCheckBox', switchCheckbox.id);
     //Not possible to uncheck the active checkbox (always needs to be one of the two checked)
     switchCheckbox.checked = true;
 }
@@ -306,10 +321,7 @@ function ballCheckBox() {
             var ballWidth = ball.getBoundingClientRect().width || standardBallWidth;
             ballWidth = ballWidth / 2;
             var percentageChangeLeft = (ballWidth / imageConWidth) * 100;
-            console.log(standardCircleSize);
-            console.log(ballWidth);
-            console.log(ball.getBoundingClientRect().width);
-            console.log(percentageChangeLeft);
+
             ball.style.left = (50 - percentageChangeLeft) + '%';
             ball.style.top = (50 - percentageChangeLeft) + '%';
         }
@@ -379,8 +391,9 @@ function blueArrowCheckBox() {
 
     if (blueArrowCheckTrue.checked) {
         localStorage.setItem('blueArrow', 'on');
+        blueArrowCheckTrue.checked = true;
+        blueArrowCheckFalse.checked = false;
         fillingBlueArrow.style.transform = 'translateX(100%)';
-
         allBlueArrows.forEach((blueArrow) => {
             if (blueArrow.style.display != 'block') {
                 blueArrow.style.display = 'block';
@@ -392,6 +405,8 @@ function blueArrowCheckBox() {
         localStorage.setItem('blueArrow', 'off');
         fillingBlueArrow.style.transform = 'translateX(0%)';
 
+        blueArrowCheckTrue.checked = false;
+        blueArrowCheckFalse.checked = true;
         allBlueArrows.forEach((blueArrow) => {
             if (blueArrow.style.display != 'none') {
                 blueArrow.style.display = 'none';
@@ -695,7 +710,7 @@ function calculateTranslation(height, angle) {
 }
 
 async function startRecording() {
-    if (movingLines.length > 0) {
+    if (arrowLocationArray.length > 0) {
         //Block input
         blockAllInputs(true);
         var buttonContainer = document.getElementById('button-pitch-container');
@@ -714,11 +729,11 @@ async function startRecording() {
         const scale = 1.2; // Adjust this value as needed for higher/lower resolution
 
         // Query all movingLine elements and their parent circles
-        const movingLines = Array.from(document.querySelectorAll('.movingLine'));
+        const movingLinesQuery = Array.from(document.querySelectorAll('.movingLine'));
 
         // Store initial positions of circles
         const initialPositions = new Map();
-        movingLines.forEach(movingLine => {
+        movingLinesQuery.forEach(movingLine => {
             const circle = movingLine.parentElement;
             initialPositions.set(circle, {
                 top: circle.style.top,
@@ -727,7 +742,7 @@ async function startRecording() {
         });
 
         // Pre-calculate values for each circle
-        const calculations = movingLines.map(movingLine => {
+        const calculations = movingLinesQuery.map(movingLine => {
             const circle = movingLine.parentElement;
             const height = parseFloat(movingLine.getAttribute('height'));
             const angle = parseFloat(movingLine.getAttribute('angledeg'));
@@ -792,7 +807,7 @@ async function startRecording() {
         async function captureAndMove(index) {
             if (index < actions.length) {
                 if (index > 0) {
-                    movingLines.forEach(movingLine => {
+                    movingLinesQuery.forEach(movingLine => {
                         movingLine.style.display = 'none';
                     });
                 }
@@ -802,7 +817,7 @@ async function startRecording() {
                 await captureAndMove(index + 1);
             } else {
                 // Reset the positions of all circles to their initial positions
-                movingLines.forEach(movingLine => {
+                movingLinesQuery.forEach(movingLine => {
                     movingLine.style.display = 'block';
                     const circle = movingLine.parentElement;
                     const initialPos = initialPositions.get(circle);
@@ -840,7 +855,7 @@ function setOutputSecond(outputSecond, stringValue) {
         stringValue = stringValue.replaceAll(/\s+%\s+(?=\S)/g, '\n');
         outputSecond.textContent = stringValue;
         //NON MOBILE
-       
+
         //Determine the margin of second output element below starting output element
         var marginStep = (labelCheckBoxed.checked) ? getElementHeight('secondSpan98') : getElementHeight('secondSpan99');
         // Apply margin only if there is a non-space character after '%'
@@ -853,7 +868,7 @@ function setOutputSecond(outputSecond, stringValue) {
     }
     toggleOutputBoxVisibility(outputSecond);
 
-    function getElementHeight(elementID){
+    function getElementHeight(elementID) {
         var secondElement = document.getElementById(elementID);
         secondElement.style.display = 'block';
         var singleBoxedHeight = (parseFloat(window.getComputedStyle(secondElement).height));

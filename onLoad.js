@@ -26,6 +26,7 @@ const oppoCircles = document.querySelectorAll(".oppoCircle");
 
 const inputBoxes = document.querySelectorAll(".inputBox");
 const secondBoxes = document.querySelectorAll(".secondBox");
+const squadNumbers = document.querySelectorAll('.numberLabel, .oppoNumberLabel');
 
 const drawingSlider = document.getElementById('drawingSlider');
 const circleSlider = document.getElementById('circleSlider');
@@ -64,6 +65,7 @@ const drawingPickr = createPickr('.drawingColorPicker', '#ffffff');
 const pitchDrawingPickr = createPickr('.pitchDrawingColorPicker', '#ffffff');
 const createdPickrs = document.querySelectorAll('.pcr-app');
 
+//Used for determening position labels (GK, CB, RW, etc.)
 const lineYOne = (20 / 900) * imageConHeight;
 const lineYTwo = (270 / 900) * imageConHeight;
 const lineYThree = (360 / 900) * imageConHeight;
@@ -102,7 +104,6 @@ var standardNumberSizeSmallOppo;
 var standardTextBoxOne;
 var standardTextBoxTwo;
 
-
 const mainColor = document.getElementById("colorPickerMain");
 
 var arrowLocationArray = [];
@@ -129,6 +130,15 @@ $(document).ready(function () {
             toggleDisplay(inputContainers, true, 'second');
         } else {
             toggleDisplay(inputContainers, false, 'second');
+        }
+    });
+    $('#starting-column-title, #second-column-title').on('mousedown mouseup', function (event) {
+        const targetColumn = $(this).attr('id').replace('-title', '');
+
+        if (event.type === 'mousedown') {
+            $('#' + targetColumn).addClass('mobile-column-active');
+        } else if (event.type === 'mouseup') {
+            $('#' + targetColumn).removeClass('mobile-column-active');
         }
     });
 });
@@ -242,8 +252,14 @@ function resizeFunctionality(e) {
         setCircleAndTextSize();
 
         if (window.innerWidth > 780) {
-            document.getElementById('arrow-checkbox').checked = true;
-            arrowCircleCheckbox(document.getElementById('arrow-checkbox'));
+            if (localStorage.getItem('switchCheckBox') != null) {
+                document.getElementById(localStorage.getItem('switchCheckBox')).checked = true;
+                arrowCircleCheckbox(document.getElementById(localStorage.getItem('switchCheckBox')));
+            }
+            else {
+                document.getElementById('arrow-checkbox').checked = true;
+                arrowCircleCheckbox(document.getElementById('arrow-checkbox'));
+            }
             leftContainer.style.display = 'block';
             lineupContainer.style.display = 'block';
             var startingInputContainers = document.querySelectorAll('.starting-column > .input-container');
@@ -506,10 +522,20 @@ window.onload = () => {
     document.getElementById("oppositionJson").innerText = oppositionJson;
 
     if (window.innerWidth > 780) {
-        document.getElementById('arrow-checkbox').checked = true;
+        if (localStorage.getItem('switchCheckBox') != null) {
+            document.getElementById(localStorage.getItem('switchCheckBox')).checked = true;
+        }
+        else {
+            document.getElementById('arrow-checkbox').checked = true;
+        }
     }
     else {
-        document.getElementById('circle-checkbox').checked = true;
+        if (localStorage.getItem('switchCheckBox') != null) {
+            document.getElementById(localStorage.getItem('switchCheckBox')).checked = true;
+        }
+        else {
+            document.getElementById('circle-checkbox').checked = true;
+        }
     }
     if (localStorage.getItem('mainCirclePositions') == null) {
         setCirclePositions('433', 'main');
