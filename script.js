@@ -694,7 +694,7 @@ function determineFormation(teamType) {
     });
     let formation = "" + defenseNr + "-" + midfieldNr + "-" + attackNr;
     if (formation == '4-3-3') {
-        if (lineupArray.includes('DMCR') && lineupArray.includes('DMCL') && lsetCircleAndTextSizeineupArray.includes('AMC')) {
+        if (lineupArray.includes('DMCR') && lineupArray.includes('DMCL') && lineupArray.includes('AMC')) {
             formation = '4231 / 451';
         }
     }
