@@ -257,6 +257,7 @@ function removeLines(circle) {
     }
 }
 
+window.setLocalStorageForLines = setLocalStorageForLines;
 function setLocalStorageForLines() {
     //After the lines from 1 circle are removed, we neet to set all the remaining lines to the local storage
     var allNormalLines = document.getElementsByClassName('normalLine');

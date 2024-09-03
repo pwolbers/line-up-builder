@@ -176,7 +176,7 @@ function loadLocalStorage() {
     ballCheckBox();
     labelCheckBox();
     blueArrowCheckBox();
-    var switchCheckBox = document.getElementById(localStorage.getItem('switchCheckBox'));
+    var switchCheckBox = document.getElementById(localStorage.getItem('switchCheckBox')) || document.getElementById('arrow-checkbox');
     arrowCircleCheckbox(switchCheckBox);
     numberCheckBox();
     drawCheckBox();
